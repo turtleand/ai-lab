@@ -2,17 +2,104 @@
 import '../styles/global.css';
 
 const { title = 'AI Lab', description = 'Personal AI learning lab' } = Astro.props;
+
+const themeScript = `
+  (() => {
+    const STORAGE_KEY = 'ai-lab-theme';
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const getStored = () => {
+      try { return localStorage.getItem(STORAGE_KEY); } catch (_) { return null; }
+    };
+
+    const applyTheme = (theme) => {
+      root.dataset.theme = theme;
+      try { localStorage.setItem(STORAGE_KEY, theme); } catch (_) {}
+      const toggle = document.querySelector('[data-theme-toggle]');
+      if (toggle) {
+        toggle.setAttribute('data-theme-state', theme);
+        toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+      }
+    };
+
+    const resolveTheme = () => getStored() || (media.matches ? 'dark' : 'light');
+    const toggleTheme = () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+    };
+
+    const init = () => {
+      applyTheme(resolveTheme());
+      const toggle = document.querySelector('[data-theme-toggle]');
+      if (toggle && !toggle.dataset.bound) {
+        toggle.dataset.bound = 'true';
+        toggle.addEventListener('click', toggleTheme);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+    media.addEventListener('change', () => {
+      if (!getStored()) applyTheme(resolveTheme());
+    });
+  })();
+`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <script is:inline set:html={themeScript} />
   </head>
-  <body>
+  <body class="site-shell">
+    <header class="site-header">
+      <div class="shell">
+        <a class="brand" href="/">
+          <span class="brand-lockup">
+            <span class="brand-icon" aria-hidden="true">
+              <img
+                src="/logo.svg"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            <span class="brand-wordmark">TurtleanD</span>
+          </span>
+        </a>
+        <div class="nav-row">
+          <nav aria-label="Primary navigation">
+            <ul class="nav-list">
+              <li><a href="/">Home</a></li>
+              <li><a href="https://turtleand.com">Portal</a></li>
+            </ul>
+          </nav>
+          <div class="header-actions">
+            <button
+              class="pill theme-toggle"
+              type="button"
+              data-theme-toggle
+              aria-pressed="false"
+              title="Toggle theme"
+              aria-label="Toggle theme"
+            >
+              <span class="icon theme-icon" aria-hidden="true">
+                <span class="glyph sun-glyph" aria-hidden="true">☀</span>
+                <span class="glyph moon-glyph" aria-hidden="true">☾</span>
+              </span>
+            </button>
+            <a class="pill subtle" href="/es" aria-label="Switch language">
+              <span class="icon">🌐</span>
+              <span class="pill-label">ES</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
     <main>
       <slot />
     </main>
