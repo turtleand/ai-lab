@@ -2,6 +2,14 @@
 import '../styles/global.css';
 
 const { title = 'AI Lab', description = 'Personal AI learning lab' } = Astro.props;
+const isSpanish = Astro.url.pathname.startsWith('/es');
+const languageHref = isSpanish ? '/' : '/es';
+const languageLabel = isSpanish ? 'EN' : 'ES';
+const navHomeLabel = isSpanish ? 'Inicio' : 'Home';
+const navPortalLabel = 'Portal';
+const themeToggleLabel = isSpanish ? 'Cambiar tema' : 'Toggle theme';
+const navAriaLabel = isSpanish ? 'Navegación principal' : 'Primary navigation';
+const localeSwitchAria = isSpanish ? 'Cambiar idioma' : 'Switch language';
 
 const themeScript = `
   (() => {
@@ -47,7 +55,7 @@ const themeScript = `
 ---
 
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang={isSpanish ? 'es' : 'en'} data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -72,10 +80,10 @@ const themeScript = `
           </span>
         </a>
         <div class="nav-row">
-          <nav aria-label="Primary navigation">
+          <nav aria-label={navAriaLabel}>
             <ul class="nav-list">
-              <li><a href="/">Home</a></li>
-              <li><a href="https://turtleand.com">Portal</a></li>
+              <li><a href="/">{navHomeLabel}</a></li>
+              <li><a href="https://turtleand.com">{navPortalLabel}</a></li>
             </ul>
           </nav>
           <div class="header-actions">
@@ -84,17 +92,17 @@ const themeScript = `
               type="button"
               data-theme-toggle
               aria-pressed="false"
-              title="Toggle theme"
-              aria-label="Toggle theme"
+              title={themeToggleLabel}
+              aria-label={themeToggleLabel}
             >
               <span class="icon theme-icon" aria-hidden="true">
                 <span class="glyph sun-glyph" aria-hidden="true">☀</span>
                 <span class="glyph moon-glyph" aria-hidden="true">☾</span>
               </span>
             </button>
-            <a class="pill subtle" href="/es" aria-label="Switch language">
+            <a class="pill subtle" href={languageHref} aria-label={localeSwitchAria}>
               <span class="icon">🌐</span>
-              <span class="pill-label">ES</span>
+              <span class="pill-label">{languageLabel}</span>
             </a>
           </div>
         </div>

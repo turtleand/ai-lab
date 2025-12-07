@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const title = 'Registrar prompts y respuestas en JSONL';
+const description =
+  'Implementar un registrador pequeño para capturar prompts, salidas, latencia y parámetros del modelo para inspección rápida.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="card" aria-labelledby="article-title-es">
+    <div class="pill inline">Módulo 1 · LLM Dev Environment & APIs</div>
+    <h1 id="article-title-es">{title}</h1>
+    <p>{description}</p>
+    <div class="tag-row">
+      <span class="status in-progress">en progreso</span>
+      <a class="pill" href="/topics/module-1-tools/">Volver a Module 1 · Tools</a>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="why-title-es">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">POC</p>
+        <h2 id="why-title-es">Qué buscamos</h2>
+      </div>
+      <small>Registro portátil para cada llamada LLM</small>
+    </div>
+    <p>
+      Capturar cada solicitud/respuesta en un archivo JSONL para depurar regresiones, comparar prompts y medir latencia.
+      El registrador debe ser agnóstico al transporte para envolver OpenAI, Groq o cualquier cliente futuro.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="snippet-title-es">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Código</p>
+        <h2 id="snippet-title-es">Borrador mínimo del logger (TypeScript)</h2>
+      </div>
+    </div>
+    <pre><code>{
+`import fs from 'node:fs';
+import { randomUUID } from 'node:crypto';
+
+type LogEntry = {
+  ts: string;
+  trace_id: string;
+  model: string;
+  prompt: string;
+  tools?: string[];
+  latency_ms: number;
+  output: string;
+};
+
+const stream = fs.createWriteStream('logs/requests.jsonl', { flags: 'a' });
+
+export async function askLLM(prompt: string) {
+  const traceId = randomUUID();
+  const started = performance.now();
+
+  const res = await client.chat.completions.create({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }] });
+  const latency = Math.round(performance.now() - started);
+  const output = res.choices[0]?.message?.content ?? '';
+
+  const entry: LogEntry = {
+    ts: new Date().toISOString(),
+    trace_id: traceId,
+    model: 'gpt-4o-mini',
+    prompt,
+    tools: [],
+    latency_ms: latency,
+    output
+  };
+
+  stream.write(JSON.stringify(entry) + '\\n');
+  return { output, traceId };
+}
+`}
+</code></pre>
+    <p>
+      Rota archivos a diario (`logs/requests-YYYY-MM-DD.jsonl`), sanitiza secretos antes de escribir y añade un
+      flag `--dry-run` para pruebas offline.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="how-title-es">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Runbook</p>
+        <h2 id="how-title-es">Cómo probarlo</h2>
+      </div>
+      <small>Checklist rápido</small>
+    </div>
+    <ol>
+      <li>Crea `logs/` y agrégalo a `.gitignore`.</li>
+      <li>Pega el helper anterior en `scripts/logger.ts`.</li>
+      <li>Ejecuta `askLLM("Resume el plan del módulo actual")` desde un script CLI.</li>
+      <li>Inspecciona `logs/requests.jsonl` para comparar prompts entre ejecuciones.</li>
+    </ol>
+  </section>
+
+  <section class="card" aria-labelledby="next-title-es">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Siguiente</p>
+        <h2 id="next-title-es">Próximos pasos</h2>
+      </div>
+      <small>Graduar el POC</small>
+    </div>
+    <ul>
+      <li>Agregar conteo de tokens y estimación de costo por solicitud.</li>
+      <li>Registrar llamadas de herramientas (`tool`, `arguments`, `result`).</li>
+      <li>Exponer un visor tipo `tail -f` para detectar regresiones rápido.</li>
+    </ul>
+  </section>
+</BaseLayout>

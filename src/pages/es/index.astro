@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('ai-lab');
+const topicEntries = await getCollection('topics');
+const sorted = entries.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const logs = sorted.filter((entry) => entry.data.category === 'log');
+const experiments = sorted.filter(
+  (entry) => entry.data.category === 'experiment'
+);
+const bootstrappingSlug = logs.find((log) =>
+  log.slug.includes('bootstrapping')
+)?.slug;
+
+const topicsByModule = (moduleKey: string) =>
+  topicEntries.filter((topic) => topic.data.module.startsWith(moduleKey));
+
+const statusLabel = (status: string) => {
+  switch (status) {
+    case 'in-progress':
+      return 'en progreso';
+    case 'planned':
+      return 'planificado';
+    case 'done':
+      return 'completado';
+    default:
+      return status;
+  }
+};
+
+const buildTopicHref = (link: string | undefined, slug: string) => {
+  if (!link) return `/es/topics/${slug}/`;
+  if (link.startsWith('/')) return `/es${link}`;
+  return link;
+};
+
+const moduleLadder = [
+  {
+    key: 'Module 0',
+    title: 'LLM Setup & Safety',
+    status: 'in-progress',
+    notes:
+      'Tools, repos, keys/secrets, GPU/access notes, and safety basics.',
+    link: bootstrappingSlug ? `#${bootstrappingSlug}` : '#',
+    subtopics: []
+  },
+  {
+    key: 'Module 1',
+    title: 'LLM Dev Environment & APIs',
+    status: 'planned',
+    notes:
+      'Wire client libraries, JSON I/O, and prompt/output logging for fast iteration.',
+    link: '#',
+    subtopics: topicsByModule('Module 1')
+  },
+  {
+    key: 'Module 2',
+    title: 'Prompting & Reasoning Patterns',
+    status: 'planned',
+    notes: 'Roles, instructions, examples, CoT, and simple quality checks.',
+    link: '#',
+    subtopics: topicsByModule('Module 2')
+  },
+  {
+    key: 'Module 3',
+    title: 'RAG & Tools Integration',
+    status: 'planned',
+    notes:
+      'Minimal RAG over local docs plus simple tools (search, calculator, file lookup).',
+    link: '#',
+    subtopics: topicsByModule('Module 3')
+  },
+  {
+    key: 'Module 4',
+    title: 'Agents & Productized LLM App',
+    status: 'planned',
+    notes:
+      'Ship a tiny CLI/web app agent, document how to run, limits, and risks.',
+    link: '#',
+    subtopics: topicsByModule('Module 4')
+  }
+];
+
+const currentModule =
+  moduleLadder.find((item) => item.status === 'in-progress') ?? moduleLadder[0];
+
+const logEntries = await Promise.all(
+  logs.map(async (entry) => {
+    const { Content } = await entry.render();
+    return { ...entry, Content };
+  })
+);
+
+const experimentCards = await Promise.all(
+  experiments.map(async (entry) => {
+    const { Content } = await entry.render();
+    return { ...entry, Content };
+  })
+);
+---
+
+<BaseLayout
+  title="AI Lab"
+  description="Laboratorio de IA para seguir el crecimiento de cero a practicante sólido."
+>
+  <section class="card" aria-labelledby="hero-title-es">
+    <h1 id="hero-title-es">Laboratorio de IA intencional</h1>
+    <p>
+      El programa de construcción LLM & GenAI enseña a trabajar con modelos de lenguaje de manera práctica:
+      configurar herramientas seguras, diseñar prompts efectivos, crear pequeños sistemas de recuperación,
+      integrar herramientas y, finalmente, enviar agentes o aplicaciones sencillas. Es un recorrido enfocado
+      en aprender haciendo: módulos pequeños, experimentos reproducibles y pasos claros que convierten la curiosidad
+      en creaciones funcionales impulsadas por IA.
+    </p>
+    <div class="tag-row">
+      <span class="status {currentModule.status}">
+        <strong>{currentModule.key}</strong>
+        <span>{statusLabel(currentModule.status)}</span>
+      </span>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="modules-title-es" id="modules">
+    <div class="section-title">
+      <div>
+        <h2 id="modules-title-es">Hoja de ruta del programa</h2>
+      </div>
+      <small
+        >Toca un módulo para ver sus subtemas y saltar a las páginas dedicadas.</small
+      >
+    </div>
+    <div class="stacked">
+      {
+        moduleLadder.map((module) => (
+          <details
+            class={`module-row ${module.subtopics.length === 0 ? 'disabled' : ''}`}
+            open={
+              module.status === 'in-progress' && module.subtopics.length > 0
+            }
+          >
+            <summary>
+              <div>
+                <strong>{module.key}</strong>
+                <div>{module.title}</div>
+              </div>
+              <span>{module.notes}</span>
+            </summary>
+            <div class="subtopics">
+              {module.subtopics.length > 0 ? (
+                module.subtopics.map((topic) => {
+                  const href = buildTopicHref(topic.data.link, topic.slug);
+                  const hasContent = Boolean(topic.data.link || topic.body);
+                  const rowClass = `subtopic-row ${hasContent ? '' : 'disabled'}`;
+
+                  return hasContent ? (
+                    <a class={rowClass} href={href}>
+                      <div>{topic.data.title}</div>
+                      <p>{topic.data.summary}</p>
+                    </a>
+                  ) : (
+                    <div class={rowClass} aria-disabled="true">
+                      <div>{topic.data.title}</div>
+                      <p>{topic.data.summary}</p>
+                    </div>
+                  );
+                })
+              ) : (
+                <div class="subtopic-row disabled" aria-disabled="true">
+                  <div>Muy pronto</div>
+                  <p>Los subtemas de este módulo aparecerán aquí.</p>
+                </div>
+              )}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="cta-title-es" id="cta">
+    <div class="section-title">
+      <div>
+        <h2 id="cta-title-es">Sigue el progreso</h2>
+      </div>
+      <small>Actualizaciones ligeras, sin spam</small>
+    </div>
+    <div class="cta">
+      <a class="primary" href="mailto:hello@turtleand.ai">Recibir correos</a>
+      <a href="https://www.linkedin.com/company/turtleand/"
+        >Seguir en LinkedIn</a
+      >
+      <a href="https://github.com/turtleand-ai/portal">Volver al portal</a>
+      <a href="https://github.com/turtleand-ai/build">Notas de Build</a>
+    </div>
+  </section>
+</BaseLayout>
