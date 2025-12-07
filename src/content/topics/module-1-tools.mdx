@@ -1,0 +1,39 @@
+---
+title: "Module 1 — LLM Tools Track"
+module: "Module 1: LLM Dev Environment & APIs"
+summary: "Set up CLI + scripts for LLM calls, log JSON I/O, and wrap a few practical tools."
+status: in-progress
+articles:
+  - title: "Choosing the Right LLM Client (openai, groq, or litellm?)"
+    description: "Compare three client SDKs, request patterns, and ergonomics for structured outputs."
+    type: article
+    status: planned
+  - title: "Logging Prompts and Responses to JSONL"
+    description: "Implement a small logger to capture prompts, outputs, latency, and model params for quick inspection."
+    type: project
+    status: in-progress
+    link: "/topics/module-1-tools/logging-prompts-jsonl/"
+  - title: "Tooling: Search + Calculator Harness"
+    description: "Wire lightweight search and a deterministic calculator tool, then test via LLM function calls."
+    type: project
+    status: planned
+  - title: "Safety Notes for CLI Usage"
+    description: "Document API key handling, rate limits, and safe fallbacks for unexpected model replies."
+    type: article
+    status: planned
+---
+
+## Scope
+- Build a repeatable local workflow for LLM requests (CLI + scripts).
+- Capture JSON I/O for fast diffing between prompt iterations.
+- Introduce basic tools (search, calculator) to prep for Module 3 integrations.
+
+## Starter artifacts
+- `scripts/client.ts` (or Python equivalent) with env-based key loading and retry/backoff.
+- `logs/requests.jsonl` format: `{ts, model, prompt, tools, latency_ms, output, trace_id}`.
+- Tool harness: simple search API stub + deterministic calculator function for model testing.
+
+## Quick wins to ship
+- Minimal CLI: `pnpm dev:ask "Summarize doc X"` that logs the exchange.
+- Example function-call schema for calculator with validation and guardrails.
+- Short write-up comparing SDK ergonomics for streaming and JSON output modes.

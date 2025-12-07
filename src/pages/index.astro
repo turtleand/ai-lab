@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('ai-lab');
+const topicEntries = await getCollection('topics');
+const sorted = entries.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const logs = sorted.filter((entry) => entry.data.category === 'log');
+const experiments = sorted.filter(
+  (entry) => entry.data.category === 'experiment'
+);
+const bootstrappingSlug = logs.find((log) =>
+  log.slug.includes('bootstrapping')
+)?.slug;
+
+const topicsByModule = (moduleKey: string) =>
+  topicEntries.filter((topic) => topic.data.module.startsWith(moduleKey));
+
+const moduleLadder = [
+  {
+    key: 'Module 0',
+    title: 'LLM Setup & Safety',
+    status: 'in-progress',
+    notes: 'Tools, repos, keys/secrets, GPU/access notes, and safety basics.',
+    link: bootstrappingSlug ? `#${bootstrappingSlug}` : '#',
+    subtopics: []
+  },
+  {
+    key: 'Module 1',
+    title: 'LLM Dev Environment & APIs',
+    status: 'planned',
+    notes:
+      'Wire client libraries, JSON I/O, and prompt/output logging for fast iteration.',
+    link: '#',
+    subtopics: topicsByModule('Module 1')
+  },
+  {
+    key: 'Module 2',
+    title: 'Prompting & Reasoning Patterns',
+    status: 'planned',
+    notes: 'Roles, instructions, examples, CoT, and simple quality checks.',
+    link: '#',
+    subtopics: topicsByModule('Module 2')
+  },
+  {
+    key: 'Module 3',
+    title: 'RAG & Tools Integration',
+    status: 'planned',
+    notes:
+      'Minimal RAG over local docs plus simple tools (search, calculator, file lookup).',
+    link: '#',
+    subtopics: topicsByModule('Module 3')
+  },
+  {
+    key: 'Module 4',
+    title: 'Agents & Productized LLM App',
+    status: 'planned',
+    notes:
+      'Ship a tiny CLI/web app agent, document how to run, limits, and risks.',
+    link: '#',
+    subtopics: topicsByModule('Module 4')
+  }
+];
+
+const currentModule =
+  moduleLadder.find((item) => item.status === 'in-progress') ?? moduleLadder[0];
+
+const logEntries = await Promise.all(
+  logs.map(async (entry) => {
+    const { Content } = await entry.render();
+    return { ...entry, Content };
+  })
+);
+
+const experimentCards = await Promise.all(
+  experiments.map(async (entry) => {
+    const { Content } = await entry.render();
+    return { ...entry, Content };
+  })
+);
+---
+
+<BaseLayout
+  title="AI Lab"
+  description="Personal AI Lab to track growth from zero to strong practitioner."
+>
+  <section class="card" aria-labelledby="hero-title">
+    <h1 id="hero-title">Intentional AI Lab</h1>
+    <p>
+      The LLM & GenAI Builder program teaches how to work with modern language
+      models in a practical, hands-on way—from setting up safe tooling, to
+      designing effective prompts, building small retrieval systems, integrating
+      tools, and ultimately shipping simple agents or apps. It’s a focused track
+      for learning by doing: small modules, reproducible experiments, and clear
+      steps that turn raw curiosity into functioning AI-powered creations.
+    </p>
+    <div class="tag-row">
+      <span class="status {currentModule.status}">
+        <strong>{currentModule.key}</strong>
+        <span>{currentModule.status.replace('-', ' ')}</span>
+      </span>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="modules-title" id="modules">
+    <div class="section-title">
+      <div>
+        <h2 id="modules-title">Program roadmap</h2>
+      </div>
+      <small
+        >Tap a module to see its subtopics and jump into dedicated pages.</small
+      >
+    </div>
+    <div class="stacked">
+      {
+        moduleLadder.map((module) => (
+          <details
+            class={`module-row ${module.subtopics.length === 0 ? 'disabled' : ''}`}
+            open={
+              module.status === 'in-progress' && module.subtopics.length > 0
+            }
+          >
+            <summary>
+              <div>
+                <strong>{module.key}</strong>
+                <div>{module.title}</div>
+              </div>
+              <span>{module.notes}</span>
+            </summary>
+            <div class="subtopics">
+              {module.subtopics.length > 0 ? (
+                module.subtopics.map((topic) => {
+                  const href = topic.data.link ?? `/topics/${topic.slug}/`;
+                  const hasContent = Boolean(topic.data.link || topic.body);
+                  const rowClass = `subtopic-row ${hasContent ? '' : 'disabled'}`;
+
+                  return hasContent ? (
+                    <a class={rowClass} href={href}>
+                      <div>{topic.data.title}</div>
+                      <p>{topic.data.summary}</p>
+                    </a>
+                  ) : (
+                    <div class={rowClass} aria-disabled="true">
+                      <div>{topic.data.title}</div>
+                      <p>{topic.data.summary}</p>
+                    </div>
+                  );
+                })
+              ) : (
+                <div class="subtopic-row disabled" aria-disabled="true">
+                  <div>Coming soon</div>
+                  <p>Subtopics for this module will appear here.</p>
+                </div>
+              )}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="cta-title" id="cta">
+    <div class="section-title">
+      <div>
+        <h2 id="cta-title">Follow along</h2>
+      </div>
+      <small>Lightweight updates, no inbox spam</small>
+    </div>
+    <div class="cta">
+      <a class="primary" href="mailto:hello@turtleand.ai">Get email updates</a>
+      <a href="https://www.linkedin.com/company/turtleand/"
+        >Follow on LinkedIn</a
+      >
+      <a href="https://github.com/turtleand-ai/portal">Back to Portal</a>
+      <a href="https://github.com/turtleand-ai/build">Build notes</a>
+    </div>
+  </section>
+</BaseLayout>
