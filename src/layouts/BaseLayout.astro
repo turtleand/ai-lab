@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
 
-const { title = 'AI Lab', description = 'Personal AI learning lab' } = Astro.props;
+const { title = 'AI Lab', description = 'Personal AI learning lab' } =
+  Astro.props;
 const isSpanish = Astro.url.pathname.startsWith('/es');
 const languageHref = isSpanish ? '/' : '/es';
 const languageLabel = isSpanish ? 'EN' : 'ES';
@@ -10,6 +11,28 @@ const navPortalLabel = 'Portal';
 const themeToggleLabel = isSpanish ? 'Cambiar tema' : 'Toggle theme';
 const navAriaLabel = isSpanish ? 'Navegación principal' : 'Primary navigation';
 const localeSwitchAria = isSpanish ? 'Cambiar idioma' : 'Switch language';
+const shouldOpenInNewTab = (href: string) => href.startsWith('http');
+const footerRights = isSpanish
+  ? 'Todos los derechos reservados.'
+  : 'All rights reserved.';
+const footerSocialLabel = isSpanish
+  ? 'Enlaces sociales de Turtleand'
+  : 'Turtleand social links';
+const currentYear = new Date().getFullYear();
+const socialLinks = [
+  {
+    name: 'GitHub',
+    href: 'https://github.com/turtleand',
+    title: isSpanish ? 'Turtleand en GitHub' : 'Turtleand on GitHub',
+    icon: 'github'
+  },
+  {
+    name: isSpanish ? 'Correo' : 'Email',
+    href: 'mailto:hello@turtleand.com',
+    title: isSpanish ? 'Enviar correo a Turtleand' : 'Email Turtleand',
+    icon: 'mail'
+  }
+];
 
 const themeScript = `
   (() => {
@@ -69,12 +92,7 @@ const themeScript = `
         <a class="brand" href="/">
           <span class="brand-lockup">
             <span class="brand-icon" aria-hidden="true">
-              <img
-                src="/logo.svg"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
+              <img src="/logo.svg" alt="" loading="lazy" decoding="async" />
             </span>
             <span class="brand-wordmark">TurtleanD</span>
           </span>
@@ -100,7 +118,11 @@ const themeScript = `
                 <span class="glyph moon-glyph" aria-hidden="true">☾</span>
               </span>
             </button>
-            <a class="pill subtle" href={languageHref} aria-label={localeSwitchAria}>
+            <a
+              class="pill subtle"
+              href={languageHref}
+              aria-label={localeSwitchAria}
+            >
               <span class="icon">🌐</span>
               <span class="pill-label">{languageLabel}</span>
             </a>
@@ -111,5 +133,63 @@ const themeScript = `
     <main>
       <slot />
     </main>
+    <footer class="site-footer">
+      <div class="footer-divider" aria-hidden="true"></div>
+      <div class="shell footer-inner">
+        <ul class="footer-socials" aria-label={footerSocialLabel}>
+          {
+            socialLinks.map((link) => {
+              const external = shouldOpenInNewTab(link.href);
+              return (
+                <li>
+                  <a
+                    class={`footer-social-link${link.icon === 'mail' ? ' is-mail' : ''}`}
+                    href={link.href}
+                    title={link.title}
+                    aria-label={link.title}
+                    target={external ? '_blank' : undefined}
+                    rel={external ? 'noopener noreferrer' : undefined}
+                  >
+                    <span class="sr-only">{link.name}</span>
+                    {link.icon === 'github' ? (
+                      <svg viewBox="0 0 24 24" aria-hidden="true" role="img">
+                        <path
+                          fill="currentColor"
+                          d="M12 .5C5.65.5.5 5.65.5 12.02c0 5.11 3.32 9.44 7.93 10.97.58.11.8-.25.8-.57 0-.28-.01-1.02-.02-2-3.22.7-3.9-1.55-3.9-1.55-.53-1.34-1.3-1.7-1.3-1.7-1.06-.73.08-.72.08-.72 1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.26 3.4.96.11-.75.41-1.26.74-1.55-2.57-.29-5.28-1.29-5.28-5.75 0-1.27.45-2.31 1.19-3.13-.12-.29-.52-1.46.11-3.05 0 0 .98-.31 3.21 1.19a11.16 11.16 0 0 1 5.84 0c2.23-1.5 3.2-1.19 3.2-1.19.63 1.59.24 2.76.12 3.05.74.82 1.19 1.86 1.19 3.13 0 4.47-2.72 5.46-5.31 5.75.42.36.79 1.08.79 2.18 0 1.58-.02 2.85-.02 3.24 0 .31.21.68.81.57 4.6-1.53 7.92-5.86 7.92-10.97C23.53 5.65 18.38.5 12 .5z"
+                        />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" aria-hidden="true" role="img">
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3.25 6.5A2.75 2.75 0 0 1 6 3.75h12a2.75 2.75 0 0 1 2.75 2.75v10.5A2.75 2.75 0 0 1 18 19.75H6A2.75 2.75 0 0 1 3.25 17V6.5Z"
+                        />
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m4 7.5 7.42 5.07a1.5 1.5 0 0 0 1.66 0L20.5 7.5"
+                        />
+                      </svg>
+                    )}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+        <div class="footer-meta">
+          <span class="footer-meta-year">Copyright © {currentYear}</span>
+          <span class="footer-meta-separator" aria-hidden="true">|</span>
+          <span class="footer-meta-rights">{footerRights}</span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
