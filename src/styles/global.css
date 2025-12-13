@@ -18,6 +18,12 @@
   --border-strong: #d1d5e5;
   --glow: 0 20px 60px rgba(95, 93, 240, 0.15);
   --header-surface: color-mix(in srgb, #ffffff 90%, transparent);
+  --hero-grad-1: #d5ddff;
+  --hero-grad-2: #c8fff3;
+  --hero-grad-3: #f1e7ff;
+  --hero-grid: rgba(31, 33, 49, 0.1);
+  --hero-badge-bg: rgba(31, 33, 49, 0.8);
+  --hero-badge-text: #ffffff;
   --footer-bg-1: #f6f7fb;
   --footer-bg-2: #eef2fb;
   --footer-bg-3: #e3e8f3;
@@ -47,6 +53,12 @@
   --border-strong: #21415c;
   --glow: 0 20px 60px rgba(6, 16, 28, 0.6);
   --header-surface: color-mix(in srgb, #0f1b2a 92%, transparent);
+  --hero-grad-1: #1b2f44;
+  --hero-grad-2: #154d45;
+  --hero-grad-3: #233c55;
+  --hero-grid: rgba(232, 237, 246, 0.08);
+  --hero-badge-bg: rgba(232, 237, 246, 0.9);
+  --hero-badge-text: #0f1b2a;
   --footer-bg-1: #081526;
   --footer-bg-2: #040c16;
   --footer-bg-3: #010409;
@@ -304,6 +316,67 @@ p {
   border-radius: 16px;
   padding: 1.25rem 1.5rem;
   box-shadow: var(--glow);
+}
+
+.signal-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 1.75rem 1.85rem 1.9rem;
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--hero-grad-1) 60%, transparent),
+      color-mix(in srgb, var(--hero-grad-2) 40%, transparent),
+      color-mix(in srgb, var(--hero-grad-3) 30%, transparent)
+    ),
+    var(--panel);
+}
+
+.signal-overlay {
+  position: absolute;
+  inset: -35% 35% -40% -20%;
+  background: radial-gradient(circle at 20% 40%, var(--hero-grad-2), transparent 55%),
+    radial-gradient(circle at 80% 30%, var(--hero-grad-3), transparent 52%),
+    linear-gradient(120deg, var(--accent), var(--accent-2));
+  filter: blur(40px);
+  opacity: 0.75;
+}
+
+.signal-grid {
+  position: absolute;
+  inset: 10px;
+  border-radius: 14px;
+  background-image: linear-gradient(to right, var(--hero-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--hero-grid) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at 18% 20%, rgba(0, 0, 0, 0.1), transparent 46%),
+    radial-gradient(circle at 72% 30%, rgba(0, 0, 0, 0.14), transparent 52%),
+    linear-gradient(#000, #000);
+  opacity: 0.45;
+}
+
+.hero-content {
+  position: relative;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.hero-content h1 {
+  font-size: clamp(1.9rem, 3vw, 2.35rem);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: var(--hero-badge-bg);
+  color: var(--hero-badge-text);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, var(--border) 50%);
 }
 
 .section-title {
@@ -687,9 +760,22 @@ p {
     transform: translateY(-3px);
     box-shadow: 0 20px 40px rgba(31, 162, 255, 0.16);
   }
+
+  .signal-overlay {
+    animation: drift 16s ease-in-out infinite alternate;
+  }
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(10px, -10px, 0) scale(1.03);
+  }
 }

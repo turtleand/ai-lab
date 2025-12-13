@@ -86,21 +86,22 @@ const experimentCards = await Promise.all(
   title="AI Lab"
   description="Personal AI Lab to track growth from zero to strong practitioner."
 >
-  <section class="card" aria-labelledby="hero-title">
-    <h1 id="hero-title">Intentional AI Lab</h1>
-    <p>
-      The LLM & GenAI Builder program teaches how to work with modern language
-      models in a practical, hands-on way—from setting up safe tooling, to
-      designing effective prompts, building small retrieval systems, integrating
-      tools, and ultimately shipping simple agents or apps. It’s a focused track
-      for learning by doing: small modules, reproducible experiments, and clear
-      steps that turn raw curiosity into functioning AI-powered creations.
-    </p>
-    <div class="tag-row">
-      <span class="status {currentModule.status}">
-        <strong>{currentModule.key}</strong>
-        <span>{currentModule.status.replace('-', ' ')}</span>
-      </span>
+  <section class="card signal-hero" aria-labelledby="hero-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 id="hero-title">LLM & GenAI Builder</h1>
+      <p>
+        <b>Self-learner</b> path for going from zero to shipping practical LLM-based
+        tools and agents, with an emphasis on clarity, reproducibility, and real usage
+        inside the Turtleand ecosystem.
+      </p>
+      <div class="tag-row">
+        <span class="status {currentModule.status}">
+          <strong>{currentModule.key}</strong>
+          <span>{currentModule.status.replace('-', ' ')}</span>
+        </span>
+      </div>
     </div>
   </section>
 
@@ -160,5 +161,4 @@ const experimentCards = await Promise.all(
       }
     </div>
   </section>
-
 </BaseLayout>

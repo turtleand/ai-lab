@@ -1,13 +1,17 @@
-# AI Lab Product Specification
+# LLM & GenAI Builder Track
 
 ## Summary
-- An intentionally small, personal AI Lab that tracks one learner's growth from foundations to advanced topics.
-- The program follows a university-style sequence: clear modules, simple progression, visible milestones.
-- MVP favors learning logs and one experiment template; no grids, filters, or heavy navigation.
-- Tech stays minimal (Astro + MDX, static build, no auth/backends) to keep focus on learning.
+Self-learner path for going from zero to shipping practical LLM-based tools and agents, with an emphasis on clarity, reproducibility, and real usage inside the Turtleand ecosystem.
 
-## MVP Goal
-- Ship a single-page AI Lab that explains the program, shows module progression, and hosts the first learning log plus one foundational experiment.
+## Header Refresh Ideas
+- **Signal gradient hero** — Simple: add a light gradient with faint data lines behind the title so it pops from the roadmap cards. Elaborated: pair the existing title and summary with a slim, animated gradient backdrop and a thin grid of dotted lines; keep the content centered with a high-contrast badge to frame the "LLM & GenAI Builder" label, giving the header its own atmosphere while staying lightweight.
+- **Dual-rail card** — Simple: split the header into a main title column and a slim rail of badges/pills. Elaborated: keep the main copy on the left, but add a right-hand rail with a vertical stack of small pills for current module, status, and next checkpoint; add subtle dividers and offset shadows so the card reads as a two-piece object unlike the roadmap blocks.
+- **Notebook band** — Simple: wrap the header in a thin "notebook" band with a tab and a mini timeline dot. Elaborated: enclose the title/summary in a rounded band with a colored tab labeled "AI Lab" and a small progress dot with a label like "Module 1 • In progress"; use a slight paper texture and an underline accent to make it feel like a pinned note rather than another roadmap tile.
+
+## Module Status Placement Ideas
+- **Rail status chip** — Simple: move the current module/status into a vertical rail on the right of the page hero. Elaborated: add a narrow side rail that sticks on scroll for the first fold, containing a bold pill like "Module 0 • In progress" plus a mini "Next up" link; this separates status from the main title, keeps the hero cleaner, and still makes the status visible without competing with the headline.
+- **Roadmap inline badge** — Simple: remove status from the hero and show it only inside the roadmap list. Elaborated: keep the hero purely narrative, then surface the current module by auto-expanding the active module row and adding a colored inline badge at the top of the roadmap block (e.g., "Currently tracking: Module 0"); readers naturally find status where they explore modules, and the hero stays focused on purpose/summary.
+- **Top meta bar** — Simple: replace the hero badge with a slim meta bar above the page content. Elaborated: add a 100%-width bar above the hero with concise metadata like "Module 0 • In progress — Next milestone: log entry #2", styled with a subtle gradient and icon; it feels like system status rather than part of the hero card and can scroll away once the reader moves past the first viewport.
 
 ## Learning Program (Module Ladder)
 - Module 0: Setup — tools, repos, GPU/access notes, study plan.
