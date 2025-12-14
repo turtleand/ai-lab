@@ -20,6 +20,7 @@ const topics = defineCollection({
   schema: z.object({
     title: z.string(),
     module: z.string(),
+    subtopic: z.string(),
     summary: z.string(),
     status: z.enum(['planned', 'in-progress', 'done']).default('planned'),
     articles: z

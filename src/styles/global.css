@@ -432,13 +432,12 @@ p {
 
 .module-row.disabled {
   opacity: 0.55;
-  pointer-events: none;
 }
 
 .module-row summary {
   list-style: none;
   display: grid;
-  grid-template-columns: 150px 1fr auto;
+  grid-template-columns: 160px 1fr auto;
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 1.1rem;
@@ -507,51 +506,76 @@ p {
 .subtopics {
   border-top: 1px solid var(--border);
   background: color-mix(in srgb, var(--panel) 92%, var(--bg) 8%);
-  padding: 0.8rem 1.1rem 1.1rem;
-  display: grid;
-  gap: 0.6rem;
+  padding: 0.85rem 1.1rem 1.05rem 1.6rem;
 }
 
-.subtopic-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.75rem 0.85rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--panel);
-}
-
-.subtopic-row.disabled {
-  opacity: 0.55;
-  pointer-events: none;
-}
-
-.subtopic-row div:first-child {
-  font-weight: 600;
-}
-
-.subtopic-row p {
+.subtopic-list {
+  list-style: none;
   margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.subtopic-bullet {
+  position: relative;
+  padding-left: 1.35rem;
+  color: var(--ink);
+}
+
+.subtopic-bullet .bullet-dot {
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.subtopic-link {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: flex-start;
+  color: inherit;
+}
+
+.subtopic-link:hover .subtopic-title,
+.subtopic-link:focus-visible .subtopic-title {
+  color: var(--accent);
+}
+
+.subtopic-title {
+  font-weight: 650;
+}
+
+.subtopic-bullet p {
+  margin: 0.15rem 0 0;
   color: var(--muted);
 }
 
-.subtopic-row .status {
-  text-transform: capitalize;
+.subtopic-bullet.disabled {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
-.subtopic-card {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1rem 1.1rem;
-  background: var(--panel);
-  display: grid;
-  gap: 0.35rem;
+.module-link-bullet .bullet-dot {
+  background: color-mix(in srgb, var(--accent) 65%, var(--accent-2) 35%);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
-.subtopic-card h3 {
-  margin: 0;
+.module-link-bullet .subtopic-title {
+  color: var(--accent);
+}
+
+.module-link-bullet .subtopic-link {
+  text-decoration: none;
+}
+
+.module-link-bullet:hover .subtopic-title,
+.module-link-bullet:focus-visible .subtopic-title {
+  text-decoration: underline;
 }
 
 .site-footer {

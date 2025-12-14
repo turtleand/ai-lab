@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const moduleKey = 'Module 1';
+const moduleTitle = 'Foundations for LLM Builders';
+const moduleSummary =
+  'Work with LLM client libraries/runtimes, structure inputs/outputs, and understand model economics.';
+
+const subtopics = [
+  {
+    id: 'llm-interfaces',
+    title: 'LLM interfaces',
+    summary:
+      'Work directly with LLM client libraries/runtimes and solid request/response patterns.'
+  },
+  {
+    id: 'inputs-outputs',
+    title: 'Inputs & outputs',
+    summary:
+      'Structure prompts, messages, and JSON/tool outputs for downstream use.'
+  },
+  {
+    id: 'model-economics',
+    title: 'Model economics',
+    summary: 'Tokens, context windows, latency, and cost basics.'
+  }
+];
+
+const topics = await getCollection('topics');
+const moduleTopics = topics.filter(
+  (topic) => topic.data.module.startsWith(moduleKey)
+);
+
+const topicBySubtopic = new Map(
+  moduleTopics.map((topic) => [topic.data.subtopic, topic])
+);
+
+const subtopicEntries = subtopics.map((definition) => {
+  const topic = topicBySubtopic.get(definition.id);
+  const articleLink = topic?.data.articles.find((article) => Boolean(article.link))
+    ?.link;
+  const href =
+    articleLink && articleLink.startsWith('/')
+      ? articleLink
+      : articleLink
+        ? `/topics/${topic?.slug ?? ''}/`
+        : undefined;
+
+  return {
+    ...definition,
+    status: topic?.data.status ?? 'planned',
+    href,
+    hasContent: Boolean(articleLink),
+    topicSlug: topic?.slug
+  };
+});
+
+const articles = moduleTopics.flatMap((topic) =>
+  topic.data.articles.map((article) => ({
+    ...article,
+    topicTitle: topic.data.title,
+    topicSlug: topic.slug
+  }))
+);
+---
+
+<BaseLayout
+  title={`${moduleKey} — ${moduleTitle}`}
+  description={moduleSummary}
+>
+  <section class="card" aria-labelledby="module-title">
+    <div class="tag-row">
+      <a class="pill inline" href="/#modules">← Back to program roadmap</a>
+    </div>
+    <h1 id="module-title">
+      {moduleKey} — {moduleTitle}
+    </h1>
+    <p>{moduleSummary}</p>
+  </section>
+
+  <section class="card" aria-labelledby="subtopics-title">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Subtopics</p>
+        <h2 id="subtopics-title">What’s inside this module</h2>
+      </div>
+      <small>Active links open the first available article</small>
+    </div>
+    <ul class="subtopic-list">
+      {subtopicEntries.map((entry) =>
+        entry.href && entry.hasContent ? (
+          <li class="subtopic-bullet">
+            <a class="subtopic-link" href={entry.href}>
+              <span class="bullet-dot" aria-hidden="true" />
+              <div>
+                <div class="subtopic-title">{entry.title}</div>
+                <p>{entry.summary}</p>
+              </div>
+            </a>
+          </li>
+        ) : (
+          <li class="subtopic-bullet disabled" aria-disabled="true">
+            <span class="bullet-dot" aria-hidden="true" />
+            <div>
+              <div class="subtopic-title">{entry.title}</div>
+              <p>{entry.summary}</p>
+            </div>
+          </li>
+        )
+      )}
+    </ul>
+  </section>
+
+  <!-- Articles & projects section intentionally removed per request -->
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const moduleKey = 'Module 0';
+const moduleTitle = 'Setup & Safety';
+const moduleSummary =
+  'Model access & runtimes, access/secrets hygiene, and a basic safety baseline for early builds.';
+
+const subtopics = [
+  {
+    title: 'Model access & runtimes',
+    summary:
+      'Choose hosted APIs vs local runtimes (Ollama, vLLM), set them up, and understand trade-offs.'
+  },
+  {
+    title: 'Access & secrets',
+    summary: 'Configure API keys and secrets securely for model access.'
+  },
+  {
+    title: 'Safety baseline',
+    summary:
+      'Learn basic safety concepts such as prompt injection, misuse, and data handling.'
+  }
+];
+---
+
+<BaseLayout title={`${moduleKey} — ${moduleTitle}`} description={moduleSummary}>
+  <section class="card" aria-labelledby="module-0-title">
+    <div class="tag-row">
+      <a class="pill inline" href="/#modules">← Back to program roadmap</a>
+    </div>
+    <h1 id="module-0-title">
+      {moduleKey} — {moduleTitle}
+    </h1>
+    <p>{moduleSummary}</p>
+  </section>
+
+  <section class="card" aria-labelledby="module-0-subtopics">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Subtopics</p>
+        <h2 id="module-0-subtopics">What’s inside this module</h2>
+      </div>
+      <small>Content will appear as articles are published</small>
+    </div>
+    <ul class="subtopic-list">
+      {subtopics.map((entry) => (
+        <li class="subtopic-bullet disabled" aria-disabled="true">
+          <span class="bullet-dot" aria-hidden="true" />
+          <div>
+            <div class="subtopic-title">{entry.title}</div>
+            <p>{entry.summary}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

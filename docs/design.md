@@ -1,0 +1,16 @@
+## Navigation Design from Module/Subtopic → Detail Page
+- **Focused subtopic canvas** — Simple: clicking a subtopic opens a dedicated detail page with that subtopic’s summary on top and its articles listed below. Elaborated: the detail page inherits the program shell, but swaps the hero into a slim subtopic header with breadcrumbs (`AI Lab › Module X › Subtopic`), a concise summary, and a status pill. Below, show a two-column layout: left column lists articles for that subtopic (grouped by type/status with icons), right column shows a compact module outline so users can jump to siblings without going back. The page scrolls smoothly from hero to content, with subtle anchor highlighting for the current article.
+- **Module hub with spotlighted subtopic** — Simple: clicking a subtopic or module lands on a module hub page, auto-scrolling to the chosen subtopic block. Elaborated: the hub hero shows module title, one-line purpose, and CTA back to the roadmap. Beneath, subtopics are rendered as stacked cards; the clicked subtopic is expanded by default with its articles visible (list or grid), while others stay collapsed. Each article card shows type (article/project), status badge, and a direct “Open” link. A sticky right rail provides quick links to all subtopics and a “Back to roadmap” button for easy orientation.
+- **Article-first landing** — Simple: clicking a subtopic opens its first article directly, with an on-page subtopic drawer. Elaborated: the first article loads in a content view framed by a header bar containing subtopic title, summary, and a subtopic drawer toggle. The drawer lists all articles for that subtopic (and sibling subtopics as muted items) so users can jump without leaving the article. A footer CTA returns to the module overview, and breadcrumbs keep location explicit. This approach prioritizes immediate reading while still exposing the subtopic/module context through the drawer and breadcrumbs.
+
+## Module Page Entry Points (from index)
+- **Header CTA link** — Simple: add a subtle “View module page” link/button inside each accordion header. Elaborated: beside the module title in the summary row, place a ghost button or text link labeled “Open module page”; it stays visible whether the accordion is expanded or not, giving a direct path without relying on subtopic clicks.
+- **Sticky roadmap rail** — Simple: include a right-rail navigation that appears when the roadmap is in view with links for each module page. Elaborated: as users scroll the roadmap, a sticky sidebar lists all modules with “Go to module” links; this keeps module-level navigation persistent even when accordions are collapsed or scrolled out of view.
+- **Footer jump within accordion** — Simple: add a small “Visit module page” link at the bottom of each expanded accordion. Elaborated: when a module is opened, show a divider followed by a secondary link at the bottom that takes the user to the full module page; this reinforces the pathway after scanning subtopics and works well for users who expand first, then decide to dive deeper.
+
+## Alternative Labels for Index Module Link
+- Open module overview
+- Go to module page
+- Full module details
+- Module resources & notes
+- View module plan
