@@ -3,8 +3,13 @@ import '../styles/global.css';
 
 const { title = 'AI Lab', description = 'Personal AI learning lab' } =
   Astro.props;
-const isSpanish = Astro.url.pathname.startsWith('/es');
-const languageHref = isSpanish ? '/' : '/es';
+const { pathname, search, hash } = Astro.url;
+const isSpanish = pathname.startsWith('/es');
+const stripSpanishPrefix = (value: string) =>
+  value === '/es' ? '/' : value.replace(/^\/es(\/|$)/, '/');
+const addSpanishPrefix = (value: string) =>
+  value === '/' ? '/es' : `/es${value}`;
+const languageHref = `${isSpanish ? stripSpanishPrefix(pathname) : addSpanishPrefix(pathname)}${search}${hash}`;
 const languageLabel = isSpanish ? 'EN' : 'ES';
 const navHomeLabel = isSpanish ? 'Inicio' : 'Home';
 const navPortalLabel = 'Portal';

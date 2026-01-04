@@ -5,8 +5,22 @@ import { getCollection } from 'astro:content';
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const topics = await getCollection('topics');
-  return topics.map((topic) => ({
+  const englishTopics = await getCollection('topics');
+  const spanishTopics = await getCollection('topics-es');
+  const topicsBySlug = new Map<
+    string,
+    (typeof englishTopics)[number] | (typeof spanishTopics)[number]
+  >();
+
+  englishTopics.forEach((topic) => {
+    topicsBySlug.set(topic.slug, topic);
+  });
+
+  spanishTopics.forEach((topic) => {
+    topicsBySlug.set(topic.slug, topic);
+  });
+
+  return Array.from(topicsBySlug.values()).map((topic) => ({
     params: { slug: topic.slug },
     props: { topic }
   }));
@@ -28,7 +42,6 @@ const resolveLink = (link?: string) => {
     <h1 id="topic-title-es">{topic.data.title}</h1>
     <p>{topic.data.summary}</p>
     <div class="tag-row">
-      <span class={`status ${topic.data.status}`}>{topic.data.status}</span>
       <a class="pill" href="/es">Volver al programa</a>
     </div>
   </section>
@@ -39,39 +52,9 @@ const resolveLink = (link?: string) => {
         <p class="pill inline">Notas del tema</p>
         <h2 id="topic-content-es">Descripción general</h2>
       </div>
-      <small>Alcance, artefactos iniciales y quick wins</small>
     </div>
-    <article class="stacked">
+    <article class="stacked content-article">
       <Content />
     </article>
-  </section>
-
-  <section class="card" aria-labelledby="articles-title-es">
-    <div class="section-title">
-      <div>
-        <p class="pill inline">Artículos y proyectos</p>
-        <h2 id="articles-title-es">Trabajo en este tema</h2>
-      </div>
-      <small>Notas, experimentos y guías prácticas</small>
-    </div>
-    <div class="stacked">
-      {topic.data.articles.map((item) => (
-        <article class="subtopic-card">
-          <div class="section-title">
-            <h3>{item.title}</h3>
-            <span class={`status ${item.status}`}>{item.status}</span>
-          </div>
-          <p>{item.description}</p>
-          {resolveLink(item.link) && (
-            <a class="pill inline" href={resolveLink(item.link)}>
-              Abrir
-            </a>
-          )}
-          <small style="color: var(--muted); text-transform: capitalize;">
-            Tipo: {item.type}
-          </small>
-        </article>
-      ))}
-    </div>
   </section>
 </BaseLayout>

@@ -23,10 +23,9 @@ const moduleSubtopics: Record<
 > = {
   'Module 0': [
     {
-      id: 'model-access-runtimes',
-      title: 'Model access & runtimes',
-      summary:
-        'Choose hosted APIs vs local runtimes (Ollama, vLLM), set them up, and understand trade-offs.'
+      id: 'running-inference-locally',
+      title: 'Running inference locally',
+      summary: 'Easily setup & run an LLM on your own machine.'
     },
     {
       id: 'access-secrets',
@@ -136,11 +135,7 @@ const topicLookup = topicEntries.reduce((acc, topic) => {
   return acc;
 }, new Map<string, (typeof topicEntries)[number]>());
 
-const buildTopicHref = (link: string | undefined, slug: string) => {
-  if (!link) return `/topics/${slug}/`;
-  if (link.startsWith('/')) return link;
-  return link;
-};
+const buildTopicHref = (slug: string) => `/topics/${slug}/`;
 
 const buildModuleHref = (module) => {
   if (module.link && module.link !== '#') return module.link;
@@ -213,10 +208,8 @@ const subtopicsForModule = (module) => {
   return (module.subtopics ?? []).map((definition) => {
     const key = `${module.key}:${definition.id}`;
     const topic = topicLookup.get(key);
-    const articleLink = topic?.data.articles.find((article) => Boolean(article.link))
-      ?.link;
-    const href = articleLink ? buildTopicHref(articleLink, topic?.slug ?? '') : undefined;
-    const hasContent = Boolean(articleLink);
+    const href = topic ? buildTopicHref(topic.slug) : undefined;
+    const hasContent = Boolean(topic);
 
     return {
       title: definition.title,
@@ -250,9 +243,6 @@ const subtopicsForModule = (module) => {
       <div>
         <h2 id="modules-title">Program roadmap</h2>
       </div>
-      <small
-        >Tap a module to see its subtopics and jump into dedicated pages.</small
-      >
     </div>
     <div class="stacked">
       {
@@ -311,7 +301,10 @@ const subtopicsForModule = (module) => {
                         <span class="bullet-dot" aria-hidden="true" />
                         <div>
                           <div class="subtopic-title">Visit module page</div>
-                          <p>Full overview, resources, and artifacts for this module.</p>
+                          <p>
+                            Full overview, resources, and artifacts for this
+                            module.
+                          </p>
                         </div>
                       </a>
                     </li>
@@ -322,7 +315,7 @@ const subtopicsForModule = (module) => {
                       <span class="bullet-dot" aria-hidden="true" />
                       <div>
                         <div class="subtopic-title">Coming soon</div>
-                        <p>Subtopics for this module will appear here.</p>
+                        <p>Topics for this module will appear here.</p>
                       </div>
                     </li>
                   </ul>
