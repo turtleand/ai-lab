@@ -28,8 +28,8 @@ const subtopics = [
 ];
 
 const topics = await getCollection('topics');
-const moduleTopics = topics.filter(
-  (topic) => topic.data.module.startsWith(moduleKey)
+const moduleTopics = topics.filter((topic) =>
+  topic.data.module.startsWith(moduleKey)
 );
 
 const topicBySubtopic = new Map(
@@ -38,37 +38,18 @@ const topicBySubtopic = new Map(
 
 const subtopicEntries = subtopics.map((definition) => {
   const topic = topicBySubtopic.get(definition.id);
-  const articleLink = topic?.data.articles.find((article) => Boolean(article.link))
-    ?.link;
-  const href =
-    articleLink && articleLink.startsWith('/')
-      ? articleLink
-      : articleLink
-        ? `/topics/${topic?.slug ?? ''}/`
-        : undefined;
+  const href = topic ? `/topics/${topic.slug}/` : undefined;
 
   return {
     ...definition,
     status: topic?.data.status ?? 'planned',
     href,
-    hasContent: Boolean(articleLink),
-    topicSlug: topic?.slug
+    hasContent: Boolean(topic)
   };
 });
-
-const articles = moduleTopics.flatMap((topic) =>
-  topic.data.articles.map((article) => ({
-    ...article,
-    topicTitle: topic.data.title,
-    topicSlug: topic.slug
-  }))
-);
 ---
 
-<BaseLayout
-  title={`${moduleKey} — ${moduleTitle}`}
-  description={moduleSummary}
->
+<BaseLayout title={`${moduleKey} — ${moduleTitle}`} description={moduleSummary}>
   <section class="card" aria-labelledby="module-title">
     <div class="tag-row">
       <a class="pill inline" href="/#modules">← Back to program roadmap</a>
@@ -79,36 +60,37 @@ const articles = moduleTopics.flatMap((topic) =>
     <p>{moduleSummary}</p>
   </section>
 
-  <section class="card" aria-labelledby="subtopics-title">
+  <section class="card" aria-labelledby="topics-title">
     <div class="section-title">
       <div>
-        <p class="pill inline">Subtopics</p>
-        <h2 id="subtopics-title">What’s inside this module</h2>
+        <p class="pill inline">Topics</p>
+        <h2 id="topics-title">What’s inside this module</h2>
       </div>
-      <small>Active links open the first available article</small>
     </div>
     <ul class="subtopic-list">
-      {subtopicEntries.map((entry) =>
-        entry.href && entry.hasContent ? (
-          <li class="subtopic-bullet">
-            <a class="subtopic-link" href={entry.href}>
+      {
+        subtopicEntries.map((entry) =>
+          entry.href && entry.hasContent ? (
+            <li class="subtopic-bullet">
+              <a class="subtopic-link" href={entry.href}>
+                <span class="bullet-dot" aria-hidden="true" />
+                <div>
+                  <div class="subtopic-title">{entry.title}</div>
+                  <p>{entry.summary}</p>
+                </div>
+              </a>
+            </li>
+          ) : (
+            <li class="subtopic-bullet disabled" aria-disabled="true">
               <span class="bullet-dot" aria-hidden="true" />
               <div>
                 <div class="subtopic-title">{entry.title}</div>
                 <p>{entry.summary}</p>
               </div>
-            </a>
-          </li>
-        ) : (
-          <li class="subtopic-bullet disabled" aria-disabled="true">
-            <span class="bullet-dot" aria-hidden="true" />
-            <div>
-              <div class="subtopic-title">{entry.title}</div>
-              <p>{entry.summary}</p>
-            </div>
-          </li>
+            </li>
+          )
         )
-      )}
+      }
     </ul>
   </section>
 

@@ -40,32 +40,34 @@ const { Content } = await topic.render();
     </article>
   </section>
 
-  <section class="card" aria-labelledby="articles-title">
-    <div class="section-title">
-      <div>
-        <p class="pill inline">Articles & projects</p>
-        <h2 id="articles-title">Work in this topic</h2>
+  {topic.data.articles.length > 0 && (
+    <section class="card" aria-labelledby="articles-title">
+      <div class="section-title">
+        <div>
+          <p class="pill inline">Articles & projects</p>
+          <h2 id="articles-title">Work in this topic</h2>
+        </div>
+        <small>Mix of notes, experiments, and how-to guides</small>
       </div>
-      <small>Mix of notes, experiments, and how-to guides</small>
-    </div>
-    <div class="stacked">
-      {topic.data.articles.map((item) => (
-        <article class="subtopic-card">
-          <div class="section-title">
-            <h3>{item.title}</h3>
-            <span class={`status ${item.status}`}>{item.status}</span>
-          </div>
-          <p>{item.description}</p>
-          {item.link && (
-            <a class="pill inline" href={item.link}>
-              Open
-            </a>
-          )}
-          <small style="color: var(--muted); text-transform: capitalize;">
-            Type: {item.type}
-          </small>
-        </article>
-      ))}
-    </div>
-  </section>
+      <div class="stacked">
+        {topic.data.articles.map((item) => (
+          <article class="subtopic-card">
+            <div class="section-title">
+              <h3>{item.title}</h3>
+              <span class={`status ${item.status}`}>{item.status}</span>
+            </div>
+            <p>{item.description}</p>
+            {item.link && (
+              <a class="pill inline" href={item.link}>
+                Open
+              </a>
+            )}
+            <small style="color: var(--muted); text-transform: capitalize;">
+              Type: {item.type}
+            </small>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>
