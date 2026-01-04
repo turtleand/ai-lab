@@ -7,18 +7,6 @@ const description =
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="card" aria-labelledby="article-title">
-    <div class="pill inline">Module 0 - Setup & Safety</div>
-    <h1 id="article-title">{title}</h1>
-    <p>{description}</p>
-    <div class="tag-row">
-      <span class="status planned">planned</span>
-      <a class="pill" href="/topics/module-0-model-access/">
-        Back to Model access & runtimes
-      </a>
-    </div>
-  </section>
-
   <section class="card" aria-labelledby="why-title">
     <div class="section-title">
       <div>
@@ -83,7 +71,9 @@ const description =
     </div>
     <ul>
       <li>Document the exact runtime version and model hash.</li>
-      <li>Save prompt + response pairs in a JSONL log for regression checks.</li>
+      <li>
+        Save prompt + response pairs in a JSONL log for regression checks.
+      </li>
       <li>Capture GPU/CPU metrics to compare model sizes objectively.</li>
     </ul>
   </section>
