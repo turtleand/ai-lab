@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const moduleKey = 'Module 0';
+const moduleTitle = 'Configuracion y seguridad';
+const moduleSummary =
+  'Acceso a modelos y runtimes, higiene de acceso/secretos, y una base de seguridad para las primeras construcciones.';
+
+const normalizeModuleKey = (value: string) => {
+  const rawKey = value.split(':')[0].trim();
+  return rawKey.replace('Módulo', 'Module').replace('Modulo', 'Module');
+};
+
+const subtopics = [
+  {
+    id: 'running-inference-locally',
+    title: 'Ejecutar inferencia localmente',
+    summary: 'Configura y ejecuta un LLM en tu propia maquina con facilidad.'
+  },
+  {
+    id: 'access-secrets',
+    title: 'Acceso y secretos',
+    summary:
+      'Configura claves de API y secretos de forma segura para el acceso al modelo.'
+  },
+  {
+    id: 'safety-baseline',
+    title: 'Base de seguridad',
+    summary:
+      'Aprende conceptos basicos de seguridad como inyeccion de prompts, uso indebido y manejo de datos.'
+  }
+];
+
+const topics = await getCollection('topics');
+const spanishTopics = await getCollection('topics-es');
+
+const moduleTopics = topics.filter((topic) =>
+  topic.data.module.startsWith(moduleKey)
+);
+const moduleSpanishTopics = spanishTopics.filter(
+  (topic) => normalizeModuleKey(topic.data.module) === moduleKey
+);
+
+const topicBySubtopic = new Map(
+  moduleTopics.map((topic) => [topic.data.subtopic, topic])
+);
+const spanishTopicBySubtopic = new Map(
+  moduleSpanishTopics.map((topic) => [topic.data.subtopic, topic])
+);
+
+const subtopicEntries = subtopics.map((definition) => {
+  const spanishTopic = spanishTopicBySubtopic.get(definition.id);
+  const topic = spanishTopic ?? topicBySubtopic.get(definition.id);
+  const href = topic ? `/es/topics/${topic.slug}/` : undefined;
+
+  return {
+    ...definition,
+    status: topic?.data.status ?? 'planned',
+    summary: spanishTopic?.data.summary ?? definition.summary,
+    href,
+    hasContent: Boolean(topic)
+  };
+});
+---
+
+<BaseLayout title={`${moduleKey} — ${moduleTitle}`} description={moduleSummary}>
+  <section class="card" aria-labelledby="module-0-title">
+    <div class="tag-row">
+      <a class="pill inline" href="/es#modules">← Volver a la hoja de ruta</a>
+    </div>
+    <h1 id="module-0-title">
+      Modulo 0 — {moduleTitle}
+    </h1>
+    <p>{moduleSummary}</p>
+  </section>
+
+  <section class="card" aria-labelledby="module-0-topics">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Temas</p>
+        <h2 id="module-0-topics">Que incluye este modulo</h2>
+      </div>
+    </div>
+    <ul class="subtopic-list">
+      {
+        subtopicEntries.map((entry) =>
+          entry.href && entry.hasContent ? (
+            <li class="subtopic-bullet">
+              <a class="subtopic-link" href={entry.href}>
+                <span class="bullet-dot" aria-hidden="true" />
+                <div>
+                  <div class="subtopic-title">{entry.title}</div>
+                  <p>{entry.summary}</p>
+                </div>
+              </a>
+            </li>
+          ) : (
+            <li class="subtopic-bullet disabled" aria-disabled="true">
+              <span class="bullet-dot" aria-hidden="true" />
+              <div>
+                <div class="subtopic-title">{entry.title}</div>
+                <p>{entry.summary}</p>
+              </div>
+            </li>
+          )
+        )
+      }
+    </ul>
+  </section>
+</BaseLayout>

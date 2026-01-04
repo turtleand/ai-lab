@@ -22,7 +22,6 @@ const { Content } = await topic.render();
     <h1 id="topic-title">{topic.data.title}</h1>
     <p>{topic.data.summary}</p>
     <div class="tag-row">
-      <span class={`status ${topic.data.status}`}>{topic.data.status}</span>
       <a class="pill" href="/">Back to program</a>
     </div>
   </section>
@@ -33,41 +32,41 @@ const { Content } = await topic.render();
         <p class="pill inline">Topic notes</p>
         <h2 id="topic-content">Overview</h2>
       </div>
-      <small>Scope, starter artifacts, and quick wins</small>
     </div>
     <article class="stacked">
       <Content />
     </article>
   </section>
 
-  {topic.data.articles.length > 0 && (
-    <section class="card" aria-labelledby="articles-title">
-      <div class="section-title">
-        <div>
-          <p class="pill inline">Articles & projects</p>
-          <h2 id="articles-title">Work in this topic</h2>
+  {
+    topic.data.articles.length > 0 && (
+      <section class="card" aria-labelledby="articles-title">
+        <div class="section-title">
+          <div>
+            <p class="pill inline">Articles & projects</p>
+            <h2 id="articles-title">Work in this topic</h2>
+          </div>
         </div>
-        <small>Mix of notes, experiments, and how-to guides</small>
-      </div>
-      <div class="stacked">
-        {topic.data.articles.map((item) => (
-          <article class="subtopic-card">
-            <div class="section-title">
-              <h3>{item.title}</h3>
-              <span class={`status ${item.status}`}>{item.status}</span>
-            </div>
-            <p>{item.description}</p>
-            {item.link && (
-              <a class="pill inline" href={item.link}>
-                Open
-              </a>
-            )}
-            <small style="color: var(--muted); text-transform: capitalize;">
-              Type: {item.type}
-            </small>
-          </article>
-        ))}
-      </div>
-    </section>
-  )}
+        <div class="stacked">
+          {topic.data.articles.map((item) => (
+            <article class="subtopic-card">
+              <div class="section-title">
+                <h3>{item.title}</h3>
+                <span class={`status ${item.status}`}>{item.status}</span>
+              </div>
+              <p>{item.description}</p>
+              {item.link && (
+                <a class="pill inline" href={item.link}>
+                  Open
+                </a>
+              )}
+              <small style="color: var(--muted); text-transform: capitalize;">
+                Type: {item.type}
+              </small>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>

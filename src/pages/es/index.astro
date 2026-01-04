@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const entries = await getCollection('ai-lab');
-const topicEntries = await getCollection('topics');
+const englishTopics = await getCollection('topics');
+const spanishTopics = await getCollection('topics-es');
 const sorted = entries.sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
@@ -15,72 +16,193 @@ const bootstrappingSlug = logs.find((log) =>
   log.slug.includes('bootstrapping')
 )?.slug;
 
-const topicsByModule = (moduleKey: string) =>
-  topicEntries.filter((topic) => topic.data.module.startsWith(moduleKey));
-
-const statusLabel = (status: string) => {
-  switch (status) {
-    case 'in-progress':
-      return 'en progreso';
-    case 'planned':
-      return 'planificado';
-    case 'done':
-      return 'completado';
-    default:
-      return status;
-  }
+const normalizeModuleKey = (value: string) => {
+  const rawKey = value.split(':')[0].trim();
+  return rawKey.replace('Módulo', 'Module').replace('Modulo', 'Module');
 };
 
-const buildTopicHref = (link: string | undefined, slug: string) => {
-  if (!link) return `/es/topics/${slug}/`;
-  if (link.startsWith('/')) return `/es${link}`;
-  return link;
+const formatModuleKey = (value: string) => value.replace('Module', 'Módulo');
+
+const moduleSubtopics: Record<
+  string,
+  { id: string; title: string; summary: string }[]
+> = {
+  'Module 0': [
+    {
+      id: 'running-inference-locally',
+      title: 'Ejecutar inferencia localmente',
+      summary: 'Configura y ejecuta un LLM en tu propia máquina con facilidad.'
+    },
+    {
+      id: 'access-secrets',
+      title: 'Acceso y secretos',
+      summary:
+        'Configura claves de API y secretos de forma segura para el acceso al modelo.'
+    },
+    {
+      id: 'safety-baseline',
+      title: 'Base de seguridad',
+      summary:
+        'Aprende conceptos básicos de seguridad como inyección de prompts, uso indebido y manejo de datos.'
+    }
+  ],
+  'Module 1': [
+    {
+      id: 'llm-interfaces',
+      title: 'Interfaces de LLM',
+      summary:
+        'Trabaja con bibliotecas o runtimes de clientes LLM y patrones de solicitud/respuesta.'
+    },
+    {
+      id: 'inputs-outputs',
+      title: 'Entradas y salidas',
+      summary:
+        'Estructura prompts, mensajes y salidas JSON/herramientas para uso posterior.'
+    },
+    {
+      id: 'model-economics',
+      title: 'Economía del modelo',
+      summary: 'Tokens, ventanas de contexto, latencia y conceptos básicos de costo.'
+    }
+  ],
+  'Module 2': [
+    {
+      id: 'prompt-structures',
+      title: 'Estructuras de prompts',
+      summary: 'Roles, instrucciones, ejemplos, CoT y pistas estilo RAG.'
+    },
+    {
+      id: 'output-evaluation',
+      title: 'Evaluación de salidas',
+      summary:
+        'Compara salidas buenas y malas y ajusta prompts con feedback.'
+    },
+    {
+      id: 'micro-tools',
+      title: 'Microherramientas',
+      summary: 'Pequeñas utilidades como limpiadores de notas con IA o explicadores.'
+    }
+  ],
+  'Module 3': [
+    {
+      id: 'retrieval-basics',
+      title: 'Fundamentos de recuperación',
+      summary:
+        'RAG mínimo sobre documentos locales usando embeddings y búsqueda.'
+    },
+    {
+      id: 'tool-wiring',
+      title: 'Conexión de herramientas',
+      summary: 'Conecta modelos a búsqueda, calculadora o consultas de archivos/BD.'
+    },
+    {
+      id: 'observability',
+      title: 'Observabilidad',
+      summary: 'Registra prompts/salidas para depurar e iterar con fiabilidad.'
+    }
+  ],
+  'Module 4': [
+    {
+      id: 'agent-design',
+      title: 'Diseño de agentes',
+      summary:
+        'Uno o dos agentes pequeños (asistente de investigación, automatizador de tareas).'
+    },
+    {
+      id: 'control-flow',
+      title: 'Flujo de control',
+      summary: 'Compara máquinas de estado con enfoques de prompt en bucle.'
+    },
+    {
+      id: 'resilience',
+      title: 'Resiliencia',
+      summary: 'Maneja fallos, reintentos y degradaciones con gracia.'
+    }
+  ],
+  'Module 5': [
+    {
+      id: 'packaging',
+      title: 'Empaquetado',
+      summary:
+        'Empaqueta un proyecto en un CLI o una interfaz web simple (Streamlit/FastAPI).'
+    },
+    {
+      id: 'run-deploy',
+      title: 'Ejecución y despliegue',
+      summary: 'Documenta cómo ejecutarlo localmente y cómo desplegarlo.'
+    },
+    {
+      id: 'reality-check',
+      title: 'Chequeo de realidad',
+      summary: 'Señala limitaciones, riesgos y mejoras futuras.'
+    }
+  ]
+};
+
+const buildTopicKey = (topic) => {
+  const moduleKey = normalizeModuleKey(topic.data.module);
+  return `${moduleKey}:${topic.data.subtopic}`;
+};
+
+const englishTopicLookup = englishTopics.reduce((acc, topic) => {
+  acc.set(buildTopicKey(topic), topic);
+  return acc;
+}, new Map<string, (typeof englishTopics)[number]>());
+
+const spanishTopicLookup = spanishTopics.reduce((acc, topic) => {
+  acc.set(buildTopicKey(topic), topic);
+  return acc;
+}, new Map<string, (typeof spanishTopics)[number]>());
+
+const buildTopicHref = (slug: string) => `/es/topics/${slug}/`;
+
+const buildModuleHref = (module) => {
+  if (module.link && module.link !== '#') return module.link;
+  return '/program';
 };
 
 const moduleLadder = [
   {
     key: 'Module 0',
-    title: 'LLM Setup & Safety',
+    title: 'Configuración y seguridad',
     status: 'in-progress',
-    notes:
-      'Tools, repos, keys/secrets, GPU/access notes, and safety basics.',
-    link: bootstrappingSlug ? `#${bootstrappingSlug}` : '#',
-    subtopics: []
+    link: '/es/modules/module-0/',
+    subtopics: moduleSubtopics['Module 0']
   },
   {
     key: 'Module 1',
-    title: 'LLM Dev Environment & APIs',
+    title: 'Fundamentos para creadores de LLM',
     status: 'planned',
-    notes:
-      'Wire client libraries, JSON I/O, and prompt/output logging for fast iteration.',
-    link: '#',
-    subtopics: topicsByModule('Module 1')
+    link: '/modules/module-1/',
+    subtopics: moduleSubtopics['Module 1']
   },
   {
     key: 'Module 2',
-    title: 'Prompting & Reasoning Patterns',
+    title: 'Patrones de prompting y razonamiento',
     status: 'planned',
-    notes: 'Roles, instructions, examples, CoT, and simple quality checks.',
-    link: '#',
-    subtopics: topicsByModule('Module 2')
+    link: '/program#module-2',
+    subtopics: moduleSubtopics['Module 2']
   },
   {
     key: 'Module 3',
-    title: 'RAG & Tools Integration',
+    title: 'Integración de RAG y herramientas',
     status: 'planned',
-    notes:
-      'Minimal RAG over local docs plus simple tools (search, calculator, file lookup).',
-    link: '#',
-    subtopics: topicsByModule('Module 3')
+    link: '/program#module-3',
+    subtopics: moduleSubtopics['Module 3']
   },
   {
     key: 'Module 4',
-    title: 'Agents & Productized LLM App',
+    title: 'Agentes y flujos de trabajo',
     status: 'planned',
-    notes:
-      'Ship a tiny CLI/web app agent, document how to run, limits, and risks.',
-    link: '#',
-    subtopics: topicsByModule('Module 4')
+    link: '/program#module-4',
+    subtopics: moduleSubtopics['Module 4']
+  },
+  {
+    key: 'Module 5',
+    title: 'Aplicación LLM productizada',
+    status: 'planned',
+    link: '/program#module-5',
+    subtopics: moduleSubtopics['Module 5']
   }
 ];
 
@@ -100,84 +222,134 @@ const experimentCards = await Promise.all(
     return { ...entry, Content };
   })
 );
+
+const subtopicsForModule = (module) => {
+  return (module.subtopics ?? []).map((definition) => {
+    const key = `${module.key}:${definition.id}`;
+    const spanishTopic = spanishTopicLookup.get(key);
+    const topic = spanishTopic ?? englishTopicLookup.get(key);
+    const href = topic ? buildTopicHref(topic.slug) : undefined;
+    const hasContent = Boolean(topic);
+
+    return {
+      title: definition.title,
+      summary: spanishTopic?.data.summary ?? definition.summary,
+      href,
+      disabled: !hasContent
+    };
+  });
+};
 ---
 
 <BaseLayout
   title="AI Lab"
-  description="Laboratorio de IA para seguir el crecimiento de cero a practicante sólido."
+  description="Laboratorio de IA personal para seguir el crecimiento de cero a un practicante sólido."
 >
-  <section class="card" aria-labelledby="hero-title-es">
-    <h1 id="hero-title-es">Laboratorio de IA intencional</h1>
-    <p>
-      El programa de construcción LLM & GenAI enseña a trabajar con modelos de lenguaje de manera práctica:
-      configurar herramientas seguras, diseñar prompts efectivos, crear pequeños sistemas de recuperación,
-      integrar herramientas y, finalmente, enviar agentes o aplicaciones sencillas. Es un recorrido enfocado
-      en aprender haciendo: módulos pequeños, experimentos reproducibles y pasos claros que convierten la curiosidad
-      en creaciones funcionales impulsadas por IA.
-    </p>
-    <div class="tag-row">
-      <span class="status {currentModule.status}">
-        <strong>{currentModule.key}</strong>
-        <span>{statusLabel(currentModule.status)}</span>
-      </span>
+  <section class="card signal-hero" aria-labelledby="hero-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 id="hero-title">Constructor de LLM y GenAI</h1>
+      <p>
+        <b>Ruta autodidacta</b> para pasar de cero a lanzar herramientas y agentes
+        prácticos basados en LLM, con énfasis en claridad, reproducibilidad y uso
+        real dentro del ecosistema Turtleand.
+      </p>
     </div>
   </section>
 
-  <section class="card" aria-labelledby="modules-title-es" id="modules">
+  <section class="card" aria-labelledby="modules-title" id="modules">
     <div class="section-title">
       <div>
-        <h2 id="modules-title-es">Hoja de ruta del programa</h2>
+        <h2 id="modules-title">Hoja de ruta del programa</h2>
       </div>
       <small
-        >Toca un módulo para ver sus subtemas y saltar a las páginas dedicadas.</small
+        >Toca un módulo para ver sus temas y saltar a las páginas dedicadas.</small
       >
     </div>
     <div class="stacked">
       {
-        moduleLadder.map((module) => (
-          <details
-            class={`module-row ${module.subtopics.length === 0 ? 'disabled' : ''}`}
-            open={
-              module.status === 'in-progress' && module.subtopics.length > 0
-            }
-          >
-            <summary>
-              <div>
-                <strong>{module.key}</strong>
-                <div>{module.title}</div>
-              </div>
-              <span>{module.notes}</span>
-            </summary>
-            <div class="subtopics">
-              {module.subtopics.length > 0 ? (
-                module.subtopics.map((topic) => {
-                  const href = buildTopicHref(topic.data.link, topic.slug);
-                  const hasContent = Boolean(topic.data.link || topic.body);
-                  const rowClass = `subtopic-row ${hasContent ? '' : 'disabled'}`;
+        moduleLadder.map((module) => {
+          const renderedSubtopics = subtopicsForModule(module);
+          const hasSubtopics = renderedSubtopics.length > 0;
+          const activeSubtopics = renderedSubtopics.filter(
+            (topic) => !topic.disabled
+          );
+          const moduleDisabled = activeSubtopics.length === 0;
 
-                  return hasContent ? (
-                    <a class={rowClass} href={href}>
-                      <div>{topic.data.title}</div>
-                      <p>{topic.data.summary}</p>
-                    </a>
-                  ) : (
-                    <div class={rowClass} aria-disabled="true">
-                      <div>{topic.data.title}</div>
-                      <p>{topic.data.summary}</p>
-                    </div>
-                  );
-                })
-              ) : (
-                <div class="subtopic-row disabled" aria-disabled="true">
-                  <div>Muy pronto</div>
-                  <p>Los subtemas de este módulo aparecerán aquí.</p>
+          return (
+            <details
+              class={`module-row ${moduleDisabled ? 'disabled' : ''}`}
+              open={
+                !moduleDisabled &&
+                hasSubtopics &&
+                module.status === 'in-progress'
+              }
+            >
+              <summary>
+                <div>
+                  <strong>{formatModuleKey(module.key)}</strong>
+                  <div>{module.title}</div>
                 </div>
-              )}
-            </div>
-          </details>
-        ))
+              </summary>
+              <div class="subtopics">
+                {hasSubtopics ? (
+                  <ul class="subtopic-list">
+                    {renderedSubtopics.map((topic) =>
+                      topic.href && !topic.disabled ? (
+                        <li class="subtopic-bullet">
+                          <a class="subtopic-link" href={topic.href}>
+                            <span class="bullet-dot" aria-hidden="true" />
+                            <div>
+                              <div class="subtopic-title">{topic.title}</div>
+                              <p>{topic.summary}</p>
+                            </div>
+                          </a>
+                        </li>
+                      ) : (
+                        <li
+                          class="subtopic-bullet disabled"
+                          aria-disabled="true"
+                        >
+                          <span class="bullet-dot" aria-hidden="true" />
+                          <div>
+                            <div class="subtopic-title">{topic.title}</div>
+                            <p>{topic.summary}</p>
+                          </div>
+                        </li>
+                      )
+                    )}
+                    <li class="subtopic-bullet module-link-bullet">
+                      <a class="subtopic-link" href={buildModuleHref(module)}>
+                        <span class="bullet-dot" aria-hidden="true" />
+                        <div>
+                          <div class="subtopic-title">
+                            Visitar la página del módulo
+                          </div>
+                          <p>
+                            Vista completa, recursos y artefactos para este
+                            módulo.
+                          </p>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                ) : (
+                  <ul class="subtopic-list">
+                    <li class="subtopic-bullet disabled" aria-disabled="true">
+                      <span class="bullet-dot" aria-hidden="true" />
+                      <div>
+                        <div class="subtopic-title">Próximamente</div>
+                        <p>Los temas de este módulo aparecerán aquí.</p>
+                      </div>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            </details>
+          );
+        })
       }
     </div>
   </section>
-
 </BaseLayout>
