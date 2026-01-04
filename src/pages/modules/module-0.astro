@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
 const moduleKey = 'Module 0';
 const moduleTitle = 'Setup & Safety';
@@ -8,20 +9,52 @@ const moduleSummary =
 
 const subtopics = [
   {
+    id: 'model-access-runtimes',
     title: 'Model access & runtimes',
     summary:
       'Choose hosted APIs vs local runtimes (Ollama, vLLM), set them up, and understand trade-offs.'
   },
   {
+    id: 'access-secrets',
     title: 'Access & secrets',
     summary: 'Configure API keys and secrets securely for model access.'
   },
   {
+    id: 'safety-baseline',
     title: 'Safety baseline',
     summary:
       'Learn basic safety concepts such as prompt injection, misuse, and data handling.'
   }
 ];
+
+const topics = await getCollection('topics');
+const moduleTopics = topics.filter((topic) =>
+  topic.data.module.startsWith(moduleKey)
+);
+
+const topicBySubtopic = new Map(
+  moduleTopics.map((topic) => [topic.data.subtopic, topic])
+);
+
+const subtopicEntries = subtopics.map((definition) => {
+  const topic = topicBySubtopic.get(definition.id);
+  const articleLink = topic?.data.articles.find((article) => Boolean(article.link))
+    ?.link;
+  const href =
+    articleLink && articleLink.startsWith('/')
+      ? articleLink
+      : articleLink
+        ? `/topics/${topic?.slug ?? ''}/`
+        : undefined;
+
+  return {
+    ...definition,
+    status: topic?.data.status ?? 'planned',
+    href,
+    hasContent: Boolean(articleLink),
+    topicSlug: topic?.slug
+  };
+});
 ---
 
 <BaseLayout title={`${moduleKey} — ${moduleTitle}`} description={moduleSummary}>
@@ -41,18 +74,30 @@ const subtopics = [
         <p class="pill inline">Subtopics</p>
         <h2 id="module-0-subtopics">What’s inside this module</h2>
       </div>
-      <small>Content will appear as articles are published</small>
+      <small>Active links open the first available article</small>
     </div>
     <ul class="subtopic-list">
-      {subtopics.map((entry) => (
-        <li class="subtopic-bullet disabled" aria-disabled="true">
-          <span class="bullet-dot" aria-hidden="true" />
-          <div>
-            <div class="subtopic-title">{entry.title}</div>
-            <p>{entry.summary}</p>
-          </div>
-        </li>
-      ))}
+      {subtopicEntries.map((entry) =>
+        entry.href && entry.hasContent ? (
+          <li class="subtopic-bullet">
+            <a class="subtopic-link" href={entry.href}>
+              <span class="bullet-dot" aria-hidden="true" />
+              <div>
+                <div class="subtopic-title">{entry.title}</div>
+                <p>{entry.summary}</p>
+              </div>
+            </a>
+          </li>
+        ) : (
+          <li class="subtopic-bullet disabled" aria-disabled="true">
+            <span class="bullet-dot" aria-hidden="true" />
+            <div>
+              <div class="subtopic-title">{entry.title}</div>
+              <p>{entry.summary}</p>
+            </div>
+          </li>
+        )
+      )}
     </ul>
   </section>
 </BaseLayout>

@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Hosting a model locally';
+const description =
+  'Run an LLM on your own machine for fast iteration, offline testing, and tighter data control.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="card" aria-labelledby="article-title">
+    <div class="pill inline">Module 0 - Setup & Safety</div>
+    <h1 id="article-title">{title}</h1>
+    <p>{description}</p>
+    <div class="tag-row">
+      <span class="status planned">planned</span>
+      <a class="pill" href="/topics/module-0-model-access/">
+        Back to Model access & runtimes
+      </a>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="why-title">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Purpose</p>
+        <h2 id="why-title">Why host locally</h2>
+      </div>
+      <small>Fast iteration and tighter data control</small>
+    </div>
+    <p>
+      Running a model on your own machine keeps data on-device, lowers latency
+      for short prompts, and removes dependency on external APIs during early
+      experimentation. It is ideal for testing workflows, benchmarking prompts,
+      and learning the runtime stack before scaling to a hosted model.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="setup-title">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Setup</p>
+        <h2 id="setup-title">Baseline checklist</h2>
+      </div>
+      <small>Minimum steps to get a local model running</small>
+    </div>
+    <ol>
+      <li>Pick a model size that fits your CPU/GPU and RAM budget.</li>
+      <li>Install a runtime (Ollama, LM Studio, or llama.cpp).</li>
+      <li>Download weights, verify checksums, and track versions.</li>
+      <li>Start a local server and confirm the health endpoint.</li>
+      <li>Send a quick prompt from the CLI and capture latency.</li>
+    </ol>
+  </section>
+
+  <section class="card" aria-labelledby="run-title">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Runbook</p>
+        <h2 id="run-title">First prompt</h2>
+      </div>
+      <small>Verify the runtime before tuning</small>
+    </div>
+    <pre><code>{
+`curl http://localhost:11434/api/generate \\
+  -d '{
+    "model": "llama3",
+    "prompt": "Summarize the module 0 checklist in 3 bullets."
+  }'`
+}</code></pre>
+    <p>
+      Record response time, tokens, and memory usage. These numbers become your
+      baseline when you compare different models or hardware later.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="next-title">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Next</p>
+        <h2 id="next-title">What to improve next</h2>
+      </div>
+      <small>Make the workflow repeatable</small>
+    </div>
+    <ul>
+      <li>Document the exact runtime version and model hash.</li>
+      <li>Save prompt + response pairs in a JSONL log for regression checks.</li>
+      <li>Capture GPU/CPU metrics to compare model sizes objectively.</li>
+    </ul>
+  </section>
+</BaseLayout>
