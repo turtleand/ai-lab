@@ -422,6 +422,30 @@ p {
   gap: 0.6rem;
 }
 
+.content-article {
+  overflow-wrap: anywhere;
+}
+
+.content-article figure {
+  margin: 1.5rem 0;
+}
+
+.content-article img {
+  display: block;
+  width: min(100%, 980px);
+  height: auto;
+  margin: 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
+}
+
+.content-article figcaption {
+  margin-top: 0.6rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .module-row {
   border: 1px solid var(--border);
   border-radius: 14px;
