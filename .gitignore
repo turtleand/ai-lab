@@ -24,7 +24,6 @@ pnpm-debug.log*
 .idea/
 
 # Imported Turtleand
-watcher.js
 .env
 README-local.md
 .DS_Store
@@ -36,6 +35,6 @@ coverage/
 .vscode/
 test-results/
 
-pending_notifications.txt
-
 *.pyc
+
+.claude/*

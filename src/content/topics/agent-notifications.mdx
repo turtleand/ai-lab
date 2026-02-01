@@ -1,0 +1,176 @@
+---
+title: "Agent notifications"
+module: "Module 0: Setup & Safety"
+subtopic: "agent-notifications"
+summary: "Get notified when your agent finishes using hooks and ntfy."
+status: "done"
+---
+
+## The problem
+
+When working with AI agents on longer tasks, you have two options:
+
+1. **Watch and wait** — stare at the screen until it finishes
+2. **Do something else** — but then forget to check back
+
+Neither is great. What if the agent could send you a notification when it's done?
+
+---
+
+## The solution
+
+We combine two things:
+
+- **Hooks** — automatic actions that run when certain events happen in Claude Code
+- **ntfy** — a free service that sends notifications to your phone or computer
+
+When Claude finishes a task, a hook triggers and sends you a push notification.
+
+---
+
+## Why this is reliable
+
+Here's something important: **notifications are 100% reliable**.
+
+AI agents are unpredictable in *what* they produce. But the notification system runs separately from the AI. It's triggered by the application itself, not by Claude's decisions.
+
+Think of it like a timer on your oven. The oven doesn't decide when to beep — the timer does, automatically, when time is up.
+
+---
+
+## What is ntfy?
+
+[ntfy](https://ntfy.sh) (pronounced "notify") is a simple push notification service. You subscribe to a "topic" (like a private channel), and anything sent to that topic appears as a notification on your devices.
+
+**How it works:**
+1. You pick a topic name (use a random string for privacy)
+2. Subscribe to it on your phone or computer
+3. Any message sent to that topic becomes a notification
+
+It's free, open source, and requires no account. See the [ntfy documentation](https://docs.ntfy.sh/) for details.
+
+---
+
+## What are hooks?
+
+Hooks are commands that Claude Code runs automatically at specific moments:
+
+- **When you send a message** — the app can run a command
+- **When Claude finishes** — the app can run another command
+
+We use this to:
+1. Save what you asked (when you send a message)
+2. Send a notification with that info (when Claude finishes)
+
+For the full technical reference, see the [Claude Code hooks documentation](https://docs.anthropic.com/en/docs/claude-code/hooks).
+
+---
+
+## Setup
+
+### 1. Install ntfy on your phone
+
+Download the app:
+- [iOS App Store](https://apps.apple.com/app/ntfy/id1625396347)
+- [Android Play Store](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
+
+Subscribe to a topic with a random name (e.g., `my-secret-topic-abc123`). Keep this name private.
+
+### 2. Create the notification script
+
+Create a folder and file for the hook:
+
+```bash
+mkdir -p ~/.claude/hooks
+```
+
+Create the file `~/.claude/hooks/notify-stop.sh` with this content:
+
+```bash
+#!/bin/bash
+INPUT=$(cat)
+STOP_ACTIVE=$(echo "$INPUT" | jq -r '.stop_hook_active')
+[ "$STOP_ACTIVE" = "true" ] && exit 0
+
+TASK=$(cat /tmp/claude_last_task.txt 2>/dev/null || echo "task")
+CWD=$(echo "$INPUT" | jq -r '.cwd')
+PROJECT=$(basename "$CWD")
+
+curl -s -d "[$PROJECT] Done: $TASK" https://ntfy.sh/YOUR_TOPIC_HERE
+exit 0
+```
+
+Replace `YOUR_TOPIC_HERE` with your topic name.
+
+Make it executable:
+
+```bash
+chmod +x ~/.claude/hooks/notify-stop.sh
+```
+
+### 3. Configure Claude Code
+
+Edit `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.prompt' | head -c 100 > /tmp/claude_last_task.txt"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notify-stop.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 4. Restart Claude Code
+
+Close and reopen Claude Code. Hooks load at startup.
+
+---
+
+## How I use this
+
+1. **Start a task** — ask Claude to do something
+2. **Switch to other work** — no need to watch
+3. **Get notified** — phone buzzes with `[project] Done: your task...`
+4. **Come back** — the notification reminds me what I asked
+
+This works well for:
+- Long tasks (refactoring, debugging)
+- Running multiple Claude sessions
+- Working away from your computer
+
+---
+
+## Troubleshooting
+
+| Problem | Likely cause | Fix |
+|---------|--------------|-----|
+| No notification | Network issue | Check internet connection |
+| Empty message | Missing tool | Install `jq` (`brew install jq`) |
+| Script error | Permissions | Run `chmod +x` on the script |
+| Nothing happens | Settings not loaded | Restart Claude Code |
+
+---
+
+## Sources
+
+- [ntfy documentation](https://docs.ntfy.sh/) — full guide to the notification service
+- [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) — official reference for hook configuration
