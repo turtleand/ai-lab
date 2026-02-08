@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PortalDuo from '../components/PortalDuo.astro';
 import { getCollection } from 'astro:content';
 
 const entries = await getCollection('ai-lab');
@@ -243,35 +244,7 @@ const subtopicsForModule = (module) => {
     </div>
   </section>
 
-  <section class="card featured" aria-labelledby="openclaw-title">
-    <div class="section-title">
-      <div>
-        <p class="pill inline">Featured</p>
-        <h2 id="openclaw-title">OpenClaw</h2>
-      </div>
-    </div>
-    <p>
-      Explore persistent AI agents, cloud deployment, and advanced agent patterns at our dedicated OpenClaw space.
-    </p>
-    <a href="https://openclaw.turtleand.com/" class="pill inline" target="_blank" rel="noopener">
-      Visit OpenClaw →
-    </a>
-  </section>
-
-  <section class="card featured" aria-labelledby="atlas-title">
-    <div class="section-title">
-      <div>
-        <p class="pill inline">Featured</p>
-        <h2 id="atlas-title">AI Atlas</h2>
-      </div>
-    </div>
-    <p>
-      An interactive map of AI tools I've charted on my journey — from code assistants to research companions. Explore the archipelago.
-    </p>
-    <a href="https://atlas.turtleand.com/" class="pill inline" target="_blank" rel="noopener">
-      Explore Atlas →
-    </a>
-  </section>
+  <PortalDuo />
 
   <section class="card" aria-labelledby="modules-title" id="modules">
     <div class="section-title">

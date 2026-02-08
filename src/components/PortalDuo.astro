@@ -1,0 +1,302 @@
+---
+// Portal Duo - Featured resources with distinct visual themes
+---
+
+<section class="portal-duo" aria-label="Featured Resources">
+  <!-- OpenClaw Card - Cyber/Terminal Theme -->
+  <a href="https://openclaw.turtleand.com/" class="portal-card portal-openclaw" target="_blank" rel="noopener">
+    <div class="portal-bg"></div>
+    <div class="portal-pattern"></div>
+    <div class="portal-content">
+      <div class="portal-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="12" width="32" height="24" rx="2" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 22l4 4-4 4M22 30h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="24" cy="8" r="2" fill="currentColor"/>
+        </svg>
+      </div>
+      <h3 class="portal-title">OpenClaw</h3>
+      <p class="portal-desc">Persistent AI agents, cloud deployment, and advanced agent patterns.</p>
+      <span class="portal-cta">
+        Enter <span class="cta-arrow">→</span>
+      </span>
+    </div>
+    <div class="portal-glow"></div>
+  </a>
+
+  <!-- AI Atlas Card - Nautical/Map Theme -->
+  <a href="https://atlas.turtleand.com/" class="portal-card portal-atlas" target="_blank" rel="noopener">
+    <div class="portal-bg"></div>
+    <div class="portal-pattern"></div>
+    <div class="portal-content">
+      <div class="portal-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2"/>
+          <path d="M24 8v32M8 24h32" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+          <path d="M24 18l4 6-4 6-4-6 4-6z" fill="currentColor"/>
+          <circle cx="24" cy="24" r="3" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+      <h3 class="portal-title">AI Atlas</h3>
+      <p class="portal-desc">Interactive map of AI tools I've charted on my journey.</p>
+      <span class="portal-cta">
+        Explore <span class="cta-arrow">→</span>
+      </span>
+    </div>
+    <div class="portal-glow"></div>
+  </a>
+</section>
+
+<style>
+  .portal-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .portal-duo {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .portal-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    min-height: 280px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .portal-card:hover {
+    transform: translateY(-4px);
+  }
+
+  /* OpenClaw - Cyber Theme */
+  .portal-openclaw {
+    background: linear-gradient(135deg, #0a0f14 0%, #1a2530 50%, #0d1a24 100%);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    color: #e0f7f4;
+  }
+
+  .portal-openclaw .portal-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 80% 20%, rgba(0, 255, 204, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 20% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 35%);
+  }
+
+  .portal-openclaw .portal-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.08;
+    background-image: 
+      linear-gradient(rgba(0, 255, 204, 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 204, 0.5) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .portal-openclaw .portal-icon {
+    color: #00ffcc;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.5));
+  }
+
+  .portal-openclaw .portal-title {
+    color: #00ffcc;
+    text-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+  }
+
+  .portal-openclaw .portal-cta {
+    background: rgba(0, 255, 204, 0.15);
+    border: 1px solid rgba(0, 255, 204, 0.4);
+    color: #00ffcc;
+  }
+
+  .portal-openclaw:hover {
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(0, 255, 204, 0.2),
+      inset 0 0 60px rgba(0, 255, 204, 0.05);
+    border-color: rgba(0, 255, 204, 0.5);
+  }
+
+  .portal-openclaw .portal-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(0, 255, 204, 0.1) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .portal-openclaw:hover .portal-glow {
+    opacity: 1;
+  }
+
+  /* Glitch effect on hover */
+  .portal-openclaw:hover .portal-title {
+    animation: glitch 0.3s ease;
+  }
+
+  @keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 1px); }
+    40% { transform: translate(2px, -1px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+  }
+
+  /* AI Atlas - Nautical Theme */
+  .portal-atlas {
+    background: linear-gradient(135deg, #0a1628 0%, #1a3a4a 50%, #0d2030 100%);
+    border: 1px solid rgba(212, 160, 58, 0.25);
+    color: #f4e8d0;
+  }
+
+  .portal-atlas .portal-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(212, 160, 58, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(180, 140, 60, 0.08) 0%, transparent 35%);
+  }
+
+  .portal-atlas .portal-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30 Q15 25 30 30 T60 30' stroke='%23D4A03A' fill='none' stroke-width='1'/%3E%3Cpath d='M0 45 Q15 40 30 45 T60 45' stroke='%23D4A03A' fill='none' stroke-width='1'/%3E%3Cpath d='M0 15 Q15 10 30 15 T60 15' stroke='%23D4A03A' fill='none' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 60px 60px;
+    animation: waves 8s linear infinite;
+  }
+
+  @keyframes waves {
+    0% { background-position: 0 0; }
+    100% { background-position: 60px 0; }
+  }
+
+  .portal-atlas .portal-icon {
+    color: #D4A03A;
+    filter: drop-shadow(0 0 8px rgba(212, 160, 58, 0.4));
+  }
+
+  .portal-atlas .portal-title {
+    color: #D4A03A;
+    text-shadow: 0 0 20px rgba(212, 160, 58, 0.3);
+  }
+
+  .portal-atlas .portal-cta {
+    background: rgba(212, 160, 58, 0.15);
+    border: 1px solid rgba(212, 160, 58, 0.4);
+    color: #D4A03A;
+  }
+
+  .portal-atlas:hover {
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(212, 160, 58, 0.15),
+      inset 0 0 60px rgba(212, 160, 58, 0.03);
+    border-color: rgba(212, 160, 58, 0.5);
+  }
+
+  .portal-atlas .portal-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(212, 160, 58, 0.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .portal-atlas:hover .portal-glow {
+    opacity: 1;
+  }
+
+  /* Compass spin on hover */
+  .portal-atlas:hover .portal-icon svg {
+    animation: compassSpin 0.6s ease;
+  }
+
+  @keyframes compassSpin {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(15deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  /* Shared styles */
+  .portal-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .portal-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+  }
+
+  .portal-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .portal-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: 0.02em;
+  }
+
+  .portal-desc {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.85;
+    margin: 0 0 auto 0;
+    max-width: 280px;
+  }
+
+  .portal-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    width: fit-content;
+  }
+
+  .portal-card:hover .portal-cta {
+    transform: translateX(4px);
+  }
+
+  .cta-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .portal-card:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+</style>
