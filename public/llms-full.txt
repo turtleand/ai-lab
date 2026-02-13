@@ -1,0 +1,340 @@
+# Turtleand AI Lab — Full Content
+
+---
+
+# Agent notifications
+
+Module: Module 0: Setup & Safety
+
+## The problem
+
+When working with AI agents on longer tasks, you have two options:
+
+1. **Watch and wait** — stare at the screen until it finishes
+2. **Do something else** — but then forget to check back
+
+Neither is great. What if the agent could send you a notification when it's done?
+
+---
+
+## The solution
+
+We combine two things:
+
+- **Hooks** — automatic actions that run when certain events happen in Claude Code
+- **ntfy** — a free service that sends notifications to your phone or computer
+
+When Claude finishes a task, a hook triggers and sends you a push notification.
+
+---
+
+## Why this is reliable
+
+Here's something important: **notifications are 100% reliable**.
+
+AI agents are unpredictable in *what* they produce. But the notification system runs separately from the AI. It's triggered by the application itself, not by Claude's decisions.
+
+Think of it like a timer on your oven. The oven doesn't decide when to beep — the timer does, automatically, when time is up.
+
+---
+
+## What is ntfy?
+
+[ntfy](https://ntfy.sh) (pronounced "notify") is a simple push notification service. You subscribe to a "topic" (like a private channel), and anything sent to that topic appears as a notification on your devices.
+
+**How it works:**
+1. You pick a topic name (use a random string for privacy)
+2. Subscribe to it on your phone or computer
+3. Any message sent to that topic becomes a notification
+
+It's free, open source, and requires no account. See the [ntfy documentation](https://docs.ntfy.sh/) for details.
+
+---
+
+## What are hooks?
+
+Hooks are commands that Claude Code runs automatically at specific moments:
+
+- **When you send a message** — the app can run a command
+- **When Claude finishes** — the app can run another command
+
+We use this to:
+1. Save what you asked (when you send a message)
+2. Send a notification with that info (when Claude finishes)
+
+For the full technical reference, see the [Claude Code hooks documentation](https://docs.anthropic.com/en/docs/claude-code/hooks).
+
+---
+
+## Setup
+
+### 1. Install ntfy on your phone
+
+Download the app:
+- [iOS App Store](https://apps.apple.com/app/ntfy/id1625396347)
+- [Android Play Store](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
+
+Subscribe to a topic with a random name (e.g., `my-secret-topic-abc123`). Keep this name private.
+
+### 2. Create the notification script
+
+Create a folder and file for the hook:
+
+```bash
+mkdir -p ~/.claude/hooks
+```
+
+Create the file `~/.claude/hooks/notify-stop.sh` with this content:
+
+```bash
+#!/bin/bash
+INPUT=$(cat)
+STOP_ACTIVE=$(echo "$INPUT" | jq -r '.stop_hook_active')
+[ "$STOP_ACTIVE" = "true" ] && exit 0
+
+TASK=$(cat /tmp/claude_last_task.txt 2>/dev/null || echo "task")
+CWD=$(echo "$INPUT" | jq -r '.cwd')
+PROJECT=$(basename "$CWD")
+
+curl -s -d "[$PROJECT] Done: $TASK" https://ntfy.sh/YOUR_TOPIC_HERE
+exit 0
+```
+
+Replace `YOUR_TOPIC_HERE` with your topic name.
+
+Make it executable:
+
+```bash
+chmod +x ~/.claude/hooks/notify-stop.sh
+```
+
+### 3. Configure Claude Code
+
+Edit `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.prompt' | head -c 100 > /tmp/claude_last_task.txt"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notify-stop.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 4. Restart Claude Code
+
+Close and reopen Claude Code. Hooks load at startup.
+
+---
+
+## How I use this
+
+1. **Start a task** — ask Claude to do something
+2. **Switch to other work** — no need to watch
+3. **Get notified** — phone buzzes with `[project] Done: your task...`
+4. **Come back** — the notification reminds me what I asked
+
+This works well for:
+- Long tasks (refactoring, debugging)
+- Running multiple Claude sessions
+- Working away from your computer
+
+---
+
+## Troubleshooting
+
+| Problem | Likely cause | Fix |
+|---------|--------------|-----|
+| No notification | Network issue | Check internet connection |
+| Empty message | Missing tool | Install `jq` (`brew install jq`) |
+| Script error | Permissions | Run `chmod +x` on the script |
+| Nothing happens | Settings not loaded | Restart Claude Code |
+
+---
+
+## Sources
+
+- [ntfy documentation](https://docs.ntfy.sh/) — full guide to the notification service
+- [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) — official reference for hook configuration
+
+---
+
+# Running inference locally
+
+Module: Module 0: Setup & Safety
+
+## What “running inference locally” means
+
+Running inference locally means executing a **pre-trained AI model** directly on your own machine to generate outputs (text, code, embeddings) **without sending data to the cloud**.
+
+You are not training a model.
+You are **loading weights + running forward passes** using a local runtime.
+
+Think of it as:
+
+> *“Using an AI model like a local binary, not a hosted service.”*
+
+---
+
+## Why host locally
+
+**Local inference gives you control about different aspects.**
+
+### Key benefits
+
+* **Zero marginal cost**
+  No per-token billing, no monthly hosting fees.
+* **Fast iteration loop**
+  Change prompts, parameters, or models instantly.
+* **Privacy by default**
+  Data stays on-device; export only if and when needed.
+* **Foundational learning**
+  You understand the runtime stack *before* scaling to cloud or APIs.
+* **Offline capability**
+  Useful for travel, restricted networks, or sensitive environments.
+
+### When it’s the *right* choice
+
+* Learning how LLMs actually run
+* Prompt engineering & evaluation
+* Small RAG experiments
+* Prototyping workflows before cloud deployment
+
+### When *not* to run locally
+
+Naturally, when running LLMs locally you are limited by the hardware you own. So you should check your specs before choosing your model 
+
+Be explicit about limitations to avoid frustration:
+
+* Avoid Large models (30B+)
+* Avoid Image / video generation on consumer CPUs
+
+Local inference is a **lab**, not a factory.
+
+---
+
+## Requirements & Setup
+
+Before running anything, validate this checklist:
+
+1. **Model size fits hardware**
+   * CPU, RAM, and disk constraints are non-negotiable.
+2. **Runtime installed**
+   * Version, quantization, checksum.
+3. **Health check passes**
+   * The model loads and responds.
+4. **Latency measured**
+   * First-token time and tokens/sec captured.
+
+If step 5 fails → downgrade model size or context.
+
+### Quantization
+
+Quantization is a technique that reduces the size of an AI model by storing its weights with lower numerical precision. This makes the model use less memory and run faster, especially on CPUs, at the cost of a small reduction in accuracy. Quantization is essential for running models locally on consumer hardware, as it allows large models to fit into memory and perform inference efficiently.
+
+### Runtimes
+
+A **runtime** is the software that runs an AI model on your machine. It loads the model, performs the required computations, manages hardware resources (CPU or GPU), and returns the generated output. The same model can feel fast or slow depending on the runtime, because the runtime controls performance, memory usage, and hardware compatibility. 
+
+### Model selection
+* **3B–7B parameter models**
+* **4-bit quantization (Q4)**
+* **GGUF format** (for llama.cpp ecosystem)
+
+Why this works:
+* Fits in 16 GB RAM
+* Acceptable latency on CPUs
+* Still useful for reasoning and coding tasks
+
+### What to observe
+
+* Time to first token
+* Tokens per second
+* Memory usage
+* Thermal throttling if the computer gets too hot
+
+If it responds coherently → you’re done.
+
+---
+
+# Hands-on Experiment
+
+In my case I went for [llama.cpp (Github)](https://github.com/ggml-org/llama.cpp) as I just have an `Intel-based Mac` with only 16 GB, which is not powerful enough to run big models.
+
+### llama.cpp
+
+* C++ runtime
+* CPU-first, minimal overhead
+* Best choice for Intel Macs and older hardware
+* Maximum control, minimum magic
+
+---
+
+## Minimal “it works” setup (llama.cpp)
+
+This is the **hello world** of local inference.
+
+Install:
+
+```bash
+brew install llama.cpp
+```
+
+Then start the runtime + UI by targeting a 4-bit quantized model from Hugging Face:
+
+```bash
+llama-server -hf ggml-org/Qwen3-4B-GGUF:Q4_K_M
+```
+
+<figure class="article-media">
+  <img
+    src="/images/topics/running-inference-locally.png"
+    alt="Example local inference UI"
+  />
+  <figcaption>Example llama.cpp UI.</figcaption>
+</figure>
+
+## Prompt Example
+```md
+I want to analyze my personal finances locally. Help me explore different budgeting and long-term savings scenarios, and list the variables I should consider before sharing this information with banks, financial tools, or external services.
+
+My current situation:
+– Monthly net income: $3,500
+– Fixed monthly expenses (rent, utilities, insurance): $1,600
+– Variable expenses (food, transport, leisure): ~$900
+– Current savings: $12,000 in cash
+– No high-interest debt
+– Medium-term goal: build a 6-month emergency fund
+– Long-term goal: save for a home down payment over 5–7 years
+
+Based on this scenario, help me:
+- Break down a realistic monthly budget
+- Explore at least two savings strategies with different risk and flexibility trade-offs
+```
+
+Conversations can be exported in JSON format.
+
+For more technical users, it's also possible to run the prompts directly from the CLI:
+
+```bash
+llama-cli -hf ggml-org/Qwen3-4B-GGUF:Q4_K_M
+```
+

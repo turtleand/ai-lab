@@ -91,6 +91,15 @@ const themeScript = `
     <title>{title}</title>
     <meta name="description" content={description} />
     <script is:inline set:html={themeScript} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Turtleand AI Lab",
+      "description": "A hands-on, 6-module curriculum for building practical LLM tools and agents",
+      "provider": { "@type": "Person", "name": "Turtleand", "url": "https://turtleand.com" },
+      "educationalLevel": "Intermediate",
+      "isAccessibleForFree": true
+    })} />
   </head>
   <body class="site-shell">
     <header class="site-header">
