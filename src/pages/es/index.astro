@@ -41,105 +41,144 @@ const moduleSubtopics: Record<
     {
       id: 'access-secrets',
       title: 'Acceso y secretos',
-      summary:
-        'Configura claves de API y secretos de forma segura para el acceso al modelo.'
+      summary: 'Configura claves de API y secretos de forma segura para el acceso al modelo.'
     },
     {
       id: 'safety-baseline',
       title: 'Base de seguridad',
-      summary:
-        'Aprende conceptos básicos de seguridad como inyección de prompts, uso indebido y manejo de datos.'
+      summary: 'Aprende conceptos básicos de seguridad como inyección de prompts, uso indebido y manejo de datos.'
     }
   ],
   'Module 1': [
     {
-      id: 'llm-interfaces',
-      title: 'Interfaces de LLM',
-      summary:
-        'Trabaja con bibliotecas o runtimes de clientes LLM y patrones de solicitud/respuesta.'
+      id: 'multi-tool-workflows',
+      title: 'Flujos de trabajo multi-herramienta',
+      summary: 'Ejecutar 3+ herramientas de IA en paralelo, eligiendo la correcta para cada tarea.'
     },
     {
-      id: 'inputs-outputs',
-      title: 'Entradas y salidas',
-      summary:
-        'Estructura prompts, mensajes y salidas JSON/herramientas para uso posterior.'
+      id: 'prompt-mastery',
+      title: 'Dominio de prompts',
+      summary: 'Más allá de lo básico — prompting estructurado, cadena de pensamiento, system prompts, versionado.'
     },
     {
-      id: 'model-economics',
-      title: 'Economía del modelo',
-      summary: 'Tokens, ventanas de contexto, latencia y conceptos básicos de costo.'
+      id: 'model-selection-economics',
+      title: 'Selección de modelos y economía',
+      summary: 'Cuándo usar Opus vs Sonnet vs Haiku, optimización de cuotas, conciencia de costos.'
+    },
+    {
+      id: 'voice-multimodal-workflows',
+      title: 'Flujos de voz y multimodales',
+      summary: 'Pipelines de voz a IA, análisis de imágenes, integración de transcripción de audio.'
     }
   ],
   'Module 2': [
     {
-      id: 'prompt-structures',
-      title: 'Estructuras de prompts',
-      summary: 'Roles, instrucciones, ejemplos, CoT y pistas estilo RAG.'
+      id: 'persistent-agents',
+      title: 'Agentes persistentes',
+      summary: 'Agentes 24/7 en infraestructura cloud — asistencia IA siempre activa.'
     },
     {
-      id: 'output-evaluation',
-      title: 'Evaluación de salidas',
-      summary:
-        'Compara salidas buenas y malas y ajusta prompts con feedback.'
+      id: 'automation-pipelines',
+      title: 'Pipelines de automatización',
+      summary: 'Flujos de IA con cron, procesamiento multi-etapa, análisis nocturno.'
     },
     {
-      id: 'micro-tools',
-      title: 'Microherramientas',
-      summary: 'Pequeñas utilidades como limpiadores de notas con IA o explicadores.'
+      id: 'ai-first-lifestyle',
+      title: 'Estilo de vida AI-first',
+      summary: 'Briefings matutinos, planificación estratégica con IA, sistemas de memoria para continuidad.'
+    },
+    {
+      id: 'content-distribution',
+      title: 'Contenido y distribución',
+      summary: 'Creación de contenido aumentada con IA, publicación multiplataforma, analíticas.'
     }
   ],
   'Module 3': [
     {
-      id: 'retrieval-basics',
-      title: 'Fundamentos de recuperación',
-      summary:
-        'RAG mínimo sobre documentos locales usando embeddings y búsqueda.'
+      id: 'llm-interfaces',
+      title: 'Interfaces de LLM',
+      summary: 'Bibliotecas cliente, patrones de solicitud/respuesta, streaming.'
     },
     {
-      id: 'tool-wiring',
-      title: 'Conexión de herramientas',
-      summary: 'Conecta modelos a búsqueda, calculadora o consultas de archivos/BD.'
+      id: 'inputs-outputs',
+      title: 'Entradas y salidas',
+      summary: 'Prompts estructurados, salidas JSON/herramientas, function calling.'
     },
     {
-      id: 'observability',
-      title: 'Observabilidad',
-      summary: 'Registra prompts/salidas para depurar e iterar con fiabilidad.'
+      id: 'embeddings-vector-basics',
+      title: 'Embeddings y vectores básicos',
+      summary: 'Entender embeddings, búsqueda por similitud, cuándo necesitas vectores.'
+    },
+    {
+      id: 'prompting-reasoning-patterns',
+      title: 'Patrones de prompting y razonamiento',
+      summary: 'Prompting avanzado, CoT, evaluación, micro-herramientas.'
     }
   ],
   'Module 4': [
     {
-      id: 'agent-design',
-      title: 'Diseño de agentes',
-      summary:
-        'Uno o dos agentes pequeños (asistente de investigación, automatizador de tareas).'
+      id: 'vector-databases',
+      title: 'Bases de datos vectoriales',
+      summary: 'ChromaDB, pgvector, Pinecone — configuración y comparación.'
     },
     {
-      id: 'control-flow',
-      title: 'Flujo de control',
-      summary: 'Compara máquinas de estado con enfoques de prompt en bucle.'
+      id: 'document-indexing-chunking',
+      title: 'Indexación y chunking de documentos',
+      summary: 'Procesar tu propio contenido para búsqueda semántica.'
     },
     {
-      id: 'resilience',
-      title: 'Resiliencia',
-      summary: 'Maneja fallos, reintentos y degradaciones con gracia.'
+      id: 'rag-pipeline-design',
+      title: 'Diseño de pipelines RAG',
+      summary: 'Generación aumentada por recuperación de extremo a extremo.'
+    },
+    {
+      id: 'observability',
+      title: 'Observabilidad',
+      summary: 'LangSmith, Langfuse — trazas, evaluación, seguimiento de costos.'
     }
   ],
   'Module 5': [
     {
-      id: 'packaging',
-      title: 'Empaquetado',
-      summary:
-        'Empaqueta un proyecto en un CLI o una interfaz web simple (Streamlit/FastAPI).'
+      id: 'agent-frameworks',
+      title: 'Frameworks de agentes',
+      summary: 'LangGraph, CrewAI — orquestación multi-agente.'
     },
     {
-      id: 'run-deploy',
-      title: 'Ejecución y despliegue',
-      summary: 'Documenta cómo ejecutarlo localmente y cómo desplegarlo.'
+      id: 'mcp-protocol',
+      title: 'Protocolo MCP',
+      summary: 'Model Context Protocol — construir servidores de herramientas para IA.'
     },
     {
-      id: 'reality-check',
-      title: 'Chequeo de realidad',
-      summary: 'Señala limitaciones, riesgos y mejoras futuras.'
+      id: 'control-flow-state',
+      title: 'Flujo de control y estado',
+      summary: 'Máquinas de estado, cadenas de razonamiento, patrones de uso de herramientas.'
+    },
+    {
+      id: 'resilience-reliability',
+      title: 'Resiliencia y fiabilidad',
+      summary: 'Fallos, reintentos, degradaciones con gracia, monitoreo de salud.'
+    }
+  ],
+  'Module 6': [
+    {
+      id: 'local-model-serving',
+      title: 'Servir modelos localmente',
+      summary: 'Ollama, vLLM — optimización de costos, privacidad, experimentos de fine-tuning.'
+    },
+    {
+      id: 'packaging-deployment',
+      title: 'Empaquetado y despliegue',
+      summary: 'Herramientas CLI, web UIs (Streamlit/FastAPI), Docker.'
+    },
+    {
+      id: 'evaluation-frameworks',
+      title: 'Frameworks de evaluación',
+      summary: 'Testing sistemático de prompts, evaluación A/B, scoring de calidad.'
+    },
+    {
+      id: 'shipping-ai-products',
+      title: 'Lanzar productos de IA',
+      summary: 'De infraestructura personal a productos que otros usan.'
     }
   ]
 };
@@ -169,45 +208,52 @@ const buildModuleHref = (module) => {
 const moduleLadder = [
   {
     key: 'Module 0',
-    title: 'Configuración y seguridad',
+    title: 'Configuración rápida',
     status: 'in-progress',
     link: '/es/modules/module-0/',
     subtopics: moduleSubtopics['Module 0']
   },
   {
     key: 'Module 1',
-    title: 'Fundamentos para creadores de LLM',
+    title: 'AI Power User',
     status: 'planned',
     link: '/modules/module-1/',
     subtopics: moduleSubtopics['Module 1']
   },
   {
     key: 'Module 2',
-    title: 'Patrones de prompting y razonamiento',
+    title: 'Integración y orquestación de IA',
     status: 'planned',
-    link: '/program#module-2',
+    link: '/modules/module-2/',
     subtopics: moduleSubtopics['Module 2']
   },
   {
     key: 'Module 3',
-    title: 'Integración de RAG y herramientas',
+    title: 'Fundamentos de builder',
     status: 'planned',
-    link: '/program#module-3',
+    link: '/modules/module-3/',
     subtopics: moduleSubtopics['Module 3']
   },
   {
     key: 'Module 4',
-    title: 'Agentes y flujos de trabajo',
+    title: 'RAG y sistemas de recuperación',
     status: 'planned',
-    link: '/program#module-4',
+    link: '/modules/module-4/',
     subtopics: moduleSubtopics['Module 4']
   },
   {
     key: 'Module 5',
-    title: 'Aplicación LLM productizada',
+    title: 'Arquitectura de agentes',
     status: 'planned',
-    link: '/program#module-5',
+    link: '/modules/module-5/',
     subtopics: moduleSubtopics['Module 5']
+  },
+  {
+    key: 'Module 6',
+    title: 'Sistemas de IA en producción',
+    status: 'planned',
+    link: '/modules/module-6/',
+    subtopics: moduleSubtopics['Module 6']
   }
 ];
 
@@ -254,11 +300,10 @@ const subtopicsForModule = (module) => {
     <div class="signal-overlay" aria-hidden="true"></div>
     <div class="signal-grid" aria-hidden="true"></div>
     <div class="hero-content">
-      <h1 id="hero-title">Constructor de LLM y GenAI</h1>
+      <h1 id="hero-title">AI Power User → Builder</h1>
       <p>
-        <b>Ruta autodidacta</b> para pasar de cero a lanzar herramientas y agentes
-        prácticos basados en LLM, con énfasis en claridad, reproducibilidad y uso
-        real dentro del ecosistema Turtleand.
+        Ruta acelerada desde el dominio de la integración con IA hasta la construcción de sistemas de IA en producción.
+        Empieza donde la mayoría de desarrolladores no están — y llega donde casi nadie llega.
       </p>
     </div>
   </section>

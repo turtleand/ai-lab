@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const moduleKey = 'Module 3';
+const moduleTitle = 'Builder Foundations';
+const moduleSummary =
+  'LLM interfaces, structured I/O, embeddings, and reasoning patterns — the bridge from power user to builder.';
+
+const subtopics = [
+  { id: 'llm-interfaces', title: 'LLM interfaces', summary: 'Client libraries, request/response patterns, streaming.' },
+  { id: 'inputs-outputs', title: 'Inputs & outputs', summary: 'Structured prompts, JSON/tool outputs, function calling.' },
+  { id: 'embeddings-vector-basics', title: 'Embeddings & vector basics', summary: 'Understanding embeddings, similarity search, when you need vectors.' },
+  { id: 'prompting-reasoning-patterns', title: 'Prompting & reasoning patterns', summary: 'Advanced prompting, CoT, evaluation, micro-tools.' }
+];
+
+const topics = await getCollection('topics');
+const moduleTopics = topics.filter((topic) => topic.data.module.startsWith(moduleKey));
+const topicBySubtopic = new Map(moduleTopics.map((topic) => [topic.data.subtopic, topic]));
+
+const subtopicEntries = subtopics.map((definition) => {
+  const topic = topicBySubtopic.get(definition.id);
+  const href = topic ? `/topics/${topic.slug}/` : undefined;
+  return { ...definition, status: topic?.data.status ?? 'planned', href, hasContent: Boolean(topic) };
+});
+---
+
+<BaseLayout title={`${moduleKey} — ${moduleTitle}`} description={moduleSummary}>
+  <section class="card" aria-labelledby="module-title">
+    <div class="tag-row"><a class="pill inline" href="/#modules">← Back to program roadmap</a></div>
+    <h1 id="module-title">{moduleKey} — {moduleTitle}</h1>
+    <p>{moduleSummary}</p>
+  </section>
+  <section class="card" aria-labelledby="topics-title">
+    <div class="section-title"><div><p class="pill inline">Topics</p><h2 id="topics-title">What's inside this module</h2></div></div>
+    <ul class="subtopic-list">
+      {subtopicEntries.map((entry) =>
+        entry.href && entry.hasContent ? (
+          <li class="subtopic-bullet"><a class="subtopic-link" href={entry.href}><span class="bullet-dot" aria-hidden="true" /><div><div class="subtopic-title">{entry.title}</div><p>{entry.summary}</p></div></a></li>
+        ) : (
+          <li class="subtopic-bullet disabled" aria-disabled="true"><span class="bullet-dot" aria-hidden="true" /><div><div class="subtopic-title">{entry.title}</div><p>{entry.summary}</p></div></li>
+        )
+      )}
+    </ul>
+  </section>
+</BaseLayout>
