@@ -1,0 +1,176 @@
+---
+title: "Prompt mastery"
+module: "Module 1: AI Power User"
+subtopic: "prompt-mastery"
+summary: "Beyond basics — structured prompting for autonomous systems."
+status: "done"
+---
+
+## The problem
+
+Everyone can write a prompt. Few people write prompts that work reliably when no human is watching. The gap between "chat with AI" and "autonomous AI pipeline" is almost entirely about prompt quality.
+
+---
+
+## From chat prompts to system prompts
+
+In a chat, your prompt is a one-off message. In an autonomous system, your prompt is an **instruction set** that must produce consistent results without intervention.
+
+Here's the difference:
+
+**Chat prompt:**
+> "What's the latest AI news?"
+
+**Autonomous prompt (actual cron job):**
+> "Read workspace/memory/strategic-action-tracker.json for current Phase 1 priorities. Scan today's AI, blockchain, and tech news. For each story: assess 1st, 2nd, and 3rd order consequences scoped to an AI specialist transitioning from engineer to strategic thinker. Output top 5 stories ranked by relevance. Save to workspace/memory/news-results.md"
+
+The autonomous version specifies: what to read, what to scan, how to analyze, how to format output, and where to save. Nothing is left to interpretation.
+
+---
+
+## The anatomy of our prompts
+
+After writing 25+ autonomous prompts for cron jobs, we've settled on a consistent structure:
+
+### 1. Context loading
+Tell the agent what to read first.
+
+```
+Read memory/YYYY-MM-DD.md for today's context.
+Read memory/strategic-action-tracker.json for current priorities.
+```
+
+### 2. Task definition
+Be specific about what to do, not just what the topic is.
+
+```
+Scan top AI and technology news from the last 24 hours.
+For EACH story, analyze: 1st order (immediate), 2nd order (downstream),
+and 3rd order (systemic) consequences.
+```
+
+### 3. Scope constraints
+Narrow the output to what's actually useful.
+
+```
+Scope all analysis to the interests of an AI specialist focused on
+AI integration, blockchain, and human-centered technology.
+Skip: celebrity news, sports, local politics.
+```
+
+### 4. Output format
+Specify exactly how you want results structured.
+
+```
+Format each as:
+- **Alias:** short-kebab-case identifier
+- **Source:** URL
+- **Summary:** 2-3 sentences with consequence chain
+Save to workspace/memory/news-results.md
+```
+
+### 5. Error handling
+What to do when things go wrong.
+
+```
+If web search fails, note the failure and continue with available data.
+If no significant news found, state that explicitly rather than forcing weak stories.
+```
+
+---
+
+## Experiment: how our overnight pipeline prompt evolved
+
+Our 4-stage overnight pipeline runs between 04:00 and 07:00 UTC. Stage 1 scans news. Here's how the prompt evolved:
+
+**Version 1 (first attempt):**
+> "Check the latest AI news and summarize."
+
+**Problem:** Output was generic. No consequence analysis. Stories weren't relevant to our interests.
+
+**Version 2 (added scope):**
+> "Check AI, blockchain, and tech news. Analyze consequences. Focus on stories relevant to an AI specialist."
+
+**Problem:** Better relevance, but output format was inconsistent. Sometimes bullet points, sometimes paragraphs. Hard to parse downstream.
+
+**Version 3 (added structure + save location):**
+> "Scan news. For each: alias, source, 1st/2nd/3rd order consequences. Save to specific file path."
+
+**Problem:** Worked well but timed out when running on Opus (10-minute cron limit). The model was being too thorough.
+
+**Current version:** Added explicit limits — "top 5 stories" and "2-3 sentences per story." Runs within timeout while maintaining quality.
+
+**Lesson:** Prompts are iterated, not designed. Each failure teaches you what the prompt was missing. Version control your prompts (we keep ours in cron job definitions) so you can track what changed and why.
+
+---
+
+## The pre-execution alignment pattern
+
+For interactive work (not cron), we use a protocol: before executing non-trivial instructions, surface the top 3 questions that would improve alignment.
+
+**Why this works:**
+- Saves rework cycles — catch misunderstandings before execution
+- Forces the agent to think before acting
+- Only activates when there's genuine uncertainty
+- When confident, just execute — no unnecessary delay
+
+**How to implement it:**
+We added this to our agent's system prompt (SOUL.md):
+
+```
+Before executing non-trivial instructions, surface the top 3 questions
+(if any) that would meaningfully improve alignment. Use judgment:
+- If confident → just execute
+- If uncertainties exist that could lead to rework → ask first
+```
+
+This is a meta-prompt — a prompt about how to handle prompts.
+
+---
+
+## System prompt architecture
+
+Our agent's behavior is defined by layered files, each serving a different purpose:
+
+| File | Purpose | Changes how often |
+|------|---------|-------------------|
+| SOUL.md | Core identity, personality, principles | Rarely |
+| AGENTS.md | Operational rules, workflows, conventions | Occasionally |
+| USER.md | Context about the human | As things change |
+| TOOLS.md | Environment-specific notes (keys, devices, paths) | As tools are added |
+| MEMORY.md | Long-term curated context | Continuously |
+
+This layered approach means you can update operational rules without changing the agent's identity, or update context without changing rules. Each layer has a different rate of change.
+
+**Key insight:** The system prompt IS the product. For an autonomous agent, the difference between useful and useless is entirely in how well the system prompt captures intent, boundaries, and context.
+
+---
+
+## Common prompting mistakes we've made
+
+**Too vague:** "Analyze this." → Agent doesn't know what angle, depth, or format.
+
+**Too rigid:** Specifying every sentence of output → Agent can't adapt to unexpected input.
+
+**Missing error cases:** Not telling the agent what to do when search fails, files are missing, or results are empty.
+
+**Assuming context:** Forgetting that each session starts fresh. The agent doesn't remember yesterday unless you tell it to read yesterday's notes.
+
+**Over-prompting cron jobs:** Writing 500-word prompts for simple tasks. More tokens in = more cost, more latency, more room for the model to go off-track.
+
+---
+
+## What we haven't formalized
+
+- **No prompt versioning system.** We edit prompts in place (cron job definitions). Should version control them separately.
+- **No automated evaluation.** We judge prompt quality by reading output, not by systematic scoring.
+- **No A/B testing.** We can't compare two prompt versions side-by-side on the same input.
+
+These gaps matter more as you scale. For 25 cron jobs, manual review works. For 100+, you'd need automation.
+
+---
+
+## Sources
+
+- [Anthropic prompt engineering guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering) — official best practices
+- [OpenAI prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering) — complementary perspective

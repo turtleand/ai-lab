@@ -1,0 +1,126 @@
+---
+title: "Multi-tool AI workflows"
+module: "Module 1: AI Power User"
+subtopic: "multi-tool-workflows"
+summary: "Running 3+ AI tools in parallel, choosing the right tool for each task."
+status: "done"
+---
+
+## The problem
+
+Most developers use one AI tool — ChatGPT, Copilot, or Claude. That's like having a toolbox with only a hammer. Different tasks need different tools, and the real power comes from wiring them together.
+
+---
+
+## Our actual stack
+
+Here's what we run daily, each tool chosen for a specific reason:
+
+| Tool | What it does | Why this one |
+|------|-------------|--------------|
+| Claude (Opus/Sonnet) | Thinking, analysis, code, strategy | Best reasoning quality for complex tasks |
+| Deepgram (whisper-large) | Voice transcription | Handles Telegram Opus audio format; Nova-2 fails on it |
+| Edge TTS | Text-to-speech | Free, decent quality, no API key needed |
+| rclone | Google Drive sync | CLI-native, scriptable, OAuth-based |
+| gh CLI | GitHub operations | Create branches, PRs, manage repos programmatically |
+| Brave Search | Web research | API-based, works from scripts and agents |
+
+Six tools, each serving a distinct function. No overlap, no redundancy.
+
+---
+
+## How we choose the right tool
+
+The decision framework is simple:
+
+**For reasoning and generation:** Claude. When we need analysis, writing, code, or strategic thinking — there's no substitute for a frontier model.
+
+**For audio processing:** Deepgram. We discovered this through experimentation. Initially tried multiple transcription services. Deepgram's whisper-large model was the only one that reliably handled Telegram's Opus-encoded voice notes. Nova-2 (their newer model) actually failed on this format.
+
+**For file operations:** rclone. We could use Google's Python API, but rclone is simpler — one command to copy a file to Drive:
+
+```bash
+rclone copy local-file.md gdrive:OpenClaw/guides/
+```
+
+No SDK, no authentication code, no boilerplate.
+
+**For GitHub:** gh CLI. Creating a branch, pushing, and opening a PR in three commands:
+
+```bash
+git checkout -b feature/new-article
+git push origin feature/new-article
+gh pr create --title "feat: New article" --body "Description here"
+```
+
+---
+
+## Experiment: building a voice-to-PR pipeline
+
+Here's a real workflow that chains multiple tools:
+
+1. **Voice input** (Telegram) → raw audio file saved to disk
+2. **Deepgram** transcribes audio → text instruction
+3. **Claude** interprets the instruction and writes code/content
+4. **gh CLI** creates a branch, commits, pushes, opens a PR
+5. **rclone** backs up artifacts to Google Drive
+6. **Edge TTS** narrates a summary back as a voice note
+7. **Telegram bot API** delivers the voice note
+
+Seven tools in one workflow. Each handles what it's best at. No single tool could do all of this.
+
+**What we learned:** The orchestration layer matters more than any individual tool. Claude acts as the brain — it decides what to do and calls the other tools. But it's the pipeline that creates the value, not any single tool in isolation.
+
+---
+
+## Tool selection mistakes we made
+
+**Mistake 1: Trying to use one tool for everything.**
+Early on, we tried to have Claude handle file uploads directly. It can't — it generates content, but file operations need dedicated tools. Separating "thinking" from "doing" was a key insight.
+
+**Mistake 2: Choosing the wrong transcription model.**
+We initially assumed Deepgram's newest model (Nova-2) would be best. It wasn't — it failed on Telegram's specific audio encoding. The lesson: test with your actual data format, not benchmarks.
+
+**Mistake 3: Over-engineering the Google Drive integration.**
+We initially set up a Python virtual environment with the Google API client library. Then realized rclone does the same thing in one command line. Simpler tools win when the task is simple.
+
+---
+
+## When to add a new tool
+
+We use this checklist before adding another tool to the stack:
+
+1. **Is there a real task it solves?** Not theoretical — something we actually need to do repeatedly.
+2. **Does it overlap with an existing tool?** If yes, is it meaningfully better for the specific use case?
+3. **Can it run headless?** We need tools that work from scripts and cron jobs, not just GUIs.
+4. **What's the failure mode?** If this tool goes down, what breaks? Can we fall back gracefully?
+
+We identified 23 tool gaps through a systematic audit (see the AI Tools Strategic Report). But gaps aren't urgent problems — they're opportunities to evaluate when the need arises.
+
+---
+
+## What we don't use (yet)
+
+Being honest about our known gaps:
+
+- **No LangChain/LangGraph** — we orchestrate through OpenClaw, not an agent framework
+- **No vector database** — no semantic search over our own content
+- **No Ollama/local models** — fully dependent on cloud APIs
+- **No observability tools** — no LangSmith or Langfuse tracking our AI calls
+
+These aren't oversights — they're conscious trade-offs. Our current stack solves our current problems. The gaps become relevant when we move from "AI power user" to "AI builder" (Modules 3-6).
+
+---
+
+## The principle
+
+**Match tools to tasks, not tasks to tools.** Start with what you need to accomplish, then find the simplest tool that does it reliably. Complexity should come from combining simple tools, not from using complex ones.
+
+---
+
+## Sources
+
+- [Deepgram API docs](https://developers.deepgram.com/) — transcription service
+- [rclone documentation](https://rclone.org/docs/) — cloud storage CLI
+- [GitHub CLI manual](https://cli.github.com/manual/) — programmatic GitHub operations
+- [Brave Search API](https://brave.com/search/api/) — web search for agents

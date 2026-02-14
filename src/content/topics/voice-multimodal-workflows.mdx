@@ -1,0 +1,192 @@
+---
+title: "Voice & multimodal workflows"
+module: "Module 1: AI Power User"
+subtopic: "voice-multimodal-workflows"
+summary: "Voice-to-AI pipelines, TTS output, and audio as a primary instruction method."
+status: "done"
+---
+
+## The problem
+
+Typing is the default way people interact with AI. But typing is slow, requires your hands, and doesn't work when you're walking, driving, or away from a keyboard. Voice input and audio output transform AI from a desk tool into something that works with your life.
+
+---
+
+## Our voice workflow
+
+We use voice notes as the primary instruction method. The full loop:
+
+```
+Speak (Telegram voice note)
+  → Transcribe (Deepgram whisper-large)
+    → Interpret (Claude)
+      → Execute (tools, code, research)
+        → Narrate (Edge TTS)
+          → Deliver (Telegram voice note)
+```
+
+The result: you send a voice note with an instruction, and you get back a voice note with the answer. Hands-free AI interaction.
+
+---
+
+## Setting up voice input: Deepgram transcription
+
+### The transcription challenge
+
+Telegram encodes voice notes as Opus audio in an OGG container. Not every transcription service handles this format well.
+
+**What we tested:**
+
+| Service/Model | Result with Telegram audio |
+|---------------|---------------------------|
+| Deepgram Nova-2 | ❌ Failed — couldn't decode Telegram's Opus format |
+| Deepgram whisper-large | ✅ Works reliably |
+| OpenAI Whisper API | Not tested (would require additional API key) |
+
+**Lesson:** Don't assume the newest model handles your specific format. Test with actual data.
+
+### The transcription script
+
+We wrote a script at `~/.openclaw/scripts/transcribe-deepgram`:
+
+```bash
+#!/bin/bash
+FILE="$1"
+LANG="${2:-en}"
+
+curl -s --request POST \
+  --url "https://api.deepgram.com/v1/listen?model=whisper-large&language=$LANG" \
+  --header "Authorization: Token $DEEPGRAM_API_KEY" \
+  --header "Content-Type: audio/ogg" \
+  --data-binary @"$FILE"
+```
+
+Simple: takes a file path and optional language, sends to Deepgram, returns JSON with the transcript.
+
+### The robust wrapper
+
+Voice notes sometimes fail on first attempt (network issues, temporary API errors). We built a retry wrapper:
+
+```bash
+#!/bin/bash
+FILE="${1:-latest}"
+ATTEMPTS="${2:-3}"
+DELAY="${3:-2}"
+
+# "latest" resolves to the most recent voice note file
+if [ "$FILE" = "latest" ]; then
+  FILE=$(ls -t ~/.openclaw/media/inbound/file_*---*.ogg 2>/dev/null | head -1)
+fi
+
+for i in $(seq 1 $ATTEMPTS); do
+  RESULT=$(~/.openclaw/scripts/transcribe-deepgram "$FILE")
+  if echo "$RESULT" | jq -e '.results' > /dev/null 2>&1; then
+    echo "$RESULT" | jq -r '.results.channels[0].alternatives[0].transcript'
+    exit 0
+  fi
+  sleep $DELAY
+done
+
+echo "Transcription failed after $ATTEMPTS attempts" >&2
+exit 1
+```
+
+Three attempts with a 2-second delay between retries. The `latest` shortcut automatically finds the most recent voice note.
+
+---
+
+## Setting up voice output: TTS delivery
+
+### Text-to-Speech generation
+
+We use Edge TTS (Microsoft's free TTS engine) to convert text to audio. The TTS tool generates an MP3 file.
+
+**Key constraint:** Maximum 4,096 characters per TTS call. For longer content, split into parts.
+
+### Delivering voice notes via Telegram
+
+Here's where we hit an important lesson. The AI platform generates a `MEDIA:` path for TTS output. But this path points to a temporary file that gets cleaned up quickly.
+
+**What failed:** Including `MEDIA:/tmp/tts-xxx/voice-xxx.mp3` in the chat response. The file was often gone by the time the system tried to send it.
+
+**What works:** Sending the audio file directly via the Telegram bot API:
+
+```
+message(
+  action: "send",
+  channel: "telegram",
+  target: "user-id",
+  filePath: "/tmp/tts-upload/report.mp3",
+  asVoice: true
+)
+```
+
+The `asVoice: true` parameter makes Telegram render it as a playable voice bubble instead of a file attachment. This is the reliable method we now use for all audio delivery.
+
+---
+
+## Experiment: narrated news briefing
+
+We tested the full voice pipeline with a 10-story news briefing:
+
+1. Searched web for AI/blockchain/tech news (Brave Search)
+2. Analyzed each story with consequence chains (Claude)
+3. Narrated each as a separate voice note (Edge TTS)
+4. Delivered all 10 individually via Telegram (message tool)
+
+**Timing:** ~3 minutes total for research, analysis, 10 TTS generations, and 10 message sends.
+
+**What worked well:**
+- Each story as a separate audio clip lets the listener skip or replay individual items
+- The narration format (alias, summary, 3 consequence levels) works well for audio consumption
+- Voice delivery means the listener can absorb information while doing other things
+
+**What could be better:**
+- Edge TTS voice quality is functional but not great — lacks natural inflection
+- No control over speaking pace or emphasis
+- 4,096 character limit means complex stories must be condensed
+
+---
+
+## When voice beats text
+
+Through daily use, we've found voice works best for:
+
+- **Morning briefings** — listen while getting ready
+- **News summaries** — absorb while walking or commuting
+- **Status reports** — quick audio update vs reading a wall of text
+- **Instructions to the agent** — faster to speak than type, especially on mobile
+
+**When text is still better:**
+- Code or structured data — needs visual parsing
+- Anything you'll reference later — text is searchable, audio isn't
+- Complex instructions with specific formatting requirements
+
+---
+
+## Multimodal beyond voice
+
+Our setup also handles:
+
+**Image analysis:** Send a screenshot or photo, the agent analyzes it using vision capabilities. We've used this for reviewing website designs, reading error screenshots, and checking deploy previews.
+
+**Document processing:** Send a PDF or Word document, the agent extracts and processes the content. We used this to proofread a 155,000-character creative writing piece — the agent read the entire document and found exactly one error.
+
+**The pattern:** Input in whatever format is natural (voice, image, document) → AI processes and understands → Output in whatever format is useful (text, voice, file).
+
+---
+
+## What we haven't built
+
+- **No real-time voice conversation.** Our pipeline is async: send voice note → wait → get response. Not a live voice chat.
+- **No speaker identification.** The system doesn't distinguish between different speakers in a voice note.
+- **No voice cloning.** We use Edge TTS's default voice, not a custom voice.
+- **No transcription of languages we haven't tested.** Deepgram whisper-large works well for English and Spanish. Other languages untested.
+
+---
+
+## Sources
+
+- [Deepgram API documentation](https://developers.deepgram.com/) — whisper-large model specs
+- [Edge TTS](https://github.com/rany2/edge-tts) — Microsoft's free text-to-speech
+- [Telegram Bot API — sendVoice](https://core.telegram.org/bots/api#sendvoice) — voice message delivery
