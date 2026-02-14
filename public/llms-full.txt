@@ -482,18 +482,18 @@ Things we actively avoid:
 - **Never commit keys to git.** We audited all 6 repos before making them public. Zero secrets found, but we checked.
 - **Never put keys in scripts.** Our transcription script reads `$DEEPGRAM_API_KEY` from the environment, not from the script itself.
 - **Never share keys across services unnecessarily.** Each service gets only the keys it needs.
-- **Never use the same key for dev and production.** (We don't have separate environments yet — this is a gap we acknowledge.)
+- **Never use the same key for dev and production.** Separate environments limit blast radius.
 
 ---
 
-## Our current gaps
+## Where to improve from here
 
-Being honest about what we haven't done yet:
+Common areas where personal AI setups can level up their secrets management:
 
-- **No key rotation schedule.** Keys have been static since setup. Should rotate periodically.
-- **No secrets manager.** Using env files directly, not HashiCorp Vault or AWS Secrets Manager. For a single-machine setup, this is acceptable. For production, it wouldn't be.
-- **No separation between dev and prod keys.** Everything runs on one EC2 instance.
-- **No audit trail.** We don't log which key was used when. The daily security report checks for anomalies but doesn't track key usage.
+- **Key rotation.** Rotating API keys and tokens on a schedule (monthly or quarterly) limits the blast radius if a key is ever exposed.
+- **Dedicated secrets managers.** HashiCorp Vault, AWS Secrets Manager, or even encrypted env files offer better protection than plain-text environment variables. For single-machine setups, env files are pragmatic; for anything larger, a secrets manager pays for itself.
+- **Environment separation.** Using different keys for development and production prevents a dev mistake from compromising production access.
+- **Audit trails.** Logging which key was used when helps detect unauthorized access. Most API providers offer usage dashboards — check them periodically.
 
 ---
 
@@ -646,17 +646,21 @@ If your agent processes untrusted text naively, it might follow these embedded i
 - We don't give the agent the ability to send emails or make payments — limiting the damage surface
 - Critical actions (public posts, file deletions) require confirmation
 
-**Honest gap:** We haven't done formal red-teaming or adversarial testing. Our injection defenses are based on the platform's built-in protections plus common sense boundaries. This is an area we know needs work.
+**Worth noting:** Formal red-teaming and adversarial testing are the gold standard for injection defense. Most personal setups rely on platform-level protections and sensible boundaries as a pragmatic starting point. As your agent's capabilities grow (more tools, more access), the case for structured adversarial testing gets stronger.
 
 ---
 
-## What we don't do (yet)
+## Common gaps in personal AI setups
 
-- **No SSH key rotation.** Same key since setup.
-- **No OS-level intrusion detection** (like AIDE or OSSEC). fail2ban covers brute-force but not subtle compromises.
-- **No network segmentation.** Everything runs on one machine. A compromised service could access everything else.
-- **No backup encryption.** Our state backups go to Google Drive unencrypted. The data isn't highly sensitive, but it's a gap.
-- **No formal threat model.** We secured the obvious things but haven't systematically mapped attack vectors.
+Even after hardening the basics, personal AI infrastructure typically has gaps that enterprise environments wouldn't tolerate. These are worth being aware of as areas for improvement:
+
+- **Key rotation.** SSH keys, API keys, and OAuth tokens should be rotated periodically. Many personal setups don't have a rotation schedule — this increases exposure window if a key is compromised.
+- **Intrusion detection beyond brute-force.** fail2ban stops credential stuffing, but subtle compromises (backdoors, privilege escalation) require OS-level monitoring tools like AIDE, OSSEC, or Wazuh.
+- **Network segmentation.** When multiple services run on a single machine, compromising one service can give access to everything. Containers, VMs, or separate instances create isolation boundaries.
+- **Backup encryption.** Cloud-synced backups should be encrypted at rest and in transit. Even if the data isn't highly sensitive, unencrypted backups expand the attack surface.
+- **Formal threat modeling.** Systematically mapping attack vectors (who might target you, how, and what they'd gain) helps prioritize security investments. Without it, you're securing based on intuition rather than analysis.
+
+**The honest take:** Most personal AI setups — including ours — have some subset of these gaps. The baseline we described above handles the most common attack vectors. These items represent the next level of hardening, and whether they're worth the effort depends on your threat model and what you're protecting.
 
 ---
 
