@@ -17,6 +17,16 @@ const { Content } = await topic.render();
 ---
 
 <BaseLayout title={topic.data.title} description={topic.data.summary}>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": topic.data.title,
+    "description": topic.data.summary,
+    "educationalLevel": "Intermediate",
+    "author": { "@type": "Person", "name": "Turtleand", "url": "https://turtleand.com" },
+    "isAccessibleForFree": true,
+    "url": `https://lab.turtleand.com/topics/${topic.slug}`
+  })} />
   <section class="card" aria-labelledby="topic-title">
     <div class="pill inline">{topic.data.module}</div>
     <h1 id="topic-title">{topic.data.title}</h1>

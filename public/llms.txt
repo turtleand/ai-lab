@@ -1,0 +1,14 @@
+# Turtleand AI Lab
+
+> A hands-on, 6-module curriculum for building practical LLM tools and agents. Self-paced, free, and open.
+
+## Curriculum
+
+### Module 0: Setup & Safety
+- [Agent notifications](https://lab.turtleand.com/topics/agent-notifications): Get notified when your agent finishes using hooks and ntfy.
+- [Running inference locally](https://lab.turtleand.com/topics/running-inference-locally): Easily setup & run an LLM on your own machine.
+
+## About
+Created by Turtleand — software engineer building AI education that's practical, not theoretical.
+- Portal: https://turtleand.com
+- GitHub: https://github.com/turtleand
