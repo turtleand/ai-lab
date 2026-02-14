@@ -16,16 +16,16 @@ Most developers use one AI tool — ChatGPT, Copilot, or Claude. That's like hav
 
 Here's what we run daily, each tool chosen for a specific reason:
 
-| Tool | What it does | Why this one |
-|------|-------------|--------------|
-| Claude (Opus/Sonnet) | Thinking, analysis, code, strategy | Best reasoning quality for complex tasks |
-| Deepgram (whisper-large) | Voice transcription | Handles Telegram Opus audio format; Nova-2 fails on it |
-| Edge TTS | Text-to-speech | Free, decent quality, no API key needed |
-| rclone | Google Drive sync | CLI-native, scriptable, OAuth-based |
-| gh CLI | GitHub operations | Create branches, PRs, manage repos programmatically |
-| Brave Search | Web research | API-based, works from scripts and agents |
+| Category | Example tools | Why |
+|----------|--------------|-----|
+| AI model provider | Claude, GPT, Gemini | Reasoning, analysis, code, strategy |
+| Voice transcription | Deepgram, Whisper, AssemblyAI | Convert voice notes to text instructions |
+| Text-to-speech | Edge TTS, ElevenLabs | Narrate results as audio |
+| Cloud storage sync | rclone, gsutil | CLI-native file sync, scriptable |
+| Version control | gh CLI, GitLab CLI | Create branches, PRs, manage repos |
+| Web search | Brave Search, SerpAPI | API-based research for agents |
 
-Six tools, each serving a distinct function. No overlap, no redundancy.
+Six categories, each serving a distinct function. Choose tools that work headless (no GUI required) and can be called from scripts.
 
 ---
 
@@ -35,17 +35,18 @@ The decision framework is simple:
 
 **For reasoning and generation:** Claude. When we need analysis, writing, code, or strategic thinking — there's no substitute for a frontier model.
 
-**For audio processing:** Deepgram. We discovered this through experimentation. Initially tried multiple transcription services. Deepgram's whisper-large model was the only one that reliably handled Telegram's Opus-encoded voice notes. Nova-2 (their newer model) actually failed on this format.
+**For audio processing:** Test with your actual audio format. Different transcription services handle different encodings. We found that newer models don't always handle every format — sometimes an older, more battle-tested model works better. Always test with real data, not benchmarks.
 
-**For file operations:** rclone. We could use Google's Python API, but rclone is simpler — one command to copy a file to Drive:
+**For file operations:** CLI-based sync tools beat SDK libraries for simple tasks. One command to copy a file beats 20 lines of API boilerplate:
 
 ```bash
-rclone copy local-file.md gdrive:OpenClaw/guides/
+# Example: sync a file to cloud storage
+your-sync-tool copy local-file.md remote:folder/
 ```
 
 No SDK, no authentication code, no boilerplate.
 
-**For GitHub:** gh CLI. Creating a branch, pushing, and opening a PR in three commands:
+**For version control:** CLI tools let you create a branch, push, and open a PR in three commands:
 
 ```bash
 git checkout -b feature/new-article
@@ -59,15 +60,15 @@ gh pr create --title "feat: New article" --body "Description here"
 
 Here's a real workflow that chains multiple tools:
 
-1. **Voice input** (Telegram) → raw audio file saved to disk
-2. **Deepgram** transcribes audio → text instruction
-3. **Claude** interprets the instruction and writes code/content
-4. **gh CLI** creates a branch, commits, pushes, opens a PR
-5. **rclone** backs up artifacts to Google Drive
-6. **Edge TTS** narrates a summary back as a voice note
-7. **Telegram bot API** delivers the voice note
+1. **Voice input** (messaging platform) → raw audio file saved to disk
+2. **Transcription service** converts audio → text instruction
+3. **AI model** interprets the instruction and writes code/content
+4. **Version control CLI** creates a branch, commits, pushes, opens a PR
+5. **Cloud sync tool** backs up artifacts to cloud storage
+6. **TTS engine** narrates a summary back as audio
+7. **Messaging API** delivers the voice note back to the user
 
-Seven tools in one workflow. Each handles what it's best at. No single tool could do all of this.
+Seven tool categories in one workflow. Each handles what it's best at. No single tool could do all of this.
 
 **What we learned:** The orchestration layer matters more than any individual tool. Claude acts as the brain — it decides what to do and calls the other tools. But it's the pipeline that creates the value, not any single tool in isolation.
 
@@ -79,10 +80,10 @@ Seven tools in one workflow. Each handles what it's best at. No single tool coul
 Early on, we tried to have Claude handle file uploads directly. It can't — it generates content, but file operations need dedicated tools. Separating "thinking" from "doing" was a key insight.
 
 **Mistake 2: Choosing the wrong transcription model.**
-We initially assumed Deepgram's newest model (Nova-2) would be best. It wasn't — it failed on Telegram's specific audio encoding. The lesson: test with your actual data format, not benchmarks.
+We initially assumed the newest model from our transcription provider would be best. It wasn't — it failed on our specific audio encoding. The lesson: test with your actual data format, not benchmarks.
 
-**Mistake 3: Over-engineering the Google Drive integration.**
-We initially set up a Python virtual environment with the Google API client library. Then realized rclone does the same thing in one command line. Simpler tools win when the task is simple.
+**Mistake 3: Over-engineering cloud storage integration.**
+We initially set up a Python virtual environment with a full SDK client library. Then realized a CLI sync tool does the same thing in one command. Simpler tools win when the task is simple.
 
 ---
 
@@ -103,7 +104,7 @@ We identified 23 tool gaps through a systematic audit (see the AI Tools Strategi
 
 Being honest about our known gaps:
 
-- **No LangChain/LangGraph** — we orchestrate through OpenClaw, not an agent framework
+- **No LangChain/LangGraph** — we orchestrate through our agent platform, not a dedicated framework
 - **No vector database** — no semantic search over our own content
 - **No Ollama/local models** — fully dependent on cloud APIs
 - **No observability tools** — no LangSmith or Langfuse tracking our AI calls

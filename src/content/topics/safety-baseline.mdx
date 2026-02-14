@@ -16,7 +16,7 @@ Most AI tutorials skip security entirely. This is what we actually did to harden
 
 ## What we secured
 
-Our setup: an EC2 instance running an AI agent 24/7, connected to Telegram, with access to GitHub, Google Drive, and multiple API keys. The attack surface is real.
+A typical setup: a cloud server running an AI agent 24/7, connected to a messaging platform, with access to version control, cloud storage, and multiple API keys. The attack surface is real.
 
 ---
 
@@ -31,7 +31,7 @@ sudo ufw allow ssh
 sudo ufw enable
 ```
 
-**What this does:** Blocks all incoming connections except SSH. The AI agent makes outbound connections (to APIs, Telegram, GitHub) but nothing can reach in except your terminal session.
+**What this does:** Blocks all incoming connections except SSH. The AI agent makes outbound connections (to APIs, messaging platforms, code hosting) but nothing can reach in except your terminal session.
 
 **Our experiment:** After enabling UFW, we verified that only port 22 (SSH) was open. Everything else — rejected. This is the minimum viable firewall for any cloud AI setup.
 
@@ -70,12 +70,12 @@ This shows currently banned IPs and total ban count.
 We run a daily security check via cron that reports:
 
 - fail2ban status (bans in the last 24 hours)
-- UFW status (any changes to firewall rules)
+- Firewall status (any changes to rules)
 - Disk usage (unexpected growth could indicate compromise)
 - Running processes (anything unexpected)
-- OpenClaw version check (are we running the latest?)
+- Software version checks (are we running the latest?)
 
-The report is sent via Telegram every morning. This isn't enterprise-grade monitoring, but it catches obvious problems. The key insight: **automated checks catch what manual reviews miss**, because you actually look at them when they arrive as a notification.
+The report is sent via messaging every morning. This isn't enterprise-grade monitoring, but it catches obvious problems. The key insight: **automated checks catch what manual reviews miss**, because you actually look at them when they arrive as a notification.
 
 ---
 
@@ -95,19 +95,19 @@ Before making any repos public, we audited all six repositories for accidentally
 
 ---
 
-## Telegram access control
+## Messaging access control
 
-Our AI agent is reachable via Telegram. Without access control, anyone who finds the bot could interact with it.
+If your AI agent is reachable via a messaging platform (Telegram, Discord, Slack, etc.), access control is essential. Without it, anyone who discovers the bot could interact with it.
 
-**The model we use:**
+**The model to implement:**
 
-- **Allowlist:** Only specific Telegram user IDs can interact with the bot
-- **Pairing mode:** New users must be explicitly approved before they can send messages
-- **DM policy:** Set to `pairing` — unknown users get no response
+- **Allowlist:** Only specific user IDs can interact with the bot
+- **Approval flow:** New users must be explicitly approved before they can send messages
+- **Silent rejection:** Unknown users get no response — not even an error message
 
-This is configured at the application level (OpenClaw's Telegram settings), not at the network level. The key principle: **the AI agent should only respond to authenticated users**.
+This is configured at the application level, not the network level. The key principle: **the AI agent should only respond to authenticated users**.
 
-**What we tested:** Sent messages from an unapproved account — the bot correctly ignored them. No response, no error message, no acknowledgment that the bot exists. Silent rejection is better than an error message that confirms the bot is active.
+Silent rejection is important: an error message confirms the bot exists and is active. No response reveals nothing to an unauthorized user.
 
 ---
 
