@@ -1,0 +1,159 @@
+---
+title: "Automation pipelines"
+module: "Module 2: AI Integration & Orchestration"
+subtopic: "automation-pipelines"
+summary: "Cron-driven AI workflows, multi-stage processing, and overnight analysis."
+status: "done"
+---
+
+## The problem
+
+Running AI manually means AI only works when you're working. The real leverage comes when AI runs *while you sleep* — scanning news, analyzing patterns, preparing briefings, updating plans. But autonomous AI needs structure: scheduling, error handling, and coordination between tasks.
+
+---
+
+## Our cron ecosystem
+
+We run 25+ automated AI tasks on scheduled cron jobs. They range from simple daily checks to complex multi-stage pipelines.
+
+**The breakdown by type:**
+
+| Category | Count | Example |
+|----------|-------|---------|
+| Morning workflow | 3 | Briefing, launch pad, navigation check |
+| Overnight pipeline | 4 | News scan → pattern analysis → strategy → briefing compilation |
+| Work coaching | 4 | Boundary check, energy management, senior mindset, evening sync |
+| Monitoring | 3 | Security report, quota optimizer, content goal tracker |
+| Strategic | 3 | Parallel track reminder, Friday review, about page scan |
+| Other | 8+ | Backup, content reminders, notifications |
+
+Each job is defined with: a schedule (cron expression or interval), a prompt (the instruction), a model (Opus or Sonnet), and a delivery target (main session or isolated).
+
+---
+
+## The overnight 4-stage pipeline
+
+Our most complex automation. Runs between 04:00 and 07:00 UTC (01:00-04:00 local time).
+
+### Stage 1: News scanning (04:00 UTC)
+**Model:** Sonnet (Opus timed out — see below)
+**Task:** Scan AI, blockchain, and tech news. Analyze 1st/2nd/3rd order consequences. Save raw results.
+
+### Stage 2: Pattern analysis (05:00 UTC)
+**Model:** Sonnet
+**Task:** Read Stage 1 output. Identify cross-cutting themes. Flag stories that reinforce or contradict our strategic plan.
+
+### Stage 3: Strategic implications (06:00 UTC)
+**Model:** Opus
+**Task:** Read Stages 1-2. Connect findings to our specific career transition plan. Identify action items. This is where deep reasoning matters.
+
+### Stage 4: Morning briefing (07:00 UTC)
+**Model:** Sonnet
+**Task:** Compile everything into a concise briefing. Delivered when the human wakes up.
+
+**Key design decision:** Each stage runs as a separate cron job with a 1-hour gap. This ensures each stage has the previous stage's output available, and if one stage fails, the others can still run independently.
+
+---
+
+## Experiment: the Stage 1 timeout
+
+When we upgraded Stage 1 from Sonnet to Opus (to get deeper analysis), it timed out. Our cron jobs have a 10-minute execution limit.
+
+**What happened:**
+- Opus spends more time reasoning before producing output
+- Combined with web search (which has network latency) and a complex prompt (read strategic plan + scan news + analyze consequences), the total exceeded 10 minutes
+- Result: `ERROR, 600006ms` (exactly the 10-minute timeout + 6ms overhead)
+- `consecutiveErrors: 1` logged in the job status
+
+**The fix:** Kept Stage 1 on Sonnet (which completes in ~4 minutes) and reserved Opus for Stage 3 where the deep reasoning is actually needed.
+
+**Lesson:** Model selection for cron jobs isn't just about quality — it's about operational constraints. The best model that finishes in time beats the perfect model that times out.
+
+---
+
+## Error handling patterns
+
+With 25+ jobs running daily, failures are inevitable. Here's what we've learned:
+
+### Consecutive error tracking
+Each job tracks `consecutiveErrors`. If errors accumulate, we know something is persistently broken (not just a one-time network hiccup).
+
+### Graceful degradation
+Stages 2-4 of the overnight pipeline can run even if Stage 1 fails — they just work with whatever data is available. We don't create hard dependencies between stages.
+
+### Hardcoded date bug
+We discovered that Stages 2 and 3 had a hardcoded date (`"2026-02-02"`) instead of dynamically generating today's date. This meant they were always reading stale data. The bug was subtle — the jobs ran successfully (no errors), but produced outdated analysis.
+
+**Lesson:** "No errors" doesn't mean "working correctly." Validate the *content* of outputs, not just whether the job completed.
+
+---
+
+## The strategic plan execution engine
+
+Beyond simple scheduled tasks, we built a system that connects cron jobs to a strategic action tracker:
+
+1. **`strategic-action-tracker.json`** contains Phase 1 action items with due dates and status
+2. **Morning briefing cron** reads the tracker and highlights items due this week
+3. **Evening sync cron** checks progress and nags if items are behind
+4. **Friday review cron** scores the week and advances the tracker
+
+This turns cron from "run tasks on a schedule" into "execute a strategic plan with accountability." The AI doesn't just remind you — it tracks progress, escalates overdue items, and adjusts recommendations based on what's been completed.
+
+---
+
+## Notification and escalation
+
+For content goals, we built an escalation system:
+
+```
+Days behind | Notifications per day
+1           | 1
+2           | 2
+3           | 4
+4           | 8
+5+          | 2^(daysBehind - 1)
+```
+
+The notifications are spread throughout the day, not clustered. This creates gentle but increasing pressure — one reminder is easy to ignore, eight is not.
+
+**Why exponential:** Linear escalation (1, 2, 3, 4...) is too gentle. By day 4, you've had 10 total reminders. With exponential, you've had 15 — and day 4 alone has 8. The urgency matches the situation.
+
+---
+
+## Main session vs isolated session
+
+An important architectural decision: where does each cron job run?
+
+**Main session (systemEvent):** The job's output appears in your main conversation. Good for things you want to see immediately (alerts, reminders). But it can clutter the conversation.
+
+**Isolated session (agentTurn):** The job runs in its own separate context. Good for complex processing that shouldn't pollute the main chat. Results can be announced back as a summary.
+
+Our overnight pipeline runs in isolated sessions — the processing is complex and verbose. The results are announced to the main session as a clean summary.
+
+Monitoring and alerts run in the main session — they're short and you want to see them immediately.
+
+---
+
+## What we'd do differently
+
+**Start with fewer jobs.** We grew to 25+ incrementally, but some overlap or could be consolidated. A batch of 15 well-designed jobs would be more maintainable than 25 ad-hoc ones.
+
+**Add health monitoring earlier.** We didn't have a way to see "which jobs are failing" until we built the daily status audit. Should have been day-one infrastructure.
+
+**Version the prompts.** Cron job prompts evolve but we don't track the history. When output quality changes, we can't always identify which prompt change caused it.
+
+---
+
+## What we don't have
+
+- **No job dependency graph.** Stages 1-4 are ordered by time, not by explicit dependency declarations. If timing shifts, stages could run out of order.
+- **No output quality monitoring.** Jobs either succeed or fail. We don't measure whether the output is actually good.
+- **No automatic retry.** Failed jobs wait for the next scheduled run. No immediate retry with backoff.
+- **No A/B testing for prompts.** Can't compare two versions of a cron prompt on the same input.
+
+---
+
+## Sources
+
+- [Cron expression reference](https://crontab.guru/) — schedule syntax
+- [OpenClaw cron documentation](https://docs.openclaw.ai/automation/cron-jobs) — job configuration

@@ -1,0 +1,149 @@
+---
+title: "Model selection & economics"
+module: "Module 1: AI Power User"
+subtopic: "model-selection-economics"
+summary: "When to use Opus vs Sonnet, quota management, and cost-per-output thinking."
+status: "done"
+---
+
+## The problem
+
+AI models aren't interchangeable. Using the most powerful model for every task is wasteful. Using the cheapest model for everything produces poor results. The skill is knowing which model fits which task — and building systems that optimize this automatically.
+
+---
+
+## The model landscape (as of early 2026)
+
+We primarily use Anthropic's Claude models:
+
+| Model | Strength | Cost (per 1M tokens) | When to use |
+|-------|----------|----------------------|-------------|
+| Opus 4.6 | Deepest reasoning, nuanced analysis | $5 input / $25 output | Strategic planning, research reports, complex analysis |
+| Sonnet 4.5 | Good reasoning, much faster | $3 input / $15 output | Daily tasks, content review, code generation |
+
+**The cost ratio:** 1 Opus call ≈ 1.7 Sonnet calls in raw cost. But the real comparison is output quality per dollar. For simple tasks, Sonnet produces equivalent results at lower cost. For complex tasks, Opus produces results Sonnet can't match at any cost.
+
+---
+
+## Our decision framework
+
+We developed this through trial and error across 25+ automated tasks:
+
+**Use Opus when:**
+- Strategic analysis or long-term planning
+- Research reports that synthesize multiple sources
+- Content that requires nuanced judgment
+- Tasks where being wrong has high rework cost
+- Deep dives on complex topics
+
+**Use Sonnet when:**
+- Daily operational tasks (security reports, status checks)
+- Content review and formatting
+- Simple code generation
+- Notifications and summaries
+- Tasks that run frequently (cost adds up)
+
+**The heuristic:** If a human would spend 30+ minutes on this task, use Opus. If it's a 5-minute task, use Sonnet.
+
+---
+
+## Experiment: overnight pipeline model assignment
+
+Our 4-stage overnight pipeline was initially all on one model. We experimented with mixed-model assignment:
+
+**Stage 1 (News scanning):** Sonnet → Opus → back to Sonnet
+- Opus produced richer analysis but timed out (10-minute cron limit)
+- Sonnet completes in time and produces good-enough results
+- **Winner:** Sonnet with tighter prompting
+
+**Stage 2 (Pattern analysis):** Sonnet
+- Takes Stage 1 output and finds patterns
+- Doesn't need the deepest reasoning — just synthesis
+- **Winner:** Sonnet
+
+**Stage 3 (Strategic implications):** Opus
+- This is where nuance matters — connecting news to our specific situation
+- Sonnet produced generic observations; Opus produced actionable insights
+- **Winner:** Opus
+
+**Stage 4 (Morning briefing):** Sonnet
+- Compiles and formats Stages 1-3 into a readable briefing
+- Assembly work, not analysis
+- **Winner:** Sonnet
+
+**Result:** Mixed-model pipeline costs less than all-Opus while maintaining quality where it matters.
+
+---
+
+## Quota optimization: the system we built
+
+On Claude Max (subscription plan), you pay a flat rate for a weekly quota. Unused quota doesn't roll over. This creates a "use it or lose it" dynamic.
+
+**The problem we noticed:** Some weeks we'd barely touch the quota. Other weeks we'd hit the ceiling. No visibility into pace.
+
+**What we built:** An automated quota optimizer that runs twice daily (morning and evening):
+
+1. **Calculates daily target:** Weekly quota ÷ 7 = daily ideal (roughly 14.3% per day)
+2. **Measures current pace:** Actual usage ÷ expected usage at this point in the week
+3. **Auto-scales cron jobs:** If behind pace → upgrade key cron jobs to Opus. If ahead → downgrade to Sonnet.
+4. **Alerts when behind:** "You're 3.4 days behind — consider using Opus for deep work today."
+5. **Panic mode:** Less than 24 hours before reset with more than 30% unused → upgrade everything to Opus.
+
+**State tracking:** `memory/quota-optimizer.json` records consumption snapshots, model assignments, and alert history.
+
+---
+
+## The economics of not thinking about economics
+
+Here's the counterintuitive insight: obsessing over per-token cost is usually wrong.
+
+**Scenario:** You spend 15 minutes choosing between Opus and Sonnet for a task. The cost difference is $0.02. Your time is worth far more than $0.02.
+
+**The rule:** Set up a system (like the quota optimizer) that makes model selection automatic. Then stop thinking about it for individual tasks. Human attention is more expensive than API tokens.
+
+**Exception:** When you're running 25+ automated tasks, the aggregate matters. A $0.02 difference per task × 25 tasks × 7 days = $3.50/week. That's worth optimizing — but with automation, not manual decision-making.
+
+---
+
+## What we track
+
+Our usage tracking captures:
+
+```json
+{
+  "weeklyBudget": "Claude Max flat rate",
+  "dailyTarget": "14.3% of weekly quota",
+  "currentPace": "actual vs expected",
+  "modelDistribution": {
+    "opus": "strategic and research tasks",
+    "sonnet": "operational and routine tasks"
+  }
+}
+```
+
+The key metric isn't cost — it's **value extracted per quota unit**. Are we using the quota for productive work (research, content, analysis) or wasting it on busywork (formatting, simple lookups)?
+
+---
+
+## Mistakes we made
+
+**Using Opus for everything initially.** "Best model = best results" seemed logical. But Opus is slower, uses more quota, and for simple tasks produces the same output as Sonnet.
+
+**Not tracking usage until it was too late.** We didn't build the quota optimizer until we noticed weeks of under-utilization. Weeks of paid capacity, wasted.
+
+**Ignoring the timeout interaction.** Opus takes longer to respond. On cron jobs with a 10-minute timeout, this means Opus can timeout on tasks Sonnet completes fine. Model selection isn't just about quality — it's about operational constraints.
+
+---
+
+## What we don't do (yet)
+
+- **No multi-provider optimization.** We only use Anthropic. Adding OpenAI or local models (Ollama) would expand the cost-quality spectrum significantly.
+- **No per-task cost tracking.** We know aggregate usage but not "this specific cron job costs X per run."
+- **No quality scoring.** We can't numerically compare "this Opus output was 30% better than Sonnet." Quality assessment is still manual and subjective.
+
+---
+
+## Sources
+
+- [Anthropic model comparison](https://docs.anthropic.com/en/docs/about-claude/models) — official model specs and pricing
+- [Claude Max plan details](https://www.anthropic.com/pricing) — subscription quota information

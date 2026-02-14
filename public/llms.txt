@@ -8,6 +8,20 @@
 - [Agent notifications](https://lab.turtleand.com/topics/agent-notifications): Get notified when your agent finishes using hooks and ntfy.
 - [Running inference locally](https://lab.turtleand.com/topics/running-inference-locally): Easily setup & run an LLM on your own machine.
 
+### Module 0: Fast Track Setup
+- [Access & secrets](https://lab.turtleand.com/topics/access-secrets): Configure API keys and secrets securely for model access.
+- [Safety baseline](https://lab.turtleand.com/topics/safety-baseline): Practical safety for AI infrastructure — firewalls, audits, and access control.
+
+### Module 2: AI Integration & Orchestration
+- [AI-first lifestyle](https://lab.turtleand.com/topics/ai-first-lifestyle): Morning briefings, memory systems, and making AI work while you sleep.
+- [Automation pipelines](https://lab.turtleand.com/topics/automation-pipelines): Cron-driven AI workflows, multi-stage processing, and overnight analysis.
+
+### Module 1: AI Power User
+- [Model selection & economics](https://lab.turtleand.com/topics/model-selection-economics): When to use Opus vs Sonnet, quota management, and cost-per-output thinking.
+- [Multi-tool AI workflows](https://lab.turtleand.com/topics/multi-tool-workflows): Running 3+ AI tools in parallel, choosing the right tool for each task.
+- [Prompt mastery](https://lab.turtleand.com/topics/prompt-mastery): Beyond basics — structured prompting for autonomous systems.
+- [Voice & multimodal workflows](https://lab.turtleand.com/topics/voice-multimodal-workflows): Voice-to-AI pipelines, TTS output, and audio as a primary instruction method.
+
 ## About
 Created by Turtleand — software engineer building AI education that's practical, not theoretical.
 - Portal: https://turtleand.com
