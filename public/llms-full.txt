@@ -654,26 +654,6 @@ Total: about 2-3 hours for a reasonable security baseline. Not bulletproof, but 
 
 ---
 
-## A note on security writing
-
-Throughout this curriculum, we follow a principle: **share learnings, never expose ourselves.**
-
-When writing about your own infrastructure — whether in articles, blog posts, or documentation — there's a tension between being helpful and being vulnerable. Specificity makes content useful. But specificity about what you *haven't* secured makes content dangerous.
-
-**The rule we follow:**
-
-- ✅ Describe *what we did* and *how it works* — this helps others replicate
-- ✅ Discuss *categories* of common gaps — this educates without targeting
-- ❌ Never confirm which specific gaps apply to *our* infrastructure
-- ❌ Never publish configuration details that could be used as attack vectors
-- ❌ Never disclose exact versions, paths, or credentials in public content
-
-Think of it like a locksmith teaching lock-picking. You can explain how locks work and what makes them vulnerable. You don't publish your own house address alongside "here's which lock I use and which windows I leave unlocked."
-
-This applies to all content in the Turtleand ecosystem — AI Lab, OpenClaw Lab, blog posts, and any future technical writing.
-
----
-
 ## Sources
 
 - [UFW documentation](https://help.ubuntu.com/community/UFW) — Ubuntu firewall guide
