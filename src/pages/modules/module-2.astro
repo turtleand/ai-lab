@@ -2,31 +2,31 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const moduleKey = 'Module 1';
-const moduleTitle = 'AI Power User';
+const moduleKey = 'Module 2';
+const moduleTitle = 'AI Integration & Orchestration';
 const moduleSummary =
-  'Multi-tool workflows, prompt mastery, model selection, and multimodal AI — the skills that put you in the 96th percentile.';
+  'Persistent agents, automation pipelines, AI-first lifestyle, and content distribution — what makes an integrator.';
 
 const subtopics = [
   {
-    id: 'multi-tool-workflows',
-    title: 'Multi-tool AI workflows',
-    summary: 'Running 3+ AI tools in parallel, choosing the right tool for each task.'
+    id: 'persistent-agents',
+    title: 'Persistent AI agents',
+    summary: '24/7 agents on cloud infrastructure — always-on AI assistance.'
   },
   {
-    id: 'prompt-mastery',
-    title: 'Prompt mastery',
-    summary: 'Beyond basics — structured prompting, chain-of-thought, system prompts, prompt versioning.'
+    id: 'automation-pipelines',
+    title: 'Automation pipelines',
+    summary: 'Cron-driven AI workflows, multi-stage processing, overnight analysis.'
   },
   {
-    id: 'model-selection-economics',
-    title: 'Model selection & economics',
-    summary: 'When to use Opus vs Sonnet vs Haiku, quota optimization, cost awareness.'
+    id: 'ai-first-lifestyle',
+    title: 'AI-first lifestyle',
+    summary: 'Morning briefings, strategic planning with AI, memory systems for agent continuity.'
   },
   {
-    id: 'voice-multimodal-workflows',
-    title: 'Voice & multimodal workflows',
-    summary: 'Voice-to-AI pipelines, image analysis, audio transcription integration.'
+    id: 'content-distribution',
+    title: 'Content & distribution',
+    summary: 'AI-augmented content creation, cross-platform publishing, analytics.'
   }
 ];
 
@@ -63,11 +63,26 @@ const subtopicEntries = subtopics.map((definition) => {
     <p>{moduleSummary}</p>
   </section>
 
+  <section class="card featured" aria-labelledby="openclaw-link">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Featured</p>
+        <h2 id="openclaw-link">OpenClaw</h2>
+      </div>
+    </div>
+    <p>
+      Explore persistent AI agents, cloud deployment, and advanced agent patterns at our dedicated OpenClaw space.
+    </p>
+    <a href="https://openclaw.turtleand.com/" class="pill inline" target="_blank" rel="noopener">
+      Visit OpenClaw →
+    </a>
+  </section>
+
   <section class="card" aria-labelledby="topics-title">
     <div class="section-title">
       <div>
         <p class="pill inline">Topics</p>
-        <h2 id="topics-title">What’s inside this module</h2>
+        <h2 id="topics-title">What's inside this module</h2>
       </div>
     </div>
     <ul class="subtopic-list">
@@ -96,6 +111,4 @@ const subtopicEntries = subtopics.map((definition) => {
       }
     </ul>
   </section>
-
-  <!-- Articles & projects section intentionally removed per request -->
 </BaseLayout>

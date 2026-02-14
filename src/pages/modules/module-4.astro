@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const moduleKey = 'Module 4';
+const moduleTitle = 'RAG & Retrieval Systems';
+const moduleSummary =
+  'Vector databases, document chunking, RAG pipelines, and observability — making AI work with your data.';
+
+const subtopics = [
+  { id: 'vector-databases', title: 'Vector databases', summary: 'ChromaDB, pgvector, Pinecone — setup and comparison.' },
+  { id: 'document-indexing-chunking', title: 'Document indexing & chunking', summary: 'Processing your own content for semantic search.' },
+  { id: 'rag-pipeline-design', title: 'RAG pipeline design', summary: 'End-to-end retrieval-augmented generation.' },
+  { id: 'observability', title: 'Observability', summary: 'LangSmith, Langfuse — tracing, evaluation, cost tracking.' }
+];
+
+const topics = await getCollection('topics');
+const moduleTopics = topics.filter((topic) => topic.data.module.startsWith(moduleKey));
+const topicBySubtopic = new Map(moduleTopics.map((topic) => [topic.data.subtopic, topic]));
+
+const subtopicEntries = subtopics.map((definition) => {
+  const topic = topicBySubtopic.get(definition.id);
+  const href = topic ? `/topics/${topic.slug}/` : undefined;
+  return { ...definition, status: topic?.data.status ?? 'planned', href, hasContent: Boolean(topic) };
+});
+---
+
+<BaseLayout title={`${moduleKey} — ${moduleTitle}`} description={moduleSummary}>
+  <section class="card" aria-labelledby="module-title">
+    <div class="tag-row"><a class="pill inline" href="/#modules">← Back to program roadmap</a></div>
+    <h1 id="module-title">{moduleKey} — {moduleTitle}</h1>
+    <p>{moduleSummary}</p>
+  </section>
+  <section class="card" aria-labelledby="topics-title">
+    <div class="section-title"><div><p class="pill inline">Topics</p><h2 id="topics-title">What's inside this module</h2></div></div>
+    <ul class="subtopic-list">
+      {subtopicEntries.map((entry) =>
+        entry.href && entry.hasContent ? (
+          <li class="subtopic-bullet"><a class="subtopic-link" href={entry.href}><span class="bullet-dot" aria-hidden="true" /><div><div class="subtopic-title">{entry.title}</div><p>{entry.summary}</p></div></a></li>
+        ) : (
+          <li class="subtopic-bullet disabled" aria-disabled="true"><span class="bullet-dot" aria-hidden="true" /><div><div class="subtopic-title">{entry.title}</div><p>{entry.summary}</p></div></li>
+        )
+      )}
+    </ul>
+  </section>
+</BaseLayout>

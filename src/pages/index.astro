@@ -47,89 +47,134 @@ const moduleSubtopics: Record<
   ],
   'Module 1': [
     {
-      id: 'llm-interfaces',
-      title: 'LLM interfaces',
-      summary:
-        'Work with LLM client libraries/runtimes and request/response patterns.'
+      id: 'multi-tool-workflows',
+      title: 'Multi-tool AI workflows',
+      summary: 'Running 3+ AI tools in parallel, choosing the right tool for each task.'
     },
     {
-      id: 'inputs-outputs',
-      title: 'Inputs & outputs',
-      summary:
-        'Structure prompts, messages, and JSON/tool outputs for downstream use.'
+      id: 'prompt-mastery',
+      title: 'Prompt mastery',
+      summary: 'Beyond basics — structured prompting, chain-of-thought, system prompts, prompt versioning.'
     },
     {
-      id: 'model-economics',
-      title: 'Model economics',
-      summary: 'Tokens, context windows, latency, and cost basics.'
+      id: 'model-selection-economics',
+      title: 'Model selection & economics',
+      summary: 'When to use Opus vs Sonnet vs Haiku, quota optimization, cost awareness.'
+    },
+    {
+      id: 'voice-multimodal-workflows',
+      title: 'Voice & multimodal workflows',
+      summary: 'Voice-to-AI pipelines, image analysis, audio transcription integration.'
     }
   ],
   'Module 2': [
     {
-      id: 'prompt-structures',
-      title: 'Prompt structures',
-      summary: 'Roles, instructions, examples, CoT, and RAG-style hints.'
+      id: 'persistent-agents',
+      title: 'Persistent AI agents',
+      summary: '24/7 agents on cloud infrastructure — always-on AI assistance.'
     },
     {
-      id: 'output-evaluation',
-      title: 'Output evaluation',
-      summary: 'Compare good/bad outputs and tune prompts with feedback.'
+      id: 'automation-pipelines',
+      title: 'Automation pipelines',
+      summary: 'Cron-driven AI workflows, multi-stage processing, overnight analysis.'
     },
     {
-      id: 'micro-tools',
-      title: 'Micro-tools',
-      summary: 'Small utilities like AI note cleaners or explainers.'
+      id: 'ai-first-lifestyle',
+      title: 'AI-first lifestyle',
+      summary: 'Morning briefings, strategic planning with AI, memory systems for agent continuity.'
+    },
+    {
+      id: 'content-distribution',
+      title: 'Content & distribution',
+      summary: 'AI-augmented content creation, cross-platform publishing, analytics.'
     }
   ],
   'Module 3': [
     {
-      id: 'retrieval-basics',
-      title: 'Retrieval basics',
-      summary: 'Minimal RAG over local documents using embeddings and search.'
+      id: 'llm-interfaces',
+      title: 'LLM interfaces',
+      summary: 'Client libraries, request/response patterns, streaming.'
     },
     {
-      id: 'tool-wiring',
-      title: 'Tool wiring',
-      summary: 'Hook models to search, calculator, or file/DB lookups.'
+      id: 'inputs-outputs',
+      title: 'Inputs & outputs',
+      summary: 'Structured prompts, JSON/tool outputs, function calling.'
     },
     {
-      id: 'observability',
-      title: 'Observability',
-      summary: 'Log prompts/outputs to debug and iterate reliably.'
+      id: 'embeddings-vector-basics',
+      title: 'Embeddings & vector basics',
+      summary: 'Understanding embeddings, similarity search, when you need vectors.'
+    },
+    {
+      id: 'prompting-reasoning-patterns',
+      title: 'Prompting & reasoning patterns',
+      summary: 'Advanced prompting, CoT, evaluation, micro-tools.'
     }
   ],
   'Module 4': [
     {
-      id: 'agent-design',
-      title: 'Agent design',
-      summary: 'One or two small agents (research assistant, task automator).'
+      id: 'vector-databases',
+      title: 'Vector databases',
+      summary: 'ChromaDB, pgvector, Pinecone — setup and comparison.'
     },
     {
-      id: 'control-flow',
-      title: 'Control flow',
-      summary: 'Compare state machines vs. looping-prompt approaches.'
+      id: 'document-indexing-chunking',
+      title: 'Document indexing & chunking',
+      summary: 'Processing your own content for semantic search.'
     },
     {
-      id: 'resilience',
-      title: 'Resilience',
-      summary: 'Handle failures, retries, and graceful fallbacks.'
+      id: 'rag-pipeline-design',
+      title: 'RAG pipeline design',
+      summary: 'End-to-end retrieval-augmented generation.'
+    },
+    {
+      id: 'observability',
+      title: 'Observability',
+      summary: 'LangSmith, Langfuse — tracing, evaluation, cost tracking.'
     }
   ],
   'Module 5': [
     {
-      id: 'packaging',
-      title: 'Packaging',
-      summary: 'Wrap a project into a CLI or simple web UI (Streamlit/FastAPI).'
+      id: 'agent-frameworks',
+      title: 'Agent frameworks',
+      summary: 'LangGraph, CrewAI — multi-agent orchestration.'
     },
     {
-      id: 'run-deploy',
-      title: 'Run & deploy',
-      summary: 'Document how to run locally and how to deploy it.'
+      id: 'mcp-protocol',
+      title: 'MCP protocol',
+      summary: 'Model Context Protocol — building tool servers for AI.'
     },
     {
-      id: 'reality-check',
-      title: 'Reality check',
-      summary: 'Call out limitations, risks, and future improvements.'
+      id: 'control-flow-state',
+      title: 'Control flow & state',
+      summary: 'State machines, reasoning chains, tool use patterns.'
+    },
+    {
+      id: 'resilience-reliability',
+      title: 'Resilience & reliability',
+      summary: 'Failures, retries, graceful fallbacks, health monitoring.'
+    }
+  ],
+  'Module 6': [
+    {
+      id: 'local-model-serving',
+      title: 'Local model serving',
+      summary: 'Ollama, vLLM — cost optimization, privacy, fine-tuning experiments.'
+    },
+    {
+      id: 'packaging-deployment',
+      title: 'Packaging & deployment',
+      summary: 'CLI tools, web UIs (Streamlit/FastAPI), Docker.'
+    },
+    {
+      id: 'evaluation-frameworks',
+      title: 'Evaluation frameworks',
+      summary: 'Systematic prompt testing, A/B evaluation, quality scoring.'
+    },
+    {
+      id: 'shipping-ai-products',
+      title: 'Shipping AI products',
+      summary: 'From personal infrastructure to products others use.'
     }
   ]
 };
@@ -151,45 +196,52 @@ const buildModuleHref = (module) => {
 const moduleLadder = [
   {
     key: 'Module 0',
-    title: 'Setup & Safety',
+    title: 'Fast Track Setup',
     status: 'in-progress',
     link: '/modules/module-0/',
     subtopics: moduleSubtopics['Module 0']
   },
   {
     key: 'Module 1',
-    title: 'Foundations for LLM Builders',
+    title: 'AI Power User',
     status: 'planned',
     link: '/modules/module-1/',
     subtopics: moduleSubtopics['Module 1']
   },
   {
     key: 'Module 2',
-    title: 'Prompting & Reasoning Patterns',
+    title: 'AI Integration & Orchestration',
     status: 'planned',
-    link: '/program#module-2',
+    link: '/modules/module-2/',
     subtopics: moduleSubtopics['Module 2']
   },
   {
     key: 'Module 3',
-    title: 'RAG & Tools Integration',
+    title: 'Builder Foundations',
     status: 'planned',
-    link: '/program#module-3',
+    link: '/modules/module-3/',
     subtopics: moduleSubtopics['Module 3']
   },
   {
     key: 'Module 4',
-    title: 'Agents & Workflows',
+    title: 'RAG & Retrieval Systems',
     status: 'planned',
-    link: '/program#module-4',
+    link: '/modules/module-4/',
     subtopics: moduleSubtopics['Module 4']
   },
   {
     key: 'Module 5',
-    title: 'Productized LLM App',
+    title: 'Agent Architecture',
     status: 'planned',
-    link: '/program#module-5',
+    link: '/modules/module-5/',
     subtopics: moduleSubtopics['Module 5']
+  },
+  {
+    key: 'Module 6',
+    title: 'Production AI Systems',
+    status: 'planned',
+    link: '/modules/module-6/',
+    subtopics: moduleSubtopics['Module 6']
   }
 ];
 
@@ -235,11 +287,10 @@ const subtopicsForModule = (module) => {
     <div class="signal-overlay" aria-hidden="true"></div>
     <div class="signal-grid" aria-hidden="true"></div>
     <div class="hero-content">
-      <h1 id="hero-title">LLM & GenAI Builder</h1>
+      <h1 id="hero-title">AI Power User → Builder</h1>
       <p>
-        <b>Self-learner</b> path for going from zero to shipping practical LLM-based
-        tools and agents, with an emphasis on clarity, reproducibility, and real usage
-        inside the Turtleand ecosystem.
+        Fast-track path from AI integration mastery to building production AI systems.
+        Start where most developers aren't — then go where almost nobody is.
       </p>
     </div>
   </section>
