@@ -15,6 +15,7 @@
 ### Module 2: AI Integration & Orchestration
 - [AI-first lifestyle](https://lab.turtleand.com/topics/ai-first-lifestyle): Morning briefings, memory systems, and making AI work while you sleep.
 - [Automation pipelines](https://lab.turtleand.com/topics/automation-pipelines): Cron-driven AI workflows, multi-stage processing, and overnight analysis.
+- [How I built a knowledge-base MCP server for my articles](https://lab.turtleand.com/topics/building-mcp-server): I built an MCP server that exposes 51 articles to any AI client. Two tools, zero config, no API keys. Here's how it works.
 
 ### Module 1: AI Power User
 - [Model selection & economics](https://lab.turtleand.com/topics/model-selection-economics): When to use Opus vs Sonnet, quota management, and cost-per-output thinking.

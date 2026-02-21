@@ -1006,6 +1006,219 @@ Monitoring and alerts run in the main session — they're short and you want to 
 
 ---
 
+# How I built a knowledge-base MCP server for my articles
+
+Module: Module 2: AI Integration & Orchestration
+
+## What I built and why
+
+I have 51 articles spread across four sites. AI assistants can't read them unless I paste the text in manually. So I built an MCP server that gives any AI client direct access to all of it.
+
+The server exposes two tools: search articles by keyword, and retrieve the full text of any article by slug. One `npm install`, zero configuration, no API keys. Clone, build, point your AI client at it, done.
+
+The repo is at [github.com/turtleand/mcp-server](https://github.com/turtleand/mcp-server).
+
+---
+
+## MCP in 60 seconds
+
+Model Context Protocol is Anthropic's open standard for connecting AI models to external data and tools. Think of it as a USB-C port for AI. One interface that any compliant client (Claude Desktop, Claude Code, Cursor, Windsurf) can plug into.
+
+An MCP server can expose three primitives:
+
+- **Tools** — functions the model can call
+- **Resources** — data the model can read
+- **Prompts** — reusable prompt templates
+
+For a deeper look, the [official MCP docs](https://modelcontextprotocol.io/) cover the full spec.
+
+---
+
+## The design decision: knowledge-base only
+
+I deliberately limited v1 to read-only content. No executable tools, no filesystem access, no API calls. Just search and read.
+
+Why? Three reasons.
+
+**Simpler.** The entire server is one file under 60 lines. No auth flows, no permissions, no error handling for side effects. It reads from a bundled JSON index and returns text.
+
+**Safer.** An MCP server runs with the permissions of the user who starts it. A server that only reads from a static index can't do anything unexpected. That's a much easier security story for a public package.
+
+**Actually useful.** Most of the value is in making content findable. If Claude can search my articles and pull the full text into context, that solves 90% of what I wanted.
+
+The cost model matters here too. The MCP server itself is cheap. Almost free. The client's LLM pays the token cost when it processes the article text. I serve the data, the user's model does the thinking.
+
+---
+
+## What's in the index
+
+The content index covers 51 articles from four sites:
+
+| Source | URL | Articles |
+|--------|-----|----------|
+| AI Lab | lab.turtleand.com | 11 |
+| Blog | growth.turtleand.com | 27 |
+| OpenClaw Lab | openclaw.turtleand.com | 9 |
+| Build Log | build.turtleand.com | 4 |
+
+A build script (`scripts/build-index.ts`) reads every content file across all four repos, parses the frontmatter, and outputs a single `content-index.json`. Each entry looks like this:
+
+```typescript
+interface Article {
+  slug: string;
+  title: string;
+  summary: string;
+  source: string;
+  module: string;
+  tags: string[];
+  body: string;
+  url: string;
+}
+```
+
+The index gets bundled into the package at build time. No network calls at runtime. The server loads the JSON file from disk on startup and holds it in memory.
+
+---
+
+## The server code
+
+The entire server is `src/index.ts`. It starts by loading the bundled index:
+
+```typescript
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const articles: Article[] = JSON.parse(
+  readFileSync(join(__dirname, "content-index.json"), "utf-8")
+);
+```
+
+Then it creates an MCP server and registers two tools. The search tool splits the query into terms and scores each article by how many terms appear in its title, summary, tags, and body:
+
+```typescript
+server.tool(
+  "search-articles",
+  "Search Turtleand knowledge base articles by keyword",
+  { query: z.string().describe("Search query") },
+  async ({ query }) => {
+    const terms = query.toLowerCase().split(/\s+/);
+    const scored = articles.map((a) => {
+      const haystack =
+        `${a.title} ${a.summary} ${a.tags.join(" ")} ${a.body}`.toLowerCase();
+      const score = terms.reduce(
+        (s, t) => s + (haystack.includes(t) ? 1 : 0), 0
+      );
+      return { a, score };
+    });
+    const results = scored
+      .filter((s) => s.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .map((s) => ({
+        slug: s.a.slug, title: s.a.title,
+        summary: s.a.summary, source: s.a.source, url: s.a.url,
+      }));
+    return {
+      content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
+    };
+  }
+);
+```
+
+It returns the top 5 matches with slug, title, summary, source, and URL. Simple keyword matching. With 51 articles, it works fine. Vector embeddings would be overkill here.
+
+The get-article tool retrieves full content by slug:
+
+```typescript
+server.tool(
+  "get-article",
+  "Get full article content by slug",
+  { slug: z.string().describe("Article slug") },
+  async ({ slug }) => {
+    const article = articles.find((a) => a.slug === slug);
+    if (!article) {
+      return { content: [{ type: "text", text: "Article not found" }], isError: true };
+    }
+    return {
+      content: [{
+        type: "text",
+        text: `# ${article.title}\n\nSource: ${article.source} | ${article.url}\nTags: ${article.tags.join(", ")}\n\n${article.body}`,
+      }],
+    };
+  }
+);
+```
+
+Finally, the server connects via stdio transport:
+
+```typescript
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
+
+No HTTP server, no ports, no SSE. The client spawns the server as a subprocess and communicates through stdin/stdout.
+
+---
+
+## How to install and connect
+
+Clone and build:
+
+```bash
+git clone https://github.com/turtleand/mcp-server.git
+cd mcp-server
+npm install
+npm run build
+```
+
+For **Claude Desktop**, add this to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "turtleand": {
+      "command": "node",
+      "args": ["/absolute/path/to/mcp-server/dist/index.js"]
+    }
+  }
+}
+```
+
+For **Claude Code**:
+
+```bash
+claude mcp add turtleand node /absolute/path/to/mcp-server/dist/index.js
+```
+
+Restart the client, and the tools show up automatically. Ask Claude something like "What has Turtleand written about prompt engineering?" and it'll call `search-articles` on its own.
+
+---
+
+## Security for a public package
+
+An MCP server runs with user-level permissions. That deserves scrutiny, even for a read-only server.
+
+What makes this safe:
+
+- **No credentials.** Zero API keys, no environment variables, no auth.
+- **No filesystem access.** It never reads or writes anything on your machine beyond its own bundled index.
+- **No network calls.** Everything is bundled. Nothing phones home.
+- **No telemetry.** No usage tracking, no analytics, no data collection.
+- **Minimal dependencies.** Just the MCP SDK and Zod. Small surface area.
+- **Open source.** Every line is readable at the repo.
+
+The main residual risk is supply chain. If someone compromised the npm account, they could push malicious code. Standard mitigations apply: 2FA on npm, pinned dependencies, and you can always audit the source before installing.
+
+---
+
+## What's next
+
+The server does what I need right now. If there's demand, possible additions include dynamic content fetching (so the index stays current without rebuilds), prompt templates for common workflows, and publishing to npm for `npx` one-liner installs.
+
+But v1 is working. That's what matters.
+
+**Repo:** [github.com/turtleand/mcp-server](https://github.com/turtleand/mcp-server)
+
+---
+
 # Model selection & economics
 
 Module: Module 1: AI Power User
