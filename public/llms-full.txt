@@ -1006,262 +1006,216 @@ Monitoring and alerts run in the main session — they're short and you want to 
 
 ---
 
-# Building & publishing an MCP server as an npm package
+# How I built a knowledge-base MCP server for my articles
 
-Module: Module 2: Building with AI
+Module: Module 2: AI Integration & Orchestration
 
-## What this is about
+## What I built and why
 
-I'm building an MCP server. Not as an exercise — as infrastructure. Something people can `npm install` and immediately connect to their AI tools.
+I have 51 articles spread across four sites. AI assistants can't read them unless I paste the text in manually. So I built an MCP server that gives any AI client direct access to all of it.
 
-This article is me thinking through the architecture, implementation, and publishing process. It's a draft. I'll update it as the build progresses.
+The server exposes two tools: search articles by keyword, and retrieve the full text of any article by slug. One `npm install`, zero configuration, no API keys. Clone, build, point your AI client at it, done.
+
+The repo is at [github.com/turtleand/mcp-server](https://github.com/turtleand/mcp-server).
 
 ---
 
 ## MCP in 60 seconds
 
-Model Context Protocol (MCP) is Anthropic's open standard for connecting AI models to external tools and data. Think of it as a USB-C port for AI — a single interface that any compliant client (Claude Desktop, Cursor, Windsurf, etc.) can plug into.
+Model Context Protocol is Anthropic's open standard for connecting AI models to external data and tools. Think of it as a USB-C port for AI. One interface that any compliant client (Claude Desktop, Claude Code, Cursor, Windsurf) can plug into.
 
-An MCP server exposes three primitives:
+An MCP server can expose three primitives:
 
-- **Tools** — functions the model can call (search a database, run a calculation, hit an API)
-- **Resources** — data the model can read (files, configs, knowledge bases)
-- **Prompts** — reusable prompt templates the model can invoke
+- **Tools** — functions the model can call
+- **Resources** — data the model can read
+- **Prompts** — reusable prompt templates
 
-The key insight: instead of building custom integrations for every AI client, you build one MCP server and every client that speaks MCP can use it.
-
----
-
-## The vision: Turtleand's MCP server
-
-The idea is a personal MCP server published as `@turtleand/mcp-server` on npm. Anyone can install it and get access to a curated set of tools, knowledge, and utilities that I've built and refined.
-
-What makes this interesting isn't the individual tools — it's the packaging. Most MCP servers are either massive (connecting to entire platforms like GitHub or Slack) or trivial (wrapping a single API). I want something in between: a focused, opinionated toolkit that reflects how I actually work with AI.
-
-**What it exposes:**
-
-- Tools I've validated through daily use
-- Knowledge resources from my lab and writing
-- Prompt templates that encode useful patterns
-
-**What it doesn't expose:**
-
-- Anything requiring my credentials
-- Private data or personal context
-- Tools that only make sense in my specific infrastructure
+For a deeper look, the [official MCP docs](https://modelcontextprotocol.io/) cover the full spec.
 
 ---
 
-## Architecture overview
+## The design decision: knowledge-base only
 
-```
-@turtleand/mcp-server
-├── src/
-│   ├── index.ts          # Server entry point
-│   ├── tools/            # Tool definitions
-│   │   ├── index.ts      # Tool registry
-│   │   ├── search.ts     # Knowledge search
-│   │   ├── format.ts     # Content formatting utilities
-│   │   └── analyze.ts    # Analysis helpers
-│   ├── resources/        # Static and dynamic resources
-│   │   ├── index.ts      # Resource registry
-│   │   ├── lab-index.ts  # AI Lab topic index
-│   │   └── guides.ts     # Curated guides
-│   ├── prompts/          # Prompt templates
-│   │   ├── index.ts      # Prompt registry
-│   │   └── templates.ts  # Reusable prompt patterns
-│   └── utils/            # Shared utilities
-├── package.json
-├── tsconfig.json
-└── README.md
-```
+I deliberately limited v1 to read-only content. No executable tools, no filesystem access, no API calls. Just search and read.
 
-The structure is deliberately simple. Each primitive type (tools, resources, prompts) gets its own directory. A registry pattern handles discovery — when the server starts, it scans registries and exposes everything to the client.
+Why? Three reasons.
+
+**Simpler.** The entire server is one file under 60 lines. No auth flows, no permissions, no error handling for side effects. It reads from a bundled JSON index and returns text.
+
+**Safer.** An MCP server runs with the permissions of the user who starts it. A server that only reads from a static index can't do anything unexpected. That's a much easier security story for a public package.
+
+**Actually useful.** Most of the value is in making content findable. If Claude can search my articles and pull the full text into context, that solves 90% of what I wanted.
+
+The cost model matters here too. The MCP server itself is cheap. Almost free. The client's LLM pays the token cost when it processes the article text. I serve the data, the user's model does the thinking.
 
 ---
 
-## Implementation plan
+## What's in the index
 
-### The SDK
+The content index covers 51 articles from four sites:
 
-Using `@modelcontextprotocol/sdk` — Anthropic's official TypeScript SDK. It handles the protocol layer: message framing, capability negotiation, transport abstraction.
+| Source | URL | Articles |
+|--------|-----|----------|
+| AI Lab | lab.turtleand.com | 11 |
+| Blog | growth.turtleand.com | 27 |
+| OpenClaw Lab | openclaw.turtleand.com | 9 |
+| Build Log | build.turtleand.com | 4 |
+
+A build script (`scripts/build-index.ts`) reads every content file across all four repos, parses the frontmatter, and outputs a single `content-index.json`. Each entry looks like this:
 
 ```typescript
-
-const server = new McpServer({
-  name: "@turtleand/mcp-server",
-  version: "0.1.0",
-});
-```
-
-### Defining tools
-
-Each tool is a self-contained module. The pattern:
-
-```typescript
-
-// In tools/format.ts
-export function registerFormatTools(server: McpServer) {
-  server.tool(
-    "format-for-platform",
-    "Format content for a specific platform (dev.to, Twitter, etc.)",
-    {
-      content: z.string().describe("The content to format"),
-      platform: z.enum(["devto", "twitter", "linkedin", "github"]),
-    },
-    async ({ content, platform }) => {
-      const formatted = formatForPlatform(content, platform);
-      return {
-        content: [{ type: "text", text: formatted }],
-      };
-    }
-  );
+interface Article {
+  slug: string;
+  title: string;
+  summary: string;
+  source: string;
+  module: string;
+  tags: string[];
+  body: string;
+  url: string;
 }
 ```
 
-Important design choice: tools should be **stateless**. No tool should require persistent state or credentials from the user. If a tool needs an API key, it should be the user's key passed via environment variable — not baked into the package.
+The index gets bundled into the package at build time. No network calls at runtime. The server loads the JSON file from disk on startup and holds it in memory.
 
-### Transport options
+---
 
-MCP supports two transports:
+## The server code
 
-1. **stdio** — the default. The client spawns the server as a subprocess and communicates via stdin/stdout. Simple, secure, works everywhere.
-2. **SSE (Server-Sent Events)** — HTTP-based. The server runs as a web service. Better for remote access, worse for security.
-
-For an npm package, **stdio is the right default**. Users run `npx @turtleand/mcp-server` and the client handles the rest. SSE is a future option for hosted deployments.
+The entire server is `src/index.ts`. It starts by loading the bundled index:
 
 ```typescript
-// Entry point — stdio transport
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const articles: Article[] = JSON.parse(
+  readFileSync(join(__dirname, "content-index.json"), "utf-8")
+);
+```
+
+Then it creates an MCP server and registers two tools. The search tool splits the query into terms and scores each article by how many terms appear in its title, summary, tags, and body:
+
+```typescript
+server.tool(
+  "search-articles",
+  "Search Turtleand knowledge base articles by keyword",
+  { query: z.string().describe("Search query") },
+  async ({ query }) => {
+    const terms = query.toLowerCase().split(/\s+/);
+    const scored = articles.map((a) => {
+      const haystack =
+        `${a.title} ${a.summary} ${a.tags.join(" ")} ${a.body}`.toLowerCase();
+      const score = terms.reduce(
+        (s, t) => s + (haystack.includes(t) ? 1 : 0), 0
+      );
+      return { a, score };
+    });
+    const results = scored
+      .filter((s) => s.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .map((s) => ({
+        slug: s.a.slug, title: s.a.title,
+        summary: s.a.summary, source: s.a.source, url: s.a.url,
+      }));
+    return {
+      content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
+    };
+  }
+);
+```
+
+It returns the top 5 matches with slug, title, summary, source, and URL. Simple keyword matching. With 51 articles, it works fine. Vector embeddings would be overkill here.
+
+The get-article tool retrieves full content by slug:
+
+```typescript
+server.tool(
+  "get-article",
+  "Get full article content by slug",
+  { slug: z.string().describe("Article slug") },
+  async ({ slug }) => {
+    const article = articles.find((a) => a.slug === slug);
+    if (!article) {
+      return { content: [{ type: "text", text: "Article not found" }], isError: true };
+    }
+    return {
+      content: [{
+        type: "text",
+        text: `# ${article.title}\n\nSource: ${article.source} | ${article.url}\nTags: ${article.tags.join(", ")}\n\n${article.body}`,
+      }],
+    };
+  }
+);
+```
+
+Finally, the server connects via stdio transport:
+
+```typescript
 const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
+No HTTP server, no ports, no SSE. The client spawns the server as a subprocess and communicates through stdin/stdout.
+
 ---
 
-## Publishing to npm
+## How to install and connect
 
-### Package structure
+Clone and build:
 
-```json
-{
-  "name": "@turtleand/mcp-server",
-  "version": "0.1.0",
-  "description": "Turtleand's MCP server — AI tools, knowledge, and prompts",
-  "type": "module",
-  "bin": {
-    "turtleand-mcp": "./dist/index.js"
-  },
-  "files": ["dist"],
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "prepublishOnly": "npm run build"
-  },
-  "keywords": ["mcp", "model-context-protocol", "ai-tools"],
-  "license": "MIT"
-}
+```bash
+git clone https://github.com/turtleand/mcp-server.git
+cd mcp-server
+npm install
+npm run build
 ```
 
-Key decisions:
-
-- **`bin` field** — makes it executable via `npx`. Users don't need to know it's TypeScript.
-- **`files: ["dist"]`** — only ship compiled JS. Keep the package small.
-- **`type: "module"`** — ESM. It's 2026. No more CommonJS for new packages.
-- **`prepublishOnly`** — ensures fresh build before every publish.
-
-### Installation
-
-Users add it to their AI client config. For Claude Desktop:
+For **Claude Desktop**, add this to your `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "turtleand": {
-      "command": "npx",
-      "args": ["-y", "@turtleand/mcp-server"]
+      "command": "node",
+      "args": ["/absolute/path/to/mcp-server/dist/index.js"]
     }
   }
 }
 ```
 
-That's it. No cloning repos, no building from source, no Docker. One JSON block and you have access to the full toolkit.
+For **Claude Code**:
 
-For Cursor, the config is similar — add the server in settings under MCP.
-
----
-
-## Security considerations
-
-This is where I'm being most careful. An MCP server runs with the permissions of the user who starts it. Publishing one as an npm package means thinking about trust boundaries.
-
-**Rules I'm following:**
-
-1. **No embedded secrets.** The package ships with zero credentials. Any tool that needs API access uses environment variables the user provides.
-2. **No filesystem access by default.** Tools that read or write files are opt-in and scoped to explicit paths.
-3. **No network calls without transparency.** Every tool that makes HTTP requests documents where and why.
-4. **No data collection.** The server doesn't phone home, track usage, or send telemetry.
-5. **Audit-friendly code.** Small package, readable source, no obfuscated dependencies.
-
-The tension is between usefulness and safety. A tool that can "do anything" is powerful but dangerous. A tool that can only format text is safe but boring. The sweet spot is tools that are **useful within clear boundaries**.
-
----
-
-## Usage examples
-
-### Connecting to Claude Desktop
-
-```json
-{
-  "mcpServers": {
-    "turtleand": {
-      "command": "npx",
-      "args": ["-y", "@turtleand/mcp-server"],
-      "env": {
-        "TURTLEAND_API_KEY": "optional-for-premium-tools"
-      }
-    }
-  }
-}
+```bash
+claude mcp add turtleand node /absolute/path/to/mcp-server/dist/index.js
 ```
 
-### Using tools in conversation
-
-Once connected, the tools appear naturally in Claude's tool palette:
-
-> "Format this blog post for Dev.to" → calls `format-for-platform`
->
-> "What topics does Turtleand's AI Lab cover?" → reads `lab-index` resource
->
-> "Use the analysis prompt template for this data" → invokes a stored prompt
-
-The experience should feel native. The user doesn't think about MCP — they just ask for things and the tools are available.
+Restart the client, and the tools show up automatically. Ask Claude something like "What has Turtleand written about prompt engineering?" and it'll call `search-articles` on its own.
 
 ---
 
-## Future roadmap
+## Security for a public package
 
-Things I'm thinking about but haven't built yet:
+An MCP server runs with user-level permissions. That deserves scrutiny, even for a read-only server.
 
-- **Dynamic tool registration** — let users enable/disable specific tools via config
-- **Authentication layer** — for tools that access Turtleand's APIs directly (rate-limited, key-based)
-- **Multi-user support** — different capability sets for different users
-- **Tool composition** — letting tools call other tools in chains
-- **Version negotiation** — graceful degradation when client and server versions diverge
-- **Plugin architecture** — let others contribute tools to the server
+What makes this safe:
 
-The north star is making this a living toolkit that evolves with my work. Not a static package, but an interface to my ongoing projects and learnings.
+- **No credentials.** Zero API keys, no environment variables, no auth.
+- **No filesystem access.** It never reads or writes anything on your machine beyond its own bundled index.
+- **No network calls.** Everything is bundled. Nothing phones home.
+- **No telemetry.** No usage tracking, no analytics, no data collection.
+- **Minimal dependencies.** Just the MCP SDK and Zod. Small surface area.
+- **Open source.** Every line is readable at the repo.
+
+The main residual risk is supply chain. If someone compromised the npm account, they could push malicious code. Standard mitigations apply: 2FA on npm, pinned dependencies, and you can always audit the source before installing.
 
 ---
 
-## Current status
+## What's next
 
-**Status: Planning / Early implementation**
+The server does what I need right now. If there's demand, possible additions include dynamic content fetching (so the index stays current without rebuilds), prompt templates for common workflows, and publishing to npm for `npx` one-liner installs.
 
-I'm writing the initial tool definitions and getting the package structure right. First publish will be minimal — maybe 3-4 tools, a few resources, and the basic prompt templates. Then iterate based on actual usage.
+But v1 is working. That's what matters.
 
-The repo will be public. The package will be free. If there's demand for authenticated tools that connect to my APIs, that'll be a separate tier with its own access controls.
-
-More updates as I build.
+**Repo:** [github.com/turtleand/mcp-server](https://github.com/turtleand/mcp-server)
 
 ---
 
