@@ -16,6 +16,9 @@
 - [AI-first lifestyle](https://lab.turtleand.com/topics/ai-first-lifestyle): Morning briefings, memory systems, and making AI work while you sleep.
 - [Automation pipelines](https://lab.turtleand.com/topics/automation-pipelines): Cron-driven AI workflows, multi-stage processing, and overnight analysis.
 
+### Module 2: Building with AI
+- [Building & publishing an MCP server as an npm package](https://lab.turtleand.com/topics/building-mcp-server): Designing, building, and publishing a personal MCP server — exposing your tools and knowledge as an installable npm package.
+
 ### Module 1: AI Power User
 - [Model selection & economics](https://lab.turtleand.com/topics/model-selection-economics): When to use Opus vs Sonnet, quota management, and cost-per-output thinking.
 - [Multi-tool AI workflows](https://lab.turtleand.com/topics/multi-tool-workflows): Running 3+ AI tools in parallel, choosing the right tool for each task.
