@@ -1,0 +1,189 @@
+---
+title: "Vector embeddings and semantic search"
+module: "Module 2: AI Integration & Orchestration"
+subtopic: "vector-embeddings-semantic-search"
+summary: "Replace keyword matching with meaning-based search using pgvector, Supabase, and local embedding models."
+status: "done"
+---
+
+## The moment keyword search broke
+
+I built an MCP server that indexes 51 articles across four sites. Two tools: search and retrieve. It worked. Then I searched for "staying relevant in tech" and got nothing back.
+
+The article I wanted was called "Check Again." It's about reassessing your skills against what the market actually needs. But the words "staying relevant" don't appear anywhere in it. The keyword matcher looked for exact matches, found none, and returned an empty list.
+
+That's when I realized keyword search has a ceiling. It finds what you said, not what you meant. And the gap between those two things is where most useful searches live.
+
+---
+
+## What embeddings actually are
+
+An embedding is a list of numbers that represents the meaning of a piece of text. The word "dog" and the word "puppy" have different spellings but similar embeddings because they mean similar things. "Bank" the financial institution and "bank" the river edge have the same spelling but different embeddings depending on context.
+
+A model reads your text and outputs a vector. Something like 384 numbers between -1 and 1. These numbers encode relationships. Texts about similar topics end up as vectors pointing in similar directions. You measure similarity by comparing the angle between them. That's it. No magic, just geometry.
+
+The practical result: you can search by meaning instead of by matching characters.
+
+---
+
+## Why pgvector instead of a dedicated vector database
+
+There are purpose-built vector databases. Pinecone, Weaviate, Milvus, ChromaDB. They're designed for millions or billions of vectors with advanced indexing and distributed queries.
+
+I have 51 articles.
+
+Using Pinecone for 51 documents is like renting a warehouse to store a bookshelf. It works, but you're paying for infrastructure you'll never use, adding a service you need to maintain, and introducing a dependency that could disappear or change pricing.
+
+pgvector is a Postgres extension. It adds vector columns and similarity operators to regular SQL. If you already have Postgres, you already have a vector database. Supabase bundles pgvector in their free tier: 500MB storage, unlimited API requests. My 51 articles at 384 dimensions use roughly 0.1MB. I could index 50,000 articles before hitting any limits.
+
+And because it's Postgres, I can filter results by site, module, date, or content type in the same query. Try doing that in Pinecone without maintaining a separate metadata store.
+
+---
+
+## Choosing an embedding model
+
+You need a model to convert text into vectors. The key trade-offs are size, speed, and quality.
+
+| Model | Dimensions | Size | Speed | Best for |
+|-------|-----------|------|-------|----------|
+| Supabase/gte-small | 384 | 67MB | Fast | Small collections, budget setups |
+| all-MiniLM-L6-v2 | 384 | 80MB | Fast | General purpose, well-documented |
+| all-mpnet-base-v2 | 768 | 420MB | Medium | Higher quality, more storage |
+
+I went with `Supabase/gte-small`. Three reasons:
+
+1. **It runs locally.** No API calls, no costs, no rate limits. The `@huggingface/transformers` library loads the model in Node.js and generates embeddings on CPU. For 51 articles, the entire indexing run takes about 30 seconds.
+
+2. **384 dimensions is enough.** More dimensions capture more nuance but use more storage and slower comparisons. At this scale, the difference between 384 and 768 dimensions is invisible.
+
+3. **Supabase's own docs use it.** Their examples, their recommended model. That means fewer surprises when things need debugging.
+
+---
+
+## The schema
+
+One table stores everything. Articles from all six sites, Impact Map entries, any future content. The `site` and `content_type` columns let you filter without touching the vector index.
+
+```sql
+create extension if not exists vector;
+
+create table content_embeddings (
+  id bigserial primary key,
+  slug text not null,
+  site text not null,
+  title text not null,
+  summary text,
+  content_type text not null,
+  module text,
+  url text not null,
+  embedding vector(384) not null,
+  metadata jsonb default '{}',
+  created_at timestamptz default now(),
+  unique(slug, site)
+);
+
+create index on content_embeddings
+  using hnsw (embedding vector_cosine_ops);
+```
+
+The HNSW index makes similarity queries fast even as the collection grows. For 51 documents it's not strictly necessary, but it costs nothing to add and it means the system doesn't slow down when the content doubles or triples.
+
+---
+
+## Building the embedding pipeline
+
+The indexing script reads the existing content index, generates embeddings, and upserts them to Supabase.
+
+```typescript
+import { pipeline } from '@huggingface/transformers';
+import { createClient } from '@supabase/supabase-js';
+
+const embedder = await pipeline(
+  'feature-extraction',
+  'Supabase/gte-small'
+);
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
+
+for (const article of contentIndex) {
+  const text = `${article.title}. ${article.summary}`;
+  const output = await embedder(text, {
+    pooling: 'mean',
+    normalize: true,
+  });
+  const embedding = Array.from(output.data);
+
+  await supabase.from('content_embeddings').upsert({
+    slug: article.slug,
+    site: article.site,
+    title: article.title,
+    summary: article.summary,
+    content_type: 'article',
+    url: article.url,
+    embedding,
+  }, { onConflict: 'slug,site' });
+}
+```
+
+Run it once to seed the database. Run it again when content changes. The upsert handles both cases.
+
+---
+
+## Querying by meaning
+
+With embeddings stored, search becomes a two-step process: embed the query, then find the nearest vectors.
+
+```typescript
+async function search(query: string, limit = 5) {
+  const output = await embedder(query, {
+    pooling: 'mean',
+    normalize: true,
+  });
+  const embedding = Array.from(output.data);
+
+  const { data } = await supabase.rpc('match_content', {
+    query_embedding: embedding,
+    match_threshold: 0.5,
+    match_count: limit,
+  });
+
+  return data;
+}
+```
+
+Now "staying relevant in tech" finds "Check Again" because the meanings overlap even though the words don't. "How to run AI locally" finds the inference article. "What jobs are AI replacing" finds Impact Map entries.
+
+The similarity threshold (0.5) controls how related results need to be. Lower means more results but less relevant. Higher means fewer but tighter matches. Start at 0.5 and adjust based on what you see.
+
+---
+
+## Three things this enables
+
+**Semantic MCP search.** The existing MCP server switches from keyword matching to vector similarity. Every AI client connected to it immediately gets smarter search. Same two tools, better results.
+
+**Cross-site recommendations.** Find the 5 nearest articles to any given article, regardless of which site they're on. Power "You might also like" widgets that connect the AI Lab to the blog to the Build log. The six sites stop being islands and start being a network.
+
+**Natural language data queries.** Embed the Impact Map's structured YAML data alongside articles. Now you can ask "Which creative roles are most at risk from AI?" and get answers that combine displacement percentages with related articles. Turn a static visualization into something you can have a conversation with.
+
+---
+
+## What I'd do differently
+
+If I had thousands of articles, I'd chunk them. Right now each article gets one embedding based on title and summary. That works because the articles are short (1000-2500 words) and the summaries are descriptive. With longer documents, you'd split into paragraphs or sections, embed each chunk, and store them with a reference back to the parent article.
+
+I'd also consider a hybrid approach: vector search for recall, then a reranker model for precision. The reranker takes the top 20 vector results and re-scores them with a more expensive model. But again, at 51 articles, the extra complexity isn't worth it.
+
+Start simple. Add complexity when the simple version stops working, not before.
+
+---
+
+## The practical bottom line
+
+Vector embeddings aren't complicated. You're converting text to numbers and comparing which numbers are close together. The tooling has matured to the point where you can do this locally, for free, with a few dozen lines of code.
+
+pgvector in Supabase's free tier handles the storage and querying. A small local model handles the embedding generation. And Postgres means you're not bolting on a separate service. It's just another column in your database.
+
+For a small content ecosystem, this is the right architecture. Build it simple, keep it in Postgres, and only reach for the specialized tools when you outgrow the simple version. Which, at 51 articles, isn't happening anytime soon.
