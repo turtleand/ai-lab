@@ -1,0 +1,204 @@
+---
+title: "x402: Teaching my AI agent to pay for things"
+module: "Module 2: AI Integration & Orchestration"
+subtopic: "x402-agent-payments"
+summary: "The HTTP 402 status code sat dormant for 30 years. Now it's the payment layer for AI agents. Here's how I'm adding it to the Turtleand ecosystem."
+status: "done"
+---
+
+## The status code that waited 30 years
+
+When the HTTP spec was written in the early 1990s, someone added status code 402: Payment Required. Then nothing happened. For three decades, 402 sat there, reserved "for future use," while the web built its payment infrastructure on top of credit cards, Stripe integrations, and subscription models.
+
+That future arrived in 2025. Coinbase revived 402 as x402, an open protocol that lets any HTTP endpoint require payment. No accounts. No API keys. No subscriptions. Just: send request, get a 402 response with a price, pay on-chain, receive the resource.
+
+I found this while researching how AI agents might pay for services autonomously. The insight that clicked: x402 makes sense for computation and services, not static content. You're paying for work, not files.
+
+75 million transactions and counting. Cloudflare built native support. Simplescraper, AdPrompt, and others have live x402-enabled APIs right now. This isn't theoretical anymore.
+
+---
+
+## How x402 actually works
+
+The flow is almost embarrassingly simple:
+
+1. Client sends a normal HTTP request to an endpoint
+2. Server responds with `402 Payment Required` plus a header containing the price, accepted networks, and a payment address
+3. Client constructs a payment (signs a stablecoin transaction), attaches it as a header
+4. Server verifies payment through a facilitator, settles it on-chain, returns the resource
+
+One round trip covers discovery, payment, and delivery. The server-side code is literally one middleware call:
+
+```javascript
+app.use(paymentMiddleware(
+  "0xYourWalletAddress",
+  {
+    "/api/premium": {
+      price: "$0.01",
+      network: "base",
+      config: { description: "Premium API access" }
+    }
+  },
+  { url: "https://x402.org/facilitator" }
+));
+```
+
+That's it. Everything behind `/api/premium` now requires a one-cent payment in USDC on Base. The facilitator (hosted by Coinbase, with 1,000 free transactions per month) handles verification and settlement.
+
+On the client side, `x402-fetch` wraps the standard `fetch` API:
+
+```javascript
+import { wrapFetchWithPayment } from "x402-fetch";
+import { privateKeyToAccount } from "viem/accounts";
+
+const account = privateKeyToAccount("0xYourPrivateKey");
+const fetchWithPay = wrapFetchWithPayment(fetch, account);
+
+// This automatically handles 402 responses
+const response = await fetchWithPay("https://api.example.com/premium");
+```
+
+The client doesn't need to know the price in advance. It discovers the payment requirement from the 402 response and handles it automatically.
+
+---
+
+## Why this matters for AI agents
+
+Here's the thing about AI agents and payments: the current model is broken. Every API requires a separate account, separate API key, separate billing relationship. My OpenClaw agent can't just discover a useful service and start using it. Someone (me) has to sign up, get a key, configure it, add billing info.
+
+x402 removes all of that. An agent with a crypto wallet can discover and pay for any x402-enabled service on the internet. No human in the loop for the payment step. The agent sees a 402, checks if the price is within its budget, pays, and gets the data.
+
+This is the difference between an agent that can use 5 pre-configured tools and an agent that can use anything. It's autonomy for computation.
+
+The networks that support this today: Base (Coinbase's L2, lowest fees), Solana, and several others. Base is the obvious choice for getting started. Transaction fees are fractions of a cent, and USDC is the default payment currency.
+
+---
+
+## Three ways I'm building with x402
+
+I've mapped out three concrete use cases for the Turtleand ecosystem. Each one is buildable in 3-4 hours. The build process itself becomes content for this lab.
+
+### Use Case A: Paid tier for the MCP knowledge base
+
+The MCP server I built exposes 51 articles through two tools: search and get-article. Right now, both are free. The cost model is simple. The server is cheap to run, and the AI client pays the token cost when processing article text.
+
+But what if the server offered more? Semantic search across all articles. Full-text retrieval with context windows optimized for LLMs. Cross-reference maps showing how articles connect. That computation costs money. And x402 lets me charge for it without building an auth system.
+
+The architecture:
+
+```
+AI Client (Claude, Cursor, etc.)
+    |
+    v
+MCP Server (Express + x402 middleware)
+    |
+    ├── search-articles (FREE) — keyword search, returns titles + summaries
+    ├── get-article (FREE) — full text of any single article
+    ├── semantic-search ($0.005) — vector similarity search via pgvector
+    └── get-article-bundle ($0.01) — article + related articles + context map
+```
+
+The free tier stays exactly as it is. The paid tier adds computation-heavy features. A Cloudflare Worker or Express server sits in front, and the x402 middleware gates the premium endpoints.
+
+Implementation steps:
+1. Add `x402-express` middleware to the MCP server's HTTP layer
+2. Create a wallet on Base for receiving payments
+3. Define pricing for each premium endpoint
+4. Add pgvector-powered semantic search (pairs with the vector search POC)
+5. Test with `x402-fetch` client to verify the payment flow
+6. Update the MCP server README with the new paid endpoints
+
+Estimated time: 4 hours. Network: Base (lowest fees, USDC support, Coinbase facilitator is free for the first 1,000 transactions per month).
+
+### Use Case B: Give OpenClaw a wallet
+
+This is the flip side. Instead of selling, I want my agent to buy. Give OpenClaw a crypto wallet so it can pay for x402-enabled services autonomously.
+
+There are real services live today. Simplescraper offers x402-powered web scraping. AdPrompt has x402 endpoints for marketing analysis and ad creative generation. These are pay-per-request APIs where you send an HTTP request and pay fractions of a dollar on-chain.
+
+The interesting service for our ecosystem: web scraping. OpenClaw already does research. It fetches URLs, reads content, synthesizes information. But some sites block bots or require JavaScript rendering. A paid scraping service that returns clean, rendered content would make the agent's research significantly better.
+
+The architecture:
+
+```
+OpenClaw Agent
+    |
+    ├── AgentKit Wallet (Base, funded with USDC)
+    |       |
+    |       └── Budget: $5/month cap, $0.50/day max
+    |
+    └── x402-fetch wrapper
+            |
+            ├── Simplescraper ($0.01/page) — rendered web scraping
+            ├── AdPrompt ($0.05/analysis) — marketing analysis
+            └── Future services (discovered via Bazaar)
+```
+
+Implementation steps:
+1. Install `@coinbase/agentkit` and create a wallet on Base
+2. Fund the wallet with a small amount of USDC (starting with $5)
+3. Configure budget limits (daily and monthly caps)
+4. Wrap the agent's fetch with `x402-fetch` using the wallet's private key
+5. Add a tool that lets the agent decide when to use paid services
+6. Log all transactions for transparency and auditing
+
+The budget controls are important. I don't want an agent draining a wallet. AgentKit supports spending limits, and the agent should log every payment decision for review.
+
+Estimated time: 3 hours. Network: Base.
+
+### Use Case C: Cross-agent article marketplace
+
+This one is more experimental, but it builds on something real. The MCP server indexes articles from four sites. Other people building MCP servers have their own content. What if agents could buy and sell access to each other's knowledge bases?
+
+Picture this: another builder has an MCP server with 200 articles about Kubernetes. My agent needs Kubernetes context for a deployment article. Instead of searching the open web and hoping for quality, my agent pays $0.02 to query a curated, expert knowledge base. The other builder's MCP server gets paid automatically. No partnership agreement. No API key exchange. Just x402.
+
+This is cross-agent commerce. Agents discovering, evaluating, and paying for each other's specialized knowledge. The x402 Bazaar (a discovery layer Coinbase is building) would make this even more interesting. Agents could browse a directory of paid MCP servers and choose the best source for their current task.
+
+The architecture:
+
+```
+Agent A (OpenClaw)                    Agent B (other builder)
+    |                                       |
+    v                                       v
+MCP Client ──── x402 ────> MCP Server (paid endpoints)
+                                            |
+                                    Knowledge Base B
+                                    (200 Kubernetes articles)
+```
+
+Implementation steps:
+1. Define a standard x402 pricing schema for MCP knowledge bases
+2. Add service metadata (topics covered, article count, quality signals)
+3. Implement discovery via a simple registry (JSON file to start, Bazaar later)
+4. Build a "knowledge buyer" tool for the agent that evaluates cost vs. value
+5. Create a demo with two MCP servers trading queries
+
+Estimated time: 5 hours. Network: Base. This one is the most speculative but has the most interesting implications. If MCP becomes the standard interface for AI tools (and it's heading that way), x402 becomes the standard payment layer.
+
+---
+
+## What's real and what's early
+
+I want to be honest about maturity levels here.
+
+**Real and working today:** The x402 protocol itself. The npm packages (`x402`, `x402-express`, `x402-hono`, `x402-fetch`). The Coinbase facilitator. Base network payments. Cloudflare Workers integration. Live services like Simplescraper and AdPrompt accepting x402 payments.
+
+**Early but functional:** AgentKit wallet creation. Budget controls for agents. The client-side payment flow with `x402-fetch`.
+
+**Experimental:** Cross-agent commerce. The Bazaar discovery layer. Autonomous agent spending decisions. These exist as concepts and early prototypes, not production systems.
+
+The protocol has 75 million transactions. That's real traction. But most of those are simple API paywalls, not autonomous agent-to-agent payments. We're in the "building blocks exist, interesting applications are emerging" phase.
+
+That's exactly when it's worth experimenting. The builders who understand x402 now will be ready when agent commerce takes off. And the build process itself produces articles, code examples, and insights that compound.
+
+---
+
+## Next steps
+
+I'm starting with Use Case A (paid MCP tier) because it builds directly on existing infrastructure. The MCP server is already running. Adding x402 middleware is the smallest possible change that opens the most interesting door.
+
+Use Case B (agent wallet) comes next. Once the agent can pay for things, the entire internet of x402 services becomes accessible.
+
+Use Case C is for after the first two are working. Cross-agent commerce is the most interesting idea here, but it needs both sides of the equation working first.
+
+The code will be in the repos. The process will become articles. And if this works, my AI agent will be able to pay for its own compute. That's a weird sentence to write. But that's where we are.
