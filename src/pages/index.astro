@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PortalDuo from '../components/PortalDuo.astro';
+import PortalTrio from '../components/PortalTrio.astro';
 import { getCollection } from 'astro:content';
 
 const entries = await getCollection('ai-lab');
@@ -65,6 +65,11 @@ const moduleSubtopics: Record<
       id: 'voice-multimodal-workflows',
       title: 'Voice & multimodal workflows',
       summary: 'Voice-to-AI pipelines, image analysis, audio transcription integration.'
+    },
+    {
+      id: 'human-ai-collaboration-handbook',
+      title: 'Human-AI collaboration handbook',
+      summary: 'A quick-reference guide to principles for human-AI collaboration.'
     }
   ],
   'Module 2': [
@@ -300,7 +305,7 @@ const subtopicsForModule = (module) => {
     </div>
   </section>
 
-  <PortalDuo />
+  <PortalTrio />
 
   <section class="card" aria-labelledby="modules-title" id="modules">
     <div class="section-title">
