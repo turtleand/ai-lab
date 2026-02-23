@@ -18,6 +18,7 @@
 - [How I built a knowledge-base MCP server for my articles](https://lab.turtleand.com/topics/building-mcp-server): I built an MCP server that exposes 51 articles to any AI client. Two tools, zero config, no API keys. Here's how it works.
 
 ### Module 1: AI Power User
+- [Human-AI collaboration handbook](https://lab.turtleand.com/topics/human-ai-collaboration-handbook): A quick-reference guide to principles for human-AI collaboration, from mindset to workflow.
 - [Model selection & economics](https://lab.turtleand.com/topics/model-selection-economics): When to use Opus vs Sonnet, quota management, and cost-per-output thinking.
 - [Multi-tool AI workflows](https://lab.turtleand.com/topics/multi-tool-workflows): Running 3+ AI tools in parallel, choosing the right tool for each task.
 - [Prompt mastery](https://lab.turtleand.com/topics/prompt-mastery): Beyond basics — structured prompting for autonomous systems.

@@ -1,0 +1,176 @@
+---
+title: "Dominio de prompts"
+module: "Module 1: AI Power User"
+subtopic: "prompt-mastery"
+summary: "Más allá de lo básico — prompting estructurado para sistemas autónomos."
+status: "done"
+---
+
+## El problema
+
+Todos pueden escribir un prompt. Pocos escriben prompts que funcionen de forma confiable cuando ningún humano está mirando. La brecha entre "chatear con IA" y "pipeline de IA autónomo" está casi enteramente en la calidad del prompt.
+
+---
+
+## De prompts de chat a system prompts
+
+En un chat, tu prompt es un mensaje puntual. En un sistema autónomo, tu prompt es un **set de instrucciones** que debe producir resultados consistentes sin intervención.
+
+Acá está la diferencia:
+
+**Prompt de chat:**
+> "¿Cuáles son las últimas noticias de IA?"
+
+**Prompt autónomo (cron job real):**
+> "Leé workspace/memory/strategic-action-tracker.json para las prioridades actuales de Fase 1. Escaneá las noticias de hoy de IA, blockchain y tech. Para cada historia: evaluá consecuencias de 1er, 2do y 3er orden con enfoque en un especialista de IA en transición de ingeniero a pensador estratégico. Output: top 5 historias rankeadas por relevancia. Guardá en workspace/memory/news-results.md"
+
+La versión autónoma especifica: qué leer, qué escanear, cómo analizar, cómo formatear el output, y dónde guardar. Nada queda a interpretación.
+
+---
+
+## La anatomía de nuestros prompts
+
+Después de escribir 25+ prompts autónomos para cron jobs, nos asentamos en una estructura consistente:
+
+### 1. Carga de contexto
+Decile al agente qué leer primero.
+
+```
+Read memory/YYYY-MM-DD.md for today's context.
+Read memory/strategic-action-tracker.json for current priorities.
+```
+
+### 2. Definición de tarea
+Sé específico sobre qué hacer, no solo sobre cuál es el tema.
+
+```
+Scan top AI and technology news from the last 24 hours.
+For EACH story, analyze: 1st order (immediate), 2nd order (downstream),
+and 3rd order (systemic) consequences.
+```
+
+### 3. Restricciones de alcance
+Acotá el output a lo que realmente es útil.
+
+```
+Scope all analysis to the interests of an AI specialist focused on
+AI integration, blockchain, and human-centered technology.
+Skip: celebrity news, sports, local politics.
+```
+
+### 4. Formato de output
+Especificá exactamente cómo querés los resultados estructurados.
+
+```
+Format each as:
+- **Alias:** short-kebab-case identifier
+- **Source:** URL
+- **Summary:** 2-3 sentences with consequence chain
+Save to workspace/memory/news-results.md
+```
+
+### 5. Manejo de errores
+Qué hacer cuando las cosas salen mal.
+
+```
+If web search fails, note the failure and continue with available data.
+If no significant news found, state that explicitly rather than forcing weak stories.
+```
+
+---
+
+## Experimento: cómo evolucionó nuestro prompt del pipeline nocturno
+
+Nuestro pipeline nocturno de 4 etapas corre entre las 04:00 y 07:00 UTC. La Etapa 1 escanea noticias. Así evolucionó el prompt:
+
+**Versión 1 (primer intento):**
+> "Chequeá las últimas noticias de IA y resumí."
+
+**Problema:** El output era genérico. Sin análisis de consecuencias. Las historias no eran relevantes a nuestros intereses.
+
+**Versión 2 (se agregó alcance):**
+> "Chequeá noticias de IA, blockchain y tech. Analizá consecuencias. Enfocate en historias relevantes para un especialista de IA."
+
+**Problema:** Mejor relevancia, pero el formato de output era inconsistente. A veces bullet points, a veces párrafos. Difícil de parsear downstream.
+
+**Versión 3 (se agregó estructura + ubicación de guardado):**
+> "Escaneá noticias. Para cada una: alias, fuente, consecuencias de 1er/2do/3er orden. Guardá en ruta específica."
+
+**Problema:** Funcionó bien pero hizo timeout corriendo en Opus (límite de 10 minutos del cron). El modelo estaba siendo demasiado exhaustivo.
+
+**Versión actual:** Se agregaron límites explícitos — "top 5 historias" y "2-3 oraciones por historia." Corre dentro del timeout manteniendo calidad.
+
+**Lección:** Los prompts se iteran, no se diseñan. Cada falla te enseña qué le faltaba al prompt. Versioná tus prompts (nosotros guardamos los nuestros en definiciones de cron jobs) para poder rastrear qué cambió y por qué.
+
+---
+
+## El patrón de alineación pre-ejecución
+
+Para trabajo interactivo (no cron), usamos un protocolo: antes de ejecutar instrucciones no triviales, surfear las 3 preguntas principales que mejorarían la alineación.
+
+**Por qué funciona:**
+- Ahorra ciclos de retrabajo — capturá malentendidos antes de la ejecución
+- Fuerza al agente a pensar antes de actuar
+- Solo se activa cuando hay incertidumbre genuina
+- Cuando está seguro, simplemente ejecutá — sin demora innecesaria
+
+**Cómo implementarlo:**
+Lo agregamos al system prompt de nuestro agente (SOUL.md):
+
+```
+Before executing non-trivial instructions, surface the top 3 questions
+(if any) that would meaningfully improve alignment. Use judgment:
+- If confident → just execute
+- If uncertainties exist that could lead to rework → ask first
+```
+
+Esto es un meta-prompt — un prompt sobre cómo manejar prompts.
+
+---
+
+## Arquitectura de system prompts
+
+El comportamiento de nuestro agente se define por archivos en capas, cada uno sirviendo un propósito diferente:
+
+| Archivo | Propósito | Frecuencia de cambio |
+|---------|-----------|---------------------|
+| SOUL.md | Identidad central, personalidad, principios | Raramente |
+| AGENTS.md | Reglas operativas, workflows, convenciones | Ocasionalmente |
+| USER.md | Contexto sobre el humano | Cuando las cosas cambian |
+| TOOLS.md | Notas específicas del entorno (keys, dispositivos, rutas) | Cuando se agregan herramientas |
+| MEMORY.md | Contexto curado a largo plazo | Continuamente |
+
+Este enfoque en capas significa que podés actualizar reglas operativas sin cambiar la identidad del agente, o actualizar contexto sin cambiar reglas. Cada capa tiene una tasa de cambio diferente.
+
+**Insight clave:** El system prompt ES el producto. Para un agente autónomo, la diferencia entre útil e inútil está enteramente en cuán bien el system prompt captura intención, límites y contexto.
+
+---
+
+## Errores comunes de prompting que cometimos
+
+**Demasiado vago:** "Analizá esto." → El agente no sabe qué ángulo, profundidad, ni formato.
+
+**Demasiado rígido:** Especificar cada oración del output → El agente no puede adaptarse a input inesperado.
+
+**Sin casos de error:** No decirle al agente qué hacer cuando falla la búsqueda, faltan archivos, o los resultados están vacíos.
+
+**Asumir contexto:** Olvidar que cada sesión empieza de cero. El agente no recuerda ayer a menos que le digas que lea las notas de ayer.
+
+**Sobre-prompting de cron jobs:** Escribir prompts de 500 palabras para tareas simples. Más tokens de entrada = más costo, más latencia, más espacio para que el modelo se desvíe.
+
+---
+
+## Lo que no hemos formalizado
+
+- **Sin sistema de versionado de prompts.** Editamos prompts in-place (definiciones de cron jobs). Deberíamos versionarlos por separado.
+- **Sin evaluación automatizada.** Juzgamos la calidad de prompts leyendo outputs, no con scoring sistemático.
+- **Sin A/B testing.** No podemos comparar dos versiones de prompts lado a lado con el mismo input.
+
+Estas brechas importan más a medida que escalás. Para 25 cron jobs, la revisión manual funciona. Para 100+, necesitarías automatización.
+
+---
+
+## Fuentes
+
+- [Guía de prompt engineering de Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering) — mejores prácticas oficiales
+- [Prompt engineering de OpenAI](https://platform.openai.com/docs/guides/prompt-engineering) — perspectiva complementaria

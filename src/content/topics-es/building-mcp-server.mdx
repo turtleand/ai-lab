@@ -1,0 +1,214 @@
+---
+title: "Cómo construí un servidor MCP de base de conocimiento para mis artículos"
+module: "Module 2: AI Integration & Orchestration"
+subtopic: "building-mcp-server"
+summary: "Construí un servidor MCP que expone 51 artículos a cualquier cliente de IA. Dos tools, cero configuración, sin API keys. Así es cómo funciona."
+status: "done"
+---
+
+## Qué construí y por qué
+
+Tengo 51 artículos repartidos en cuatro sitios. Los asistentes de IA no pueden leerlos a menos que yo pegue el texto manualmente. Así que construí un servidor MCP que le da a cualquier cliente de IA acceso directo a todo.
+
+El servidor expone dos tools: buscar artículos por palabra clave, y obtener el texto completo de cualquier artículo por slug. Un `npm install`, cero configuración, sin API keys. Cloná, buildá, apuntá tu cliente de IA, listo.
+
+El repo está en [github.com/turtleand/mcp-server](https://github.com/turtleand/mcp-server).
+
+---
+
+## MCP en 60 segundos
+
+Model Context Protocol es el estándar abierto de Anthropic para conectar modelos de IA con datos externos y tools. Pensalo como un puerto USB-C para IA. Una interfaz en la que cualquier cliente compatible (Claude Desktop, Claude Code, Cursor, Windsurf) puede conectarse.
+
+Un servidor MCP puede exponer tres primitivas:
+
+- **Tools** — funciones que el modelo puede llamar
+- **Resources** — datos que el modelo puede leer
+- **Prompts** — templates de prompts reutilizables
+
+Para una mirada más profunda, la [documentación oficial de MCP](https://modelcontextprotocol.io/) cubre la spec completa.
+
+---
+
+## La decisión de diseño: solo base de conocimiento
+
+Deliberadamente limité la v1 a contenido de solo lectura. Sin tools ejecutables, sin acceso al filesystem, sin llamadas a APIs. Solo buscar y leer.
+
+¿Por qué? Tres razones.
+
+**Más simple.** El servidor entero es un archivo de menos de 60 líneas. Sin flujos de autenticación, sin permisos, sin manejo de errores para efectos secundarios. Lee de un índice JSON incluido y devuelve texto.
+
+**Más seguro.** Un servidor MCP corre con los permisos del usuario que lo inicia. Un servidor que solo lee de un índice estático no puede hacer nada inesperado. Eso es una historia de seguridad mucho más fácil para un paquete público.
+
+**Realmente útil.** La mayor parte del valor está en hacer el contenido encontrable. Si Claude puede buscar mis artículos y traer el texto completo al contexto, eso resuelve el 90% de lo que yo quería.
+
+El modelo de costos importa acá también. El servidor MCP en sí es barato. Casi gratis. El LLM del cliente paga el costo en tokens cuando procesa el texto del artículo. Yo sirvo los datos, el modelo del usuario piensa.
+
+---
+
+## Qué hay en el índice
+
+El índice de contenido cubre 51 artículos de cuatro sitios:
+
+| Fuente | URL | Artículos |
+|--------|-----|-----------|
+| AI Lab | lab.turtleand.com | 11 |
+| Blog | growth.turtleand.com | 27 |
+| OpenClaw Lab | openclaw.turtleand.com | 9 |
+| Build Log | build.turtleand.com | 4 |
+
+Un script de build (`scripts/build-index.ts`) lee cada archivo de contenido de los cuatro repos, parsea el frontmatter, y genera un solo `content-index.json`. Cada entrada se ve así:
+
+```typescript
+interface Article {
+  slug: string;
+  title: string;
+  summary: string;
+  source: string;
+  module: string;
+  tags: string[];
+  body: string;
+  url: string;
+}
+```
+
+El índice se incluye en el paquete al momento del build. Sin llamadas de red en runtime. El servidor carga el archivo JSON del disco al iniciar y lo mantiene en memoria.
+
+---
+
+## El código del servidor
+
+El servidor entero es `src/index.ts`. Empieza cargando el índice incluido:
+
+```typescript
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const articles: Article[] = JSON.parse(
+  readFileSync(join(__dirname, "content-index.json"), "utf-8")
+);
+```
+
+Luego crea un servidor MCP y registra dos tools. El tool de búsqueda divide la consulta en términos y puntúa cada artículo según cuántos términos aparecen en su título, resumen, tags y cuerpo:
+
+```typescript
+server.tool(
+  "search-articles",
+  "Search Turtleand knowledge base articles by keyword",
+  { query: z.string().describe("Search query") },
+  async ({ query }) => {
+    const terms = query.toLowerCase().split(/\s+/);
+    const scored = articles.map((a) => {
+      const haystack =
+        `${a.title} ${a.summary} ${a.tags.join(" ")} ${a.body}`.toLowerCase();
+      const score = terms.reduce(
+        (s, t) => s + (haystack.includes(t) ? 1 : 0), 0
+      );
+      return { a, score };
+    });
+    const results = scored
+      .filter((s) => s.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .map((s) => ({
+        slug: s.a.slug, title: s.a.title,
+        summary: s.a.summary, source: s.a.source, url: s.a.url,
+      }));
+    return {
+      content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
+    };
+  }
+);
+```
+
+Devuelve los 5 mejores resultados con slug, título, resumen, fuente y URL. Matching simple por palabras clave. Con 51 artículos, funciona perfecto. Embeddings vectoriales serían overkill acá.
+
+El tool get-article obtiene el contenido completo por slug:
+
+```typescript
+server.tool(
+  "get-article",
+  "Get full article content by slug",
+  { slug: z.string().describe("Article slug") },
+  async ({ slug }) => {
+    const article = articles.find((a) => a.slug === slug);
+    if (!article) {
+      return { content: [{ type: "text", text: "Article not found" }], isError: true };
+    }
+    return {
+      content: [{
+        type: "text",
+        text: `# ${article.title}\n\nSource: ${article.source} | ${article.url}\nTags: ${article.tags.join(", ")}\n\n${article.body}`,
+      }],
+    };
+  }
+);
+```
+
+Finalmente, el servidor se conecta mediante transporte stdio:
+
+```typescript
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
+
+Sin servidor HTTP, sin puertos, sin SSE. El cliente inicia el servidor como un subproceso y se comunica a través de stdin/stdout.
+
+---
+
+## Cómo instalar y conectar
+
+Cloná y buildá:
+
+```bash
+git clone https://github.com/turtleand/mcp-server.git
+cd mcp-server
+npm install
+npm run build
+```
+
+Para **Claude Desktop**, agregá esto a tu `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "turtleand": {
+      "command": "node",
+      "args": ["/absolute/path/to/mcp-server/dist/index.js"]
+    }
+  }
+}
+```
+
+Para **Claude Code**:
+
+```bash
+claude mcp add turtleand node /absolute/path/to/mcp-server/dist/index.js
+```
+
+Reiniciá el cliente, y los tools aparecen automáticamente. Preguntale a Claude algo como "¿Qué escribió Turtleand sobre prompt engineering?" y va a llamar a `search-articles` por su cuenta.
+
+---
+
+## Seguridad para un paquete público
+
+Un servidor MCP corre con permisos a nivel de usuario. Eso merece escrutinio, incluso para un servidor de solo lectura.
+
+Lo que lo hace seguro:
+
+- **Sin credenciales.** Cero API keys, sin variables de entorno, sin autenticación.
+- **Sin acceso al filesystem.** Nunca lee ni escribe nada en tu máquina más allá de su propio índice incluido.
+- **Sin llamadas de red.** Todo está incluido. Nada llama a casa.
+- **Sin telemetría.** Sin tracking de uso, sin analytics, sin recolección de datos.
+- **Dependencias mínimas.** Solo el SDK de MCP y Zod. Superficie de ataque pequeña.
+- **Open source.** Cada línea es legible en el repo.
+
+El riesgo residual principal es la cadena de suministro. Si alguien comprometiera la cuenta de npm, podría subir código malicioso. Las mitigaciones estándar aplican: 2FA en npm, dependencias pinneadas, y siempre podés auditar el código fuente antes de instalar.
+
+---
+
+## Qué sigue
+
+El servidor hace lo que necesito ahora mismo. Si hay demanda, posibles agregados incluyen fetching dinámico de contenido (para que el índice se mantenga actualizado sin rebuilds), templates de prompts para workflows comunes, y publicación en npm para instalar con un one-liner de `npx`.
+
+Pero la v1 funciona. Eso es lo que importa.
+
+**Repo:** [github.com/turtleand/mcp-server](https://github.com/turtleand/mcp-server)
