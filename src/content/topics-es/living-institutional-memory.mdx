@@ -1,0 +1,63 @@
+---
+title: "Memoria institucional viva"
+module: "Module 2: AI Integration & Orchestration"
+subtopic: "living-institutional-memory"
+summary: "Cómo las organizaciones pueden usar IA para que ningún conocimiento se degrade y ninguna lección se aprenda dos veces."
+status: "done"
+---
+
+## Una versión personal
+
+Tengo un asistente de IA que arranca cada sesión leyendo un conjunto de archivos: un documento de personalidad, un archivo de memoria, las notas de ayer. No recuerda nada por sí solo. Pero los archivos recuerdan por él.
+
+Cada noche, un pipeline escanea mis documentos estratégicos, lee las noticias y conecta lo que está pasando en el mundo con lo que estoy trabajando. A la mañana hay un briefing esperando. La IA no "aprendió" durante la noche. Leyó los archivos correctos en el momento correcto e hizo conexiones que yo habría pasado por alto.
+
+Cuando lanzo sub-agentes para tareas, heredan contexto de la sesión principal. El conocimiento se transfiere. No perfectamente, pero lo suficiente como para que el sub-agente no arranque de cero.
+
+Esta es una versión personal de algo mucho más grande.
+
+## Cómo se ve la memoria institucional en la práctica
+
+Toda organización tiene una versión del mismo problema. Alguien toma una decisión en Q3. Para Q1 del año siguiente, tres personas que estaban en la sala se fueron. Un equipo nuevo enfrenta la misma situación, no sabe que la decisión ya se tomó, y pasa dos semanas llegando a la misma conclusión. O peor, a una diferente que ignora restricciones que el equipo original entendía.
+
+Las wikis no resuelven esto. Las páginas de Confluence no lo resuelven. La documentación se pudre en el momento en que se escribe porque nadie la mantiene y nadie la lee en el momento correcto. El conocimiento existe en algún Google Doc de 2023, pero encontrarlo requiere saber que existe.
+
+La memoria institucional viva es diferente. No es un repositorio que buscás. Es un sistema que te muestra lo que necesitás antes de que sepas que lo necesitás.
+
+## Cómo funciona esto con IA
+
+Imaginá un agente de IA con acceso al contexto organizacional completo: cada registro de decisión, cada retrospectiva de proyecto, cada revisión de arquitectura, cada hilo de Slack donde ocurrió el razonamiento real.
+
+No un motor de búsqueda. Una memoria que entiende las relaciones entre la información.
+
+Alguien abre un PR que cambia el flujo de autenticación. La IA muestra: "Este servicio se refactorizó en Q3 2024 porque el enfoque de auth anterior no podía manejar aislamiento multi-tenant. La restricción era regulatoria. Consultá con compliance antes de cambiarlo."
+
+Un nuevo ingeniero se une al equipo de plataforma. En lugar de leer 40 páginas de documentación de onboarding (no lo va a hacer), tiene una conversación con la memoria de la organización. "Cuál es la historia de este servicio? Por qué funciona así? Qué intentaron equipos anteriores que no funcionó?" La IA extrae de registros de decisiones reales, retrospectivas reales, conversaciones reales. No un resumen que alguien escribió una vez y nunca actualizó.
+
+Tres equipos consideran independientemente migrar al mismo framework. La IA detecta el patrón: "El Equipo A evaluó esto en enero. El Equipo B lo evaluó en marzo. Esto es lo que encontraron ambos. El Equipo C está por empezar la misma evaluación. Quizás deberían coordinar."
+
+## La mecánica
+
+Esto no es ciencia ficción. Las piezas existen hoy.
+
+**Archivos de contexto, no bases de datos.** Mi setup usa archivos markdown que la IA lee al inicio de sesión. Escalá eso a una organización: archivos de memoria compartidos en un repo, actualizados por humanos y agentes. Registros de decisiones que son solo de escritura. Resúmenes de retrospectivas que los agentes pueden parsear.
+
+**Servidores MCP indexando conocimiento institucional.** Conectá tus agentes de IA a las fuentes reales: historial de Git, herramientas de gestión de proyectos, archivos de comunicación. El agente no necesita todo en memoria. Necesita saber dónde buscar y cuándo hacerlo.
+
+**Presentación proactiva, no solo recuperación.** El pipeline nocturno que corro no espera a que haga preguntas. Lee, conecta y presenta. La memoria organizacional debería funcionar igual. Antes de una reunión de sprint planning, la IA revisa qué pasó en el sprint anterior, qué bloqueó a los equipos, qué decisiones siguen pendientes. Prepara contexto que nadie pidió pero todos necesitan.
+
+**Conocimiento que se acumula.** Cada decisión capturada hace que la siguiente esté mejor informada. Cada error documentado es un error que la organización solo comete una vez. El sistema se vuelve más inteligente con el tiempo porque la memoria crece, y la IA mejora conectando piezas a medida que tiene más piezas para conectar.
+
+## Por qué importa ahora
+
+La gente se va de las empresas. Se llevan su contexto. La organización olvida y reaprende, olvida y reaprende, en un ciclo costoso que todos aceptan como normal.
+
+No tiene que ser normal.
+
+Una organización con memoria institucional viva se convierte en algo más parecido a un organismo. Acumula inteligencia. Las personas nuevas no arrancan de cero. Arrancan desde todo lo que la organización aprendió hasta ese momento.
+
+La tecnología está acá. Agentes que leen contexto, herramientas que indexan conocimiento, protocolos que conectan sistemas. Lo que falta es la práctica: tratar el conocimiento organizacional como un sistema vivo en lugar de un archivo estático.
+
+Empezá simple. Registrá decisiones con contexto. Escribí el "por qué" junto al "qué." Dále a tus agentes de IA acceso a esa historia. Dejá que lo muestren cuando sea relevante.
+
+La organización que recuerda todo aprende más rápido que la que sigue olvidando.
