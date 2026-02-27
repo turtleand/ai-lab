@@ -1219,6 +1219,68 @@ But v1 is working. That's what matters.
 
 ---
 
+# Living institutional memory
+
+Module: Module 2: AI Integration & Orchestration
+
+## A personal version
+
+I run an AI assistant that wakes up every session and reads a set of files: a personality doc, a memory file, yesterday's notes. It doesn't remember anything on its own. But the files remember for it.
+
+Every night, a pipeline scans my strategic documents, reads the news, and connects what's happening in the world to what I'm working on. By morning there's a briefing waiting. The AI didn't "learn" overnight. It read the right files at the right time and made connections I would have missed.
+
+When I spawn sub-agents for tasks, they inherit context from the parent session. The knowledge transfers. Not perfectly, but well enough that the sub-agent doesn't start from zero.
+
+This is a personal version of something much bigger.
+
+## What institutional memory actually looks like
+
+Every organization has a version of the same problem. Someone makes a decision in Q3. By Q1 next year, three people who were in the room have left. A new team faces the same situation, doesn't know the decision was already made, and spends two weeks arriving at the same conclusion. Or worse, a different one that ignores constraints the original team understood.
+
+Wikis don't fix this. Confluence pages don't fix it. Documentation rots the moment it's written because nobody maintains it and nobody reads it at the right time. The knowledge exists somewhere in a Google Doc from 2023, but finding it requires knowing it exists in the first place.
+
+Living institutional memory is different. It's not a repository you search. It's a system that surfaces what you need before you know you need it.
+
+## How this works with AI
+
+Picture an AI agent with access to the full organizational context: every decision log, every project retrospective, every architecture review, every Slack thread where the actual reasoning happened.
+
+Not a search engine. A memory that understands relationships between information.
+
+Someone opens a PR that changes the authentication flow. The AI surfaces: "This service was refactored in Q3 2024 because the previous auth approach couldn't handle multi-tenant isolation. The constraint was regulatory. Check with compliance before changing it."
+
+A new engineer joins the platform team. Instead of reading 40 pages of onboarding docs (they won't), they have a conversation with the organization's memory. "What's the history of this service? Why does it work this way? What did previous teams try that didn't work?" The AI pulls from real decision records, real retrospectives, real conversations. Not a summary someone wrote once and never updated.
+
+Three teams independently consider migrating to the same framework. The AI catches the pattern: "Team A evaluated this in January. Team B evaluated it in March. Here's what both found. Team C is about to start the same evaluation. Maybe coordinate."
+
+## The mechanics
+
+This isn't science fiction. The pieces exist today.
+
+**Context files, not databases.** My setup uses markdown files that the AI reads at session start. Scale that to an organization: shared memory files in a repo, updated by both humans and agents. Decision logs that are append-only. Retrospective summaries that agents can parse.
+
+**MCP servers indexing institutional knowledge.** Connect your AI agents to the actual sources: Git history, project management tools, communication archives. The agent doesn't need everything in memory. It needs to know where to look and when to look there.
+
+**Proactive surfacing, not just retrieval.** The overnight pipeline I run doesn't wait for me to ask questions. It reads, connects, and presents. Organizational memory should work the same way. Before a sprint planning meeting, the AI reviews what happened last sprint, what blocked teams, what decisions are still pending. It prepares context nobody asked for but everyone needs.
+
+**Knowledge that compounds.** Every decision captured makes the next decision better informed. Every mistake documented is a mistake the organization only makes once. The system gets smarter over time because the memory grows, and the AI gets better at connecting pieces as it has more pieces to connect.
+
+## Why this matters now
+
+People leave companies. They take their context with them. The organization forgets and relearns, forgets and relearns, in an expensive cycle that everyone accepts as normal.
+
+It doesn't have to be normal.
+
+An organization with living institutional memory becomes something closer to an organism. It accumulates intelligence. New people don't start from scratch. They start from everything the organization has learned so far.
+
+The technology is here. Agents that read context, tools that index knowledge, protocols that connect systems. What's missing is the practice: treating organizational knowledge as a living system instead of a static archive.
+
+Start simple. Log decisions with context. Write down the "why" alongside the "what." Give your AI agents access to that history. Let them surface it when it's relevant.
+
+The organization that remembers everything learns faster than the one that keeps forgetting.
+
+---
+
 # Human-AI collaboration handbook
 
 Module: Module 1: AI Power User
