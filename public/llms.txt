@@ -18,6 +18,9 @@
 - [How I built a knowledge-base MCP server for my articles](https://lab.turtleand.com/topics/building-mcp-server): I built an MCP server that exposes 51 articles to any AI client. Two tools, zero config, no API keys. Here's how it works.
 - [Living institutional memory](https://lab.turtleand.com/topics/living-institutional-memory): How organizations can use AI to ensure no knowledge ever degrades and no lesson is ever relearned.
 
+### 'Module 1: AI Power User'
+- ['Guarded frontier models'](https://lab.turtleand.com/topics/guarded-frontier-models): 'Understand Claude Fable 5, Claude Mythos 5, classifiers, fallback routing, and why frontier model access is becoming tiered.'
+
 ### Module 1: AI Power User
 - [Human-AI collaboration handbook](https://lab.turtleand.com/topics/human-ai-collaboration-handbook): A quick-reference guide to principles for human-AI collaboration, from mindset to workflow.
 - [Model selection & economics](https://lab.turtleand.com/topics/model-selection-economics): When to use Opus vs Sonnet, quota management, and cost-per-output thinking.

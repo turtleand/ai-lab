@@ -1,0 +1,281 @@
+---
+title: 'Modelos frontera con guardrails'
+module: 'Module 1: AI Power User'
+subtopic: 'guarded-frontier-models'
+summary: 'Entendé Claude Fable 5, Claude Mythos 5, classifiers, fallback routing y por qué el acceso a modelos frontera se vuelve por niveles.'
+status: 'done'
+---
+
+## Intuición inicial
+
+Algunos modelos ya no son solamente chatbots. Son trabajadores de proyecto.
+
+Un chatbot común te ayuda a responder una pregunta. Un modelo de proyecto te ayuda a avanzar sobre un objetivo más grande: planificar el trabajo, usar herramientas, revisar progreso, leer documentos, escribir código y seguir trabajando durante una tarea más larga.
+
+Esa capacidad extra cambia la pregunta de acceso. Si un modelo puede hacer más trabajo útil, también puede crear más riesgo cuando se lo apunta a dominios sensibles. El trade-off central es simple:
+
+**Más capacidad crea más utilidad, pero también más responsabilidad.**
+
+Esta lección usa Claude Fable 5 y Claude Mythos 5 de Anthropic como caso de estudio beginner-friendly sobre modelos frontera con guardrails.
+
+## Estado actual primero
+
+Al 2026-06-14, las páginas oficiales de Anthropic dicen que Claude Fable 5 y Claude Mythos 5 no están disponibles actualmente.
+
+El aprendizaje importante sigue siendo durable. El lanzamiento de Fable y Mythos muestra un patrón estratégico que va a importar más allá de un modelo específico:
+
+- Los modelos frontera se están volviendo más operacionales.
+- El acceso se está volviendo por niveles.
+- Los controles de seguridad se están volviendo infraestructura.
+- El juicio humano sigue siendo central.
+
+## La distinción básica
+
+### Fable 5
+
+**Afirmación oficial:** Anthropic describió Claude Fable 5 como un modelo de clase Mythos hecho seguro para uso general. Su página de producto lo describió como un modelo para proyectos ambiciosos y de largo recorrido, incluyendo coding, knowledge work, flujos de documentos, visión y tareas agentic.
+
+**Versión simple:** Fable es la versión pensada para uso más amplio, con safeguards extra alrededor de categorías sensibles.
+
+Pensalo así:
+
+> Un trabajador de proyecto poderoso con guardrails.
+
+### Mythos 5
+
+**Afirmación oficial:** Anthropic describió Claude Mythos 5 como su modelo más capaz para investigación en cybersecurity y biología, disponible inicialmente solo para un grupo pequeño de partners evaluados mediante programas de trusted access.
+
+**Versión simple:** Mythos es la versión más restringida para usuarios confiables y trabajo especializado.
+
+Pensalo así:
+
+> Un modelo muy relacionado, con acceso limitado a partners evaluados porque algunas capacidades son más sensibles.
+
+### La diferencia clave
+
+Fable y Mythos no se entienden mejor como “modelo inteligente vs modelo menos inteligente”. Se entienden mejor como:
+
+- capacidad frontera similar
+- reglas de acceso distintas
+- safeguards distintos
+- límites de riesgo distintos
+
+Ese es el punto. En la frontera, el diseño de acceso se vuelve parte del producto del modelo.
+
+## Por qué importa
+
+Fable importa porque apunta a un cambio en cómo se usan los sistemas de IA.
+
+### 1. Trabajo de largo horizonte
+
+Un modelo de proyecto es útil cuando la tarea lleva muchos pasos. Puede necesitar leer contexto, hacer un plan, escribir código, correr tests, revisar y reportar.
+
+Cuanto más puede sostener trabajo largo, menos necesita el humano supervisar cada micro-paso.
+
+### 2. Agentic coding
+
+En coding, la diferencia no es solamente “¿puede escribir una función?”. La pregunta más grande es:
+
+> ¿Puede gestionar un proyecto sin perder el hilo?
+
+Eso incluye planificar, editar múltiples archivos, correr tests, comparar el resultado contra la intención y saber cuándo pedir revisión humana.
+
+### 3. Flujos de investigación y documentos
+
+Para knowledge work, los modelos con long context y herramientas pueden leer reportes, comparar documentos, extraer patrones y construir resúmenes que a un humano le llevarían mucho más tiempo.
+
+Esto es útil, pero también aumenta la necesidad de revisión. Un modelo que puede procesar más material también puede cometer un error más convincente.
+
+### 4. Revisión humana en vez de supervisión paso a paso
+
+El rol humano sube de nivel.
+
+En vez de supervisar cada tecla, la persona define el objetivo, marca límites, revisa evidencia, evalúa resultados y decide qué es aceptable.
+
+Ese rol tiene más leverage, pero no menos responsabilidad.
+
+## Arquitectura de seguridad en simple
+
+Las páginas de Fable y Mythos de Anthropic apuntan a cuatro ideas que vale la pena entender.
+
+### 1. Classifiers
+
+Un classifier es un sistema de seguridad que inspecciona una solicitud e intenta reconocer si pertenece a una categoría sensible.
+
+Analogía simple:
+
+> Un classifier es como alguien en la puerta. No resuelve la tarea. Decide por qué camino debería ir la solicitud.
+
+En los materiales de lanzamiento de Anthropic, los classifiers se discutieron alrededor de áreas sensibles como:
+
+- cybersecurity
+- biología y química
+- model distillation
+
+La lección public-safe no es cómo activar o evitar un classifier. La lección es que los sistemas avanzados de IA dependen cada vez más de sistemas de seguridad separados alrededor del modelo principal.
+
+### 2. Dominios sensibles
+
+Un dominio sensible es un área donde la misma capacidad puede ser útil o dañina según quién la use y para qué.
+
+Ejemplos a nivel conceptual:
+
+- Cybersecurity puede ayudar a defensores a encontrar debilidades, pero también puede ayudar a atacantes.
+- Biología y química pueden apoyar investigación, pero también pueden generar preocupaciones de misuse.
+- Model distillation puede ayudar a construir modelos eficientes, pero también puede distribuir capacidad frontera sin los mismos safeguards.
+
+El objetivo no es bloquear todo trabajo en estas áreas. El objetivo es manejarlas con más cuidado.
+
+### 3. Fallback routing
+
+Fallback routing significa que una solicitud puede moverse de un camino de modelo a otro.
+
+La página de Fable de Anthropic dice que consultas marcadas por safeguards en cybersecurity y biología se enrutan automáticamente a Claude Opus 4.8. El post de lanzamiento también describió fallback routing para solicitudes marcadas que involucran cybersecurity, biología o química y model distillation.
+
+Flujo simple:
+
+```text
+Solicitud del usuario
+  -> el classifier revisa la solicitud
+  -> si no está marcada, va a Fable
+  -> si está marcada, va a un modelo fallback como Opus 4.8
+```
+
+Esto es distinto de una negativa simple. En algunos casos, el sistema intenta dar una respuesta más segura o más acotada por otro camino de modelo.
+
+### 4. Retención de datos
+
+Los materiales oficiales de Anthropic dicen que Fable y Mythos requieren 30 días de retención de datos para monitoreo de seguridad. El post de lanzamiento dice que Anthropic no usa esos datos para entrenar nuevos modelos Claude ni para fines no relacionados con seguridad, y describe protecciones de privacidad como registrar el acceso humano y borrar los datos después de 30 días en casi todos los casos.
+
+Para usuarios y organizaciones, esto importa porque elegir un modelo ya no es solamente calidad y precio. También puede involucrar política de retención, compliance y límites de confianza.
+
+## El patrón estratégico
+
+Fable y Mythos son un ejemplo de un patrón más amplio.
+
+### La capacidad aumenta
+
+Los modelos frontera pasan de responder prompts aislados a manejar trabajo operacional. Pueden codear, leer, planificar, llamar herramientas, inspeccionar resultados y seguir trabajando.
+
+### El acceso se vuelve por niveles
+
+No todo usuario recibe el mismo acceso a toda capacidad. Algunos modelos pueden ser general-use. Otros pueden requerir trusted access. Otros pueden estar restringidos a partners, dominios o jurisdicciones específicas.
+
+### La seguridad se vuelve infraestructura
+
+La seguridad no es solamente un documento de política. Se vuelve parte del sistema técnico:
+
+- classifiers
+- reglas de routing
+- retención específica por modelo
+- monitoreo
+- niveles de acceso
+- caminos fallback
+
+### El juicio humano sigue siendo central
+
+Cuanto más capaz es el modelo, más importante se vuelve el juicio humano.
+
+Los humanos todavía eligen el objetivo. Los humanos definen el uso aceptable. Los humanos evalúan evidencia. Los humanos deciden cuándo publicar, desplegar, enviar, mergear o frenar.
+
+Un modelo poderoso no elimina responsabilidad. La concentra.
+
+## Modelo mental para principiantes
+
+Usá este mapa simple:
+
+```text
+Fable 5 = modelo de proyecto más amplio con safeguards
+Mythos 5 = modelo closely related con trusted access para trabajo más sensible
+Classifier = safety gate que revisa la categoría de una solicitud
+Fallback routing = mover una solicitud marcada a otro camino de modelo
+Modelo frontera con guardrails = alta capacidad más reglas de acceso e infraestructura de seguridad
+```
+
+## Mini quiz
+
+1. ¿Por qué Fable se describe mejor como modelo de proyecto que como simple modelo de respuesta de chat?
+2. ¿Cuál es la diferencia entre un classifier y un modelo fallback?
+3. ¿Por qué un modelo frontera podría necesitar reglas de acceso distintas para distintos usuarios o dominios?
+
+## Checkpoint de teach-back
+
+Explicalo con tus palabras:
+
+> Fable y Mythos muestran que el acceso futuro a IA no va a preguntar solamente “¿qué tan inteligente es el modelo?”. También va a preguntar “¿quién accede, bajo qué safeguards y para qué tipo de trabajo?”.
+
+Una buena respuesta debería mencionar:
+
+- capacidad de largo horizonte
+- dominios sensibles
+- classifiers o routing
+- responsabilidad humana
+
+## Reflexión Turtleand
+
+AI Lab no debería perseguir nombres de modelos como ciclos de hype. La habilidad durable es aprender cómo funciona el sistema.
+
+Fable y Mythos importan porque hacen visible una parte oculta de la IA frontera: el acceso a modelos se está volviendo un problema de arquitectura.
+
+Para Turtleand, la lección es práctica:
+
+- Aprendé los modelos, pero no adores los nombres.
+- Entendé la capa de acceso, no solo el benchmark.
+- Tratá safety, retención y routing como parte de la alfabetización real en IA.
+- Mantené a los humanos responsables por dirección, validación y consecuencias públicas.
+
+El usuario serio de IA no es quien pide máximo poder a ciegas. Es quien entiende cuándo más poder requiere más estructura.
+
+## Artefactos companion opcionales
+
+### Idea de diagrama
+
+```text
+Solicitud
+  -> classifier
+     -> trabajo general seguro: Fable 5
+     -> trabajo sensible o marcado: camino fallback a Opus 4.8
+     -> contexto de programa confiable: camino de acceso a Mythos 5
+```
+
+### Idea de cross-link para AI Atlas
+
+Crear una entrada corta en AI Atlas:
+
+**Patrones de acceso a modelos: general, confiable, restringido**
+
+Categorías posibles:
+
+- modelos general-use
+- modelos general-use con guardrails
+- modelos de trusted access
+- modelos restricted o partner-only
+- modelos fallback
+
+## Hechos vs interpretación
+
+### Hechos de fuentes oficiales de Anthropic revisadas el 2026-06-14
+
+- Anthropic anunció Claude Fable 5 y Claude Mythos 5 el 2026-06-09.
+- La página de Fable de Anthropic dice que Claude Fable 5 no está disponible actualmente.
+- La página de Mythos de Anthropic dice que Claude Mythos 5 no está disponible actualmente.
+- El statement de Anthropic del 2026-06-12 dice que el acceso a Fable 5 y Mythos 5 fue suspendido por una directiva de export control del gobierno de Estados Unidos.
+- Anthropic describió Fable 5 como un modelo de clase Mythos hecho seguro para uso general.
+- Anthropic describió Mythos 5 como access-gated y disponible para partners evaluados a través de programas de trusted access.
+- Anthropic describió fallback routing a Claude Opus 4.8 para algunas solicitudes marcadas.
+- Anthropic describió requisitos de 30 días de retención de datos para Fable 5 y Mythos 5 con fines de monitoreo de seguridad.
+
+### Interpretación Turtleand
+
+- Fable se entiende mejor como modelo de proyecto, no solo como modelo de respuesta de chat.
+- Fable y Mythos ilustran un patrón más amplio de modelos frontera con guardrails.
+- Capacidad, acceso, safeguards, retención y revisión humana se están convirtiendo en partes de la misma pregunta de diseño operacional.
+
+## Fuentes
+
+- [Anthropic: Claude Fable 5 and Claude Mythos 5](https://www.anthropic.com/news/claude-fable-5-mythos-5)
+- [Anthropic: Claude Fable](https://www.anthropic.com/claude/fable)
+- [Anthropic: Claude Mythos](https://www.anthropic.com/claude/mythos)
+- [Anthropic: Statement on the US government directive to suspend access to Fable 5 and Mythos 5](https://www.anthropic.com/news/fable-mythos-access)
+- [Anthropic API docs: Upgrade between model versions](https://platform.claude.com/docs/en/about-claude/models/migration-guide)
+- [Anthropic: Introducing Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8)
