@@ -1,4 +1,5 @@
-import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
+/* global console, process */
+import { readdir, readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
 const TOPICS_DIR = join(import.meta.dirname, '..', 'src', 'content', 'topics');
@@ -10,8 +11,8 @@ function parseFrontmatter(content) {
   const body = content.slice(match[0].length).trim();
   const data = {};
   for (const line of match[1].split('\n')) {
-    const m = line.match(/^(\w[\w-]*):\s*"?([^"]*)"?\s*$/);
-    if (m) data[m[1]] = m[2].trim();
+    const m = line.match(/^(\w[\w-]*):\s*(.*?)\s*$/);
+    if (m) data[m[1]] = m[2].trim().replace(/^['"]|['"]$/g, '');
   }
   return { data, body };
 }
@@ -31,11 +32,11 @@ const MODULE_ORDER = [
   'Module 2: Tool Use & Function Calling',
   'Module 3: Retrieval & Memory',
   'Module 4: Agents & Orchestration',
-  'Module 5: Mail & Deployment',
+  'Module 5: Mail & Deployment'
 ];
 
 async function main() {
-  const files = (await readdir(TOPICS_DIR)).filter(f => f.endsWith('.mdx'));
+  const files = (await readdir(TOPICS_DIR)).filter((f) => f.endsWith('.mdx'));
   const topics = [];
 
   for (const file of files) {
@@ -93,4 +94,7 @@ Created by Turtleand — software engineer building AI education that's practica
   console.log('Generated public/llms-full.txt');
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

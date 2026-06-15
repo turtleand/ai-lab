@@ -1,14 +1,14 @@
 ---
-title: "Automation pipelines"
-module: "Module 2: AI Integration & Orchestration"
-subtopic: "automation-pipelines"
-summary: "Cron-driven AI workflows, multi-stage processing, and overnight analysis."
-status: "done"
+title: 'Automation pipelines'
+module: 'Module 2: AI Integration & Orchestration'
+subtopic: 'automation-pipelines'
+summary: 'Cron-driven AI workflows, multi-stage processing, and overnight analysis.'
+status: 'done'
 ---
 
 ## The problem
 
-Running AI manually means AI only works when you're working. The real leverage comes when AI runs *while you sleep* — scanning news, analyzing patterns, preparing briefings, updating plans. But autonomous AI needs structure: scheduling, error handling, and coordination between tasks.
+Running AI manually means AI only works when you're working. The real leverage comes when AI runs _while you sleep_ — scanning news, analyzing patterns, preparing briefings, updating plans. But autonomous AI needs structure: scheduling, error handling, and coordination between tasks.
 
 ---
 
@@ -18,14 +18,14 @@ We run 25+ automated AI tasks on scheduled cron jobs. They range from simple dai
 
 **The breakdown by type:**
 
-| Category | Count | Example |
-|----------|-------|---------|
-| Morning workflow | 3 | Briefing, launch pad, navigation check |
-| Overnight pipeline | 4 | News scan → pattern analysis → strategy → briefing compilation |
-| Work coaching | 4 | Boundary check, energy management, senior mindset, evening sync |
-| Monitoring | 3 | Security report, quota optimizer, content goal tracker |
-| Strategic | 3 | Parallel track reminder, Friday review, about page scan |
-| Other | 8+ | Backup, content reminders, notifications |
+| Category           | Count | Example                                                         |
+| ------------------ | ----- | --------------------------------------------------------------- |
+| Morning workflow   | 3     | Briefing, launch pad, navigation check                          |
+| Overnight pipeline | 4     | News scan → pattern analysis → strategy → briefing compilation  |
+| Work coaching      | 4     | Boundary check, energy management, senior mindset, evening sync |
+| Monitoring         | 3     | Security report, quota optimizer, content goal tracker          |
+| Strategic          | 3     | Parallel track reminder, Friday review, about page scan         |
+| Other              | 8+    | Backup, content reminders, notifications                        |
 
 Each job is defined with: a schedule (cron expression or interval), a prompt (the instruction), a model (Opus or Sonnet), and a delivery target (main session or isolated).
 
@@ -36,18 +36,22 @@ Each job is defined with: a schedule (cron expression or interval), a prompt (th
 Our most complex automation. Runs between 04:00 and 07:00 UTC (01:00-04:00 local time).
 
 ### Stage 1: News scanning (04:00 UTC)
+
 **Model:** Sonnet (Opus timed out — see below)
 **Task:** Scan AI, blockchain, and tech news. Analyze 1st/2nd/3rd order consequences. Save raw results.
 
 ### Stage 2: Pattern analysis (05:00 UTC)
+
 **Model:** Sonnet
 **Task:** Read Stage 1 output. Identify cross-cutting themes. Flag stories that reinforce or contradict our strategic plan.
 
 ### Stage 3: Strategic implications (06:00 UTC)
+
 **Model:** Opus
 **Task:** Read Stages 1-2. Connect findings to our specific career transition plan. Identify action items. This is where deep reasoning matters.
 
 ### Stage 4: Morning briefing (07:00 UTC)
+
 **Model:** Sonnet
 **Task:** Compile everything into a concise briefing. Delivered when the human wakes up.
 
@@ -60,6 +64,7 @@ Our most complex automation. Runs between 04:00 and 07:00 UTC (01:00-04:00 local
 When we upgraded Stage 1 from Sonnet to Opus (to get deeper analysis), it timed out. Our cron jobs have a 10-minute execution limit.
 
 **What happened:**
+
 - Opus spends more time reasoning before producing output
 - Combined with web search (which has network latency) and a complex prompt (read strategic plan + scan news + analyze consequences), the total exceeded 10 minutes
 - Result: `ERROR, 600006ms` (exactly the 10-minute timeout + 6ms overhead)
@@ -76,15 +81,18 @@ When we upgraded Stage 1 from Sonnet to Opus (to get deeper analysis), it timed 
 With 25+ jobs running daily, failures are inevitable. Here's what we've learned:
 
 ### Consecutive error tracking
+
 Each job tracks `consecutiveErrors`. If errors accumulate, we know something is persistently broken (not just a one-time network hiccup).
 
 ### Graceful degradation
+
 Stages 2-4 of the overnight pipeline can run even if Stage 1 fails — they just work with whatever data is available. We don't create hard dependencies between stages.
 
 ### Hardcoded date bug
+
 We discovered that Stages 2 and 3 had a hardcoded date (`"2026-02-02"`) instead of dynamically generating today's date. This meant they were always reading stale data. The bug was subtle — the jobs ran successfully (no errors), but produced outdated analysis.
 
-**Lesson:** "No errors" doesn't mean "working correctly." Validate the *content* of outputs, not just whether the job completed.
+**Lesson:** "No errors" doesn't mean "working correctly." Validate the _content_ of outputs, not just whether the job completed.
 
 ---
 
@@ -156,4 +164,4 @@ Monitoring and alerts run in the main session — they're short and you want to 
 ## Sources
 
 - [Cron expression reference](https://crontab.guru/) — schedule syntax
-- [OpenClaw cron documentation](https://docs.openclaw.ai/automation/cron-jobs) — job configuration
+- [Hermes Agent documentation](https://hermes-agent.nousresearch.com/docs) — agent workflow and scheduling reference

@@ -679,29 +679,34 @@ The shift: making AI proactive. It knows your context, tracks your goals, works 
 Here's an actual day in our setup:
 
 **While sleeping (01:00-04:00 local):**
+
 - Stage 1: AI scans overnight news across AI, blockchain, tech
 - Stage 2: Identifies patterns and cross-cutting themes
 - Stage 3: Connects findings to our strategic plan
 - Stage 4: Compiles everything into a morning briefing
 
 **Wake up (08:30 local):**
+
 - Morning briefing waiting in your messaging app
 - Top news stories with consequence analysis
 - Strategic plan items due this week
 - Any alerts from overnight monitoring
 
 **Morning routine:**
+
 - Listen to briefing as audio while getting ready
 - Send voice note with priorities for the day
 - AI executes: creates branches, writes drafts, does research
 
 **During the day:**
+
 - Work coaching check-ins at scheduled intervals
 - Boundary enforcement reminders
 - Energy management nudges
 - Content goal tracking with escalation
 
 **Evening:**
+
 - Sync check: what got done, what didn't
 - Quota optimization: are we using our AI capacity efficiently
 - State backup to Google Drive
@@ -724,6 +729,7 @@ Curated, distilled insights. Updated periodically by reviewing daily notes and e
 
 **Session startup ritual:**
 Every time the agent wakes up, it reads:
+
 1. `SOUL.md` — who it is
 2. `USER.md` — who it's helping
 3. Today's and yesterday's `memory/YYYY-MM-DD.md` — recent context
@@ -746,6 +752,7 @@ Our long-term memory file contains:
 ### The maintenance cycle
 
 Memory isn't static. Every few days, we:
+
 1. Review recent daily files
 2. Extract significant events and lessons
 3. Update MEMORY.md with distilled insights
@@ -760,6 +767,7 @@ This is like a human reviewing their journal and updating their mental model. Th
 Our agent doesn't just wait for messages. It has a "heartbeat" — a periodic check-in that runs every ~30 minutes:
 
 **What the heartbeat checks:**
+
 - Is there anything in HEARTBEAT.md that needs attention?
 - Any reminders or tasks that are due?
 - Any proactive work to do (file organization, memory maintenance)?
@@ -777,18 +785,20 @@ Our agent doesn't just wait for messages. It has a "heartbeat" — a periodic ch
 We developed a specific format for news consumption that goes beyond "here's what happened":
 
 **For each news story:**
+
 1. **1st order consequence** — the immediate, obvious impact
 2. **2nd order consequence** — what follows from the first consequence
 3. **3rd order consequence** — systemic or long-term implications
 
 **Example from an actual briefing:**
 
-*Story: "30,000+ tech jobs cut in 40 days of 2026, 80% AI-related"*
+_Story: "30,000+ tech jobs cut in 40 days of 2026, 80% AI-related"_
+
 - **1st order:** Companies replacing human roles with AI automation
 - **2nd order:** Labor market bifurcating — AI integrators become more valuable, pure coders face shrinking demand
 - **3rd order:** Accelerates career transitions already in progress; "AI Power User" skills become job insurance
 
-**Why this works:** Raw news is noise. Consequence chains turn news into signal. They force the analysis to connect events to *our specific situation*, not generic commentary.
+**Why this works:** Raw news is noise. Consequence chains turn news into signal. They force the analysis to connect events to _our specific situation_, not generic commentary.
 
 **All news is scoped** to our interests: AI, blockchain, technology, human-centered tech. Sports, politics, celebrity news is filtered out. This scoping is defined in the prompt, not the data source.
 
@@ -811,12 +821,14 @@ Beyond daily operations, the AI serves as a strategic thinking partner:
 ## What makes this work (and what doesn't)
 
 **What works:**
+
 - Voice input/output — AI fits into your life, not the other way around
 - Persistent memory — no context repetition, every session builds on the last
 - Scheduled automation — AI works while you don't
 - Scoped analysis — signal, not noise
 
 **What's fragile:**
+
 - Single point of failure — if the server goes down, everything stops
 - Memory file size — MEMORY.md at 40KB is approaching the limits of context windows
 - No redundancy — one agent, one model provider, one infrastructure
@@ -826,7 +838,7 @@ Beyond daily operations, the AI serves as a strategic thinking partner:
 
 ## What we haven't achieved
 
-- **No predictive scheduling.** The agent doesn't learn *when* you're most productive and schedule accordingly. Timing is manually set.
+- **No predictive scheduling.** The agent doesn't learn _when_ you're most productive and schedule accordingly. Timing is manually set.
 - **No multi-agent coordination.** We have sub-agents for parallel tasks, but they don't communicate with each other — only through the main agent.
 - **No cross-session learning.** Insights from one cron job don't automatically improve another. Each job runs independently.
 - **No quantified self-tracking.** We track content output and strategic progress, but not things like response quality over time, productivity patterns, or optimal model usage per time of day.
@@ -837,14 +849,14 @@ Beyond daily operations, the AI serves as a strategic thinking partner:
 
 This setup isn't for everyone. It takes weeks to build, requires an always-on server, and costs money (API subscriptions, compute). The benefit is real but hard to quantify: decisions are better informed, context is never lost, and you wake up to analysis instead of starting from scratch.
 
-The shift from "using AI sometimes" to "AI as infrastructure" is more about mindset than technology. The technology is straightforward — cron jobs, memory files, TTS. The mindset shift is deciding that AI should work *for* you around the clock, not just *with* you when you open a chat.
+The shift from "using AI sometimes" to "AI as infrastructure" is more about mindset than technology. The technology is straightforward — cron jobs, memory files, TTS. The mindset shift is deciding that AI should work _for_ you around the clock, not just _with_ you when you open a chat.
 
 ---
 
 ## Sources
 
-- [OpenClaw documentation](https://docs.openclaw.ai) — persistent agent platform
-- [Cron job scheduling](https://docs.openclaw.ai/automation/cron-jobs) — automated AI workflows
+- [Hermes Agent documentation](https://hermes-agent.nousresearch.com/docs) — agent platform and workflow reference
+- [Turtleand Hermes Lab](https://hermes.turtleand.com/) — applied Hermes field notes
 
 ---
 
@@ -854,7 +866,7 @@ Module: Module 2: AI Integration & Orchestration
 
 ## The problem
 
-Running AI manually means AI only works when you're working. The real leverage comes when AI runs *while you sleep* — scanning news, analyzing patterns, preparing briefings, updating plans. But autonomous AI needs structure: scheduling, error handling, and coordination between tasks.
+Running AI manually means AI only works when you're working. The real leverage comes when AI runs _while you sleep_ — scanning news, analyzing patterns, preparing briefings, updating plans. But autonomous AI needs structure: scheduling, error handling, and coordination between tasks.
 
 ---
 
@@ -864,14 +876,14 @@ We run 25+ automated AI tasks on scheduled cron jobs. They range from simple dai
 
 **The breakdown by type:**
 
-| Category | Count | Example |
-|----------|-------|---------|
-| Morning workflow | 3 | Briefing, launch pad, navigation check |
-| Overnight pipeline | 4 | News scan → pattern analysis → strategy → briefing compilation |
-| Work coaching | 4 | Boundary check, energy management, senior mindset, evening sync |
-| Monitoring | 3 | Security report, quota optimizer, content goal tracker |
-| Strategic | 3 | Parallel track reminder, Friday review, about page scan |
-| Other | 8+ | Backup, content reminders, notifications |
+| Category           | Count | Example                                                         |
+| ------------------ | ----- | --------------------------------------------------------------- |
+| Morning workflow   | 3     | Briefing, launch pad, navigation check                          |
+| Overnight pipeline | 4     | News scan → pattern analysis → strategy → briefing compilation  |
+| Work coaching      | 4     | Boundary check, energy management, senior mindset, evening sync |
+| Monitoring         | 3     | Security report, quota optimizer, content goal tracker          |
+| Strategic          | 3     | Parallel track reminder, Friday review, about page scan         |
+| Other              | 8+    | Backup, content reminders, notifications                        |
 
 Each job is defined with: a schedule (cron expression or interval), a prompt (the instruction), a model (Opus or Sonnet), and a delivery target (main session or isolated).
 
@@ -882,18 +894,22 @@ Each job is defined with: a schedule (cron expression or interval), a prompt (th
 Our most complex automation. Runs between 04:00 and 07:00 UTC (01:00-04:00 local time).
 
 ### Stage 1: News scanning (04:00 UTC)
+
 **Model:** Sonnet (Opus timed out — see below)
 **Task:** Scan AI, blockchain, and tech news. Analyze 1st/2nd/3rd order consequences. Save raw results.
 
 ### Stage 2: Pattern analysis (05:00 UTC)
+
 **Model:** Sonnet
 **Task:** Read Stage 1 output. Identify cross-cutting themes. Flag stories that reinforce or contradict our strategic plan.
 
 ### Stage 3: Strategic implications (06:00 UTC)
+
 **Model:** Opus
 **Task:** Read Stages 1-2. Connect findings to our specific career transition plan. Identify action items. This is where deep reasoning matters.
 
 ### Stage 4: Morning briefing (07:00 UTC)
+
 **Model:** Sonnet
 **Task:** Compile everything into a concise briefing. Delivered when the human wakes up.
 
@@ -906,6 +922,7 @@ Our most complex automation. Runs between 04:00 and 07:00 UTC (01:00-04:00 local
 When we upgraded Stage 1 from Sonnet to Opus (to get deeper analysis), it timed out. Our cron jobs have a 10-minute execution limit.
 
 **What happened:**
+
 - Opus spends more time reasoning before producing output
 - Combined with web search (which has network latency) and a complex prompt (read strategic plan + scan news + analyze consequences), the total exceeded 10 minutes
 - Result: `ERROR, 600006ms` (exactly the 10-minute timeout + 6ms overhead)
@@ -922,15 +939,18 @@ When we upgraded Stage 1 from Sonnet to Opus (to get deeper analysis), it timed 
 With 25+ jobs running daily, failures are inevitable. Here's what we've learned:
 
 ### Consecutive error tracking
+
 Each job tracks `consecutiveErrors`. If errors accumulate, we know something is persistently broken (not just a one-time network hiccup).
 
 ### Graceful degradation
+
 Stages 2-4 of the overnight pipeline can run even if Stage 1 fails — they just work with whatever data is available. We don't create hard dependencies between stages.
 
 ### Hardcoded date bug
+
 We discovered that Stages 2 and 3 had a hardcoded date (`"2026-02-02"`) instead of dynamically generating today's date. This meant they were always reading stale data. The bug was subtle — the jobs ran successfully (no errors), but produced outdated analysis.
 
-**Lesson:** "No errors" doesn't mean "working correctly." Validate the *content* of outputs, not just whether the job completed.
+**Lesson:** "No errors" doesn't mean "working correctly." Validate the _content_ of outputs, not just whether the job completed.
 
 ---
 
@@ -1002,7 +1022,7 @@ Monitoring and alerts run in the main session — they're short and you want to 
 ## Sources
 
 - [Cron expression reference](https://crontab.guru/) — schedule syntax
-- [OpenClaw cron documentation](https://docs.openclaw.ai/automation/cron-jobs) — job configuration
+- [Hermes Agent documentation](https://hermes-agent.nousresearch.com/docs) — agent workflow and scheduling reference
 
 ---
 
@@ -1278,6 +1298,121 @@ The technology is here. Agents that read context, tools that index knowledge, pr
 Start simple. Log decisions with context. Write down the "why" alongside the "what." Give your AI agents access to that history. Let them surface it when it's relevant.
 
 The organization that remembers everything learns faster than the one that keeps forgetting.
+
+---
+
+# From OpenClaw to Hermes
+
+Module: Module 2: AI Integration & Orchestration
+
+## The intuition
+
+The first stage of working with agents is excitement: a model can write, search, code, summarize, schedule, and keep going after a single prompt.
+
+The second stage is operational reality. A useful agent is not defined by how dramatic the demo looks. It is defined by whether it can fit into a human workflow without adding confusion, fragility, or maintenance debt.
+
+That is the shift from OpenClaw to Hermes.
+
+OpenClaw helped frame the early question: what happens when AI agents become persistent enough to act like infrastructure?
+
+Hermes answers the more practical question: what should the human operating layer around those agents look like so the system remains useful, efficient, and accountable?
+
+## Current Turtleand direction
+
+Turtleand is deprecating OpenClaw as the main public agent-systems surface and moving active operational learning into [Hermes Lab](https://hermes.turtleand.com/).
+
+This does not mean the earlier work was wasted. It means the useful lessons have been absorbed into a better shape.
+
+The new center is Hermes because the work has moved from abstract persistent-agent experiments toward daily operating patterns:
+
+- voice-first interaction
+- Telegram delivery
+- scheduled briefings
+- tools and skills
+- memory and context hygiene
+- human review before public action
+- agent work that produces verifiable artifacts
+
+In other words, the focus is less "Can an agent keep running?" and more "Can an agent reliably extend human judgment without replacing it?"
+
+## What changed in the mental model
+
+OpenClaw was useful as a lab for possibility. It pointed at always-on agents, cloud deployment, and agent patterns.
+
+Hermes is more useful as an operating layer. It sits closer to the actual work: receiving instructions, using tools, checking files, creating branches, drafting artifacts, narrating briefings, and waiting for human approval before irreversible actions.
+
+That difference matters.
+
+A persistent agent can become theater if it only proves autonomy. A serious agent system compounds when it improves the human's ability to think, decide, build, and publish with less friction.
+
+## Efficiency is not just speed
+
+When we say Hermes is more efficient, the point is not only runtime speed or cost.
+
+Efficiency means less wasted human attention.
+
+A more efficient agent layer:
+
+1. routes work to the right level of effort
+2. keeps recurring procedures in skills instead of rediscovering them
+3. uses tools for verification instead of guessing
+4. separates drafting from publishing
+5. makes outputs reviewable before they become public
+6. turns private learning into reusable public artifacts
+
+That is why Hermes fits AI Lab better than a generic OpenClaw link. AI Lab is a curriculum spine. The lesson students need is not only "agents can run in the cloud." The lesson is how to build agent workflows that preserve human agency while increasing leverage.
+
+## What carries forward from OpenClaw
+
+The OpenClaw phase still taught durable lessons:
+
+- persistent context matters
+- scheduled work can create leverage
+- public proof is better than private claims
+- agents need boundaries, not just capabilities
+- reliability is a design problem, not a vibe
+
+Those principles remain. The surface changes.
+
+Hermes becomes the place where those lessons are practiced through concrete workflows rather than kept as an abstract agent-systems idea.
+
+## A simple decision rule
+
+Use this rule when deciding whether an agent experiment should become part of the operating system:
+
+> If it creates more reviewable human leverage than operational burden, keep it. If it mostly creates maintenance, drama, or hidden risk, retire or simplify it.
+
+Deprecating OpenClaw in favor of Hermes is an application of that rule.
+
+The goal is not more automation for its own sake. The goal is a calmer, more reliable system where human direction stays central and AI handles more of the repeatable work around that direction.
+
+## Teach-back checkpoint
+
+Answer these in your own words:
+
+1. Why is a persistent agent not automatically a useful agent?
+2. What does Hermes add that a generic agent experiment does not?
+3. Why does Turtleand treat human review as part of the system rather than a slowdown?
+4. What is one workflow you would keep only if it produces more reviewable leverage than maintenance burden?
+
+## Facts vs Turtleand interpretation
+
+**Facts:**
+
+- Hermes Lab is the Turtleand surface for Hermes Agent field notes and workflows.
+- Hermes Agent has official documentation at [hermes-agent.nousresearch.com/docs](https://hermes-agent.nousresearch.com/docs).
+- AI Lab now links learners toward Hermes for current agent-operation practice.
+
+**Turtleand interpretation:**
+
+- OpenClaw served its purpose as an exploratory agent-systems frame.
+- Hermes is the better current surface because it is closer to real daily workflows, verification, voice, messaging, scheduling, and human-in-the-loop operation.
+- The strategic lesson is to retire experiments when a clearer operating layer emerges.
+
+## Sources
+
+- [Turtleand Hermes Lab](https://hermes.turtleand.com/)
+- [Hermes Agent documentation](https://hermes-agent.nousresearch.com/docs)
 
 ---
 
@@ -1830,17 +1965,17 @@ Telegram encodes voice notes as Opus audio in an OGG container. Not every transc
 
 **What we tested:**
 
-| Service/Model | Result with Telegram audio |
-|---------------|---------------------------|
-| Deepgram Nova-2 | ❌ Failed — couldn't decode Telegram's Opus format |
-| Deepgram whisper-large | ✅ Works reliably |
-| OpenAI Whisper API | Not tested (would require additional API key) |
+| Service/Model          | Result with Telegram audio                         |
+| ---------------------- | -------------------------------------------------- |
+| Deepgram Nova-2        | ❌ Failed — couldn't decode Telegram's Opus format |
+| Deepgram whisper-large | ✅ Works reliably                                  |
+| OpenAI Whisper API     | Not tested (would require additional API key)      |
 
 **Lesson:** Don't assume the newest model handles your specific format. Test with actual data.
 
 ### The transcription script
 
-We wrote a script at `~/.openclaw/scripts/transcribe-deepgram`:
+We wrote a script at `~/.hermes/scripts/transcribe-deepgram`:
 
 ```bash
 #!/bin/bash
@@ -1868,11 +2003,11 @@ DELAY="${3:-2}"
 
 # "latest" resolves to the most recent voice note file
 if [ "$FILE" = "latest" ]; then
-  FILE=$(ls -t ~/.openclaw/media/inbound/file_*---*.ogg 2>/dev/null | head -1)
+  FILE=$(ls -t ~/.hermes/media/inbound/file_*---*.ogg 2>/dev/null | head -1)
 fi
 
 for i in $(seq 1 $ATTEMPTS); do
-  RESULT=$(~/.openclaw/scripts/transcribe-deepgram "$FILE")
+  RESULT=$(~/.hermes/scripts/transcribe-deepgram "$FILE")
   if echo "$RESULT" | jq -e '.results' > /dev/null 2>&1; then
     echo "$RESULT" | jq -r '.results.channels[0].alternatives[0].transcript'
     exit 0
@@ -1930,11 +2065,13 @@ We tested the full voice pipeline with a 10-story news briefing:
 **Timing:** ~3 minutes total for research, analysis, 10 TTS generations, and 10 message sends.
 
 **What worked well:**
+
 - Each story as a separate audio clip lets the listener skip or replay individual items
 - The narration format (alias, summary, 3 consequence levels) works well for audio consumption
 - Voice delivery means the listener can absorb information while doing other things
 
 **What could be better:**
+
 - Edge TTS voice quality is functional but not great — lacks natural inflection
 - No control over speaking pace or emphasis
 - 4,096 character limit means complex stories must be condensed
@@ -1951,6 +2088,7 @@ Through daily use, we've found voice works best for:
 - **Instructions to the agent** — faster to speak than type, especially on mobile
 
 **When text is still better:**
+
 - Code or structured data — needs visual parsing
 - Anything you'll reference later — text is searchable, audio isn't
 - Complex instructions with specific formatting requirements
