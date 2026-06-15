@@ -1,0 +1,160 @@
+---
+title: 'The agent loop as a controlled feedback loop'
+module: 'Module 5: Agent Architecture'
+subtopic: 'control-flow-state'
+summary: 'A beginner lesson on how useful AI agents observe state, choose bounded actions, inspect results, and keep humans responsible for risky steps.'
+status: 'in-progress'
+articles:
+  - title: 'ReAct: Synergizing Reasoning and Acting in Language Models'
+    description: 'Research paper introducing an interleaved reasoning and acting pattern for language-model agents.'
+    type: 'article'
+    status: 'done'
+    link: 'https://arxiv.org/abs/2210.03629'
+  - title: 'Hugging Face Agents Course: Thought, Action, Observation'
+    description: 'Public learning material explaining the thought, action, observation cycle in agent workflows.'
+    type: 'article'
+    status: 'done'
+    link: 'https://huggingface.co/learn/agents-course/unit1/agent-steps-and-structure'
+  - title: 'LangChain human-in-the-loop documentation'
+    description: 'Documentation showing how human approval can be placed around actions in agent workflows.'
+    type: 'article'
+    status: 'done'
+    link: 'https://docs.langchain.com/oss/python/langchain/human-in-the-loop'
+---
+
+## The intuition
+
+A useful AI agent is not a chatbot with more confidence.
+
+A useful agent is a work loop. It looks at the current situation, chooses a bounded next action, does that action, checks what happened, and then decides whether to continue, stop, or ask a human.
+
+That feedback loop is the difference between a one-shot answer and a system that can do work without pretending to be fully autonomous.
+
+## The simple loop
+
+```text
+goal
+  ↓
+observe current state
+  ↓
+choose the next safe action
+  ↓
+act
+  ↓
+observe the result
+  ↓
+continue, stop, or ask a human
+```
+
+The goal gives direction. Observation gives reality. The action changes something. The next observation checks whether the action worked.
+
+Without the second observation, the agent is guessing. With feedback, the agent can correct course.
+
+## A harmless example
+
+Imagine an agent helping you organize a study session.
+
+1. **Goal:** prepare a focused one-hour study plan.
+2. **Observe:** check the topic, available time, and current notes.
+3. **Decide:** choose the smallest useful next step, such as making a three-part outline.
+4. **Act:** draft the outline.
+5. **Observe result:** inspect whether the outline matches the topic and time limit.
+6. **Continue, stop, or ask:** continue with quiz questions, stop if the plan is good enough, or ask you if the topic is ambiguous.
+
+Nothing here requires the agent to act like a person. The agent is useful because it keeps its work tied to state, feedback, and boundaries.
+
+## Why feedback matters
+
+A normal chatbot often answers once. It may be helpful, but it does not necessarily check whether the answer changed the world correctly.
+
+An agent loop adds a second discipline:
+
+- do something small
+- inspect the result
+- decide the next step from evidence
+
+That matters because many real tasks are not solved by one answer. Files change. APIs return errors. Search results are incomplete. A draft might miss the point. A test might fail.
+
+The agent becomes more trustworthy when it treats those results as information instead of ignoring them.
+
+## Boundaries are part of the system
+
+The loop should not mean "keep acting forever."
+
+Good agent systems need stop rules and human approval rules.
+
+A simple boundary model:
+
+| Action type                                  | Default posture                  |
+| -------------------------------------------- | -------------------------------- |
+| Reading public information                   | Usually safe to automate         |
+| Drafting private notes                       | Usually safe to automate         |
+| Editing local reviewable files               | Safe when reversible and checked |
+| Spending money                               | Ask the human                    |
+| Publishing publicly                          | Ask the human                    |
+| Sending messages as a person or organization | Ask the human                    |
+| Deleting, merging, or deploying              | Ask the human                    |
+
+Human approval is not a slowdown. It is part of the control system.
+
+The stronger the action, the more important the review point becomes.
+
+## What can go wrong
+
+Agent loops fail when they lose contact with reality or responsibility.
+
+Common failure modes:
+
+1. **No observation:** the agent acts but never checks what happened.
+2. **No stop rule:** the loop continues after the useful work is done.
+3. **No risk boundary:** the agent treats public or irreversible actions like private drafts.
+4. **False certainty:** the agent hides uncertainty instead of asking a human.
+5. **Action theater:** the agent performs many steps without producing a verifiable artifact.
+
+A serious agent system is not measured by how busy it looks. It is measured by whether its work is observable, bounded, reviewable, and useful.
+
+## Beginner mental model
+
+Think of the agent loop as a thermostat for work.
+
+A thermostat does not simply announce, "make the room warm." It checks the temperature, turns heat on or off, checks again, and stops when the target is reached.
+
+An agent should work the same way:
+
+- know the goal
+- read the state
+- make a bounded change
+- check the result
+- stop or ask when the next step needs judgment
+
+The human remains responsible for direction, approval, and consequences.
+
+## Teach-back checkpoint
+
+Answer these in your own words:
+
+1. What is the difference between a one-shot chatbot answer and an agent loop?
+2. Why does the agent need to observe the result after acting?
+3. Where should human approval appear in the loop?
+4. What is one action an agent can draft safely, and one action it should not take without approval?
+
+## Facts vs Turtleand interpretation
+
+**Facts:**
+
+- Public agent patterns often describe a cycle where a model reasons about state, takes an action, observes the result, and repeats when needed.
+- The ReAct paper describes interleaving reasoning traces and task-specific actions so language models can update action plans and use external information.
+- Public agent frameworks and courses commonly teach some version of a thought, action, observation loop.
+- Human-in-the-loop controls are a documented pattern for reviewing or approving agent actions.
+
+**Turtleand interpretation:**
+
+- The trust boundary is as important as the capability boundary.
+- Feedback turns model output into work, but human judgment turns agent work into accountable systems.
+- The best agent systems do not remove the human. They move the human to the points where direction, taste, risk, and consequence matter most.
+
+## Sources
+
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
+- [Hugging Face Agents Course: Understanding AI Agents through the Thought-Action-Observation Cycle](https://huggingface.co/learn/agents-course/unit1/agent-steps-and-structure)
+- [LangChain documentation: Human-in-the-loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop)

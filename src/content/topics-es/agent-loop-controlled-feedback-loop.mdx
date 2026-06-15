@@ -1,0 +1,160 @@
+---
+title: 'El loop del agente como circuito de feedback controlado'
+module: 'Module 5: Agent Architecture'
+subtopic: 'control-flow-state'
+summary: 'Una lección inicial sobre cómo los agentes de IA útiles observan estado, eligen acciones limitadas, revisan resultados y mantienen a los humanos responsables de los pasos riesgosos.'
+status: 'in-progress'
+articles:
+  - title: 'ReAct: Synergizing Reasoning and Acting in Language Models'
+    description: 'Paper de investigación que introduce un patrón que intercala razonamiento y acción en agentes basados en modelos de lenguaje.'
+    type: 'article'
+    status: 'done'
+    link: 'https://arxiv.org/abs/2210.03629'
+  - title: 'Hugging Face Agents Course: Thought, Action, Observation'
+    description: 'Material público de aprendizaje que explica el ciclo pensamiento, acción y observación en workflows de agentes.'
+    type: 'article'
+    status: 'done'
+    link: 'https://huggingface.co/learn/agents-course/unit1/agent-steps-and-structure'
+  - title: 'Documentación de LangChain sobre human-in-the-loop'
+    description: 'Documentación que muestra cómo ubicar aprobación humana alrededor de acciones en workflows de agentes.'
+    type: 'article'
+    status: 'done'
+    link: 'https://docs.langchain.com/oss/python/langchain/human-in-the-loop'
+---
+
+## La intuición
+
+Un agente de IA útil no es un chatbot con más confianza.
+
+Un agente útil es un loop de trabajo. Mira la situación actual, elige una próxima acción limitada, hace esa acción, revisa qué pasó y después decide si continúa, se detiene o le pregunta a un humano.
+
+Ese circuito de feedback es la diferencia entre una respuesta de una sola vez y un sistema que puede hacer trabajo sin fingir autonomía total.
+
+## El loop simple
+
+```text
+objetivo
+  ↓
+observar el estado actual
+  ↓
+elegir la próxima acción segura
+  ↓
+actuar
+  ↓
+observar el resultado
+  ↓
+continuar, detenerse o preguntarle a un humano
+```
+
+El objetivo da dirección. La observación da realidad. La acción cambia algo. La siguiente observación revisa si la acción funcionó.
+
+Sin la segunda observación, el agente está adivinando. Con feedback, el agente puede corregir el rumbo.
+
+## Un ejemplo inofensivo
+
+Imaginá un agente que te ayuda a organizar una sesión de estudio.
+
+1. **Objetivo:** preparar un plan de estudio enfocado de una hora.
+2. **Observar:** revisar el tema, el tiempo disponible y las notas actuales.
+3. **Decidir:** elegir el próximo paso mínimo y útil, por ejemplo armar un esquema de tres partes.
+4. **Actuar:** redactar el esquema.
+5. **Observar el resultado:** revisar si el esquema coincide con el tema y el límite de tiempo.
+6. **Continuar, detenerse o preguntar:** seguir con preguntas de quiz, detenerse si el plan ya alcanza o preguntarte si el tema es ambiguo.
+
+Nada de esto requiere que el agente actúe como una persona. El agente es útil porque mantiene su trabajo conectado con estado, feedback y límites.
+
+## Por qué importa el feedback
+
+Un chatbot normal suele responder una vez. Puede ayudar, pero no necesariamente revisa si la respuesta cambió el mundo de forma correcta.
+
+Un loop de agente agrega una segunda disciplina:
+
+- hacer algo pequeño
+- inspeccionar el resultado
+- decidir el próximo paso desde evidencia
+
+Eso importa porque muchas tareas reales no se resuelven con una sola respuesta. Los archivos cambian. Las APIs devuelven errores. Los resultados de búsqueda están incompletos. Un borrador puede no capturar el punto. Un test puede fallar.
+
+El agente se vuelve más confiable cuando trata esos resultados como información en vez de ignorarlos.
+
+## Los límites son parte del sistema
+
+El loop no debería significar "seguir actuando para siempre."
+
+Los buenos sistemas de agentes necesitan reglas de detención y reglas de aprobación humana.
+
+Un modelo simple de límites:
+
+| Tipo de acción                              | Postura por defecto                       |
+| ------------------------------------------- | ----------------------------------------- |
+| Leer información pública                    | Normalmente seguro de automatizar         |
+| Redactar notas privadas                     | Normalmente seguro de automatizar         |
+| Editar archivos locales revisables          | Seguro cuando es reversible y se verifica |
+| Gastar dinero                               | Preguntarle al humano                     |
+| Publicar en público                         | Preguntarle al humano                     |
+| Enviar mensajes como persona u organización | Preguntarle al humano                     |
+| Borrar, mergear o desplegar                 | Preguntarle al humano                     |
+
+La aprobación humana no es una demora. Es parte del sistema de control.
+
+Cuanto más fuerte es la acción, más importante se vuelve el punto de revisión.
+
+## Qué puede salir mal
+
+Los loops de agentes fallan cuando pierden contacto con la realidad o con la responsabilidad.
+
+Fallos comunes:
+
+1. **Sin observación:** el agente actúa pero nunca revisa qué pasó.
+2. **Sin regla de detención:** el loop continúa después de que el trabajo útil ya terminó.
+3. **Sin límite de riesgo:** el agente trata acciones públicas o irreversibles como si fueran borradores privados.
+4. **Falsa certeza:** el agente oculta incertidumbre en vez de preguntarle a un humano.
+5. **Teatro de acción:** el agente hace muchos pasos sin producir un artefacto verificable.
+
+Un sistema serio de agentes no se mide por lo ocupado que parece. Se mide por si su trabajo es observable, limitado, revisable y útil.
+
+## Modelo mental para principiantes
+
+Pensá en el loop del agente como un termostato para el trabajo.
+
+Un termostato no solo anuncia "quiero que la habitación esté cálida." Revisa la temperatura, prende o apaga la calefacción, revisa otra vez y se detiene cuando llega al objetivo.
+
+Un agente debería trabajar igual:
+
+- conocer el objetivo
+- leer el estado
+- hacer un cambio limitado
+- revisar el resultado
+- detenerse o preguntar cuando el próximo paso requiere juicio
+
+El humano sigue siendo responsable de la dirección, la aprobación y las consecuencias.
+
+## Checkpoint de teach-back
+
+Respondé esto con tus propias palabras:
+
+1. ¿Cuál es la diferencia entre una respuesta única de chatbot y un loop de agente?
+2. ¿Por qué el agente necesita observar el resultado después de actuar?
+3. ¿Dónde debería aparecer la aprobación humana dentro del loop?
+4. ¿Cuál es una acción que un agente puede redactar de forma segura, y cuál no debería tomar sin aprobación?
+
+## Hechos vs interpretación de Turtleand
+
+**Hechos:**
+
+- Los patrones públicos de agentes suelen describir un ciclo donde un modelo razona sobre el estado, toma una acción, observa el resultado y repite cuando hace falta.
+- El paper ReAct describe intercalar trazas de razonamiento y acciones específicas para que los modelos de lenguaje puedan actualizar planes de acción y usar información externa.
+- Frameworks y cursos públicos sobre agentes enseñan alguna versión del loop pensamiento, acción y observación.
+- Los controles human-in-the-loop son un patrón documentado para revisar o aprobar acciones de agentes.
+
+**Interpretación de Turtleand:**
+
+- El límite de confianza es tan importante como el límite de capacidad.
+- El feedback convierte output del modelo en trabajo, pero el juicio humano convierte trabajo de agentes en sistemas responsables.
+- Los mejores sistemas de agentes no eliminan al humano. Mueven al humano a los puntos donde más importan la dirección, el gusto, el riesgo y la consecuencia.
+
+## Fuentes
+
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
+- [Hugging Face Agents Course: Understanding AI Agents through the Thought-Action-Observation Cycle](https://huggingface.co/learn/agents-course/unit1/agent-steps-and-structure)
+- [Documentación de LangChain: Human-in-the-loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop)

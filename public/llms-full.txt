@@ -2,344 +2,6 @@
 
 ---
 
-# Agent notifications
-
-Module: Module 0: Setup & Safety
-
-## The problem
-
-When working with AI agents on longer tasks, you have two options:
-
-1. **Watch and wait** — stare at the screen until it finishes
-2. **Do something else** — but then forget to check back
-
-Neither is great. What if the agent could send you a notification when it's done?
-
----
-
-## The solution
-
-We combine two things:
-
-- **Hooks** — automatic actions that run when certain events happen in Claude Code
-- **ntfy** — a free service that sends notifications to your phone or computer
-
-When Claude finishes a task, a hook triggers and sends you a push notification.
-
----
-
-## Why this is reliable
-
-Here's something important: **notifications are 100% reliable**.
-
-AI agents are unpredictable in *what* they produce. But the notification system runs separately from the AI. It's triggered by the application itself, not by Claude's decisions.
-
-Think of it like a timer on your oven. The oven doesn't decide when to beep — the timer does, automatically, when time is up.
-
----
-
-## What is ntfy?
-
-[ntfy](https://ntfy.sh) (pronounced "notify") is a simple push notification service. You subscribe to a "topic" (like a private channel), and anything sent to that topic appears as a notification on your devices.
-
-**How it works:**
-1. You pick a topic name (use a random string for privacy)
-2. Subscribe to it on your phone or computer
-3. Any message sent to that topic becomes a notification
-
-It's free, open source, and requires no account. See the [ntfy documentation](https://docs.ntfy.sh/) for details.
-
----
-
-## What are hooks?
-
-Hooks are commands that Claude Code runs automatically at specific moments:
-
-- **When you send a message** — the app can run a command
-- **When Claude finishes** — the app can run another command
-
-We use this to:
-1. Save what you asked (when you send a message)
-2. Send a notification with that info (when Claude finishes)
-
-For the full technical reference, see the [Claude Code hooks documentation](https://docs.anthropic.com/en/docs/claude-code/hooks).
-
----
-
-## Setup
-
-### 1. Install ntfy on your phone
-
-Download the app:
-- [iOS App Store](https://apps.apple.com/app/ntfy/id1625396347)
-- [Android Play Store](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
-
-Subscribe to a topic with a random name (e.g., `my-secret-topic-abc123`). Keep this name private.
-
-### 2. Create the notification script
-
-Create a folder and file for the hook:
-
-```bash
-mkdir -p ~/.claude/hooks
-```
-
-Create the file `~/.claude/hooks/notify-stop.sh` with this content:
-
-```bash
-#!/bin/bash
-INPUT=$(cat)
-STOP_ACTIVE=$(echo "$INPUT" | jq -r '.stop_hook_active')
-[ "$STOP_ACTIVE" = "true" ] && exit 0
-
-TASK=$(cat /tmp/claude_last_task.txt 2>/dev/null || echo "task")
-CWD=$(echo "$INPUT" | jq -r '.cwd')
-PROJECT=$(basename "$CWD")
-
-curl -s -d "[$PROJECT] Done: $TASK" https://ntfy.sh/YOUR_TOPIC_HERE
-exit 0
-```
-
-Replace `YOUR_TOPIC_HERE` with your topic name.
-
-Make it executable:
-
-```bash
-chmod +x ~/.claude/hooks/notify-stop.sh
-```
-
-### 3. Configure Claude Code
-
-Edit `~/.claude/settings.json`:
-
-```json
-{
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r '.prompt' | head -c 100 > /tmp/claude_last_task.txt"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/notify-stop.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### 4. Restart Claude Code
-
-Close and reopen Claude Code. Hooks load at startup.
-
----
-
-## How I use this
-
-1. **Start a task** — ask Claude to do something
-2. **Switch to other work** — no need to watch
-3. **Get notified** — phone buzzes with `[project] Done: your task...`
-4. **Come back** — the notification reminds me what I asked
-
-This works well for:
-- Long tasks (refactoring, debugging)
-- Running multiple Claude sessions
-- Working away from your computer
-
----
-
-## Troubleshooting
-
-| Problem | Likely cause | Fix |
-|---------|--------------|-----|
-| No notification | Network issue | Check internet connection |
-| Empty message | Missing tool | Install `jq` (`brew install jq`) |
-| Script error | Permissions | Run `chmod +x` on the script |
-| Nothing happens | Settings not loaded | Restart Claude Code |
-
----
-
-## Sources
-
-- [ntfy documentation](https://docs.ntfy.sh/) — full guide to the notification service
-- [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) — official reference for hook configuration
-
----
-
-# Running inference locally
-
-Module: Module 0: Setup & Safety
-
-## What “running inference locally” means
-
-Running inference locally means executing a **pre-trained AI model** directly on your own machine to generate outputs (text, code, embeddings) **without sending data to the cloud**.
-
-You are not training a model.
-You are **loading weights + running forward passes** using a local runtime.
-
-Think of it as:
-
-> *“Using an AI model like a local binary, not a hosted service.”*
-
----
-
-## Why host locally
-
-**Local inference gives you control about different aspects.**
-
-### Key benefits
-
-* **Zero marginal cost**
-  No per-token billing, no monthly hosting fees.
-* **Fast iteration loop**
-  Change prompts, parameters, or models instantly.
-* **Privacy by default**
-  Data stays on-device; export only if and when needed.
-* **Foundational learning**
-  You understand the runtime stack *before* scaling to cloud or APIs.
-* **Offline capability**
-  Useful for travel, restricted networks, or sensitive environments.
-
-### When it’s the *right* choice
-
-* Learning how LLMs actually run
-* Prompt engineering & evaluation
-* Small RAG experiments
-* Prototyping workflows before cloud deployment
-
-### When *not* to run locally
-
-Naturally, when running LLMs locally you are limited by the hardware you own. So you should check your specs before choosing your model 
-
-Be explicit about limitations to avoid frustration:
-
-* Avoid Large models (30B+)
-* Avoid Image / video generation on consumer CPUs
-
-Local inference is a **lab**, not a factory.
-
----
-
-## Requirements & Setup
-
-Before running anything, validate this checklist:
-
-1. **Model size fits hardware**
-   * CPU, RAM, and disk constraints are non-negotiable.
-2. **Runtime installed**
-   * Version, quantization, checksum.
-3. **Health check passes**
-   * The model loads and responds.
-4. **Latency measured**
-   * First-token time and tokens/sec captured.
-
-If step 5 fails → downgrade model size or context.
-
-### Quantization
-
-Quantization is a technique that reduces the size of an AI model by storing its weights with lower numerical precision. This makes the model use less memory and run faster, especially on CPUs, at the cost of a small reduction in accuracy. Quantization is essential for running models locally on consumer hardware, as it allows large models to fit into memory and perform inference efficiently.
-
-### Runtimes
-
-A **runtime** is the software that runs an AI model on your machine. It loads the model, performs the required computations, manages hardware resources (CPU or GPU), and returns the generated output. The same model can feel fast or slow depending on the runtime, because the runtime controls performance, memory usage, and hardware compatibility. 
-
-### Model selection
-* **3B–7B parameter models**
-* **4-bit quantization (Q4)**
-* **GGUF format** (for llama.cpp ecosystem)
-
-Why this works:
-* Fits in 16 GB RAM
-* Acceptable latency on CPUs
-* Still useful for reasoning and coding tasks
-
-### What to observe
-
-* Time to first token
-* Tokens per second
-* Memory usage
-* Thermal throttling if the computer gets too hot
-
-If it responds coherently → you’re done.
-
----
-
-# Hands-on Experiment
-
-In my case I went for [llama.cpp (Github)](https://github.com/ggml-org/llama.cpp) as I just have an `Intel-based Mac` with only 16 GB, which is not powerful enough to run big models.
-
-### llama.cpp
-
-* C++ runtime
-* CPU-first, minimal overhead
-* Best choice for Intel Macs and older hardware
-* Maximum control, minimum magic
-
----
-
-## Minimal “it works” setup (llama.cpp)
-
-This is the **hello world** of local inference.
-
-Install:
-
-```bash
-brew install llama.cpp
-```
-
-Then start the runtime + UI by targeting a 4-bit quantized model from Hugging Face:
-
-```bash
-llama-server -hf ggml-org/Qwen3-4B-GGUF:Q4_K_M
-```
-
-<figure class="article-media">
-  <img
-    src="/images/topics/running-inference-locally.png"
-    alt="Example local inference UI"
-  />
-  <figcaption>Example llama.cpp UI.</figcaption>
-</figure>
-
-## Prompt Example
-```md
-I want to analyze my personal finances locally. Help me explore different budgeting and long-term savings scenarios, and list the variables I should consider before sharing this information with banks, financial tools, or external services.
-
-My current situation:
-– Monthly net income: $3,500
-– Fixed monthly expenses (rent, utilities, insurance): $1,600
-– Variable expenses (food, transport, leisure): ~$900
-– Current savings: $12,000 in cash
-– No high-interest debt
-– Medium-term goal: build a 6-month emergency fund
-– Long-term goal: save for a home down payment over 5–7 years
-
-Based on this scenario, help me:
-- Break down a realistic monthly budget
-- Explore at least two savings strategies with different risk and flexibility trade-offs
-```
-
-Conversations can be exported in JSON format.
-
-For more technical users, it's also possible to run the prompts directly from the CLI:
-
-```bash
-llama-cli -hf ggml-org/Qwen3-4B-GGUF:Q4_K_M
-```
-
----
-
 # Access & secrets
 
 Module: Module 0: Fast Track Setup
@@ -659,6 +321,1052 @@ Total: about 2-3 hours for a reasonable security baseline. Not bulletproof, but 
 - [UFW documentation](https://help.ubuntu.com/community/UFW) — Ubuntu firewall guide
 - [fail2ban documentation](https://www.fail2ban.org/wiki/index.php/Main_Page) — intrusion prevention
 - [OWASP prompt injection](https://owasp.org/www-project-top-10-for-large-language-model-applications/) — LLM security risks
+
+---
+
+# Agent notifications
+
+Module: Module 0: Setup & Safety
+
+## The problem
+
+When working with AI agents on longer tasks, you have two options:
+
+1. **Watch and wait** — stare at the screen until it finishes
+2. **Do something else** — but then forget to check back
+
+Neither is great. What if the agent could send you a notification when it's done?
+
+---
+
+## The solution
+
+We combine two things:
+
+- **Hooks** — automatic actions that run when certain events happen in Claude Code
+- **ntfy** — a free service that sends notifications to your phone or computer
+
+When Claude finishes a task, a hook triggers and sends you a push notification.
+
+---
+
+## Why this is reliable
+
+Here's something important: **notifications are 100% reliable**.
+
+AI agents are unpredictable in *what* they produce. But the notification system runs separately from the AI. It's triggered by the application itself, not by Claude's decisions.
+
+Think of it like a timer on your oven. The oven doesn't decide when to beep — the timer does, automatically, when time is up.
+
+---
+
+## What is ntfy?
+
+[ntfy](https://ntfy.sh) (pronounced "notify") is a simple push notification service. You subscribe to a "topic" (like a private channel), and anything sent to that topic appears as a notification on your devices.
+
+**How it works:**
+1. You pick a topic name (use a random string for privacy)
+2. Subscribe to it on your phone or computer
+3. Any message sent to that topic becomes a notification
+
+It's free, open source, and requires no account. See the [ntfy documentation](https://docs.ntfy.sh/) for details.
+
+---
+
+## What are hooks?
+
+Hooks are commands that Claude Code runs automatically at specific moments:
+
+- **When you send a message** — the app can run a command
+- **When Claude finishes** — the app can run another command
+
+We use this to:
+1. Save what you asked (when you send a message)
+2. Send a notification with that info (when Claude finishes)
+
+For the full technical reference, see the [Claude Code hooks documentation](https://docs.anthropic.com/en/docs/claude-code/hooks).
+
+---
+
+## Setup
+
+### 1. Install ntfy on your phone
+
+Download the app:
+- [iOS App Store](https://apps.apple.com/app/ntfy/id1625396347)
+- [Android Play Store](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
+
+Subscribe to a topic with a random name (e.g., `my-secret-topic-abc123`). Keep this name private.
+
+### 2. Create the notification script
+
+Create a folder and file for the hook:
+
+```bash
+mkdir -p ~/.claude/hooks
+```
+
+Create the file `~/.claude/hooks/notify-stop.sh` with this content:
+
+```bash
+#!/bin/bash
+INPUT=$(cat)
+STOP_ACTIVE=$(echo "$INPUT" | jq -r '.stop_hook_active')
+[ "$STOP_ACTIVE" = "true" ] && exit 0
+
+TASK=$(cat /tmp/claude_last_task.txt 2>/dev/null || echo "task")
+CWD=$(echo "$INPUT" | jq -r '.cwd')
+PROJECT=$(basename "$CWD")
+
+curl -s -d "[$PROJECT] Done: $TASK" https://ntfy.sh/YOUR_TOPIC_HERE
+exit 0
+```
+
+Replace `YOUR_TOPIC_HERE` with your topic name.
+
+Make it executable:
+
+```bash
+chmod +x ~/.claude/hooks/notify-stop.sh
+```
+
+### 3. Configure Claude Code
+
+Edit `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.prompt' | head -c 100 > /tmp/claude_last_task.txt"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notify-stop.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 4. Restart Claude Code
+
+Close and reopen Claude Code. Hooks load at startup.
+
+---
+
+## How I use this
+
+1. **Start a task** — ask Claude to do something
+2. **Switch to other work** — no need to watch
+3. **Get notified** — phone buzzes with `[project] Done: your task...`
+4. **Come back** — the notification reminds me what I asked
+
+This works well for:
+- Long tasks (refactoring, debugging)
+- Running multiple Claude sessions
+- Working away from your computer
+
+---
+
+## Troubleshooting
+
+| Problem | Likely cause | Fix |
+|---------|--------------|-----|
+| No notification | Network issue | Check internet connection |
+| Empty message | Missing tool | Install `jq` (`brew install jq`) |
+| Script error | Permissions | Run `chmod +x` on the script |
+| Nothing happens | Settings not loaded | Restart Claude Code |
+
+---
+
+## Sources
+
+- [ntfy documentation](https://docs.ntfy.sh/) — full guide to the notification service
+- [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) — official reference for hook configuration
+
+---
+
+# Running inference locally
+
+Module: Module 0: Setup & Safety
+
+## What “running inference locally” means
+
+Running inference locally means executing a **pre-trained AI model** directly on your own machine to generate outputs (text, code, embeddings) **without sending data to the cloud**.
+
+You are not training a model.
+You are **loading weights + running forward passes** using a local runtime.
+
+Think of it as:
+
+> *“Using an AI model like a local binary, not a hosted service.”*
+
+---
+
+## Why host locally
+
+**Local inference gives you control about different aspects.**
+
+### Key benefits
+
+* **Zero marginal cost**
+  No per-token billing, no monthly hosting fees.
+* **Fast iteration loop**
+  Change prompts, parameters, or models instantly.
+* **Privacy by default**
+  Data stays on-device; export only if and when needed.
+* **Foundational learning**
+  You understand the runtime stack *before* scaling to cloud or APIs.
+* **Offline capability**
+  Useful for travel, restricted networks, or sensitive environments.
+
+### When it’s the *right* choice
+
+* Learning how LLMs actually run
+* Prompt engineering & evaluation
+* Small RAG experiments
+* Prototyping workflows before cloud deployment
+
+### When *not* to run locally
+
+Naturally, when running LLMs locally you are limited by the hardware you own. So you should check your specs before choosing your model
+
+Be explicit about limitations to avoid frustration:
+
+* Avoid Large models (30B+)
+* Avoid Image / video generation on consumer CPUs
+
+Local inference is a **lab**, not a factory.
+
+---
+
+## Requirements & Setup
+
+Before running anything, validate this checklist:
+
+1. **Model size fits hardware**
+   * CPU, RAM, and disk constraints are non-negotiable.
+2. **Runtime installed**
+   * Version, quantization, checksum.
+3. **Health check passes**
+   * The model loads and responds.
+4. **Latency measured**
+   * First-token time and tokens/sec captured.
+
+If step 5 fails → downgrade model size or context.
+
+### Quantization
+
+Quantization is a technique that reduces the size of an AI model by storing its weights with lower numerical precision. This makes the model use less memory and run faster, especially on CPUs, at the cost of a small reduction in accuracy. Quantization is essential for running models locally on consumer hardware, as it allows large models to fit into memory and perform inference efficiently.
+
+### Runtimes
+
+A **runtime** is the software that runs an AI model on your machine. It loads the model, performs the required computations, manages hardware resources (CPU or GPU), and returns the generated output. The same model can feel fast or slow depending on the runtime, because the runtime controls performance, memory usage, and hardware compatibility.
+
+### Model selection
+* **3B–7B parameter models**
+* **4-bit quantization (Q4)**
+* **GGUF format** (for llama.cpp ecosystem)
+
+Why this works:
+* Fits in 16 GB RAM
+* Acceptable latency on CPUs
+* Still useful for reasoning and coding tasks
+
+### What to observe
+
+* Time to first token
+* Tokens per second
+* Memory usage
+* Thermal throttling if the computer gets too hot
+
+If it responds coherently → you’re done.
+
+---
+
+# Hands-on Experiment
+
+In my case I went for [llama.cpp (Github)](https://github.com/ggml-org/llama.cpp) as I just have an `Intel-based Mac` with only 16 GB, which is not powerful enough to run big models.
+
+### llama.cpp
+
+* C++ runtime
+* CPU-first, minimal overhead
+* Best choice for Intel Macs and older hardware
+* Maximum control, minimum magic
+
+---
+
+## Minimal “it works” setup (llama.cpp)
+
+This is the **hello world** of local inference.
+
+Install:
+
+```bash
+brew install llama.cpp
+```
+
+Then start the runtime + UI by targeting a 4-bit quantized model from Hugging Face:
+
+```bash
+llama-server -hf ggml-org/Qwen3-4B-GGUF:Q4_K_M
+```
+
+<figure class="article-media">
+  <img
+    src="/images/topics/running-inference-locally.png"
+    alt="Example local inference UI"
+  />
+  <figcaption>Example llama.cpp UI.</figcaption>
+</figure>
+
+## Prompt Example
+```md
+I want to analyze my personal finances locally. Help me explore different budgeting and long-term savings scenarios, and list the variables I should consider before sharing this information with banks, financial tools, or external services.
+
+My current situation:
+– Monthly net income: $3,500
+– Fixed monthly expenses (rent, utilities, insurance): $1,600
+– Variable expenses (food, transport, leisure): ~$900
+– Current savings: $12,000 in cash
+– No high-interest debt
+– Medium-term goal: build a 6-month emergency fund
+– Long-term goal: save for a home down payment over 5–7 years
+
+Based on this scenario, help me:
+- Break down a realistic monthly budget
+- Explore at least two savings strategies with different risk and flexibility trade-offs
+```
+
+Conversations can be exported in JSON format.
+
+For more technical users, it's also possible to run the prompts directly from the CLI:
+
+```bash
+llama-cli -hf ggml-org/Qwen3-4B-GGUF:Q4_K_M
+```
+
+---
+
+# Human-AI collaboration handbook
+
+Module: Module 1: AI Power User
+
+## The companion you didn't know you needed
+
+AI Lab goes deep. We explore the mechanics, the implementation details, the real-world setups. That's valuable when you're building something or solving a specific problem.
+
+But sometimes you just need the principle. Fast.
+
+That's what the [Human-AI Collaboration Handbook](https://handbook.turtleand.com) is for.
+
+---
+
+## AI Lab vs Handbook: different tools for different moments
+
+**AI Lab:** You're implementing a multi-tool workflow. You need to understand how the pieces fit together, what the edge cases are, how to debug when things break. You read the full topic, follow the examples, adapt to your setup.
+
+**Handbook:** You're about to start a session with Claude. You want to remember the core principle: "Start with outcome, not steps." You check the Handbook, get the 30-second reminder, close the tab, go build.
+
+They're not competing. They're complementary.
+
+---
+
+## What's inside
+
+The Handbook covers six categories:
+
+- **Mindset:** How to think about AI collaboration (not delegation)
+- **Workflow:** Practical patterns for daily work
+- **Economics:** Cost management and model selection
+- **Quality:** Output standards and iteration strategies
+- **Organizational Knowledge:** Memory systems and context management
+- **Human Element:** Maintaining agency and preventing learned helplessness
+
+Each principle is short, opinionated, and builder-focused. No theory for theory's sake.
+
+---
+
+## Open source, like everything else
+
+The Handbook is built with [Astro Starlight](https://starlight.astro.build) and hosted on Netlify. Source is on [GitHub](https://github.com/turtleand/handbook). If you see something that should be there and isn't, open an issue or PR.
+
+We built it because we kept forgetting our own best practices. Now they're a bookmark away.
+
+---
+
+## When to use each
+
+Use **AI Lab** when you're:
+- Building a new capability
+- Debugging a workflow
+- Understanding how something works
+- Looking for implementation examples
+
+Use the **Handbook** when you're:
+- Starting a work session
+- Stuck on a collaboration pattern
+- Training someone new
+- Needing a quick reminder
+
+Both live at [lab.turtleand.com](https://lab.turtleand.com) and [handbook.turtleand.com](https://handbook.turtleand.com). Bookmark them both.
+
+---
+
+# Model selection & economics
+
+Module: Module 1: AI Power User
+
+## The problem
+
+AI models aren't interchangeable. Using the most powerful model for every task is wasteful. Using the cheapest model for everything produces poor results. The skill is knowing which model fits which task — and building systems that optimize this automatically.
+
+---
+
+## The model landscape (as of early 2026)
+
+We primarily use Anthropic's Claude models:
+
+| Model | Strength | Cost (per 1M tokens) | When to use |
+|-------|----------|----------------------|-------------|
+| Opus 4.6 | Deepest reasoning, nuanced analysis | $5 input / $25 output | Strategic planning, research reports, complex analysis |
+| Sonnet 4.5 | Good reasoning, much faster | $3 input / $15 output | Daily tasks, content review, code generation |
+
+**The cost ratio:** 1 Opus call ≈ 1.7 Sonnet calls in raw cost. But the real comparison is output quality per dollar. For simple tasks, Sonnet produces equivalent results at lower cost. For complex tasks, Opus produces results Sonnet can't match at any cost.
+
+---
+
+## Our decision framework
+
+We developed this through trial and error across 25+ automated tasks:
+
+**Use Opus when:**
+- Strategic analysis or long-term planning
+- Research reports that synthesize multiple sources
+- Content that requires nuanced judgment
+- Tasks where being wrong has high rework cost
+- Deep dives on complex topics
+
+**Use Sonnet when:**
+- Daily operational tasks (security reports, status checks)
+- Content review and formatting
+- Simple code generation
+- Notifications and summaries
+- Tasks that run frequently (cost adds up)
+
+**The heuristic:** If a human would spend 30+ minutes on this task, use Opus. If it's a 5-minute task, use Sonnet.
+
+---
+
+## Experiment: overnight pipeline model assignment
+
+Our 4-stage overnight pipeline was initially all on one model. We experimented with mixed-model assignment:
+
+**Stage 1 (News scanning):** Sonnet → Opus → back to Sonnet
+- Opus produced richer analysis but timed out (10-minute cron limit)
+- Sonnet completes in time and produces good-enough results
+- **Winner:** Sonnet with tighter prompting
+
+**Stage 2 (Pattern analysis):** Sonnet
+- Takes Stage 1 output and finds patterns
+- Doesn't need the deepest reasoning — just synthesis
+- **Winner:** Sonnet
+
+**Stage 3 (Strategic implications):** Opus
+- This is where nuance matters — connecting news to our specific situation
+- Sonnet produced generic observations; Opus produced actionable insights
+- **Winner:** Opus
+
+**Stage 4 (Morning briefing):** Sonnet
+- Compiles and formats Stages 1-3 into a readable briefing
+- Assembly work, not analysis
+- **Winner:** Sonnet
+
+**Result:** Mixed-model pipeline costs less than all-Opus while maintaining quality where it matters.
+
+---
+
+## Quota optimization: the system we built
+
+On Claude Max (subscription plan), you pay a flat rate for a weekly quota. Unused quota doesn't roll over. This creates a "use it or lose it" dynamic.
+
+**The problem we noticed:** Some weeks we'd barely touch the quota. Other weeks we'd hit the ceiling. No visibility into pace.
+
+**What we built:** An automated quota optimizer that runs twice daily (morning and evening):
+
+1. **Calculates daily target:** Weekly quota ÷ 7 = daily ideal (roughly 14.3% per day)
+2. **Measures current pace:** Actual usage ÷ expected usage at this point in the week
+3. **Auto-scales cron jobs:** If behind pace → upgrade key cron jobs to Opus. If ahead → downgrade to Sonnet.
+4. **Alerts when behind:** "You're 3.4 days behind — consider using Opus for deep work today."
+5. **Panic mode:** Less than 24 hours before reset with more than 30% unused → upgrade everything to Opus.
+
+**State tracking:** `memory/quota-optimizer.json` records consumption snapshots, model assignments, and alert history.
+
+---
+
+## The economics of not thinking about economics
+
+Here's the counterintuitive insight: obsessing over per-token cost is usually wrong.
+
+**Scenario:** You spend 15 minutes choosing between Opus and Sonnet for a task. The cost difference is $0.02. Your time is worth far more than $0.02.
+
+**The rule:** Set up a system (like the quota optimizer) that makes model selection automatic. Then stop thinking about it for individual tasks. Human attention is more expensive than API tokens.
+
+**Exception:** When you're running 25+ automated tasks, the aggregate matters. A $0.02 difference per task × 25 tasks × 7 days = $3.50/week. That's worth optimizing — but with automation, not manual decision-making.
+
+---
+
+## What we track
+
+Our usage tracking captures:
+
+```json
+{
+  "weeklyBudget": "Claude Max flat rate",
+  "dailyTarget": "14.3% of weekly quota",
+  "currentPace": "actual vs expected",
+  "modelDistribution": {
+    "opus": "strategic and research tasks",
+    "sonnet": "operational and routine tasks"
+  }
+}
+```
+
+The key metric isn't cost — it's **value extracted per quota unit**. Are we using the quota for productive work (research, content, analysis) or wasting it on busywork (formatting, simple lookups)?
+
+---
+
+## Mistakes we made
+
+**Using Opus for everything initially.** "Best model = best results" seemed logical. But Opus is slower, uses more quota, and for simple tasks produces the same output as Sonnet.
+
+**Not tracking usage until it was too late.** We didn't build the quota optimizer until we noticed weeks of under-utilization. Weeks of paid capacity, wasted.
+
+**Ignoring the timeout interaction.** Opus takes longer to respond. On cron jobs with a 10-minute timeout, this means Opus can timeout on tasks Sonnet completes fine. Model selection isn't just about quality — it's about operational constraints.
+
+---
+
+## What we don't do (yet)
+
+- **No multi-provider optimization.** We only use Anthropic. Adding OpenAI or local models (Ollama) would expand the cost-quality spectrum significantly.
+- **No per-task cost tracking.** We know aggregate usage but not "this specific cron job costs X per run."
+- **No quality scoring.** We can't numerically compare "this Opus output was 30% better than Sonnet." Quality assessment is still manual and subjective.
+
+---
+
+## Sources
+
+- [Anthropic model comparison](https://docs.anthropic.com/en/docs/about-claude/models) — official model specs and pricing
+- [Claude Max plan details](https://www.anthropic.com/pricing) — subscription quota information
+
+---
+
+# Multi-tool AI workflows
+
+Module: Module 1: AI Power User
+
+## The problem
+
+Most developers use one AI tool — ChatGPT, Copilot, or Claude. That's like having a toolbox with only a hammer. Different tasks need different tools, and the real power comes from wiring them together.
+
+---
+
+## Our actual stack
+
+Here's what we run daily, each tool chosen for a specific reason:
+
+| Category | Example tools | Why |
+|----------|--------------|-----|
+| AI model provider | Claude, GPT, Gemini | Reasoning, analysis, code, strategy |
+| Voice transcription | Deepgram, Whisper, AssemblyAI | Convert voice notes to text instructions |
+| Text-to-speech | Edge TTS, ElevenLabs | Narrate results as audio |
+| Cloud storage sync | rclone, gsutil | CLI-native file sync, scriptable |
+| Version control | gh CLI, GitLab CLI | Create branches, PRs, manage repos |
+| Web search | Brave Search, SerpAPI | API-based research for agents |
+
+Six categories, each serving a distinct function. Choose tools that work headless (no GUI required) and can be called from scripts.
+
+---
+
+## How we choose the right tool
+
+The decision framework is simple:
+
+**For reasoning and generation:** Claude. When we need analysis, writing, code, or strategic thinking — there's no substitute for a frontier model.
+
+**For audio processing:** Test with your actual audio format. Different transcription services handle different encodings. We found that newer models don't always handle every format — sometimes an older, more battle-tested model works better. Always test with real data, not benchmarks.
+
+**For file operations:** CLI-based sync tools beat SDK libraries for simple tasks. One command to copy a file beats 20 lines of API boilerplate:
+
+```bash
+# Example: sync a file to cloud storage
+your-sync-tool copy local-file.md remote:folder/
+```
+
+No SDK, no authentication code, no boilerplate.
+
+**For version control:** CLI tools let you create a branch, push, and open a PR in three commands:
+
+```bash
+git checkout -b feature/new-article
+git push origin feature/new-article
+gh pr create --title "feat: New article" --body "Description here"
+```
+
+---
+
+## Experiment: building a voice-to-PR pipeline
+
+Here's a real workflow that chains multiple tools:
+
+1. **Voice input** (messaging platform) → raw audio file saved to disk
+2. **Transcription service** converts audio → text instruction
+3. **AI model** interprets the instruction and writes code/content
+4. **Version control CLI** creates a branch, commits, pushes, opens a PR
+5. **Cloud sync tool** backs up artifacts to cloud storage
+6. **TTS engine** narrates a summary back as audio
+7. **Messaging API** delivers the voice note back to the user
+
+Seven tool categories in one workflow. Each handles what it's best at. No single tool could do all of this.
+
+**What we learned:** The orchestration layer matters more than any individual tool. Claude acts as the brain — it decides what to do and calls the other tools. But it's the pipeline that creates the value, not any single tool in isolation.
+
+---
+
+## Tool selection mistakes we made
+
+**Mistake 1: Trying to use one tool for everything.**
+Early on, we tried to have Claude handle file uploads directly. It can't — it generates content, but file operations need dedicated tools. Separating "thinking" from "doing" was a key insight.
+
+**Mistake 2: Choosing the wrong transcription model.**
+We initially assumed the newest model from our transcription provider would be best. It wasn't — it failed on our specific audio encoding. The lesson: test with your actual data format, not benchmarks.
+
+**Mistake 3: Over-engineering cloud storage integration.**
+We initially set up a Python virtual environment with a full SDK client library. Then realized a CLI sync tool does the same thing in one command. Simpler tools win when the task is simple.
+
+---
+
+## When to add a new tool
+
+We use this checklist before adding another tool to the stack:
+
+1. **Is there a real task it solves?** Not theoretical — something we actually need to do repeatedly.
+2. **Does it overlap with an existing tool?** If yes, is it meaningfully better for the specific use case?
+3. **Can it run headless?** We need tools that work from scripts and cron jobs, not just GUIs.
+4. **What's the failure mode?** If this tool goes down, what breaks? Can we fall back gracefully?
+
+We identified 23 tool gaps through a systematic audit (see the AI Tools Strategic Report). But gaps aren't urgent problems — they're opportunities to evaluate when the need arises.
+
+---
+
+## What we don't use (yet)
+
+Being honest about our known gaps:
+
+- **No LangChain/LangGraph** — we orchestrate through our agent platform, not a dedicated framework
+- **No vector database** — no semantic search over our own content
+- **No Ollama/local models** — fully dependent on cloud APIs
+- **No observability tools** — no LangSmith or Langfuse tracking our AI calls
+
+These aren't oversights — they're conscious trade-offs. Our current stack solves our current problems. The gaps become relevant when we move from "AI power user" to "AI builder" (Modules 3-6).
+
+---
+
+## The principle
+
+**Match tools to tasks, not tasks to tools.** Start with what you need to accomplish, then find the simplest tool that does it reliably. Complexity should come from combining simple tools, not from using complex ones.
+
+---
+
+## Sources
+
+- [Deepgram API docs](https://developers.deepgram.com/) — transcription service
+- [rclone documentation](https://rclone.org/docs/) — cloud storage CLI
+- [GitHub CLI manual](https://cli.github.com/manual/) — programmatic GitHub operations
+- [Brave Search API](https://brave.com/search/api/) — web search for agents
+
+---
+
+# Prompt mastery
+
+Module: Module 1: AI Power User
+
+## The problem
+
+Everyone can write a prompt. Few people write prompts that work reliably when no human is watching. The gap between "chat with AI" and "autonomous AI pipeline" is almost entirely about prompt quality.
+
+---
+
+## From chat prompts to system prompts
+
+In a chat, your prompt is a one-off message. In an autonomous system, your prompt is an **instruction set** that must produce consistent results without intervention.
+
+Here's the difference:
+
+**Chat prompt:**
+> "What's the latest AI news?"
+
+**Autonomous prompt (actual cron job):**
+> "Read workspace/memory/strategic-action-tracker.json for current Phase 1 priorities. Scan today's AI, blockchain, and tech news. For each story: assess 1st, 2nd, and 3rd order consequences scoped to an AI specialist transitioning from engineer to strategic thinker. Output top 5 stories ranked by relevance. Save to workspace/memory/news-results.md"
+
+The autonomous version specifies: what to read, what to scan, how to analyze, how to format output, and where to save. Nothing is left to interpretation.
+
+---
+
+## The anatomy of our prompts
+
+After writing 25+ autonomous prompts for cron jobs, we've settled on a consistent structure:
+
+### 1. Context loading
+Tell the agent what to read first.
+
+```
+Read memory/YYYY-MM-DD.md for today's context.
+Read memory/strategic-action-tracker.json for current priorities.
+```
+
+### 2. Task definition
+Be specific about what to do, not just what the topic is.
+
+```
+Scan top AI and technology news from the last 24 hours.
+For EACH story, analyze: 1st order (immediate), 2nd order (downstream),
+and 3rd order (systemic) consequences.
+```
+
+### 3. Scope constraints
+Narrow the output to what's actually useful.
+
+```
+Scope all analysis to the interests of an AI specialist focused on
+AI integration, blockchain, and human-centered technology.
+Skip: celebrity news, sports, local politics.
+```
+
+### 4. Output format
+Specify exactly how you want results structured.
+
+```
+Format each as:
+- **Alias:** short-kebab-case identifier
+- **Source:** URL
+- **Summary:** 2-3 sentences with consequence chain
+Save to workspace/memory/news-results.md
+```
+
+### 5. Error handling
+What to do when things go wrong.
+
+```
+If web search fails, note the failure and continue with available data.
+If no significant news found, state that explicitly rather than forcing weak stories.
+```
+
+---
+
+## Experiment: how our overnight pipeline prompt evolved
+
+Our 4-stage overnight pipeline runs between 04:00 and 07:00 UTC. Stage 1 scans news. Here's how the prompt evolved:
+
+**Version 1 (first attempt):**
+> "Check the latest AI news and summarize."
+
+**Problem:** Output was generic. No consequence analysis. Stories weren't relevant to our interests.
+
+**Version 2 (added scope):**
+> "Check AI, blockchain, and tech news. Analyze consequences. Focus on stories relevant to an AI specialist."
+
+**Problem:** Better relevance, but output format was inconsistent. Sometimes bullet points, sometimes paragraphs. Hard to parse downstream.
+
+**Version 3 (added structure + save location):**
+> "Scan news. For each: alias, source, 1st/2nd/3rd order consequences. Save to specific file path."
+
+**Problem:** Worked well but timed out when running on Opus (10-minute cron limit). The model was being too thorough.
+
+**Current version:** Added explicit limits — "top 5 stories" and "2-3 sentences per story." Runs within timeout while maintaining quality.
+
+**Lesson:** Prompts are iterated, not designed. Each failure teaches you what the prompt was missing. Version control your prompts (we keep ours in cron job definitions) so you can track what changed and why.
+
+---
+
+## The pre-execution alignment pattern
+
+For interactive work (not cron), we use a protocol: before executing non-trivial instructions, surface the top 3 questions that would improve alignment.
+
+**Why this works:**
+- Saves rework cycles — catch misunderstandings before execution
+- Forces the agent to think before acting
+- Only activates when there's genuine uncertainty
+- When confident, just execute — no unnecessary delay
+
+**How to implement it:**
+We added this to our agent's system prompt (SOUL.md):
+
+```
+Before executing non-trivial instructions, surface the top 3 questions
+(if any) that would meaningfully improve alignment. Use judgment:
+- If confident → just execute
+- If uncertainties exist that could lead to rework → ask first
+```
+
+This is a meta-prompt — a prompt about how to handle prompts.
+
+---
+
+## System prompt architecture
+
+Our agent's behavior is defined by layered files, each serving a different purpose:
+
+| File | Purpose | Changes how often |
+|------|---------|-------------------|
+| SOUL.md | Core identity, personality, principles | Rarely |
+| AGENTS.md | Operational rules, workflows, conventions | Occasionally |
+| USER.md | Context about the human | As things change |
+| TOOLS.md | Environment-specific notes (keys, devices, paths) | As tools are added |
+| MEMORY.md | Long-term curated context | Continuously |
+
+This layered approach means you can update operational rules without changing the agent's identity, or update context without changing rules. Each layer has a different rate of change.
+
+**Key insight:** The system prompt IS the product. For an autonomous agent, the difference between useful and useless is entirely in how well the system prompt captures intent, boundaries, and context.
+
+---
+
+## Common prompting mistakes we've made
+
+**Too vague:** "Analyze this." → Agent doesn't know what angle, depth, or format.
+
+**Too rigid:** Specifying every sentence of output → Agent can't adapt to unexpected input.
+
+**Missing error cases:** Not telling the agent what to do when search fails, files are missing, or results are empty.
+
+**Assuming context:** Forgetting that each session starts fresh. The agent doesn't remember yesterday unless you tell it to read yesterday's notes.
+
+**Over-prompting cron jobs:** Writing 500-word prompts for simple tasks. More tokens in = more cost, more latency, more room for the model to go off-track.
+
+---
+
+## What we haven't formalized
+
+- **No prompt versioning system.** We edit prompts in place (cron job definitions). Should version control them separately.
+- **No automated evaluation.** We judge prompt quality by reading output, not by systematic scoring.
+- **No A/B testing.** We can't compare two prompt versions side-by-side on the same input.
+
+These gaps matter more as you scale. For 25 cron jobs, manual review works. For 100+, you'd need automation.
+
+---
+
+## Sources
+
+- [Anthropic prompt engineering guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering) — official best practices
+- [OpenAI prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering) — complementary perspective
+
+---
+
+# Voice & multimodal workflows
+
+Module: Module 1: AI Power User
+
+## The problem
+
+Typing is the default way people interact with AI. But typing is slow, requires your hands, and doesn't work when you're walking, driving, or away from a keyboard. Voice input and audio output transform AI from a desk tool into something that works with your life.
+
+---
+
+## Our voice workflow
+
+We use voice notes as the primary instruction method. The full loop:
+
+```
+Speak (Telegram voice note)
+  → Transcribe (Deepgram whisper-large)
+    → Interpret (Claude)
+      → Execute (tools, code, research)
+        → Narrate (Edge TTS)
+          → Deliver (Telegram voice note)
+```
+
+The result: you send a voice note with an instruction, and you get back a voice note with the answer. Hands-free AI interaction.
+
+---
+
+## Setting up voice input: Deepgram transcription
+
+### The transcription challenge
+
+Telegram encodes voice notes as Opus audio in an OGG container. Not every transcription service handles this format well.
+
+**What we tested:**
+
+| Service/Model          | Result with Telegram audio                         |
+| ---------------------- | -------------------------------------------------- |
+| Deepgram Nova-2        | ❌ Failed — couldn't decode Telegram's Opus format |
+| Deepgram whisper-large | ✅ Works reliably                                  |
+| OpenAI Whisper API     | Not tested (would require additional API key)      |
+
+**Lesson:** Don't assume the newest model handles your specific format. Test with actual data.
+
+### The transcription script
+
+We wrote a script at `~/.hermes/scripts/transcribe-deepgram`:
+
+```bash
+#!/bin/bash
+FILE="$1"
+LANG="${2:-en}"
+
+curl -s --request POST \
+  --url "https://api.deepgram.com/v1/listen?model=whisper-large&language=$LANG" \
+  --header "Authorization: Token $DEEPGRAM_API_KEY" \
+  --header "Content-Type: audio/ogg" \
+  --data-binary @"$FILE"
+```
+
+Simple: takes a file path and optional language, sends to Deepgram, returns JSON with the transcript.
+
+### The robust wrapper
+
+Voice notes sometimes fail on first attempt (network issues, temporary API errors). We built a retry wrapper:
+
+```bash
+#!/bin/bash
+FILE="${1:-latest}"
+ATTEMPTS="${2:-3}"
+DELAY="${3:-2}"
+
+# "latest" resolves to the most recent voice note file
+if [ "$FILE" = "latest" ]; then
+  FILE=$(ls -t ~/.hermes/media/inbound/file_*---*.ogg 2>/dev/null | head -1)
+fi
+
+for i in $(seq 1 $ATTEMPTS); do
+  RESULT=$(~/.hermes/scripts/transcribe-deepgram "$FILE")
+  if echo "$RESULT" | jq -e '.results' > /dev/null 2>&1; then
+    echo "$RESULT" | jq -r '.results.channels[0].alternatives[0].transcript'
+    exit 0
+  fi
+  sleep $DELAY
+done
+
+echo "Transcription failed after $ATTEMPTS attempts" >&2
+exit 1
+```
+
+Three attempts with a 2-second delay between retries. The `latest` shortcut automatically finds the most recent voice note.
+
+---
+
+## Setting up voice output: TTS delivery
+
+### Text-to-Speech generation
+
+We use Edge TTS (Microsoft's free TTS engine) to convert text to audio. The TTS tool generates an MP3 file.
+
+**Key constraint:** Maximum 4,096 characters per TTS call. For longer content, split into parts.
+
+### Delivering voice notes via Telegram
+
+Here's where we hit an important lesson. The AI platform generates a `MEDIA:` path for TTS output. But this path points to a temporary file that gets cleaned up quickly.
+
+**What failed:** Including `MEDIA:/tmp/tts-xxx/voice-xxx.mp3` in the chat response. The file was often gone by the time the system tried to send it.
+
+**What works:** Sending the audio file directly via the Telegram bot API:
+
+```
+message(
+  action: "send",
+  channel: "telegram",
+  target: "user-id",
+  filePath: "/tmp/tts-upload/report.mp3",
+  asVoice: true
+)
+```
+
+The `asVoice: true` parameter makes Telegram render it as a playable voice bubble instead of a file attachment. This is the reliable method we now use for all audio delivery.
+
+---
+
+## Experiment: narrated news briefing
+
+We tested the full voice pipeline with a 10-story news briefing:
+
+1. Searched web for AI/blockchain/tech news (Brave Search)
+2. Analyzed each story with consequence chains (Claude)
+3. Narrated each as a separate voice note (Edge TTS)
+4. Delivered all 10 individually via Telegram (message tool)
+
+**Timing:** ~3 minutes total for research, analysis, 10 TTS generations, and 10 message sends.
+
+**What worked well:**
+
+- Each story as a separate audio clip lets the listener skip or replay individual items
+- The narration format (alias, summary, 3 consequence levels) works well for audio consumption
+- Voice delivery means the listener can absorb information while doing other things
+
+**What could be better:**
+
+- Edge TTS voice quality is functional but not great — lacks natural inflection
+- No control over speaking pace or emphasis
+- 4,096 character limit means complex stories must be condensed
+
+---
+
+## When voice beats text
+
+Through daily use, we've found voice works best for:
+
+- **Morning briefings** — listen while getting ready
+- **News summaries** — absorb while walking or commuting
+- **Status reports** — quick audio update vs reading a wall of text
+- **Instructions to the agent** — faster to speak than type, especially on mobile
+
+**When text is still better:**
+
+- Code or structured data — needs visual parsing
+- Anything you'll reference later — text is searchable, audio isn't
+- Complex instructions with specific formatting requirements
+
+---
+
+## Multimodal beyond voice
+
+Our setup also handles:
+
+**Image analysis:** Send a screenshot or photo, the agent analyzes it using vision capabilities. We've used this for reviewing website designs, reading error screenshots, and checking deploy previews.
+
+**Document processing:** Send a PDF or Word document, the agent extracts and processes the content. We used this to proofread a 155,000-character creative writing piece — the agent read the entire document and found exactly one error.
+
+**The pattern:** Input in whatever format is natural (voice, image, document) → AI processes and understands → Output in whatever format is useful (text, voice, file).
+
+---
+
+## What we haven't built
+
+- **No real-time voice conversation.** Our pipeline is async: send voice note → wait → get response. Not a live voice chat.
+- **No speaker identification.** The system doesn't distinguish between different speakers in a voice note.
+- **No voice cloning.** We use Edge TTS's default voice, not a custom voice.
+- **No transcription of languages we haven't tested.** Deepgram whisper-large works well for English and Spanish. Other languages untested.
+
+---
+
+## Sources
+
+- [Deepgram API documentation](https://developers.deepgram.com/) — whisper-large model specs
+- [Edge TTS](https://github.com/rany2/edge-tts) — Microsoft's free text-to-speech
+- [Telegram Bot API — sendVoice](https://core.telegram.org/bots/api#sendvoice) — voice message delivery
 
 ---
 
@@ -1416,709 +2124,144 @@ Answer these in your own words:
 
 ---
 
-# Human-AI collaboration handbook
+# The agent loop as a controlled feedback loop
 
-Module: Module 1: AI Power User
+Module: Module 5: Agent Architecture
 
-## The companion you didn't know you needed
+## The intuition
 
-AI Lab goes deep. We explore the mechanics, the implementation details, the real-world setups. That's valuable when you're building something or solving a specific problem.
+A useful AI agent is not a chatbot with more confidence.
 
-But sometimes you just need the principle. Fast.
+A useful agent is a work loop. It looks at the current situation, chooses a bounded next action, does that action, checks what happened, and then decides whether to continue, stop, or ask a human.
 
-That's what the [Human-AI Collaboration Handbook](https://handbook.turtleand.com) is for.
+That feedback loop is the difference between a one-shot answer and a system that can do work without pretending to be fully autonomous.
 
----
+## The simple loop
 
-## AI Lab vs Handbook: different tools for different moments
-
-**AI Lab:** You're implementing a multi-tool workflow. You need to understand how the pieces fit together, what the edge cases are, how to debug when things break. You read the full topic, follow the examples, adapt to your setup.
-
-**Handbook:** You're about to start a session with Claude. You want to remember the core principle: "Start with outcome, not steps." You check the Handbook, get the 30-second reminder, close the tab, go build.
-
-They're not competing. They're complementary.
-
----
-
-## What's inside
-
-The Handbook covers six categories:
-
-- **Mindset:** How to think about AI collaboration (not delegation)
-- **Workflow:** Practical patterns for daily work
-- **Economics:** Cost management and model selection
-- **Quality:** Output standards and iteration strategies
-- **Organizational Knowledge:** Memory systems and context management
-- **Human Element:** Maintaining agency and preventing learned helplessness
-
-Each principle is short, opinionated, and builder-focused. No theory for theory's sake.
-
----
-
-## Open source, like everything else
-
-The Handbook is built with [Astro Starlight](https://starlight.astro.build) and hosted on Netlify. Source is on [GitHub](https://github.com/turtleand/handbook). If you see something that should be there and isn't, open an issue or PR.
-
-We built it because we kept forgetting our own best practices. Now they're a bookmark away.
-
----
-
-## When to use each
-
-Use **AI Lab** when you're:
-- Building a new capability
-- Debugging a workflow
-- Understanding how something works
-- Looking for implementation examples
-
-Use the **Handbook** when you're:
-- Starting a work session
-- Stuck on a collaboration pattern
-- Training someone new
-- Needing a quick reminder
-
-Both live at [lab.turtleand.com](https://lab.turtleand.com) and [handbook.turtleand.com](https://handbook.turtleand.com). Bookmark them both.
-
----
-
-# Model selection & economics
-
-Module: Module 1: AI Power User
-
-## The problem
-
-AI models aren't interchangeable. Using the most powerful model for every task is wasteful. Using the cheapest model for everything produces poor results. The skill is knowing which model fits which task — and building systems that optimize this automatically.
-
----
-
-## The model landscape (as of early 2026)
-
-We primarily use Anthropic's Claude models:
-
-| Model | Strength | Cost (per 1M tokens) | When to use |
-|-------|----------|----------------------|-------------|
-| Opus 4.6 | Deepest reasoning, nuanced analysis | $5 input / $25 output | Strategic planning, research reports, complex analysis |
-| Sonnet 4.5 | Good reasoning, much faster | $3 input / $15 output | Daily tasks, content review, code generation |
-
-**The cost ratio:** 1 Opus call ≈ 1.7 Sonnet calls in raw cost. But the real comparison is output quality per dollar. For simple tasks, Sonnet produces equivalent results at lower cost. For complex tasks, Opus produces results Sonnet can't match at any cost.
-
----
-
-## Our decision framework
-
-We developed this through trial and error across 25+ automated tasks:
-
-**Use Opus when:**
-- Strategic analysis or long-term planning
-- Research reports that synthesize multiple sources
-- Content that requires nuanced judgment
-- Tasks where being wrong has high rework cost
-- Deep dives on complex topics
-
-**Use Sonnet when:**
-- Daily operational tasks (security reports, status checks)
-- Content review and formatting
-- Simple code generation
-- Notifications and summaries
-- Tasks that run frequently (cost adds up)
-
-**The heuristic:** If a human would spend 30+ minutes on this task, use Opus. If it's a 5-minute task, use Sonnet.
-
----
-
-## Experiment: overnight pipeline model assignment
-
-Our 4-stage overnight pipeline was initially all on one model. We experimented with mixed-model assignment:
-
-**Stage 1 (News scanning):** Sonnet → Opus → back to Sonnet
-- Opus produced richer analysis but timed out (10-minute cron limit)
-- Sonnet completes in time and produces good-enough results
-- **Winner:** Sonnet with tighter prompting
-
-**Stage 2 (Pattern analysis):** Sonnet
-- Takes Stage 1 output and finds patterns
-- Doesn't need the deepest reasoning — just synthesis
-- **Winner:** Sonnet
-
-**Stage 3 (Strategic implications):** Opus
-- This is where nuance matters — connecting news to our specific situation
-- Sonnet produced generic observations; Opus produced actionable insights
-- **Winner:** Opus
-
-**Stage 4 (Morning briefing):** Sonnet
-- Compiles and formats Stages 1-3 into a readable briefing
-- Assembly work, not analysis
-- **Winner:** Sonnet
-
-**Result:** Mixed-model pipeline costs less than all-Opus while maintaining quality where it matters.
-
----
-
-## Quota optimization: the system we built
-
-On Claude Max (subscription plan), you pay a flat rate for a weekly quota. Unused quota doesn't roll over. This creates a "use it or lose it" dynamic.
-
-**The problem we noticed:** Some weeks we'd barely touch the quota. Other weeks we'd hit the ceiling. No visibility into pace.
-
-**What we built:** An automated quota optimizer that runs twice daily (morning and evening):
-
-1. **Calculates daily target:** Weekly quota ÷ 7 = daily ideal (roughly 14.3% per day)
-2. **Measures current pace:** Actual usage ÷ expected usage at this point in the week
-3. **Auto-scales cron jobs:** If behind pace → upgrade key cron jobs to Opus. If ahead → downgrade to Sonnet.
-4. **Alerts when behind:** "You're 3.4 days behind — consider using Opus for deep work today."
-5. **Panic mode:** Less than 24 hours before reset with more than 30% unused → upgrade everything to Opus.
-
-**State tracking:** `memory/quota-optimizer.json` records consumption snapshots, model assignments, and alert history.
-
----
-
-## The economics of not thinking about economics
-
-Here's the counterintuitive insight: obsessing over per-token cost is usually wrong.
-
-**Scenario:** You spend 15 minutes choosing between Opus and Sonnet for a task. The cost difference is $0.02. Your time is worth far more than $0.02.
-
-**The rule:** Set up a system (like the quota optimizer) that makes model selection automatic. Then stop thinking about it for individual tasks. Human attention is more expensive than API tokens.
-
-**Exception:** When you're running 25+ automated tasks, the aggregate matters. A $0.02 difference per task × 25 tasks × 7 days = $3.50/week. That's worth optimizing — but with automation, not manual decision-making.
-
----
-
-## What we track
-
-Our usage tracking captures:
-
-```json
-{
-  "weeklyBudget": "Claude Max flat rate",
-  "dailyTarget": "14.3% of weekly quota",
-  "currentPace": "actual vs expected",
-  "modelDistribution": {
-    "opus": "strategic and research tasks",
-    "sonnet": "operational and routine tasks"
-  }
-}
+```text
+goal
+  ↓
+observe current state
+  ↓
+choose the next safe action
+  ↓
+act
+  ↓
+observe the result
+  ↓
+continue, stop, or ask a human
 ```
 
-The key metric isn't cost — it's **value extracted per quota unit**. Are we using the quota for productive work (research, content, analysis) or wasting it on busywork (formatting, simple lookups)?
+The goal gives direction. Observation gives reality. The action changes something. The next observation checks whether the action worked.
 
----
+Without the second observation, the agent is guessing. With feedback, the agent can correct course.
 
-## Mistakes we made
+## A harmless example
 
-**Using Opus for everything initially.** "Best model = best results" seemed logical. But Opus is slower, uses more quota, and for simple tasks produces the same output as Sonnet.
+Imagine an agent helping you organize a study session.
 
-**Not tracking usage until it was too late.** We didn't build the quota optimizer until we noticed weeks of under-utilization. Weeks of paid capacity, wasted.
+1. **Goal:** prepare a focused one-hour study plan.
+2. **Observe:** check the topic, available time, and current notes.
+3. **Decide:** choose the smallest useful next step, such as making a three-part outline.
+4. **Act:** draft the outline.
+5. **Observe result:** inspect whether the outline matches the topic and time limit.
+6. **Continue, stop, or ask:** continue with quiz questions, stop if the plan is good enough, or ask you if the topic is ambiguous.
 
-**Ignoring the timeout interaction.** Opus takes longer to respond. On cron jobs with a 10-minute timeout, this means Opus can timeout on tasks Sonnet completes fine. Model selection isn't just about quality — it's about operational constraints.
+Nothing here requires the agent to act like a person. The agent is useful because it keeps its work tied to state, feedback, and boundaries.
 
----
+## Why feedback matters
 
-## What we don't do (yet)
+A normal chatbot often answers once. It may be helpful, but it does not necessarily check whether the answer changed the world correctly.
 
-- **No multi-provider optimization.** We only use Anthropic. Adding OpenAI or local models (Ollama) would expand the cost-quality spectrum significantly.
-- **No per-task cost tracking.** We know aggregate usage but not "this specific cron job costs X per run."
-- **No quality scoring.** We can't numerically compare "this Opus output was 30% better than Sonnet." Quality assessment is still manual and subjective.
+An agent loop adds a second discipline:
 
----
+- do something small
+- inspect the result
+- decide the next step from evidence
+
+That matters because many real tasks are not solved by one answer. Files change. APIs return errors. Search results are incomplete. A draft might miss the point. A test might fail.
+
+The agent becomes more trustworthy when it treats those results as information instead of ignoring them.
+
+## Boundaries are part of the system
+
+The loop should not mean "keep acting forever."
+
+Good agent systems need stop rules and human approval rules.
+
+A simple boundary model:
+
+| Action type                                  | Default posture                  |
+| -------------------------------------------- | -------------------------------- |
+| Reading public information                   | Usually safe to automate         |
+| Drafting private notes                       | Usually safe to automate         |
+| Editing local reviewable files               | Safe when reversible and checked |
+| Spending money                               | Ask the human                    |
+| Publishing publicly                          | Ask the human                    |
+| Sending messages as a person or organization | Ask the human                    |
+| Deleting, merging, or deploying              | Ask the human                    |
+
+Human approval is not a slowdown. It is part of the control system.
+
+The stronger the action, the more important the review point becomes.
+
+## What can go wrong
+
+Agent loops fail when they lose contact with reality or responsibility.
+
+Common failure modes:
+
+1. **No observation:** the agent acts but never checks what happened.
+2. **No stop rule:** the loop continues after the useful work is done.
+3. **No risk boundary:** the agent treats public or irreversible actions like private drafts.
+4. **False certainty:** the agent hides uncertainty instead of asking a human.
+5. **Action theater:** the agent performs many steps without producing a verifiable artifact.
+
+A serious agent system is not measured by how busy it looks. It is measured by whether its work is observable, bounded, reviewable, and useful.
+
+## Beginner mental model
+
+Think of the agent loop as a thermostat for work.
+
+A thermostat does not simply announce, "make the room warm." It checks the temperature, turns heat on or off, checks again, and stops when the target is reached.
+
+An agent should work the same way:
+
+- know the goal
+- read the state
+- make a bounded change
+- check the result
+- stop or ask when the next step needs judgment
+
+The human remains responsible for direction, approval, and consequences.
+
+## Teach-back checkpoint
+
+Answer these in your own words:
+
+1. What is the difference between a one-shot chatbot answer and an agent loop?
+2. Why does the agent need to observe the result after acting?
+3. Where should human approval appear in the loop?
+4. What is one action an agent can draft safely, and one action it should not take without approval?
+
+## Facts vs Turtleand interpretation
+
+**Facts:**
+
+- Public agent patterns often describe a cycle where a model reasons about state, takes an action, observes the result, and repeats when needed.
+- The ReAct paper describes interleaving reasoning traces and task-specific actions so language models can update action plans and use external information.
+- Public agent frameworks and courses commonly teach some version of a thought, action, observation loop.
+- Human-in-the-loop controls are a documented pattern for reviewing or approving agent actions.
+
+**Turtleand interpretation:**
+
+- The trust boundary is as important as the capability boundary.
+- Feedback turns model output into work, but human judgment turns agent work into accountable systems.
+- The best agent systems do not remove the human. They move the human to the points where direction, taste, risk, and consequence matter most.
 
 ## Sources
 
-- [Anthropic model comparison](https://docs.anthropic.com/en/docs/about-claude/models) — official model specs and pricing
-- [Claude Max plan details](https://www.anthropic.com/pricing) — subscription quota information
-
----
-
-# Multi-tool AI workflows
-
-Module: Module 1: AI Power User
-
-## The problem
-
-Most developers use one AI tool — ChatGPT, Copilot, or Claude. That's like having a toolbox with only a hammer. Different tasks need different tools, and the real power comes from wiring them together.
-
----
-
-## Our actual stack
-
-Here's what we run daily, each tool chosen for a specific reason:
-
-| Category | Example tools | Why |
-|----------|--------------|-----|
-| AI model provider | Claude, GPT, Gemini | Reasoning, analysis, code, strategy |
-| Voice transcription | Deepgram, Whisper, AssemblyAI | Convert voice notes to text instructions |
-| Text-to-speech | Edge TTS, ElevenLabs | Narrate results as audio |
-| Cloud storage sync | rclone, gsutil | CLI-native file sync, scriptable |
-| Version control | gh CLI, GitLab CLI | Create branches, PRs, manage repos |
-| Web search | Brave Search, SerpAPI | API-based research for agents |
-
-Six categories, each serving a distinct function. Choose tools that work headless (no GUI required) and can be called from scripts.
-
----
-
-## How we choose the right tool
-
-The decision framework is simple:
-
-**For reasoning and generation:** Claude. When we need analysis, writing, code, or strategic thinking — there's no substitute for a frontier model.
-
-**For audio processing:** Test with your actual audio format. Different transcription services handle different encodings. We found that newer models don't always handle every format — sometimes an older, more battle-tested model works better. Always test with real data, not benchmarks.
-
-**For file operations:** CLI-based sync tools beat SDK libraries for simple tasks. One command to copy a file beats 20 lines of API boilerplate:
-
-```bash
-# Example: sync a file to cloud storage
-your-sync-tool copy local-file.md remote:folder/
-```
-
-No SDK, no authentication code, no boilerplate.
-
-**For version control:** CLI tools let you create a branch, push, and open a PR in three commands:
-
-```bash
-git checkout -b feature/new-article
-git push origin feature/new-article
-gh pr create --title "feat: New article" --body "Description here"
-```
-
----
-
-## Experiment: building a voice-to-PR pipeline
-
-Here's a real workflow that chains multiple tools:
-
-1. **Voice input** (messaging platform) → raw audio file saved to disk
-2. **Transcription service** converts audio → text instruction
-3. **AI model** interprets the instruction and writes code/content
-4. **Version control CLI** creates a branch, commits, pushes, opens a PR
-5. **Cloud sync tool** backs up artifacts to cloud storage
-6. **TTS engine** narrates a summary back as audio
-7. **Messaging API** delivers the voice note back to the user
-
-Seven tool categories in one workflow. Each handles what it's best at. No single tool could do all of this.
-
-**What we learned:** The orchestration layer matters more than any individual tool. Claude acts as the brain — it decides what to do and calls the other tools. But it's the pipeline that creates the value, not any single tool in isolation.
-
----
-
-## Tool selection mistakes we made
-
-**Mistake 1: Trying to use one tool for everything.**
-Early on, we tried to have Claude handle file uploads directly. It can't — it generates content, but file operations need dedicated tools. Separating "thinking" from "doing" was a key insight.
-
-**Mistake 2: Choosing the wrong transcription model.**
-We initially assumed the newest model from our transcription provider would be best. It wasn't — it failed on our specific audio encoding. The lesson: test with your actual data format, not benchmarks.
-
-**Mistake 3: Over-engineering cloud storage integration.**
-We initially set up a Python virtual environment with a full SDK client library. Then realized a CLI sync tool does the same thing in one command. Simpler tools win when the task is simple.
-
----
-
-## When to add a new tool
-
-We use this checklist before adding another tool to the stack:
-
-1. **Is there a real task it solves?** Not theoretical — something we actually need to do repeatedly.
-2. **Does it overlap with an existing tool?** If yes, is it meaningfully better for the specific use case?
-3. **Can it run headless?** We need tools that work from scripts and cron jobs, not just GUIs.
-4. **What's the failure mode?** If this tool goes down, what breaks? Can we fall back gracefully?
-
-We identified 23 tool gaps through a systematic audit (see the AI Tools Strategic Report). But gaps aren't urgent problems — they're opportunities to evaluate when the need arises.
-
----
-
-## What we don't use (yet)
-
-Being honest about our known gaps:
-
-- **No LangChain/LangGraph** — we orchestrate through our agent platform, not a dedicated framework
-- **No vector database** — no semantic search over our own content
-- **No Ollama/local models** — fully dependent on cloud APIs
-- **No observability tools** — no LangSmith or Langfuse tracking our AI calls
-
-These aren't oversights — they're conscious trade-offs. Our current stack solves our current problems. The gaps become relevant when we move from "AI power user" to "AI builder" (Modules 3-6).
-
----
-
-## The principle
-
-**Match tools to tasks, not tasks to tools.** Start with what you need to accomplish, then find the simplest tool that does it reliably. Complexity should come from combining simple tools, not from using complex ones.
-
----
-
-## Sources
-
-- [Deepgram API docs](https://developers.deepgram.com/) — transcription service
-- [rclone documentation](https://rclone.org/docs/) — cloud storage CLI
-- [GitHub CLI manual](https://cli.github.com/manual/) — programmatic GitHub operations
-- [Brave Search API](https://brave.com/search/api/) — web search for agents
-
----
-
-# Prompt mastery
-
-Module: Module 1: AI Power User
-
-## The problem
-
-Everyone can write a prompt. Few people write prompts that work reliably when no human is watching. The gap between "chat with AI" and "autonomous AI pipeline" is almost entirely about prompt quality.
-
----
-
-## From chat prompts to system prompts
-
-In a chat, your prompt is a one-off message. In an autonomous system, your prompt is an **instruction set** that must produce consistent results without intervention.
-
-Here's the difference:
-
-**Chat prompt:**
-> "What's the latest AI news?"
-
-**Autonomous prompt (actual cron job):**
-> "Read workspace/memory/strategic-action-tracker.json for current Phase 1 priorities. Scan today's AI, blockchain, and tech news. For each story: assess 1st, 2nd, and 3rd order consequences scoped to an AI specialist transitioning from engineer to strategic thinker. Output top 5 stories ranked by relevance. Save to workspace/memory/news-results.md"
-
-The autonomous version specifies: what to read, what to scan, how to analyze, how to format output, and where to save. Nothing is left to interpretation.
-
----
-
-## The anatomy of our prompts
-
-After writing 25+ autonomous prompts for cron jobs, we've settled on a consistent structure:
-
-### 1. Context loading
-Tell the agent what to read first.
-
-```
-Read memory/YYYY-MM-DD.md for today's context.
-Read memory/strategic-action-tracker.json for current priorities.
-```
-
-### 2. Task definition
-Be specific about what to do, not just what the topic is.
-
-```
-Scan top AI and technology news from the last 24 hours.
-For EACH story, analyze: 1st order (immediate), 2nd order (downstream),
-and 3rd order (systemic) consequences.
-```
-
-### 3. Scope constraints
-Narrow the output to what's actually useful.
-
-```
-Scope all analysis to the interests of an AI specialist focused on
-AI integration, blockchain, and human-centered technology.
-Skip: celebrity news, sports, local politics.
-```
-
-### 4. Output format
-Specify exactly how you want results structured.
-
-```
-Format each as:
-- **Alias:** short-kebab-case identifier
-- **Source:** URL
-- **Summary:** 2-3 sentences with consequence chain
-Save to workspace/memory/news-results.md
-```
-
-### 5. Error handling
-What to do when things go wrong.
-
-```
-If web search fails, note the failure and continue with available data.
-If no significant news found, state that explicitly rather than forcing weak stories.
-```
-
----
-
-## Experiment: how our overnight pipeline prompt evolved
-
-Our 4-stage overnight pipeline runs between 04:00 and 07:00 UTC. Stage 1 scans news. Here's how the prompt evolved:
-
-**Version 1 (first attempt):**
-> "Check the latest AI news and summarize."
-
-**Problem:** Output was generic. No consequence analysis. Stories weren't relevant to our interests.
-
-**Version 2 (added scope):**
-> "Check AI, blockchain, and tech news. Analyze consequences. Focus on stories relevant to an AI specialist."
-
-**Problem:** Better relevance, but output format was inconsistent. Sometimes bullet points, sometimes paragraphs. Hard to parse downstream.
-
-**Version 3 (added structure + save location):**
-> "Scan news. For each: alias, source, 1st/2nd/3rd order consequences. Save to specific file path."
-
-**Problem:** Worked well but timed out when running on Opus (10-minute cron limit). The model was being too thorough.
-
-**Current version:** Added explicit limits — "top 5 stories" and "2-3 sentences per story." Runs within timeout while maintaining quality.
-
-**Lesson:** Prompts are iterated, not designed. Each failure teaches you what the prompt was missing. Version control your prompts (we keep ours in cron job definitions) so you can track what changed and why.
-
----
-
-## The pre-execution alignment pattern
-
-For interactive work (not cron), we use a protocol: before executing non-trivial instructions, surface the top 3 questions that would improve alignment.
-
-**Why this works:**
-- Saves rework cycles — catch misunderstandings before execution
-- Forces the agent to think before acting
-- Only activates when there's genuine uncertainty
-- When confident, just execute — no unnecessary delay
-
-**How to implement it:**
-We added this to our agent's system prompt (SOUL.md):
-
-```
-Before executing non-trivial instructions, surface the top 3 questions
-(if any) that would meaningfully improve alignment. Use judgment:
-- If confident → just execute
-- If uncertainties exist that could lead to rework → ask first
-```
-
-This is a meta-prompt — a prompt about how to handle prompts.
-
----
-
-## System prompt architecture
-
-Our agent's behavior is defined by layered files, each serving a different purpose:
-
-| File | Purpose | Changes how often |
-|------|---------|-------------------|
-| SOUL.md | Core identity, personality, principles | Rarely |
-| AGENTS.md | Operational rules, workflows, conventions | Occasionally |
-| USER.md | Context about the human | As things change |
-| TOOLS.md | Environment-specific notes (keys, devices, paths) | As tools are added |
-| MEMORY.md | Long-term curated context | Continuously |
-
-This layered approach means you can update operational rules without changing the agent's identity, or update context without changing rules. Each layer has a different rate of change.
-
-**Key insight:** The system prompt IS the product. For an autonomous agent, the difference between useful and useless is entirely in how well the system prompt captures intent, boundaries, and context.
-
----
-
-## Common prompting mistakes we've made
-
-**Too vague:** "Analyze this." → Agent doesn't know what angle, depth, or format.
-
-**Too rigid:** Specifying every sentence of output → Agent can't adapt to unexpected input.
-
-**Missing error cases:** Not telling the agent what to do when search fails, files are missing, or results are empty.
-
-**Assuming context:** Forgetting that each session starts fresh. The agent doesn't remember yesterday unless you tell it to read yesterday's notes.
-
-**Over-prompting cron jobs:** Writing 500-word prompts for simple tasks. More tokens in = more cost, more latency, more room for the model to go off-track.
-
----
-
-## What we haven't formalized
-
-- **No prompt versioning system.** We edit prompts in place (cron job definitions). Should version control them separately.
-- **No automated evaluation.** We judge prompt quality by reading output, not by systematic scoring.
-- **No A/B testing.** We can't compare two prompt versions side-by-side on the same input.
-
-These gaps matter more as you scale. For 25 cron jobs, manual review works. For 100+, you'd need automation.
-
----
-
-## Sources
-
-- [Anthropic prompt engineering guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering) — official best practices
-- [OpenAI prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering) — complementary perspective
-
----
-
-# Voice & multimodal workflows
-
-Module: Module 1: AI Power User
-
-## The problem
-
-Typing is the default way people interact with AI. But typing is slow, requires your hands, and doesn't work when you're walking, driving, or away from a keyboard. Voice input and audio output transform AI from a desk tool into something that works with your life.
-
----
-
-## Our voice workflow
-
-We use voice notes as the primary instruction method. The full loop:
-
-```
-Speak (Telegram voice note)
-  → Transcribe (Deepgram whisper-large)
-    → Interpret (Claude)
-      → Execute (tools, code, research)
-        → Narrate (Edge TTS)
-          → Deliver (Telegram voice note)
-```
-
-The result: you send a voice note with an instruction, and you get back a voice note with the answer. Hands-free AI interaction.
-
----
-
-## Setting up voice input: Deepgram transcription
-
-### The transcription challenge
-
-Telegram encodes voice notes as Opus audio in an OGG container. Not every transcription service handles this format well.
-
-**What we tested:**
-
-| Service/Model          | Result with Telegram audio                         |
-| ---------------------- | -------------------------------------------------- |
-| Deepgram Nova-2        | ❌ Failed — couldn't decode Telegram's Opus format |
-| Deepgram whisper-large | ✅ Works reliably                                  |
-| OpenAI Whisper API     | Not tested (would require additional API key)      |
-
-**Lesson:** Don't assume the newest model handles your specific format. Test with actual data.
-
-### The transcription script
-
-We wrote a script at `~/.hermes/scripts/transcribe-deepgram`:
-
-```bash
-#!/bin/bash
-FILE="$1"
-LANG="${2:-en}"
-
-curl -s --request POST \
-  --url "https://api.deepgram.com/v1/listen?model=whisper-large&language=$LANG" \
-  --header "Authorization: Token $DEEPGRAM_API_KEY" \
-  --header "Content-Type: audio/ogg" \
-  --data-binary @"$FILE"
-```
-
-Simple: takes a file path and optional language, sends to Deepgram, returns JSON with the transcript.
-
-### The robust wrapper
-
-Voice notes sometimes fail on first attempt (network issues, temporary API errors). We built a retry wrapper:
-
-```bash
-#!/bin/bash
-FILE="${1:-latest}"
-ATTEMPTS="${2:-3}"
-DELAY="${3:-2}"
-
-# "latest" resolves to the most recent voice note file
-if [ "$FILE" = "latest" ]; then
-  FILE=$(ls -t ~/.hermes/media/inbound/file_*---*.ogg 2>/dev/null | head -1)
-fi
-
-for i in $(seq 1 $ATTEMPTS); do
-  RESULT=$(~/.hermes/scripts/transcribe-deepgram "$FILE")
-  if echo "$RESULT" | jq -e '.results' > /dev/null 2>&1; then
-    echo "$RESULT" | jq -r '.results.channels[0].alternatives[0].transcript'
-    exit 0
-  fi
-  sleep $DELAY
-done
-
-echo "Transcription failed after $ATTEMPTS attempts" >&2
-exit 1
-```
-
-Three attempts with a 2-second delay between retries. The `latest` shortcut automatically finds the most recent voice note.
-
----
-
-## Setting up voice output: TTS delivery
-
-### Text-to-Speech generation
-
-We use Edge TTS (Microsoft's free TTS engine) to convert text to audio. The TTS tool generates an MP3 file.
-
-**Key constraint:** Maximum 4,096 characters per TTS call. For longer content, split into parts.
-
-### Delivering voice notes via Telegram
-
-Here's where we hit an important lesson. The AI platform generates a `MEDIA:` path for TTS output. But this path points to a temporary file that gets cleaned up quickly.
-
-**What failed:** Including `MEDIA:/tmp/tts-xxx/voice-xxx.mp3` in the chat response. The file was often gone by the time the system tried to send it.
-
-**What works:** Sending the audio file directly via the Telegram bot API:
-
-```
-message(
-  action: "send",
-  channel: "telegram",
-  target: "user-id",
-  filePath: "/tmp/tts-upload/report.mp3",
-  asVoice: true
-)
-```
-
-The `asVoice: true` parameter makes Telegram render it as a playable voice bubble instead of a file attachment. This is the reliable method we now use for all audio delivery.
-
----
-
-## Experiment: narrated news briefing
-
-We tested the full voice pipeline with a 10-story news briefing:
-
-1. Searched web for AI/blockchain/tech news (Brave Search)
-2. Analyzed each story with consequence chains (Claude)
-3. Narrated each as a separate voice note (Edge TTS)
-4. Delivered all 10 individually via Telegram (message tool)
-
-**Timing:** ~3 minutes total for research, analysis, 10 TTS generations, and 10 message sends.
-
-**What worked well:**
-
-- Each story as a separate audio clip lets the listener skip or replay individual items
-- The narration format (alias, summary, 3 consequence levels) works well for audio consumption
-- Voice delivery means the listener can absorb information while doing other things
-
-**What could be better:**
-
-- Edge TTS voice quality is functional but not great — lacks natural inflection
-- No control over speaking pace or emphasis
-- 4,096 character limit means complex stories must be condensed
-
----
-
-## When voice beats text
-
-Through daily use, we've found voice works best for:
-
-- **Morning briefings** — listen while getting ready
-- **News summaries** — absorb while walking or commuting
-- **Status reports** — quick audio update vs reading a wall of text
-- **Instructions to the agent** — faster to speak than type, especially on mobile
-
-**When text is still better:**
-
-- Code or structured data — needs visual parsing
-- Anything you'll reference later — text is searchable, audio isn't
-- Complex instructions with specific formatting requirements
-
----
-
-## Multimodal beyond voice
-
-Our setup also handles:
-
-**Image analysis:** Send a screenshot or photo, the agent analyzes it using vision capabilities. We've used this for reviewing website designs, reading error screenshots, and checking deploy previews.
-
-**Document processing:** Send a PDF or Word document, the agent extracts and processes the content. We used this to proofread a 155,000-character creative writing piece — the agent read the entire document and found exactly one error.
-
-**The pattern:** Input in whatever format is natural (voice, image, document) → AI processes and understands → Output in whatever format is useful (text, voice, file).
-
----
-
-## What we haven't built
-
-- **No real-time voice conversation.** Our pipeline is async: send voice note → wait → get response. Not a live voice chat.
-- **No speaker identification.** The system doesn't distinguish between different speakers in a voice note.
-- **No voice cloning.** We use Edge TTS's default voice, not a custom voice.
-- **No transcription of languages we haven't tested.** Deepgram whisper-large works well for English and Spanish. Other languages untested.
-
----
-
-## Sources
-
-- [Deepgram API documentation](https://developers.deepgram.com/) — whisper-large model specs
-- [Edge TTS](https://github.com/rany2/edge-tts) — Microsoft's free text-to-speech
-- [Telegram Bot API — sendVoice](https://core.telegram.org/bots/api#sendvoice) — voice message delivery
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
+- [Hugging Face Agents Course: Understanding AI Agents through the Thought-Action-Observation Cycle](https://huggingface.co/learn/agents-course/unit1/agent-steps-and-structure)
+- [LangChain documentation: Human-in-the-loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop)
 
