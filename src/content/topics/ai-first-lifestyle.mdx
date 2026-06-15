@@ -1,9 +1,9 @@
 ---
-title: "AI-first lifestyle"
-module: "Module 2: AI Integration & Orchestration"
-subtopic: "ai-first-lifestyle"
-summary: "Morning briefings, memory systems, and making AI work while you sleep."
-status: "done"
+title: 'AI-first lifestyle'
+module: 'Module 2: AI Integration & Orchestration'
+subtopic: 'ai-first-lifestyle'
+summary: 'Morning briefings, memory systems, and making AI work while you sleep.'
+status: 'done'
 ---
 
 ## The problem
@@ -19,29 +19,34 @@ The shift: making AI proactive. It knows your context, tracks your goals, works 
 Here's an actual day in our setup:
 
 **While sleeping (01:00-04:00 local):**
+
 - Stage 1: AI scans overnight news across AI, blockchain, tech
 - Stage 2: Identifies patterns and cross-cutting themes
 - Stage 3: Connects findings to our strategic plan
 - Stage 4: Compiles everything into a morning briefing
 
 **Wake up (08:30 local):**
+
 - Morning briefing waiting in your messaging app
 - Top news stories with consequence analysis
 - Strategic plan items due this week
 - Any alerts from overnight monitoring
 
 **Morning routine:**
+
 - Listen to briefing as audio while getting ready
 - Send voice note with priorities for the day
 - AI executes: creates branches, writes drafts, does research
 
 **During the day:**
+
 - Work coaching check-ins at scheduled intervals
 - Boundary enforcement reminders
 - Energy management nudges
 - Content goal tracking with escalation
 
 **Evening:**
+
 - Sync check: what got done, what didn't
 - Quota optimization: are we using our AI capacity efficiently
 - State backup to Google Drive
@@ -64,6 +69,7 @@ Curated, distilled insights. Updated periodically by reviewing daily notes and e
 
 **Session startup ritual:**
 Every time the agent wakes up, it reads:
+
 1. `SOUL.md` — who it is
 2. `USER.md` — who it's helping
 3. Today's and yesterday's `memory/YYYY-MM-DD.md` — recent context
@@ -86,6 +92,7 @@ Our long-term memory file contains:
 ### The maintenance cycle
 
 Memory isn't static. Every few days, we:
+
 1. Review recent daily files
 2. Extract significant events and lessons
 3. Update MEMORY.md with distilled insights
@@ -100,6 +107,7 @@ This is like a human reviewing their journal and updating their mental model. Th
 Our agent doesn't just wait for messages. It has a "heartbeat" — a periodic check-in that runs every ~30 minutes:
 
 **What the heartbeat checks:**
+
 - Is there anything in HEARTBEAT.md that needs attention?
 - Any reminders or tasks that are due?
 - Any proactive work to do (file organization, memory maintenance)?
@@ -117,18 +125,20 @@ Our agent doesn't just wait for messages. It has a "heartbeat" — a periodic ch
 We developed a specific format for news consumption that goes beyond "here's what happened":
 
 **For each news story:**
+
 1. **1st order consequence** — the immediate, obvious impact
 2. **2nd order consequence** — what follows from the first consequence
 3. **3rd order consequence** — systemic or long-term implications
 
 **Example from an actual briefing:**
 
-*Story: "30,000+ tech jobs cut in 40 days of 2026, 80% AI-related"*
+_Story: "30,000+ tech jobs cut in 40 days of 2026, 80% AI-related"_
+
 - **1st order:** Companies replacing human roles with AI automation
 - **2nd order:** Labor market bifurcating — AI integrators become more valuable, pure coders face shrinking demand
 - **3rd order:** Accelerates career transitions already in progress; "AI Power User" skills become job insurance
 
-**Why this works:** Raw news is noise. Consequence chains turn news into signal. They force the analysis to connect events to *our specific situation*, not generic commentary.
+**Why this works:** Raw news is noise. Consequence chains turn news into signal. They force the analysis to connect events to _our specific situation_, not generic commentary.
 
 **All news is scoped** to our interests: AI, blockchain, technology, human-centered tech. Sports, politics, celebrity news is filtered out. This scoping is defined in the prompt, not the data source.
 
@@ -151,12 +161,14 @@ Beyond daily operations, the AI serves as a strategic thinking partner:
 ## What makes this work (and what doesn't)
 
 **What works:**
+
 - Voice input/output — AI fits into your life, not the other way around
 - Persistent memory — no context repetition, every session builds on the last
 - Scheduled automation — AI works while you don't
 - Scoped analysis — signal, not noise
 
 **What's fragile:**
+
 - Single point of failure — if the server goes down, everything stops
 - Memory file size — MEMORY.md at 40KB is approaching the limits of context windows
 - No redundancy — one agent, one model provider, one infrastructure
@@ -166,7 +178,7 @@ Beyond daily operations, the AI serves as a strategic thinking partner:
 
 ## What we haven't achieved
 
-- **No predictive scheduling.** The agent doesn't learn *when* you're most productive and schedule accordingly. Timing is manually set.
+- **No predictive scheduling.** The agent doesn't learn _when_ you're most productive and schedule accordingly. Timing is manually set.
 - **No multi-agent coordination.** We have sub-agents for parallel tasks, but they don't communicate with each other — only through the main agent.
 - **No cross-session learning.** Insights from one cron job don't automatically improve another. Each job runs independently.
 - **No quantified self-tracking.** We track content output and strategic progress, but not things like response quality over time, productivity patterns, or optimal model usage per time of day.
@@ -177,11 +189,11 @@ Beyond daily operations, the AI serves as a strategic thinking partner:
 
 This setup isn't for everyone. It takes weeks to build, requires an always-on server, and costs money (API subscriptions, compute). The benefit is real but hard to quantify: decisions are better informed, context is never lost, and you wake up to analysis instead of starting from scratch.
 
-The shift from "using AI sometimes" to "AI as infrastructure" is more about mindset than technology. The technology is straightforward — cron jobs, memory files, TTS. The mindset shift is deciding that AI should work *for* you around the clock, not just *with* you when you open a chat.
+The shift from "using AI sometimes" to "AI as infrastructure" is more about mindset than technology. The technology is straightforward — cron jobs, memory files, TTS. The mindset shift is deciding that AI should work _for_ you around the clock, not just _with_ you when you open a chat.
 
 ---
 
 ## Sources
 
-- [OpenClaw documentation](https://docs.openclaw.ai) — persistent agent platform
-- [Cron job scheduling](https://docs.openclaw.ai/automation/cron-jobs) — automated AI workflows
+- [Hermes Agent documentation](https://hermes-agent.nousresearch.com/docs) — agent platform and workflow reference
+- [Turtleand Hermes Lab](https://hermes.turtleand.com/) — applied Hermes field notes

@@ -1,9 +1,9 @@
 ---
-title: "Voice & multimodal workflows"
-module: "Module 1: AI Power User"
-subtopic: "voice-multimodal-workflows"
-summary: "Voice-to-AI pipelines, TTS output, and audio as a primary instruction method."
-status: "done"
+title: 'Voice & multimodal workflows'
+module: 'Module 1: AI Power User'
+subtopic: 'voice-multimodal-workflows'
+summary: 'Voice-to-AI pipelines, TTS output, and audio as a primary instruction method.'
+status: 'done'
 ---
 
 ## The problem
@@ -37,17 +37,17 @@ Telegram encodes voice notes as Opus audio in an OGG container. Not every transc
 
 **What we tested:**
 
-| Service/Model | Result with Telegram audio |
-|---------------|---------------------------|
-| Deepgram Nova-2 | ❌ Failed — couldn't decode Telegram's Opus format |
-| Deepgram whisper-large | ✅ Works reliably |
-| OpenAI Whisper API | Not tested (would require additional API key) |
+| Service/Model          | Result with Telegram audio                         |
+| ---------------------- | -------------------------------------------------- |
+| Deepgram Nova-2        | ❌ Failed — couldn't decode Telegram's Opus format |
+| Deepgram whisper-large | ✅ Works reliably                                  |
+| OpenAI Whisper API     | Not tested (would require additional API key)      |
 
 **Lesson:** Don't assume the newest model handles your specific format. Test with actual data.
 
 ### The transcription script
 
-We wrote a script at `~/.openclaw/scripts/transcribe-deepgram`:
+We wrote a script at `~/.hermes/scripts/transcribe-deepgram`:
 
 ```bash
 #!/bin/bash
@@ -75,11 +75,11 @@ DELAY="${3:-2}"
 
 # "latest" resolves to the most recent voice note file
 if [ "$FILE" = "latest" ]; then
-  FILE=$(ls -t ~/.openclaw/media/inbound/file_*---*.ogg 2>/dev/null | head -1)
+  FILE=$(ls -t ~/.hermes/media/inbound/file_*---*.ogg 2>/dev/null | head -1)
 fi
 
 for i in $(seq 1 $ATTEMPTS); do
-  RESULT=$(~/.openclaw/scripts/transcribe-deepgram "$FILE")
+  RESULT=$(~/.hermes/scripts/transcribe-deepgram "$FILE")
   if echo "$RESULT" | jq -e '.results' > /dev/null 2>&1; then
     echo "$RESULT" | jq -r '.results.channels[0].alternatives[0].transcript'
     exit 0
@@ -137,11 +137,13 @@ We tested the full voice pipeline with a 10-story news briefing:
 **Timing:** ~3 minutes total for research, analysis, 10 TTS generations, and 10 message sends.
 
 **What worked well:**
+
 - Each story as a separate audio clip lets the listener skip or replay individual items
 - The narration format (alias, summary, 3 consequence levels) works well for audio consumption
 - Voice delivery means the listener can absorb information while doing other things
 
 **What could be better:**
+
 - Edge TTS voice quality is functional but not great — lacks natural inflection
 - No control over speaking pace or emphasis
 - 4,096 character limit means complex stories must be condensed
@@ -158,6 +160,7 @@ Through daily use, we've found voice works best for:
 - **Instructions to the agent** — faster to speak than type, especially on mobile
 
 **When text is still better:**
+
 - Code or structured data — needs visual parsing
 - Anything you'll reference later — text is searchable, audio isn't
 - Complex instructions with specific formatting requirements

@@ -3,20 +3,40 @@
 ---
 
 <section class="portal-duo" aria-label="Featured Resources">
-  <!-- OpenClaw Card - Cyber/Terminal Theme -->
-  <a href="https://openclaw.turtleand.com/" class="portal-card portal-openclaw" target="_blank" rel="noopener">
+  <!-- Hermes Card - Cyber/Terminal Theme -->
+  <a
+    href="https://hermes.turtleand.com/"
+    class="portal-card portal-hermes"
+    target="_blank"
+    rel="noopener"
+  >
     <div class="portal-bg"></div>
     <div class="portal-pattern"></div>
     <div class="portal-content">
       <div class="portal-icon">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="8" y="12" width="32" height="24" rx="2" stroke="currentColor" stroke-width="2"/>
-          <path d="M14 22l4 4-4 4M22 30h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="24" cy="8" r="2" fill="currentColor"/>
+          <rect
+            x="8"
+            y="12"
+            width="32"
+            height="24"
+            rx="2"
+            stroke="currentColor"
+            stroke-width="2"></rect>
+          <path
+            d="M14 22l4 4-4 4M22 30h8"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+          <circle cx="24" cy="8" r="2" fill="currentColor"></circle>
         </svg>
       </div>
-      <h3 class="portal-title">OpenClaw</h3>
-      <p class="portal-desc">Persistent AI agents, cloud deployment, and advanced agent patterns.</p>
+      <h3 class="portal-title">Hermes</h3>
+      <p class="portal-desc">
+        Voice-first agent operations, scheduling, tools, skills, and reliable
+        human-AI workflows.
+      </p>
       <span class="portal-cta">
         Enter <span class="cta-arrow">→</span>
       </span>
@@ -25,20 +45,33 @@
   </a>
 
   <!-- AI Atlas Card - Nautical/Map Theme -->
-  <a href="https://atlas.turtleand.com/" class="portal-card portal-atlas" target="_blank" rel="noopener">
+  <a
+    href="https://atlas.turtleand.com/"
+    class="portal-card portal-atlas"
+    target="_blank"
+    rel="noopener"
+  >
     <div class="portal-bg"></div>
     <div class="portal-pattern"></div>
     <div class="portal-content">
       <div class="portal-icon">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2"/>
-          <path d="M24 8v32M8 24h32" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
-          <path d="M24 18l4 6-4 6-4-6 4-6z" fill="currentColor"/>
-          <circle cx="24" cy="24" r="3" stroke="currentColor" stroke-width="2"/>
+          <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2"
+          ></circle>
+          <path
+            d="M24 8v32M8 24h32"
+            stroke="currentColor"
+            stroke-width="1.5"
+            opacity="0.5"></path>
+          <path d="M24 18l4 6-4 6-4-6 4-6z" fill="currentColor"></path>
+          <circle cx="24" cy="24" r="3" stroke="currentColor" stroke-width="2"
+          ></circle>
         </svg>
       </div>
       <h3 class="portal-title">AI Atlas</h3>
-      <p class="portal-desc">Interactive map of AI tools I've charted on my journey.</p>
+      <p class="portal-desc">
+        Interactive map of AI tools I've charted on my journey.
+      </p>
       <span class="portal-cta">
         Explore <span class="cta-arrow">→</span>
       </span>
@@ -71,90 +104,115 @@
     text-decoration: none;
     color: inherit;
     min-height: 280px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .portal-card:hover {
     transform: translateY(-4px);
   }
 
-  /* OpenClaw - Cyber Theme */
-  .portal-openclaw {
+  /* Hermes - Cyber Theme */
+  .portal-hermes {
     background: linear-gradient(135deg, #0a0f14 0%, #1a2530 50%, #0d1a24 100%);
     border: 1px solid rgba(0, 255, 204, 0.2);
     color: #e0f7f4;
   }
 
-  .portal-openclaw .portal-bg {
+  .portal-hermes .portal-bg {
     position: absolute;
     inset: 0;
-    background: 
-      radial-gradient(circle at 80% 20%, rgba(0, 255, 204, 0.15) 0%, transparent 40%),
-      radial-gradient(circle at 20% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 35%);
+    background:
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(0, 255, 204, 0.15) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 20% 80%,
+        rgba(0, 200, 255, 0.1) 0%,
+        transparent 35%
+      );
   }
 
-  .portal-openclaw .portal-pattern {
+  .portal-hermes .portal-pattern {
     position: absolute;
     inset: 0;
     opacity: 0.08;
-    background-image: 
+    background-image:
       linear-gradient(rgba(0, 255, 204, 0.5) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0, 255, 204, 0.5) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 
-  .portal-openclaw .portal-icon {
+  .portal-hermes .portal-icon {
     color: #00ffcc;
     filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.5));
   }
 
-  .portal-openclaw .portal-title {
+  .portal-hermes .portal-title {
     color: #00ffcc;
     text-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
   }
 
-  .portal-openclaw .portal-cta {
+  .portal-hermes .portal-cta {
     background: rgba(0, 255, 204, 0.15);
     border: 1px solid rgba(0, 255, 204, 0.4);
     color: #00ffcc;
   }
 
-  .portal-openclaw:hover {
-    box-shadow: 
+  .portal-hermes:hover {
+    box-shadow:
       0 20px 40px rgba(0, 0, 0, 0.4),
       0 0 40px rgba(0, 255, 204, 0.2),
       inset 0 0 60px rgba(0, 255, 204, 0.05);
     border-color: rgba(0, 255, 204, 0.5);
   }
 
-  .portal-openclaw .portal-glow {
+  .portal-hermes .portal-glow {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 120%;
     height: 120%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(0, 255, 204, 0.1) 0%, transparent 60%);
+    background: radial-gradient(
+      circle,
+      rgba(0, 255, 204, 0.1) 0%,
+      transparent 60%
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
   }
 
-  .portal-openclaw:hover .portal-glow {
+  .portal-hermes:hover .portal-glow {
     opacity: 1;
   }
 
   /* Glitch effect on hover */
-  .portal-openclaw:hover .portal-title {
+  .portal-hermes:hover .portal-title {
     animation: glitch 0.3s ease;
   }
 
   @keyframes glitch {
-    0%, 100% { transform: translate(0); }
-    20% { transform: translate(-2px, 1px); }
-    40% { transform: translate(2px, -1px); }
-    60% { transform: translate(-1px, -1px); }
-    80% { transform: translate(1px, 1px); }
+    0%,
+    100% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 1px);
+    }
+    40% {
+      transform: translate(2px, -1px);
+    }
+    60% {
+      transform: translate(-1px, -1px);
+    }
+    80% {
+      transform: translate(1px, 1px);
+    }
   }
 
   /* AI Atlas - Nautical Theme */
@@ -167,9 +225,17 @@
   .portal-atlas .portal-bg {
     position: absolute;
     inset: 0;
-    background: 
-      radial-gradient(circle at 20% 30%, rgba(212, 160, 58, 0.12) 0%, transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(180, 140, 60, 0.08) 0%, transparent 35%);
+    background:
+      radial-gradient(
+        circle at 20% 30%,
+        rgba(212, 160, 58, 0.12) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 80% 70%,
+        rgba(180, 140, 60, 0.08) 0%,
+        transparent 35%
+      );
   }
 
   .portal-atlas .portal-pattern {
@@ -182,28 +248,32 @@
   }
 
   @keyframes waves {
-    0% { background-position: 0 0; }
-    100% { background-position: 60px 0; }
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 60px 0;
+    }
   }
 
   .portal-atlas .portal-icon {
-    color: #D4A03A;
+    color: #d4a03a;
     filter: drop-shadow(0 0 8px rgba(212, 160, 58, 0.4));
   }
 
   .portal-atlas .portal-title {
-    color: #D4A03A;
+    color: #d4a03a;
     text-shadow: 0 0 20px rgba(212, 160, 58, 0.3);
   }
 
   .portal-atlas .portal-cta {
     background: rgba(212, 160, 58, 0.15);
     border: 1px solid rgba(212, 160, 58, 0.4);
-    color: #D4A03A;
+    color: #d4a03a;
   }
 
   .portal-atlas:hover {
-    box-shadow: 
+    box-shadow:
       0 20px 40px rgba(0, 0, 0, 0.4),
       0 0 40px rgba(212, 160, 58, 0.15),
       inset 0 0 60px rgba(212, 160, 58, 0.03);
@@ -217,7 +287,11 @@
     width: 120%;
     height: 120%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(212, 160, 58, 0.08) 0%, transparent 60%);
+    background: radial-gradient(
+      circle,
+      rgba(212, 160, 58, 0.08) 0%,
+      transparent 60%
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -233,9 +307,15 @@
   }
 
   @keyframes compassSpin {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(15deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(15deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
   }
 
   /* Shared styles */

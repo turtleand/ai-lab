@@ -1,9 +1,9 @@
 ---
-title: "Estilo de vida AI-first"
-module: "Module 2: AI Integration & Orchestration"
-subtopic: "ai-first-lifestyle"
-summary: "Briefings matutinos, sistemas de memoria, y hacer que la IA trabaje mientras dormís."
-status: "done"
+title: 'Estilo de vida AI-first'
+module: 'Module 2: AI Integration & Orchestration'
+subtopic: 'ai-first-lifestyle'
+summary: 'Briefings matutinos, sistemas de memoria, y hacer que la IA trabaje mientras dormís.'
+status: 'done'
 ---
 
 ## El problema
@@ -19,29 +19,34 @@ El cambio: hacer que la IA sea proactiva. Que conozca tu contexto, rastree tus o
 Así es un día real en nuestro setup:
 
 **Mientras dormís (01:00-04:00 hora local):**
+
 - Etapa 1: La IA escanea noticias nocturnas de IA, blockchain, tech
 - Etapa 2: Identifica patrones y temas transversales
 - Etapa 3: Conecta hallazgos con nuestro plan estratégico
 - Etapa 4: Compila todo en un briefing matutino
 
 **Te despertás (08:30 hora local):**
+
 - Briefing matutino esperándote en tu app de mensajería
 - Noticias top con análisis de consecuencias
 - Items del plan estratégico que vencen esta semana
 - Alertas del monitoreo nocturno
 
 **Rutina matutina:**
+
 - Escuchá el briefing como audio mientras te preparás
 - Mandá una nota de voz con las prioridades del día
 - La IA ejecuta: crea branches, escribe borradores, investiga
 
 **Durante el día:**
+
 - Check-ins de coaching laboral a intervalos programados
 - Recordatorios de cumplimiento de límites
 - Nudges de gestión de energía
 - Seguimiento de metas de contenido con escalamiento
 
 **A la noche:**
+
 - Sync check: qué se hizo, qué no
 - Optimización de cuota: ¿estamos usando nuestra capacidad de IA eficientemente?
 - Backup de estado a Google Drive
@@ -64,6 +69,7 @@ Insights curados y destilados. Se actualiza periódicamente revisando las notas 
 
 **Ritual de inicio de sesión:**
 Cada vez que el agente se despierta, lee:
+
 1. `SOUL.md` — quién es
 2. `USER.md` — a quién ayuda
 3. Las notas de hoy y ayer `memory/YYYY-MM-DD.md` — contexto reciente
@@ -86,6 +92,7 @@ Nuestro archivo de memoria a largo plazo contiene:
 ### El ciclo de mantenimiento
 
 La memoria no es estática. Cada algunos días:
+
 1. Revisamos archivos diarios recientes
 2. Extraemos eventos significativos y lecciones
 3. Actualizamos MEMORY.md con insights destilados
@@ -100,6 +107,7 @@ Es como un humano revisando su diario y actualizando su modelo mental. Los archi
 Nuestro agente no solo espera mensajes. Tiene un "heartbeat" — un check-in periódico que corre cada ~30 minutos:
 
 **Qué revisa el heartbeat:**
+
 - ¿Hay algo en HEARTBEAT.md que necesite atención?
 - ¿Algún recordatorio o tarea que vence?
 - ¿Algún trabajo proactivo por hacer (organización de archivos, mantenimiento de memoria)?
@@ -117,18 +125,20 @@ Nuestro agente no solo espera mensajes. Tiene un "heartbeat" — un check-in per
 Desarrollamos un formato específico para consumo de noticias que va más allá de "esto es lo que pasó":
 
 **Para cada noticia:**
+
 1. **Consecuencia de 1er orden** — el impacto inmediato y obvio
 2. **Consecuencia de 2do orden** — qué se deriva de la primera consecuencia
 3. **Consecuencia de 3er orden** — implicaciones sistémicas o a largo plazo
 
 **Ejemplo de un briefing real:**
 
-*Noticia: "30.000+ empleos tech eliminados en 40 días de 2026, 80% relacionados con IA"*
+_Noticia: "30.000+ empleos tech eliminados en 40 días de 2026, 80% relacionados con IA"_
+
 - **1er orden:** Empresas reemplazando roles humanos con automatización de IA
 - **2do orden:** El mercado laboral se bifurca — los integradores de IA se vuelven más valiosos, los programadores puros enfrentan demanda decreciente
 - **3er orden:** Acelera transiciones de carrera ya en progreso; las habilidades de "AI Power User" se convierten en seguro laboral
 
-**Por qué funciona:** Las noticias crudas son ruido. Las cadenas de consecuencias convierten noticias en señal. Fuerzan al análisis a conectar eventos con *nuestra situación específica*, no comentarios genéricos.
+**Por qué funciona:** Las noticias crudas son ruido. Las cadenas de consecuencias convierten noticias en señal. Fuerzan al análisis a conectar eventos con _nuestra situación específica_, no comentarios genéricos.
 
 **Todas las noticias están acotadas** a nuestros intereses: IA, blockchain, tecnología, tech centrada en humanos. Deportes, política, noticias de celebridades se filtran. Este alcance se define en el prompt, no en la fuente de datos.
 
@@ -151,12 +161,14 @@ Más allá de las operaciones diarias, la IA funciona como un partner de pensami
 ## Qué funciona (y qué no)
 
 **Lo que funciona:**
+
 - Entrada/salida por voz — la IA se adapta a tu vida, no al revés
 - Memoria persistente — sin repetición de contexto, cada sesión construye sobre la anterior
 - Automatización programada — la IA trabaja mientras vos no
 - Análisis acotado — señal, no ruido
 
 **Lo que es frágil:**
+
 - Punto único de falla — si el servidor se cae, todo se detiene
 - Tamaño del archivo de memoria — MEMORY.md con 40KB se acerca a los límites de las ventanas de contexto
 - Sin redundancia — un agente, un proveedor de modelo, una infraestructura
@@ -166,7 +178,7 @@ Más allá de las operaciones diarias, la IA funciona como un partner de pensami
 
 ## Lo que no hemos logrado
 
-- **Sin programación predictiva.** El agente no aprende *cuándo* sos más productivo para programar en consecuencia. El timing se configura manualmente.
+- **Sin programación predictiva.** El agente no aprende _cuándo_ sos más productivo para programar en consecuencia. El timing se configura manualmente.
 - **Sin coordinación multi-agente.** Tenemos sub-agentes para tareas paralelas, pero no se comunican entre sí — solo a través del agente principal.
 - **Sin aprendizaje cross-sesión.** Los insights de un cron job no mejoran automáticamente otro. Cada job corre de forma independiente.
 - **Sin seguimiento de uno mismo cuantificado.** Rastreamos output de contenido y progreso estratégico, pero no cosas como calidad de respuestas a lo largo del tiempo, patrones de productividad, o uso óptimo de modelos por hora del día.
@@ -177,11 +189,11 @@ Más allá de las operaciones diarias, la IA funciona como un partner de pensami
 
 Este setup no es para todos. Lleva semanas construirlo, requiere un servidor siempre encendido, y cuesta plata (suscripciones de API, cómputo). El beneficio es real pero difícil de cuantificar: las decisiones están mejor informadas, el contexto nunca se pierde, y te despertás con análisis en vez de empezar de cero.
 
-El cambio de "usar IA a veces" a "IA como infraestructura" es más de mentalidad que de tecnología. La tecnología es directa — cron jobs, archivos de memoria, TTS. El cambio de mentalidad es decidir que la IA debería trabajar *para vos* las 24 horas, no solo *con vos* cuando abrís un chat.
+El cambio de "usar IA a veces" a "IA como infraestructura" es más de mentalidad que de tecnología. La tecnología es directa — cron jobs, archivos de memoria, TTS. El cambio de mentalidad es decidir que la IA debería trabajar _para vos_ las 24 horas, no solo _con vos_ cuando abrís un chat.
 
 ---
 
 ## Fuentes
 
-- [Documentación de OpenClaw](https://docs.openclaw.ai) — plataforma de agentes persistentes
-- [Programación de cron jobs](https://docs.openclaw.ai/automation/cron-jobs) — workflows de IA automatizados
+- [Documentación de Hermes Agent](https://hermes-agent.nousresearch.com/docs) — referencia de plataforma y workflows de agentes
+- [Turtleand Hermes Lab](https://hermes.turtleand.com/) — notas de campo aplicadas sobre Hermes
