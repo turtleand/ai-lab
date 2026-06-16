@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 const entries = await getCollection('ai-lab');
 const englishTopics = await getCollection('topics');
@@ -13,8 +13,8 @@ const experiments = sorted.filter(
   (entry) => entry.data.category === 'experiment'
 );
 const bootstrappingSlug = logs.find((log) =>
-  log.slug.includes('bootstrapping')
-)?.slug;
+  log.id.includes('bootstrapping')
+)?.id;
 
 const normalizeModuleKey = (value: string) => {
   const rawKey = value.split(':')[0].trim();
@@ -300,14 +300,14 @@ const currentModule =
 
 const logEntries = await Promise.all(
   logs.map(async (entry) => {
-    const { Content } = await entry.render();
+    const { Content } = await render(entry);
     return { ...entry, Content };
   })
 );
 
 const experimentCards = await Promise.all(
   experiments.map(async (entry) => {
-    const { Content } = await entry.render();
+    const { Content } = await render(entry);
     return { ...entry, Content };
   })
 );
@@ -317,7 +317,7 @@ const subtopicsForModule = (module) => {
     const key = `${module.key}:${definition.id}`;
     const spanishTopic = spanishTopicLookup.get(key);
     const topic = spanishTopic ?? englishTopicLookup.get(key);
-    const href = topic ? buildTopicHref(topic.slug) : undefined;
+    const href = topic ? buildTopicHref(topic.id) : undefined;
     const hasContent = Boolean(topic);
 
     return {

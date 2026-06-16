@@ -11,22 +11,26 @@ const subtopics = [
   {
     id: 'multi-tool-workflows',
     title: 'Multi-tool AI workflows',
-    summary: 'Running 3+ AI tools in parallel, choosing the right tool for each task.'
+    summary:
+      'Running 3+ AI tools in parallel, choosing the right tool for each task.'
   },
   {
     id: 'prompt-mastery',
     title: 'Prompt mastery',
-    summary: 'Beyond basics — structured prompting, chain-of-thought, system prompts, prompt versioning.'
+    summary:
+      'Beyond basics — structured prompting, chain-of-thought, system prompts, prompt versioning.'
   },
   {
     id: 'model-selection-economics',
     title: 'Model selection & economics',
-    summary: 'When to use Opus vs Sonnet vs Haiku, quota optimization, cost awareness.'
+    summary:
+      'When to use Opus vs Sonnet vs Haiku, quota optimization, cost awareness.'
   },
   {
     id: 'voice-multimodal-workflows',
     title: 'Voice & multimodal workflows',
-    summary: 'Voice-to-AI pipelines, image analysis, audio transcription integration.'
+    summary:
+      'Voice-to-AI pipelines, image analysis, audio transcription integration.'
   },
   {
     id: 'human-ai-collaboration-handbook',
@@ -46,7 +50,7 @@ const topicBySubtopic = new Map(
 
 const subtopicEntries = subtopics.map((definition) => {
   const topic = topicBySubtopic.get(definition.id);
-  const href = topic ? `/topics/${topic.slug}/` : undefined;
+  const href = topic ? `/topics/${topic.id}/` : undefined;
 
   return {
     ...definition,

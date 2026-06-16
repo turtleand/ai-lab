@@ -1,7 +1,12 @@
+import { glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
 
 const aiLab = defineCollection({
-  type: 'content',
+  type: 'content_layer',
+  loader: glob({
+    pattern: ['**/*.md', '**/*.mdx'],
+    base: './src/content/ai-lab'
+  }),
   schema: z.object({
     title: z.string(),
     date: z.date(),
@@ -35,12 +40,20 @@ const topicSchema = z.object({
 });
 
 const topics = defineCollection({
-  type: 'content',
+  type: 'content_layer',
+  loader: glob({
+    pattern: ['**/*.md', '**/*.mdx'],
+    base: './src/content/topics'
+  }),
   schema: topicSchema
 });
 
 const topicsEs = defineCollection({
-  type: 'content',
+  type: 'content_layer',
+  loader: glob({
+    pattern: ['**/*.md', '**/*.mdx'],
+    base: './src/content/topics-es'
+  }),
   schema: topicSchema
 });
 
