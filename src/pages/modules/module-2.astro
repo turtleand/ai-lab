@@ -57,7 +57,7 @@ const topicBySubtopic = new Map(
 
 const subtopicEntries = subtopics.map((definition) => {
   const topic = topicBySubtopic.get(definition.id);
-  const href = topic ? `/topics/${topic.slug}/` : undefined;
+  const href = topic ? `/topics/${topic.id}/` : undefined;
 
   return {
     ...definition,

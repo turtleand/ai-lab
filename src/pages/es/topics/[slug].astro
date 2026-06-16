@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 export const prerender = true;
 
@@ -13,21 +13,21 @@ export async function getStaticPaths() {
   >();
 
   englishTopics.forEach((topic) => {
-    topicsBySlug.set(topic.slug, topic);
+    topicsBySlug.set(topic.id, topic);
   });
 
   spanishTopics.forEach((topic) => {
-    topicsBySlug.set(topic.slug, topic);
+    topicsBySlug.set(topic.id, topic);
   });
 
   return Array.from(topicsBySlug.values()).map((topic) => ({
-    params: { slug: topic.slug },
+    params: { slug: topic.id },
     props: { topic }
   }));
 }
 
 const { topic } = Astro.props;
-const { Content } = await topic.render();
+const { Content } = await render(topic);
 
 const resolveLink = (link?: string) => {
   if (!link) return undefined;
