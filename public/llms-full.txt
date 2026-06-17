@@ -662,6 +662,107 @@ Total: about 2-3 hours for a reasonable security baseline. Not bulletproof, but 
 
 ---
 
+# Agentic AI systems learning path
+
+Module: Module 5: Agent Architecture
+
+## The intuition
+
+Agentic AI is not a magic autonomous worker. It is a bounded work system.
+
+A useful agent observes the current state, chooses an action, acts through a tool or response, checks what changed, then decides whether to continue, stop, or ask a human.
+
+This learning path teaches the stack in dependency order. The goal is not to make autonomy sound dramatic. The goal is to make the control surfaces visible enough that humans can use agents with more leverage and less hidden risk.
+
+## Why sequence matters
+
+Agentic systems become confusing when the pieces are taught out of order.
+
+The loop comes before tools because a tool without a feedback loop is just another way to guess faster.
+
+Tools come before memory and planning because the system needs reliable ways to observe and act before it can manage longer context.
+
+Memory and planning come before orchestration because multi-agent workflows multiply whatever is already present. If the basic loop is unclear, orchestration turns confusion into scale.
+
+Human approval and evaluation sit across the whole path. They are not final decorations. They are part of the system design.
+
+## The learning ladder
+
+1. **Agent loop as a controlled feedback loop**
+   Learn the basic cycle: goal, observe, decide, act, check, continue, stop, or ask.
+
+2. **Tool use as a controlled action cycle**
+   Learn how tools give an agent hands and senses, and why every tool needs input discipline, result interpretation, and side-effect boundaries.
+
+3. **Memory, context, and state**
+   Learn the difference between what the model sees now, what the system remembers, and what should be forgotten.
+
+4. **Planning and task decomposition**
+   Learn how an agent breaks a broad goal into smaller steps without pretending that the plan is proof.
+
+5. **Human approval, reversibility, and side effects**
+   Learn which actions need a human decision before they affect other people, public systems, money, accounts, data, or reputation.
+
+6. **Reliability, evaluation, and observability**
+   Learn how to test agent behavior, inspect failures, measure quality, and avoid trusting success because the output sounds fluent.
+
+7. **Model routing and cost-aware capability selection**
+   Learn when a small model is enough, when a stronger model is justified, and how latency, cost, and risk shape routing decisions.
+
+8. **Multi-agent coordination and handoff design**
+   Learn when multiple agents help, when they create noise, and how to make handoffs explicit.
+
+9. **Turning private understanding into public artifacts**
+   Learn how agent-assisted work can become notes, lessons, diagrams, repos, and documented failure reports that others can inspect.
+
+## A public-safe example spine
+
+Imagine a research assistant preparing a public reading list for a beginner AI topic.
+
+At the simplest level, the assistant has a goal and a loop: find sources, read them, summarize them, check whether the list is useful, and ask for review before publishing.
+
+As the path adds tools, the assistant can search, open pages, save notes, and compare sources. As the path adds memory, it can remember the learner's level and the criteria for good sources. As the path adds planning, it can split the task into source discovery, evaluation, outline, draft, and review.
+
+The important part is not that the assistant can keep acting. The important part is that every added capability also adds a verification responsibility.
+
+## What this path is not
+
+This is not a promise that agents should run everything by default.
+
+It is not a guide to skip review, automate external action without permission, or hide responsibility behind a workflow.
+
+It is not an internal operations manual. The examples should remain generic, reversible, and safe to discuss in public.
+
+## Teach-back checkpoint
+
+Answer these in your own words:
+
+1. Why should the agent loop be taught before tool use?
+2. What changes when an agent gains memory or state?
+3. Why does planning need evaluation rather than blind trust?
+4. Which actions should require human approval before they happen?
+5. When does a multi-agent setup create more coordination cost than value?
+
+## Facts vs Turtleand interpretation
+
+**Facts:**
+
+- Agentic AI systems commonly combine model calls, tool access, context or state, planning, evaluation, and orchestration patterns.
+- Tool use can let AI systems observe external information or act on external systems, depending on the permissions provided.
+- Longer-running or higher-impact systems require stronger boundaries, testing, logging, and human review.
+
+**Turtleand interpretation:**
+
+- Agentic AI should be taught as bounded work systems, not as autonomous personalities.
+- Human approval is not anti-automation. It is a design constraint that keeps leverage accountable.
+- The best learning path starts with the feedback loop, then adds tools, memory, planning, reliability, routing, and coordination only after the learner understands the previous layer.
+
+## Companion links
+
+This page is the doorway for the agentic systems sequence. Future lessons should link back here when they cover the agent loop, tool use, memory, planning, evaluation, routing, and coordination in more depth.
+
+---
+
 # AI-first lifestyle
 
 Module: Module 2: AI Integration & Orchestration

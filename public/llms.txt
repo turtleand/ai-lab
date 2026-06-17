@@ -12,6 +12,9 @@
 - [Access & secrets](https://lab.turtleand.com/topics/access-secrets): Configure API keys and secrets securely for model access.
 - [Safety baseline](https://lab.turtleand.com/topics/safety-baseline): Practical safety for AI infrastructure — firewalls, audits, and access control.
 
+### Module 5: Agent Architecture
+- [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A staged map for learning agentic AI systems: loop, tools, memory, planning, approval, reliability, evaluation, routing, coordination, and public artifact synthesis.
+
 ### Module 2: AI Integration & Orchestration
 - [AI-first lifestyle](https://lab.turtleand.com/topics/ai-first-lifestyle): Morning briefings, memory systems, and making AI work while you sleep.
 - [Automation pipelines](https://lab.turtleand.com/topics/automation-pipelines): Cron-driven AI workflows, multi-stage processing, and overnight analysis.
