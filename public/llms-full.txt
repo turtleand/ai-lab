@@ -732,7 +732,7 @@ Next step: open [Module 0: Fast Track Setup](/modules/module-0/) and build the b
 
 Go to [Portal](https://turtleand.com/).
 
-Use Portal when you want to understand how AI Lab connects with Growth, Build, OpenClaw, Handbook, AI Atlas, and the wider public knowledge ecosystem.
+Use Portal when you want to understand how AI Lab connects with Growth, Build, Hermes, Handbook, AI Atlas, and the wider public knowledge ecosystem.
 
 ### I want to compare tools and models
 
@@ -744,7 +744,7 @@ Use AI Atlas when your question is: which tool, model, provider, or interface sh
 
 Go to [Build](https://build.turtleand.com/) when you want engineering craft, implementation notes, and software reasoning.
 
-Go to [OpenClaw](https://openclaw.turtleand.com/) when you want applied agent-system experiments and proof-of-practice notes.
+Go to [Hermes](https://hermes.turtleand.com/) when you want practical Hermes Agent field notes, agent workflows, and human-in-the-loop operating patterns.
 
 ---
 
