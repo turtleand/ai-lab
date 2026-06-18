@@ -1,0 +1,195 @@
+---
+title: "Workflows de voz y multimodales"
+module: "Module 1: AI Power User"
+subtopic: "voice-multimodal-workflows"
+summary: "Pipelines de voz a IA, output TTS y audio como método principal de instrucción."
+status: "done"
+---
+
+## El problema
+
+Escribir es la forma predeterminada en que la gente interactúa con IA. Pero escribir es lento, requiere las manos y no funciona cuando estás caminando, manejando o lejos de un teclado. El input por voz y el output de audio transforman la IA de una herramienta de escritorio en algo que funciona con tu vida.
+
+---
+
+## Nuestro workflow de voz
+
+Usamos notas de voz como método principal de instrucción. El loop completo:
+
+```
+Hablar (nota de voz de Telegram)
+  → Transcribir (Deepgram whisper-large)
+    → Interpretar (Claude)
+      → Ejecutar (herramientas, código, investigación)
+        → Narrar (Edge TTS)
+          → Entregar (nota de voz de Telegram)
+```
+
+El resultado: mandás una nota de voz con una instrucción y recibís una nota de voz con la respuesta. Interacción con IA sin usar las manos.
+
+---
+
+## Configurar input de voz: transcripción con Deepgram
+
+### El desafío de transcripción
+
+Telegram codifica las notas de voz como audio Opus en un contenedor OGG. No todos los servicios de transcripción manejan bien este formato.
+
+**Lo que testeamos:**
+
+| Servicio/modelo | Resultado con audio de Telegram |
+| ---------------------- | -------------------------------------------------- |
+| Deepgram Nova-2 | ❌ Falló, no pudo decodificar el formato Opus de Telegram |
+| Deepgram whisper-large | ✅ Funciona de forma confiable |
+| OpenAI Whisper API | No testeado, requeriría una API key adicional |
+
+**Lección:** No asumas que el modelo más nuevo maneja tu formato específico. Testeá con datos reales.
+
+### El script de transcripción
+
+Escribimos un script en `~/.hermes/scripts/transcribe-deepgram`:
+
+```bash
+#!/bin/bash
+FILE="$1"
+LANG="${2:-en}"
+
+curl -s --request POST \
+  --url "https://api.deepgram.com/v1/listen?model=whisper-large&language=$LANG" \
+  --header "Authorization: Token $DEEPGRAM_API_KEY" \
+  --header "Content-Type: audio/ogg" \
+  --data-binary @"$FILE"
+```
+
+Simple: toma una ruta de archivo y un idioma opcional, lo manda a Deepgram y devuelve JSON con la transcripción.
+
+### El wrapper robusto
+
+Las notas de voz a veces fallan en el primer intento por problemas de red o errores temporales de API. Construimos un wrapper con reintentos:
+
+```bash
+#!/bin/bash
+FILE="${1:-latest}"
+ATTEMPTS="${2:-3}"
+DELAY="${3:-2}"
+
+# "latest" resolves to the most recent voice note file
+if [ "$FILE" = "latest" ]; then
+  FILE=$(ls -t ~/.hermes/media/inbound/file_*---*.ogg 2>/dev/null | head -1)
+fi
+
+for i in $(seq 1 $ATTEMPTS); do
+  RESULT=$(~/.hermes/scripts/transcribe-deepgram "$FILE")
+  if echo "$RESULT" | jq -e '.results' > /dev/null 2>&1; then
+    echo "$RESULT" | jq -r '.results.channels[0].alternatives[0].transcript'
+    exit 0
+  fi
+  sleep $DELAY
+done
+
+echo "Transcription failed after $ATTEMPTS attempts" >&2
+exit 1
+```
+
+Tres intentos con una demora de 2 segundos entre reintentos. El atajo `latest` encuentra automáticamente la nota de voz más reciente.
+
+---
+
+## Configurar output de voz: entrega TTS
+
+### Generación Text-to-Speech
+
+Usamos Edge TTS, el motor gratuito de Text-to-Speech de Microsoft, para convertir texto en audio. La herramienta TTS genera un archivo MP3.
+
+**Restricción clave:** Máximo de 4.096 caracteres por llamada TTS. Para contenido más largo, dividilo en partes.
+
+### Entregar notas de voz por Telegram
+
+Acá nos encontramos con una lección importante. La plataforma de IA genera una ruta `MEDIA:` para el output TTS. Pero esa ruta apunta a un archivo temporal que se limpia rápido.
+
+**Lo que falló:** Incluir `MEDIA:/tmp/tts-xxx/voice-xxx.mp3` en la respuesta del chat. El archivo muchas veces ya no existía cuando el sistema intentaba enviarlo.
+
+**Lo que funciona:** Mandar el archivo de audio directamente mediante la API del bot de Telegram:
+
+```
+message(
+  action: "send",
+  channel: "telegram",
+  target: "user-id",
+  filePath: "/tmp/tts-upload/report.mp3",
+  asVoice: true
+)
+```
+
+El parámetro `asVoice: true` hace que Telegram lo muestre como burbuja de voz reproducible en vez de como archivo adjunto. Este es el método confiable que ahora usamos para toda entrega de audio.
+
+---
+
+## Experimento: briefing de noticias narrado
+
+Testeamos el pipeline de voz completo con un briefing de 10 noticias:
+
+1. Buscamos noticias de IA, blockchain y tecnología en la web (Brave Search)
+2. Analizamos cada historia con cadenas de consecuencias (Claude)
+3. Narramos cada una como nota de voz separada (Edge TTS)
+4. Entregamos las 10 individualmente por Telegram (herramienta de mensajes)
+
+**Timing:** Aproximadamente 3 minutos en total para investigación, análisis, 10 generaciones TTS y 10 envíos de mensajes.
+
+**Lo que funcionó bien:**
+
+- Cada historia como clip de audio separado permite saltear o reproducir noticias individuales
+- El formato de narración, alias, resumen y 3 niveles de consecuencias, funciona bien para consumo en audio
+- La entrega por voz permite absorber información mientras hacés otras cosas
+
+**Qué podría mejorar:**
+
+- La calidad de voz de Edge TTS es funcional, pero no excelente. Le falta inflexión natural
+- No hay control sobre velocidad de habla o énfasis
+- El límite de 4.096 caracteres obliga a condensar historias complejas
+
+---
+
+## Cuándo la voz le gana al texto
+
+A través del uso diario, vimos que la voz funciona mejor para:
+
+- **Briefings matutinos:** Escuchar mientras te preparás
+- **Resúmenes de noticias:** Absorber mientras caminás o viajás
+- **Reportes de estado:** Actualización rápida en audio en vez de leer un muro de texto
+- **Instrucciones al agente:** Más rápido hablar que escribir, especialmente en mobile
+
+**Cuándo el texto sigue siendo mejor:**
+
+- Código o datos estructurados, porque necesitan lectura visual
+- Cualquier cosa que vayas a referenciar después, porque el texto es buscable y el audio no
+- Instrucciones complejas con requisitos específicos de formato
+
+---
+
+## Multimodal más allá de la voz
+
+Nuestro setup también maneja:
+
+**Análisis de imágenes:** Mandá una captura de pantalla o foto, y el agente la analiza usando capacidades de visión. Usamos esto para revisar diseños de sitios web, leer capturas de errores y chequear deploy previews.
+
+**Procesamiento de documentos:** Mandá un PDF o documento de Word, y el agente extrae y procesa el contenido. Usamos esto para corregir una pieza de escritura creativa de 155.000 caracteres. El agente leyó el documento entero y encontró exactamente un error.
+
+**El patrón:** Input en el formato que resulte natural, voz, imagen o documento, → la IA procesa y entiende → output en el formato que sea útil, texto, voz o archivo.
+
+---
+
+## Lo que no construimos
+
+- **Sin conversación de voz en tiempo real.** Nuestro pipeline es async: mandás nota de voz → esperás → recibís respuesta. No es un chat de voz en vivo.
+- **Sin identificación de hablante.** El sistema no distingue entre distintas personas hablando en una nota de voz.
+- **Sin clonación de voz.** Usamos la voz predeterminada de Edge TTS, no una voz custom.
+- **Sin transcripción de idiomas que no testeamos.** Deepgram whisper-large funciona bien para inglés y español. Otros idiomas no fueron testeados.
+
+---
+
+## Fuentes
+
+- [Documentación de la API de Deepgram](https://developers.deepgram.com/) sobre specs del modelo whisper-large
+- [Edge TTS](https://github.com/rany2/edge-tts), Text-to-Speech gratuito de Microsoft
+- [Telegram Bot API, sendVoice](https://core.telegram.org/bots/api#sendvoice), entrega de mensajes de voz
