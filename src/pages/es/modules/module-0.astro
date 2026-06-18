@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 const moduleKey = 'Module 0';
 const moduleTitle = 'Configuracion y seguridad';
 const moduleSummary =
-  'Acceso a modelos y runtimes, higiene de acceso/secretos, y una base de seguridad para las primeras construcciones.';
+  'Una puerta inicial, acceso a modelos y runtimes, higiene de acceso/secretos, y una base de seguridad para las primeras construcciones.';
 
 const normalizeModuleKey = (value: string) => {
   const rawKey = value.split(':')[0].trim();
@@ -13,6 +13,12 @@ const normalizeModuleKey = (value: string) => {
 };
 
 const subtopics = [
+  {
+    id: 'simple-ai',
+    title: 'IA simple',
+    summary:
+      'Entendé la IA en términos simples y elegí la próxima ruta correcta.'
+  },
   {
     id: 'running-inference-locally',
     title: 'Ejecutar inferencia localmente',
