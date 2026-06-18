@@ -2,101 +2,55 @@
 title: 'Ruta de aprendizaje de sistemas agentic AI'
 module: 'Module 5: Agent Architecture'
 subtopic: 'agentic-ai-systems-learning-path'
-summary: 'Un mapa por etapas para aprender sistemas agentic AI: loop, herramientas, memoria, planificación, aprobación, fiabilidad, evaluación, routing, coordinación y síntesis de artefactos públicos.'
+summary: 'Un mapa conciso para aprender agentes: loop, herramientas, memoria, planificación, aprobación, fiabilidad, routing y coordinación.'
 status: 'planned'
 ---
 
-## La intuición
+## Idea central
 
-Agentic AI no es un trabajador autónomo mágico. Es un sistema de trabajo con límites.
+Agentic AI es un sistema de trabajo con límites, no un trabajador autónomo mágico.
 
-Un agente útil observa el estado actual, elige una acción, actúa mediante una herramienta o una respuesta, revisa qué cambió, y después decide si sigue, se detiene o le pregunta a una persona.
+Un agente observa, decide, actúa, revisa el resultado y después sigue, se detiene o pregunta a una persona.
 
-Esta ruta enseña el stack en orden de dependencia. La meta no es hacer que la autonomía suene espectacular. La meta es hacer visibles las superficies de control para que las personas puedan usar agentes con más apalancamiento y menos riesgo oculto.
+Aprendé las capas en orden para que la autonomía siga siendo visible, testeable y responsable.
 
-## Por qué importa la secuencia
+## Escalera de aprendizaje
 
-Los sistemas agentic se vuelven confusos cuando las piezas se enseñan fuera de orden.
+1. **Loop:** objetivo, estado, acción, resultado.
+2. **Herramientas:** buscar, leer, escribir y llamar APIs con permisos claros.
+3. **Memoria y estado:** separar contexto actual, memoria durable, estado de tarea y ruido.
+4. **Planificación:** dividir trabajo en pasos sin tratar el plan como prueba.
+5. **Aprobación:** pedir revisión para acciones públicas, financieras, de cuentas, datos, reputación o irreversibles.
+6. **Fiabilidad:** testear comportamiento, inspeccionar fallas y detectar errores que suenan fluidos.
+7. **Routing:** elegir modelos según dificultad, riesgo, latencia y costo.
+8. **Handoffs:** usar varios agentes solo cuando la coordinación se pague sola.
+9. **Artefactos:** convertir aprendizaje privado en notas, diagramas, repos o reportes de fallas.
 
-El loop viene antes que las herramientas porque una herramienta sin feedback loop es solo otra forma de adivinar más rápido.
+## Ejemplo simple
 
-Las herramientas vienen antes que la memoria y la planificación porque el sistema necesita formas confiables de observar y actuar antes de poder manejar contexto más largo.
+Un asistente de investigación que crea una lista pública de lectura empieza con un objetivo y un loop: encontrar fuentes, leerlas, resumirlas, revisar si sirven y pedir revisión antes de publicar.
 
-La memoria y la planificación vienen antes que la orquestación porque los workflows multi-agente multiplican lo que ya está presente. Si el loop básico no está claro, la orquestación escala la confusión.
+Las herramientas le permiten buscar y guardar notas. La memoria guarda el nivel del estudiante y los criterios de fuentes. La planificación separa descubrimiento, evaluación, borrador y revisión.
 
-La aprobación humana y la evaluación atraviesan todo el camino. No son decoraciones finales. Son parte del diseño del sistema.
+Cada capacidad nueva agrega una responsabilidad de verificación.
 
-## La escalera de aprendizaje
+## Guardrails
 
-1. **Loop del agente como feedback loop controlado**
-   Aprendé el ciclo básico: objetivo, observar, decidir, actuar, revisar, seguir, detenerse o preguntar.
+Esta ruta no defiende correr agentes por defecto. No es un atajo para saltarse revisión, permiso o responsabilidad. No es un manual interno de operaciones.
 
-2. **Uso de herramientas como ciclo de acción controlado**
-   Aprendé cómo las herramientas le dan manos y sentidos al agente, y por qué cada herramienta necesita disciplina de input, interpretación del resultado y límites de efectos secundarios.
-
-3. **Memoria, contexto y estado**
-   Aprendé la diferencia entre lo que el modelo ve ahora, lo que el sistema recuerda y lo que debería olvidar.
-
-4. **Planificación y descomposición de tareas**
-   Aprendé cómo un agente divide un objetivo amplio en pasos más chicos sin fingir que el plan es una prueba.
-
-5. **Aprobación humana, reversibilidad y efectos secundarios**
-   Aprendé qué acciones necesitan una decisión humana antes de afectar a otras personas, sistemas públicos, dinero, cuentas, datos o reputación.
-
-6. **Fiabilidad, evaluación y observabilidad**
-   Aprendé cómo testear comportamiento de agentes, inspeccionar fallas, medir calidad y evitar confiar en un output solo porque suena fluido.
-
-7. **Model routing y selección de capacidad con conciencia de costo**
-   Aprendé cuándo alcanza un modelo chico, cuándo se justifica un modelo más fuerte y cómo latencia, costo y riesgo moldean las decisiones de routing.
-
-8. **Coordinación multi-agente y diseño de handoffs**
-   Aprendé cuándo varios agentes ayudan, cuándo generan ruido y cómo hacer explícitos los handoffs.
-
-9. **Convertir entendimiento privado en artefactos públicos**
-   Aprendé cómo el trabajo asistido por agentes puede convertirse en notas, lecciones, diagramas, repos y reportes de fallas documentadas que otros puedan inspeccionar.
-
-## Un ejemplo público y seguro
-
-Imaginá un asistente de investigación preparando una lista pública de lectura para un tema inicial de IA.
-
-En el nivel más simple, el asistente tiene un objetivo y un loop: encontrar fuentes, leerlas, resumirlas, revisar si la lista sirve y pedir revisión antes de publicarla.
-
-A medida que la ruta agrega herramientas, el asistente puede buscar, abrir páginas, guardar notas y comparar fuentes. Cuando agrega memoria, puede recordar el nivel del estudiante y los criterios de buenas fuentes. Cuando agrega planificación, puede dividir la tarea en descubrimiento de fuentes, evaluación, outline, borrador y revisión.
-
-Lo importante no es que el asistente pueda seguir actuando. Lo importante es que cada capacidad nueva también agrega una responsabilidad de verificación.
-
-## Qué no es esta ruta
-
-Esto no es una promesa de que los agentes deberían correr todo por defecto.
-
-No es una guía para omitir revisión, automatizar acciones externas sin permiso o esconder responsabilidad detrás de un workflow.
-
-No es un manual interno de operaciones. Los ejemplos deberían seguir siendo genéricos, reversibles y seguros para discutir en público.
+Mantené los ejemplos genéricos, reversibles y seguros para discutir en público.
 
 ## Checkpoint de teach-back
 
-Respondé esto con tus propias palabras:
+Respondé con tus propias palabras:
 
-1. ¿Por qué el loop del agente debería enseñarse antes del uso de herramientas?
+1. ¿Por qué el loop viene antes que las herramientas?
 2. ¿Qué cambia cuando un agente obtiene memoria o estado?
-3. ¿Por qué la planificación necesita evaluación y no confianza ciega?
-4. ¿Qué acciones deberían requerir aprobación humana antes de ocurrir?
-5. ¿Cuándo una configuración multi-agente crea más costo de coordinación que valor?
+3. ¿Qué acciones necesitan aprobación humana primero?
+4. ¿Cuándo varios agentes crean más costo de coordinación que valor?
 
-## Hechos vs interpretación de Turtleand
+## Interpretación de Turtleand
 
-**Hechos:**
+Enseñá agentes como sistemas de trabajo con límites, no como personalidades autónomas. Agregá autonomía solo cuando la superficie de control esté clara.
 
-- Los sistemas agentic AI suelen combinar llamadas a modelos, acceso a herramientas, contexto o estado, planificación, evaluación y patrones de orquestación.
-- El uso de herramientas puede permitir que sistemas de IA observen información externa o actúen sobre sistemas externos, según los permisos dados.
-- Los sistemas de mayor duración o mayor impacto requieren límites, testing, logging y revisión humana más fuertes.
-
-**Interpretación de Turtleand:**
-
-- Agentic AI debería enseñarse como sistemas de trabajo con límites, no como personalidades autónomas.
-- La aprobación humana no es anti-automatización. Es una restricción de diseño que mantiene responsable el apalancamiento.
-- La mejor ruta empieza por el feedback loop, después agrega herramientas, memoria, planificación, fiabilidad, routing y coordinación solo cuando el estudiante entiende la capa anterior.
-
-## Links complementarios
-
-Esta página es la puerta de entrada para la secuencia de agentic systems. Las futuras lecciones deberían volver a linkear acá cuando cubran el loop del agente, uso de herramientas, memoria, planificación, evaluación, routing y coordinación con más profundidad.
+Las futuras lecciones deberían volver a esta página cuando cubran loops, herramientas, memoria, planificación, evaluación, routing y coordinación.
