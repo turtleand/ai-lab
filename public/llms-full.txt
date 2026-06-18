@@ -662,6 +662,153 @@ Total: about 2-3 hours for a reasonable security baseline. Not bulletproof, but 
 
 ---
 
+# Simple AI
+
+Module: Module 0: Fast Track Setup
+
+## Why this doorway exists
+
+AI can feel confusing because the same word gets used for many things: chatbots, search tools, coding assistants, image generators, agents, automation, and research systems.
+
+Simple AI is the front door for someone who is curious but not ready for the deeper vocabulary yet.
+
+The job of this page is not to explain everything. The job is to help you know where you are, what AI is for, and what to click next.
+
+---
+
+## A plain definition
+
+AI is software that can recognize patterns, generate useful outputs, and help with thinking or action when a human gives it direction.
+
+That means AI can help you:
+
+- understand a topic faster
+- draft, summarize, compare, and rewrite
+- explore ideas from multiple angles
+- turn messy information into structure
+- automate repeated knowledge work
+- build tools that respond to language, images, audio, or data
+
+It does not mean the system understands the world like a person. It does not remove the need for human judgment.
+
+---
+
+## The beginner mental model
+
+Think of AI like a powerful apprentice with access to many tools.
+
+It can move fast. It can notice patterns. It can produce drafts. It can help you test ideas. But it still needs a human to set direction, check the result, make trade-offs, and accept responsibility.
+
+The useful question is not "Will AI replace me?"
+
+The better question is: "What parts of my thinking, learning, and building can be amplified if I stay responsible for direction and judgment?"
+
+---
+
+## What this doorway decided
+
+This review makes one route decision: Simple AI belongs inside AI Lab.
+
+Portal should introduce the whole Turtleand ecosystem. AI Lab should own the beginner learning experience.
+
+So the route is:
+
+1. Start here when AI feels confusing.
+2. Build basic intuition in AI Lab.
+3. Move into Module 0 for setup, access, and safety.
+4. Choose a next surface only when your intent is clearer.
+
+---
+
+## Choose your next route
+
+### I want to understand AI in simple terms
+
+Stay in AI Lab.
+
+Next step: open [Module 0: Fast Track Setup](/modules/module-0/) and build the baseline vocabulary, setup, and safety habits.
+
+### I want the bigger Turtleand map
+
+Go to [Portal](https://turtleand.com/).
+
+Use Portal when you want to understand how AI Lab connects with Growth, Build, OpenClaw, Handbook, AI Atlas, and the wider public knowledge ecosystem.
+
+### I want to compare tools and models
+
+Go to [AI Atlas](https://atlas.turtleand.com/).
+
+Use AI Atlas when your question is: which tool, model, provider, or interface should I explore next?
+
+### I want to build practical systems
+
+Go to [Build](https://build.turtleand.com/) when you want engineering craft, implementation notes, and software reasoning.
+
+Go to [OpenClaw](https://openclaw.turtleand.com/) when you want applied agent-system experiments and proof-of-practice notes.
+
+---
+
+## What AI is good at
+
+AI is strongest when the task has patterns, context, and a clear definition of success.
+
+Good uses:
+
+- explaining difficult ideas at different levels
+- drafting a first version of text or code
+- summarizing long material
+- comparing options
+- making checklists and plans
+- reviewing your assumptions
+- helping you learn by asking questions
+
+Weak uses:
+
+- making final decisions without human review
+- handling private or sensitive data without care
+- replacing taste, ethics, or accountability
+- treating a confident answer as proof
+- automating a broken process before understanding it
+
+---
+
+## The human role
+
+Turtleand treats AI as a force multiplier, not a replacement for human agency.
+
+The human keeps responsibility for:
+
+- direction
+- taste
+- context
+- ethics
+- validation
+- consequences
+
+The system can help you move faster, but you still decide where to go.
+
+---
+
+## Teach-back checkpoint
+
+Before moving on, try answering these in your own words:
+
+1. What is AI useful for in one sentence?
+2. Why does human judgment still matter?
+3. Which route fits your current goal: understand, map tools, build systems, or explore the wider ecosystem?
+
+If you can answer those, you are ready for [Module 0](/modules/module-0/).
+
+---
+
+## Facts vs Turtleand interpretation
+
+**Facts:** AI systems can generate text, code, images, audio, summaries, classifications, and tool calls when connected to the right interfaces. Their outputs can be wrong, incomplete, biased, or overconfident.
+
+**Turtleand interpretation:** The durable advantage is not using AI once. The advantage is learning how to combine human direction with AI-assisted thinking, building, checking, and publishing in a way that compounds over time.
+
+---
+
 # AI-first lifestyle
 
 Module: Module 2: AI Integration & Orchestration

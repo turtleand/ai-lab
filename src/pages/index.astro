@@ -24,6 +24,12 @@ const moduleSubtopics: Record<
 > = {
   'Module 0': [
     {
+      id: 'simple-ai',
+      title: 'Simple AI',
+      summary:
+        'A beginner doorway for understanding AI, then choosing the right next route.'
+    },
+    {
       id: 'running-inference-locally',
       title: 'Running inference locally',
       summary: 'Easily setup & run an LLM on your own machine.'
@@ -325,6 +331,22 @@ const subtopicsForModule = (module) => {
   </section>
 
   <PortalTrio />
+
+  <section class="card featured" aria-labelledby="simple-ai-doorway">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Start here</p>
+        <h2 id="simple-ai-doorway">New to AI? Use the Simple AI doorway.</h2>
+      </div>
+    </div>
+    <p>
+      Simple AI is the beginner route into AI Lab. It explains the basic mental
+      model, keeps human judgment at the center, and helps you choose whether to
+      stay in the curriculum or branch toward Portal, AI Atlas, Build, or
+      OpenClaw.
+    </p>
+    <a class="pill inline" href="/topics/simple-ai/">Open Simple AI →</a>
+  </section>
 
   <section class="card" aria-labelledby="modules-title" id="modules">
     <div class="section-title">
