@@ -809,6 +809,61 @@ If you can answer those, you are ready for [Module 0](/modules/module-0/).
 
 ---
 
+# Agentic AI systems learning path
+
+Module: Module 5: Agent Architecture
+
+## Core idea
+
+Agentic AI is a bounded work system, not a magic worker.
+
+An agent observes, decides, acts, checks the result, then continues, stops, or asks a human.
+
+Learn the layers in order so autonomy stays visible, testable, and accountable.
+
+## Learning ladder
+
+1. **Loop:** goal, state, action, result.
+2. **Tools:** search, read, write, and call APIs with clear permissions.
+3. **Memory and state:** separate current context, durable memory, task state, and noise.
+4. **Planning:** split work into steps without treating the plan as proof.
+5. **Approval:** require review for public, financial, account, data, reputation, or irreversible actions.
+6. **Reliability:** test behavior, inspect failures, and catch fluent wrongness.
+7. **Routing:** choose models by difficulty, risk, latency, and cost.
+8. **Handoffs:** use multiple agents only when coordination pays for itself.
+9. **Artifacts:** turn private learning into notes, diagrams, repos, or failure reports.
+
+## Simple example
+
+A research assistant building a public reading list starts with a goal and a loop: find sources, read them, summarize them, check usefulness, and ask for review before publishing.
+
+Tools let it search and save notes. Memory stores the learner level and source criteria. Planning separates discovery, evaluation, draft, and review.
+
+Every added capability adds a verification duty.
+
+## Guardrails
+
+This path is not a case for running agents by default. It is not a shortcut around review, permission, or responsibility. It is not an internal operations manual.
+
+Keep examples generic, reversible, and safe to discuss in public.
+
+## Teach-back checkpoint
+
+Answer in your own words:
+
+1. Why does the loop come before tools?
+2. What changes when an agent gains memory or state?
+3. Which actions need human approval first?
+4. When do multiple agents create more coordination cost than value?
+
+## Turtleand take
+
+Teach agents as bounded work systems, not autonomous personalities. Add autonomy only when the control surface is clear.
+
+Future lessons should link back here when they cover loops, tools, memory, planning, evaluation, routing, and coordination.
+
+---
+
 # AI-first lifestyle
 
 Module: Module 2: AI Integration & Orchestration
