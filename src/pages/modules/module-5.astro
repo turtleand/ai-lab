@@ -9,6 +9,12 @@ const moduleSummary =
 
 const subtopics = [
   {
+    id: 'agentic-ai-systems-learning-path',
+    title: 'Agentic AI systems learning path',
+    summary:
+      'A concise map for agents: loop, tools, memory, planning, approval, reliability, routing, and coordination.'
+  },
+  {
     id: 'agent-frameworks',
     title: 'Agent frameworks',
     summary: 'LangGraph, CrewAI — multi-agent orchestration.'
@@ -41,7 +47,7 @@ const topicBySubtopic = new Map(
 
 const subtopicEntries = subtopics.map((definition) => {
   const topic = topicBySubtopic.get(definition.id);
-  const href = topic ? `/topics/${topic.slug}/` : undefined;
+  const href = topic ? `/topics/${topic.id}/` : undefined;
   return {
     ...definition,
     status: topic?.data.status ?? 'planned',

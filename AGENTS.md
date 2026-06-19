@@ -1,6 +1,6 @@
-# AGENTS.md — ai-lab
+# AGENTS.md - ai-lab
 
-See `CLAUDE.md` for curriculum, i18n, and publishing requirements.
+See `CLAUDE.md` for curriculum, i18n, and publishing requirements. This file gives repository-level guidance for Codex automatic PR reviews and other AI agents.
 
 ## Scope
 
@@ -9,8 +9,10 @@ Applies only to `ai-lab/`.
 ## Ecosystem role
 
 - AI Lab is the curriculum spine and capability-building engine of Turtleand.
-- Its primary function is to turn ecosystem ideas into a staged learning path from AI power user to builder.
-- It should preserve sequence, clarity, and production-oriented learning rather than drifting into generic essays or scattered notes.
+- Its job is to turn ecosystem ideas into staged learning paths from AI power user to builder.
+- Preserve sequence, clarity, teach-back value, and production-oriented learning.
+- Do not let AI Lab drift into generic essays, scattered notes, product hype, or unsupported speculation.
+- Route engineering implementation articles to `build/`, persistent-agent operations to `openclaw-lab/` or `hermes-lab/`, compact doctrine to `handbook/`, tool maps to `ai-atlas/`, and ecosystem routing to `portal/`.
 
 ## Project summary
 
@@ -25,19 +27,40 @@ Applies only to `ai-lab/`.
 3. Keep changes minimal and do not hand-edit build output in `dist/`.
 4. Preserve the existing module/topic structure unless the task explicitly changes the curriculum.
 
-## Content guidance
+## Public-safety review
 
-- New content should strengthen the staged builder journey, not fragment it.
-- Favor topics that improve operational maturity, sequencing, and hands-on capability.
-- Treat summaries, module placement, and cross-links as part of the teaching system, not just metadata.
-- Follow the mandatory Spanish translation rules in `CLAUDE.md` for new topic content.
+Reject changes that expose secrets, credentials, private infrastructure details, internal paths, specific vulnerabilities, or operational weaknesses. Safe public lessons are allowed when they describe general patterns, architecture trade-offs, defensive principles, or non-sensitive implementation choices.
 
-## Cross-project boundaries
+Keep private things private. Share learnings, not exposure.
 
-- Route lower-level software-engineering implementation articles to `build/`.
-- Route persistent-agent and deployed automation operations to `openclaw/`.
-- Route compact principles or doctrine to `handbook/`.
-- Route ecosystem identity and top-level navigation to `portal/`.
+## Content quality review
+
+- Favor clarity over cleverness and beginner usefulness over jargon.
+- Review lesson clarity, progression order, exercises, teach-back prompts, and quiz value.
+- Avoid overclaiming, product hype, unsupported speculation, and lessons that read like generic essays.
+- Preserve Turtleand voice: calm, precise, direct, reflective when useful, practical when needed.
+- Do not introduce em dashes in public writing.
+- Keep humans responsible for direction, judgment, taste, ethics, and consequences.
+- Maintain Spanish and i18n parity where the repo requires it.
+
+## Repository integrity review
+
+- Keep changes focused to the branch purpose.
+- Do not silently modify generated or build output unless the repo explicitly tracks it or the change requires regeneration.
+- Regenerate or update `llms.txt`, `llms-full.txt`, sitemaps, indexes, and translated routes when content changes require it.
+- Keep module listings, navigation, route metadata, and generated discovery files in sync.
+- Run local validation before PR creation.
+
+## PR review checklist
+
+Codex and other agents should check:
+
+- Does the change strengthen AI Lab as a staged learning system?
+- Are public claims grounded, current, and non-hype?
+- Is anything private, unsafe, or operationally sensitive exposed?
+- Are lessons clear for beginners while still useful for builders?
+- Are routes, builds, generated files, translations, and indexes still correct?
+- Is the diff small, coherent, and free from unrelated cleanup?
 
 ## Commands
 

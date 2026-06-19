@@ -7,6 +7,7 @@
 ### Module 0: Fast Track Setup
 - [Access & secrets](https://lab.turtleand.com/topics/access-secrets): Configure API keys and secrets securely for model access.
 - [Safety baseline](https://lab.turtleand.com/topics/safety-baseline): Practical safety for AI infrastructure — firewalls, audits, and access control.
+- [Simple AI](https://lab.turtleand.com/topics/simple-ai): A beginner doorway for understanding what AI is, what it is not, and where to go next inside Turtleand.
 
 ### Module 0: Setup & Safety
 - [Agent notifications](https://lab.turtleand.com/topics/agent-notifications): Get notified when your agent finishes using hooks and ntfy.
@@ -28,6 +29,7 @@
 
 ### Module 5: Agent Architecture
 - [The agent loop as a controlled feedback loop](https://lab.turtleand.com/topics/agent-loop-controlled-feedback-loop): A beginner lesson on how useful AI agents observe state, choose bounded actions, inspect results, and keep humans responsible for risky steps.
+- [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A concise learning map for agents: loop, tools, memory, planning, approval, reliability, routing, and coordination.
 
 ## About
 Created by Turtleand — software engineer building AI education that's practical, not theoretical.

@@ -5,9 +5,14 @@ import { getCollection } from 'astro:content';
 const moduleKey = 'Module 0';
 const moduleTitle = 'Fast Track Setup';
 const moduleSummary =
-  'Model access & runtimes, access/secrets hygiene, and a basic safety baseline to get started fast.';
+  'A beginner doorway, model access and runtimes, access/secrets hygiene, and a basic safety baseline to get started fast.';
 
 const subtopics = [
+  {
+    id: 'simple-ai',
+    title: 'Simple AI',
+    summary: 'Understand AI in simple terms, then choose the right next route.'
+  },
   {
     id: 'running-inference-locally',
     title: 'Running inference locally',
@@ -42,7 +47,7 @@ const topicBySubtopic = new Map(
 
 const subtopicEntries = subtopics.map((definition) => {
   const topic = topicBySubtopic.get(definition.id);
-  const href = topic ? `/topics/${topic.slug}/` : undefined;
+  const href = topic ? `/topics/${topic.id}/` : undefined;
 
   return {
     ...definition,

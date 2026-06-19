@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 const entries = await getCollection('ai-lab');
 const englishTopics = await getCollection('topics');
@@ -13,8 +13,8 @@ const experiments = sorted.filter(
   (entry) => entry.data.category === 'experiment'
 );
 const bootstrappingSlug = logs.find((log) =>
-  log.slug.includes('bootstrapping')
-)?.slug;
+  log.id.includes('bootstrapping')
+)?.id;
 
 const normalizeModuleKey = (value: string) => {
   const rawKey = value.split(':')[0].trim();
@@ -28,6 +28,12 @@ const moduleSubtopics: Record<
   { id: string; title: string; summary: string }[]
 > = {
   'Module 0': [
+    {
+      id: 'simple-ai',
+      title: 'IA simple',
+      summary:
+        'Una puerta inicial para entender la IA y elegir la próxima ruta correcta.'
+    },
     {
       id: 'running-inference-locally',
       title: 'Ejecutar inferencia localmente',
@@ -172,6 +178,12 @@ const moduleSubtopics: Record<
   ],
   'Module 5': [
     {
+      id: 'agentic-ai-systems-learning-path',
+      title: 'Ruta de aprendizaje de sistemas agentic AI',
+      summary:
+        'Un mapa conciso para agentes: loop, herramientas, memoria, planificación, aprobación, fiabilidad, routing y coordinación.'
+    },
+    {
       id: 'agent-frameworks',
       title: 'Frameworks de agentes',
       summary: 'LangGraph, CrewAI — orquestación multi-agente.'
@@ -300,14 +312,14 @@ const currentModule =
 
 const logEntries = await Promise.all(
   logs.map(async (entry) => {
-    const { Content } = await entry.render();
+    const { Content } = await render(entry);
     return { ...entry, Content };
   })
 );
 
 const experimentCards = await Promise.all(
   experiments.map(async (entry) => {
-    const { Content } = await entry.render();
+    const { Content } = await render(entry);
     return { ...entry, Content };
   })
 );
@@ -317,7 +329,7 @@ const subtopicsForModule = (module) => {
     const key = `${module.key}:${definition.id}`;
     const spanishTopic = spanishTopicLookup.get(key);
     const topic = spanishTopic ?? englishTopicLookup.get(key);
-    const href = topic ? buildTopicHref(topic.slug) : undefined;
+    const href = topic ? buildTopicHref(topic.id) : undefined;
     const hasContent = Boolean(topic);
 
     return {
@@ -345,6 +357,23 @@ const subtopicsForModule = (module) => {
         de desarrolladores no están — y llega donde casi nadie llega.
       </p>
     </div>
+  </section>
+
+  <section class="card featured" aria-labelledby="simple-ai-doorway">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Empezá acá</p>
+        <h2 id="simple-ai-doorway">
+          ¿Sos nuevo en IA? Usá la puerta IA simple.
+        </h2>
+      </div>
+    </div>
+    <p>
+      IA simple es la ruta inicial hacia AI Lab. Explica el modelo mental
+      básico, mantiene el juicio humano en el centro y te ayuda a elegir si
+      seguís en el curriculum o si vas hacia Portal, AI Atlas, Build o Hermes.
+    </p>
+    <a class="pill inline" href="/es/topics/simple-ai/">Abrir IA simple →</a>
   </section>
 
   <section class="card featured" aria-labelledby="hermes-title">
