@@ -11,8 +11,8 @@ function parseFrontmatter(content) {
   const body = content.slice(match[0].length).trim();
   const data = {};
   for (const line of match[1].split('\n')) {
-    const m = line.match(/^(\w[\w-]*):\s*(.*?)\s*$/);
-    if (m) data[m[1]] = m[2].trim().replace(/^['"]|['"]$/g, '');
+    const m = line.match(/^(\w[\w-]*):\s*(?:"([^"]*)"|'([^']*)'|(.+?))\s*$/);
+    if (m) data[m[1]] = (m[2] ?? m[3] ?? m[4]).trim();
   }
   return { data, body };
 }
@@ -22,17 +22,20 @@ function stripMdx(body) {
     .replace(/^import\s+.*$/gm, '')
     .replace(/<[A-Z]\w+[^>]*\/>/g, '')
     .replace(/<[A-Z]\w+[^>]*>[\s\S]*?<\/[A-Z]\w+>/g, '')
+    .replace(/[ \t]+$/gm, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
 
 const MODULE_ORDER = [
+  'Module 0: Fast Track Setup',
   'Module 0: Setup & Safety',
-  'Module 1: Foundations',
-  'Module 2: Tool Use & Function Calling',
-  'Module 3: Retrieval & Memory',
-  'Module 4: Agents & Orchestration',
-  'Module 5: Mail & Deployment'
+  'Module 1: AI Power User',
+  'Module 2: AI Integration & Orchestration',
+  'Module 3: Builder Foundations',
+  'Module 4: RAG & Retrieval Systems',
+  'Module 5: Agent Architecture',
+  'Module 6: Production AI Systems'
 ];
 
 async function main() {
