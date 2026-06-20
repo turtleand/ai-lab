@@ -56,14 +56,16 @@ const beginnerModules = [
     module: 'Módulo 0',
     title: 'Empezar con seguridad',
     mainHref: '/es/modules/module-0/',
+    beginnerHref: '/es/beginners/topics/running-inference-locally/',
+    beginnerLabel: 'Empezar con IA local básica',
     body: 'La versión principiante de setup, seguridad, modelos básicos y primeros workflows útiles.',
     lessons: [
       'Para qué puede ayudar la IA hoy, en lenguaje simple.',
-      'Cómo hacer una pregunta clara sin aprender jerga de prompts.',
+      'Cómo ejecutar un modelo localmente difiere de usar una app de chat alojada.',
       'Qué no conviene pegar en una herramienta de IA, y por qué.'
     ],
     practice:
-      'Elige una tarea pequeña, pide ayuda a la IA y marca qué fue útil, incorrecto o riesgoso.'
+      'Lee el artículo principiante sobre IA local, prueba un prompt seguro y marca qué fue útil, incorrecto o riesgoso.'
   },
   {
     module: 'Módulo 1',
@@ -301,6 +303,11 @@ const beginnerModules = [
             <p>
               <strong>Práctica:</strong> {module.practice}
             </p>
+            {module.beginnerHref && (
+              <p>
+                <a href={module.beginnerHref}>{module.beginnerLabel} →</a>
+              </p>
+            )}
             <p>
               <a href={module.mainHref}>Abrir el {module.module} completo →</a>
             </p>

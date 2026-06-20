@@ -56,14 +56,16 @@ const beginnerModules = [
     module: 'Module 0',
     title: 'Start safely',
     mainHref: '/modules/module-0/',
+    beginnerHref: '/beginners/topics/running-inference-locally/',
+    beginnerLabel: 'Start with local AI basics',
     body: 'The beginner version of setup, safety, model basics, and the first useful workflows.',
     lessons: [
       'What AI can help with today, in plain language.',
-      'How to ask a clear question without learning prompt jargon.',
+      'How running a model locally differs from using a hosted chat app.',
       'What not to paste into an AI tool, and why.'
     ],
     practice:
-      'Pick one small task, ask AI for help, then mark what was useful, wrong, or risky.'
+      'Read the local AI beginner article, try one safe prompt, then mark what was useful, wrong, or risky.'
   },
   {
     module: 'Module 1',
@@ -293,6 +295,11 @@ const beginnerModules = [
             <p>
               <strong>Practice:</strong> {module.practice}
             </p>
+            {module.beginnerHref && (
+              <p>
+                <a href={module.beginnerHref}>{module.beginnerLabel} →</a>
+              </p>
+            )}
             <p>
               <a href={module.mainHref}>Open the full {module.module} →</a>
             </p>

@@ -4,6 +4,30 @@ import { join } from 'path';
 
 const TOPICS_DIR = join(import.meta.dirname, '..', 'src', 'content', 'topics');
 const PUBLIC_DIR = join(import.meta.dirname, '..', 'public');
+const BEGINNER_ARTICLES = [
+  {
+    title: 'Running AI locally, for beginners',
+    route:
+      'https://lab.turtleand.com/beginners/topics/running-inference-locally/',
+    summary:
+      'A plain-language first path for understanding local AI inference before reading the full technical guide.',
+    body: `Running AI locally means using an AI model on your own computer instead of sending every prompt to a cloud service.
+
+A beginner does not need to master the whole stack first. The useful first path is to understand the basic pieces, choose one small model, use one runtime, ask one safe test question, and notice the trade-off between privacy, control, speed, memory, and setup friction.
+
+Key ideas:
+- A model is the file that contains learned patterns.
+- Inference is the act of using that model to produce an answer.
+- A runtime is the software that loads the model and makes it answer.
+- Local inference is a learning lab first, not a production system.
+
+Safety habits:
+- Do not paste secrets, passwords, private account data, or sensitive internal context.
+- Check whether the answer is useful before trusting it.
+- If the model is too slow or fails to load, use a smaller model.
+- Read the full technical guide when ready for llama.cpp, quantization, model size choices, and concrete setup steps.`
+  }
+];
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);
@@ -67,6 +91,7 @@ async function main() {
 
 ### Beginner doorway
 - [AI for Beginners](https://lab.turtleand.com/beginners/): A zero-start doorway into Turtleand AI Lab that explains AI in plain language while keeping human judgment at the center.
+${BEGINNER_ARTICLES.map((article) => `- [${article.title}](${article.route}): ${article.summary}`).join('\n')}
 `;
 
   for (const [mod, items] of grouped) {
@@ -89,6 +114,10 @@ Created by Turtleand — software engineer building AI education that's practica
 
   // Generate llms-full.txt
   let full = `# Turtleand AI Lab — Full Content\n\n---\n\n# AI for Beginners\n\nRoute: https://lab.turtleand.com/beginners/\n\nA plain-language doorway into Turtleand AI Lab for people starting from zero. It is based on the ideas, lessons, and structure of the main AI Lab, rewritten for beginners while keeping human judgment, participation, and responsibility at the center.\n\n`;
+  for (const article of BEGINNER_ARTICLES) {
+    full += `---\n\n# ${article.title}\n\nRoute: ${article.route}\n\n${article.body}\n\n`;
+  }
+
   for (const [mod, items] of grouped) {
     if (items.length === 0) continue;
     for (const t of items) {

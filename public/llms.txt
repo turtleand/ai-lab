@@ -6,6 +6,7 @@
 
 ### Beginner doorway
 - [AI for Beginners](https://lab.turtleand.com/beginners/): A zero-start doorway into Turtleand AI Lab that explains AI in plain language while keeping human judgment at the center.
+- [Running AI locally, for beginners](https://lab.turtleand.com/beginners/topics/running-inference-locally/): A plain-language first path for understanding local AI inference before reading the full technical guide.
 
 ### Module 0: Fast Track Setup
 - [Access & secrets](https://lab.turtleand.com/topics/access-secrets): Configure API keys and secrets securely for model access.

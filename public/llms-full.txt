@@ -10,6 +10,28 @@ A plain-language doorway into Turtleand AI Lab for people starting from zero. It
 
 ---
 
+# Running AI locally, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/running-inference-locally/
+
+Running AI locally means using an AI model on your own computer instead of sending every prompt to a cloud service.
+
+A beginner does not need to master the whole stack first. The useful first path is to understand the basic pieces, choose one small model, use one runtime, ask one safe test question, and notice the trade-off between privacy, control, speed, memory, and setup friction.
+
+Key ideas:
+- A model is the file that contains learned patterns.
+- Inference is the act of using that model to produce an answer.
+- A runtime is the software that loads the model and makes it answer.
+- Local inference is a learning lab first, not a production system.
+
+Safety habits:
+- Do not paste secrets, passwords, private account data, or sensitive internal context.
+- Check whether the answer is useful before trusting it.
+- If the model is too slow or fails to load, use a smaller model.
+- Read the full technical guide when ready for llama.cpp, quantization, model size choices, and concrete setup steps.
+
+---
+
 # Access & secrets
 
 Module: Module 0: Fast Track Setup
