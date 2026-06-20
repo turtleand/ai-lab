@@ -2,6 +2,14 @@
 
 ---
 
+# AI for Beginners
+
+Route: https://lab.turtleand.com/beginners/
+
+A plain-language doorway into Turtleand AI Lab for people starting from zero. It is based on the ideas, lessons, and structure of the main AI Lab, rewritten for beginners while keeping human judgment, participation, and responsibility at the center.
+
+---
+
 # Access & secrets
 
 Module: Module 0: Fast Track Setup

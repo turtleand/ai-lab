@@ -20,14 +20,15 @@ const normalizeModuleKey = (value: string) => value.split(':')[0].trim();
 
 const moduleSubtopics: Record<
   string,
-  { id: string; title: string; summary: string }[]
+  { id: string; title: string; summary: string; href?: string }[]
 > = {
   'Module 0': [
     {
-      id: 'simple-ai',
-      title: 'Simple AI',
+      id: 'beginners',
+      title: 'AI for Beginners',
       summary:
-        'A beginner doorway for understanding AI, then choosing the right next route.'
+        'A zero-start doorway into AI Lab, with human judgment at the center.',
+      href: '/beginners/'
     },
     {
       id: 'running-inference-locally',
@@ -141,7 +142,8 @@ const moduleSubtopics: Record<
     {
       id: 'context-is-not-memory',
       title: 'Context is not memory',
-      summary: 'Why agents need curated memory, not just bigger context windows.'
+      summary:
+        'Why agents need curated memory, not just bigger context windows.'
     },
     {
       id: 'planning-decomposition-control-structures',
@@ -324,8 +326,9 @@ const subtopicsForModule = (module) => {
   return (module.subtopics ?? []).map((definition) => {
     const key = `${module.key}:${definition.id}`;
     const topic = topicLookup.get(key);
-    const href = topic ? buildTopicHref(topic.id) : undefined;
-    const hasContent = Boolean(topic);
+    const href =
+      definition.href ?? (topic ? buildTopicHref(topic.id) : undefined);
+    const hasContent = Boolean(definition.href || topic);
 
     return {
       title: definition.title,
@@ -356,20 +359,20 @@ const subtopicsForModule = (module) => {
 
   <PortalTrio />
 
-  <section class="card featured" aria-labelledby="simple-ai-doorway">
+  <section class="card featured" aria-labelledby="beginners-doorway">
     <div class="section-title">
       <div>
         <p class="pill inline">Start here</p>
-        <h2 id="simple-ai-doorway">New to AI? Use the Simple AI doorway.</h2>
+        <h2 id="beginners-doorway">New to AI? Use AI for Beginners.</h2>
       </div>
     </div>
     <p>
-      Simple AI is the beginner route into AI Lab. It explains the basic mental
-      model, keeps human judgment at the center, and helps you choose whether to
-      stay in the curriculum or branch toward Portal, AI Atlas, Build, or
-      Hermes.
+      AI for Beginners is the zero-start doorway into AI Lab. It explains the
+      basic mental model, keeps human judgment at the center, and helps you
+      choose whether to stay in the curriculum or branch toward Portal, AI
+      Atlas, Build, or Hermes.
     </p>
-    <a class="pill inline" href="/topics/simple-ai/">Open Simple AI →</a>
+    <a class="pill inline" href="/beginners/">Open AI for Beginners →</a>
   </section>
 
   <section class="card" aria-labelledby="modules-title" id="modules">

@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'AI for Beginners';
+const description =
+  'A plain-language doorway into Turtleand AI Lab for people starting from zero while keeping human judgment at the center.';
+
+const firstPrinciples = [
+  {
+    title: 'AI is a tool for thinking and making',
+    body: 'It can explain, draft, compare, summarize, classify, code, and call tools when a human gives it direction.'
+  },
+  {
+    title: 'AI is not judgment',
+    body: 'A model can sound confident and still be wrong. The human still checks facts, taste, risk, and consequence.'
+  },
+  {
+    title: 'AI Lab is the learning path',
+    body: 'The main AI Lab has deeper lessons and technical structure. This doorway rewrites that path for someone starting from zero.'
+  }
+];
+
+const humanRoles = [
+  'Set the goal before asking the system to help.',
+  'Give context, constraints, examples, and standards.',
+  'Check the output against reality before trusting it.',
+  'Decide what is ethical, useful, tasteful, and worth doing.',
+  'Turn useful learning into a repeatable habit or public artifact.'
+];
+
+const learningSteps = [
+  {
+    label: '1',
+    title: 'Understand the basic idea',
+    body: 'Learn what AI can and cannot do without drowning in technical vocabulary.'
+  },
+  {
+    label: '2',
+    title: 'Use AI for small real tasks',
+    body: 'Summarize something, explain a concept, compare options, or turn messy notes into a clear outline.'
+  },
+  {
+    label: '3',
+    title: 'Build safe habits',
+    body: 'Do not paste sensitive information casually. Verify important answers. Keep humans responsible for decisions.'
+  },
+  {
+    label: '4',
+    title: 'Move into the main lab',
+    body: 'When the basics feel less mysterious, continue into Module 0 for setup, safety, models, and workflows.'
+  }
+];
+
+const routes = [
+  {
+    title: 'Start the AI Lab path',
+    body: 'Use this when you want the next lesson after the beginner doorway.',
+    href: '/modules/module-0/',
+    cta: 'Open Module 0'
+  },
+  {
+    title: 'Read the wider ecosystem map',
+    body: 'Use Portal when you want to see how AI Lab connects to Growth, Build, Handbook, AI Atlas, and Turtleand as a whole.',
+    href: 'https://turtleand.com/',
+    cta: 'Open Portal'
+  },
+  {
+    title: 'Compare tools and models',
+    body: 'Use AI Atlas when the question is which tool, model, provider, or interface to explore next.',
+    href: 'https://atlas.turtleand.com/',
+    cta: 'Open AI Atlas'
+  },
+  {
+    title: 'Build practical systems',
+    body: 'Use Build and Hermes when you are ready for implementation notes, agent workflows, and human-in-the-loop operations.',
+    href: 'https://build.turtleand.com/',
+    cta: 'Open Build'
+  }
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="card signal-hero" aria-labelledby="beginners-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Beginner doorway</p>
+      <h1 id="beginners-title">AI for Beginners</h1>
+      <p>
+        A plain-language entrance into Turtleand AI Lab for people starting from
+        zero. The goal is to make AI understandable without removing the human
+        from the center.
+      </p>
+      <div class="cta" aria-label="Beginner page actions">
+        <a class="primary" href="/modules/module-0/">Continue to Module 0</a>
+        <a href="#route-map">Choose your route</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card featured" aria-labelledby="page-philosophy">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Philosophy</p>
+        <h2 id="page-philosophy">What this page is</h2>
+      </div>
+    </div>
+    <p>
+      This page is a beginner doorway into Turtleand's AI Lab. It is based on
+      the ideas, lessons, and structure of the main AI Lab, but rewritten for
+      people starting from zero.
+    </p>
+    <p>
+      The content may use AI as a drafting and organizing tool, but it is not
+      detached from Turtleand's participation, judgment, or worldview. AI helps
+      shape the material. Turtleand remains responsible for direction, taste,
+      validation, and meaning.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="plain-definition">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Plain definition</p>
+        <h2 id="plain-definition">What AI means here</h2>
+      </div>
+    </div>
+    <p>
+      AI is software that can recognize patterns, generate useful outputs, and
+      help with thinking or action when a human gives it direction.
+    </p>
+    <p>
+      That can mean chat, search help, writing support, image generation, coding
+      assistance, audio tools, research workflows, or agents that use tools. The
+      names change. The human responsibility does not.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="first-principles">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">First principles</p>
+        <h2 id="first-principles">Three ideas to keep steady</h2>
+      </div>
+    </div>
+    <ul class="subtopic-list">
+      {
+        firstPrinciples.map((item) => (
+          <li class="subtopic-bullet">
+            <span class="bullet-dot" aria-hidden="true" />
+            <div>
+              <div class="subtopic-title">{item.title}</div>
+              <p>{item.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="human-center">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Human center</p>
+        <h2 id="human-center">What the human keeps doing</h2>
+      </div>
+    </div>
+    <p>
+      Turtleand treats AI as a force multiplier, not a replacement for agency. A
+      useful system makes the human more capable, not less responsible.
+    </p>
+    <ul>
+      {humanRoles.map((role) => <li>{role}</li>)}
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="learning-path">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Learning path</p>
+        <h2 id="learning-path">How to move from zero</h2>
+      </div>
+    </div>
+    <div class="stacked">
+      {
+        learningSteps.map((step) => (
+          <article class="log-entry">
+            <strong>
+              {step.label}. {step.title}
+            </strong>
+            <p>{step.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="route-map" id="route-map">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Route map</p>
+        <h2 id="route-map">Choose your next route</h2>
+      </div>
+    </div>
+    <ul class="subtopic-list">
+      {
+        routes.map((route) => (
+          <li class="subtopic-bullet module-link-bullet">
+            <a class="subtopic-link" href={route.href}>
+              <span class="bullet-dot" aria-hidden="true" />
+              <div>
+                <div class="subtopic-title">{route.title}</div>
+                <p>{route.body}</p>
+                <p>{route.cta} →</p>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="checkpoint">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Checkpoint</p>
+        <h2 id="checkpoint">Teach it back</h2>
+      </div>
+    </div>
+    <p>Before moving on, answer these in your own words:</p>
+    <ol>
+      <li>What is AI useful for in one sentence?</li>
+      <li>Why does human judgment still matter?</li>
+      <li>Which route fits your current goal?</li>
+    </ol>
+    <p>
+      If those answers feel clear, continue to
+      <a href="/modules/module-0/">Module 0</a>.
+    </p>
+  </section>
+</BaseLayout>

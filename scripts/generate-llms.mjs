@@ -64,6 +64,9 @@ async function main() {
 > A hands-on, 6-module curriculum for building practical LLM tools and agents. Self-paced, free, and open.
 
 ## Curriculum
+
+### Beginner doorway
+- [AI for Beginners](https://lab.turtleand.com/beginners/): A zero-start doorway into Turtleand AI Lab that explains AI in plain language while keeping human judgment at the center.
 `;
 
   for (const [mod, items] of grouped) {
@@ -85,7 +88,7 @@ Created by Turtleand — software engineer building AI education that's practica
   console.log('Generated public/llms.txt');
 
   // Generate llms-full.txt
-  let full = `# Turtleand AI Lab — Full Content\n\n`;
+  let full = `# Turtleand AI Lab — Full Content\n\n---\n\n# AI for Beginners\n\nRoute: https://lab.turtleand.com/beginners/\n\nA plain-language doorway into Turtleand AI Lab for people starting from zero. It is based on the ideas, lessons, and structure of the main AI Lab, rewritten for beginners while keeping human judgment, participation, and responsibility at the center.\n\n`;
   for (const [mod, items] of grouped) {
     if (items.length === 0) continue;
     for (const t of items) {

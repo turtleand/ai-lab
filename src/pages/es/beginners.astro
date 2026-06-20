@@ -1,0 +1,243 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'IA para principiantes';
+const description =
+  'Una puerta de entrada en lenguaje claro a Turtleand AI Lab para personas que empiezan desde cero, con el juicio humano en el centro.';
+
+const firstPrinciples = [
+  {
+    title: 'La IA es una herramienta para pensar y crear',
+    body: 'Puede explicar, redactar, comparar, resumir, clasificar, programar y usar herramientas cuando una persona le da dirección.'
+  },
+  {
+    title: 'La IA no es juicio',
+    body: 'Un modelo puede sonar seguro y aun así equivocarse. La persona revisa hechos, gusto, riesgo y consecuencias.'
+  },
+  {
+    title: 'AI Lab es la ruta de aprendizaje',
+    body: 'El AI Lab principal tiene lecciones más profundas y estructura técnica. Esta puerta reescribe ese camino para alguien que empieza desde cero.'
+  }
+];
+
+const humanRoles = [
+  'Definir el objetivo antes de pedir ayuda al sistema.',
+  'Dar contexto, límites, ejemplos y estándares.',
+  'Contrastar la salida con la realidad antes de confiar en ella.',
+  'Decidir qué es ético, útil, valioso y digno de hacerse.',
+  'Convertir el aprendizaje útil en un hábito repetible o un artefacto público.'
+];
+
+const learningSteps = [
+  {
+    label: '1',
+    title: 'Entender la idea básica',
+    body: 'Aprende qué puede y qué no puede hacer la IA sin ahogarte en vocabulario técnico.'
+  },
+  {
+    label: '2',
+    title: 'Usar IA para tareas pequeñas y reales',
+    body: 'Resume algo, explica un concepto, compara opciones o convierte notas desordenadas en un esquema claro.'
+  },
+  {
+    label: '3',
+    title: 'Construir hábitos seguros',
+    body: 'No pegues información sensible sin cuidado. Verifica respuestas importantes. Mantén a las personas como responsables de las decisiones.'
+  },
+  {
+    label: '4',
+    title: 'Entrar al laboratorio principal',
+    body: 'Cuando lo básico se sienta menos misterioso, sigue en Módulo 0 para setup, seguridad, modelos y workflows.'
+  }
+];
+
+const routes = [
+  {
+    title: 'Empezar la ruta de AI Lab',
+    body: 'Usa esto cuando quieras la siguiente lección después de la puerta para principiantes.',
+    href: '/es/modules/module-0/',
+    cta: 'Abrir Módulo 0'
+  },
+  {
+    title: 'Leer el mapa del ecosistema',
+    body: 'Usa Portal cuando quieras ver cómo AI Lab se conecta con Growth, Build, Handbook, AI Atlas y Turtleand como conjunto.',
+    href: 'https://turtleand.com/',
+    cta: 'Abrir Portal'
+  },
+  {
+    title: 'Comparar herramientas y modelos',
+    body: 'Usa AI Atlas cuando la pregunta sea qué herramienta, modelo, proveedor o interfaz conviene explorar después.',
+    href: 'https://atlas.turtleand.com/',
+    cta: 'Abrir AI Atlas'
+  },
+  {
+    title: 'Construir sistemas prácticos',
+    body: 'Usa Build y Hermes cuando estés listo para notas de implementación, workflows de agentes y operaciones humano-en-el-loop.',
+    href: 'https://build.turtleand.com/',
+    cta: 'Abrir Build'
+  }
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="card signal-hero" aria-labelledby="beginners-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Puerta para principiantes</p>
+      <h1 id="beginners-title">IA para principiantes</h1>
+      <p>
+        Una entrada en lenguaje claro a Turtleand AI Lab para personas que
+        empiezan desde cero. El objetivo es hacer la IA entendible sin quitar al
+        humano del centro.
+      </p>
+      <div class="cta" aria-label="Acciones de la página para principiantes">
+        <a class="primary" href="/es/modules/module-0/">Continuar a Módulo 0</a>
+        <a href="#route-map">Elegir tu ruta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card featured" aria-labelledby="page-philosophy">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Filosofía</p>
+        <h2 id="page-philosophy">Qué es esta página</h2>
+      </div>
+    </div>
+    <p>
+      Esta página es una puerta para principiantes dentro de Turtleand AI Lab.
+      Está basada en las ideas, lecciones y estructura del AI Lab principal,
+      pero reescrita para personas que empiezan desde cero.
+    </p>
+    <p>
+      El contenido puede usar IA como herramienta de borrador y organización,
+      pero no está separado de la participación, el juicio o la visión de
+      Turtleand. La IA ayuda a dar forma al material. Turtleand mantiene la
+      responsabilidad sobre dirección, gusto, validación y significado.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="plain-definition">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Definición simple</p>
+        <h2 id="plain-definition">Qué significa IA acá</h2>
+      </div>
+    </div>
+    <p>
+      IA es software que puede reconocer patrones, generar salidas útiles y
+      ayudar con pensamiento o acción cuando una persona le da dirección.
+    </p>
+    <p>
+      Eso puede significar chat, ayuda de búsqueda, apoyo para escribir,
+      generación de imágenes, asistencia de programación, herramientas de audio,
+      workflows de investigación o agentes que usan herramientas. Los nombres
+      cambian. La responsabilidad humana no.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="first-principles">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Primeros principios</p>
+        <h2 id="first-principles">Tres ideas para mantener firmes</h2>
+      </div>
+    </div>
+    <ul class="subtopic-list">
+      {
+        firstPrinciples.map((item) => (
+          <li class="subtopic-bullet">
+            <span class="bullet-dot" aria-hidden="true" />
+            <div>
+              <div class="subtopic-title">{item.title}</div>
+              <p>{item.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="human-center">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Centro humano</p>
+        <h2 id="human-center">Qué sigue haciendo la persona</h2>
+      </div>
+    </div>
+    <p>
+      Turtleand trata la IA como multiplicador de fuerza, no como reemplazo de
+      la agencia. Un sistema útil hace que la persona sea más capaz, no menos
+      responsable.
+    </p>
+    <ul>
+      {humanRoles.map((role) => <li>{role}</li>)}
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="learning-path">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Ruta de aprendizaje</p>
+        <h2 id="learning-path">Cómo avanzar desde cero</h2>
+      </div>
+    </div>
+    <div class="stacked">
+      {
+        learningSteps.map((step) => (
+          <article class="log-entry">
+            <strong>
+              {step.label}. {step.title}
+            </strong>
+            <p>{step.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="route-map" id="route-map">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Mapa de rutas</p>
+        <h2 id="route-map">Elegí tu próxima ruta</h2>
+      </div>
+    </div>
+    <ul class="subtopic-list">
+      {
+        routes.map((route) => (
+          <li class="subtopic-bullet module-link-bullet">
+            <a class="subtopic-link" href={route.href}>
+              <span class="bullet-dot" aria-hidden="true" />
+              <div>
+                <div class="subtopic-title">{route.title}</div>
+                <p>{route.body}</p>
+                <p>{route.cta} →</p>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="checkpoint">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Checkpoint</p>
+        <h2 id="checkpoint">Explícalo con tus palabras</h2>
+      </div>
+    </div>
+    <p>Antes de avanzar, responde esto con tus propias palabras:</p>
+    <ol>
+      <li>¿Para qué sirve la IA en una frase?</li>
+      <li>¿Por qué el juicio humano sigue importando?</li>
+      <li>¿Qué ruta encaja con tu objetivo actual?</li>
+    </ol>
+    <p>
+      Si esas respuestas se sienten claras, continúa a
+      <a href="/es/modules/module-0/">Módulo 0</a>.
+    </p>
+  </section>
+</BaseLayout>

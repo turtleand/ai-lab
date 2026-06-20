@@ -26,6 +26,7 @@ Applies only to `ai-lab/`.
 2. Prefer source edits under `src/`, `public/`, and `scripts/`.
 3. Keep changes minimal and do not hand-edit build output in `dist/`.
 4. Preserve the existing module/topic structure unless the task explicitly changes the curriculum.
+5. When adding or materially revising technical AI Lab content, add or update the proper beginner counterpart in the `/beginners` sub-space so zero-start learners have a plain-language path into the same idea.
 
 ## Public-safety review
 
