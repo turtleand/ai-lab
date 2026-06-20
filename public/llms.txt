@@ -6,9 +6,51 @@
 
 ### Beginner doorway
 - [AI for Beginners](https://lab.turtleand.com/beginners/): A zero-start doorway into Turtleand AI Lab that explains AI in plain language while keeping human judgment at the center.
-- [Module 0 beginner path](https://lab.turtleand.com/beginners/module-0/): The first beginner path through AI Lab: safe AI habits, local AI basics, and clear next steps before the full technical module.
+- [Simple AI, for beginners](https://lab.turtleand.com/beginners/topics/simple-ai/): A plain-language doorway into what AI is, what it is not, and how to use it without giving away judgment.
 - [Start safely with AI tools](https://lab.turtleand.com/beginners/topics/start-safely-with-ai/): A beginner safety baseline for using AI tools without giving away private data, judgment, or responsibility.
+- [Access and secrets, for beginners](https://lab.turtleand.com/beginners/topics/access-secrets/): A beginner explanation of API keys, passwords, environment variables, and why secrets should not be pasted into AI tools.
 - [Running AI locally, for beginners](https://lab.turtleand.com/beginners/topics/running-inference-locally/): A plain-language first path for understanding local AI inference before reading the full technical guide.
+- [Agent notifications, for beginners](https://lab.turtleand.com/beginners/topics/agent-notifications/): A beginner guide to why agents should notify humans when work finishes, blocks, or needs approval.
+- [Prompt mastery, for beginners](https://lab.turtleand.com/beginners/topics/prompt-mastery/): A simple path from vague requests to useful prompts with goals, context, constraints, examples, and review.
+- [Multi-tool AI workflows, for beginners](https://lab.turtleand.com/beginners/topics/multi-tool-workflows/): How to choose the right AI tool for each step instead of forcing one chat box to do everything.
+- [Model selection and economics, for beginners](https://lab.turtleand.com/beginners/topics/model-selection-economics/): A beginner way to choose between fast, cheap, capable, and careful models for the task in front of you.
+- [Voice and multimodal workflows, for beginners](https://lab.turtleand.com/beginners/topics/voice-multimodal-workflows/): How voice, images, screenshots, and audio can make AI more useful when text is not enough.
+- [Human-AI collaboration, for beginners](https://lab.turtleand.com/beginners/topics/human-ai-collaboration-handbook/): A beginner handbook for working with AI as a collaborator while keeping human direction and taste.
+- [Automation pipelines, for beginners](https://lab.turtleand.com/beginners/topics/automation-pipelines/): A beginner way to turn repeated work into checked steps before adding automation.
+- [AI-first lifestyle, for beginners](https://lab.turtleand.com/beginners/topics/ai-first-lifestyle/): How to build daily AI habits that prepare work, clarify thinking, and still leave decisions to the human.
+- [MCP servers, for beginners](https://lab.turtleand.com/beginners/topics/building-mcp-server/): A plain explanation of how an MCP server lets an AI tool read from or act through a controlled interface.
+- [Living institutional memory, for beginners](https://lab.turtleand.com/beginners/topics/living-institutional-memory/): How notes, decisions, lessons, and public artifacts can become a memory system that compounds.
+- [Persistent agents, for beginners](https://lab.turtleand.com/beginners/topics/persistent-agents/): A beginner explanation of agents that keep context, run over time, and need clear boundaries.
+- [Context is not memory, for beginners](https://lab.turtleand.com/beginners/topics/context-is-not-memory/): A beginner explanation of the difference between what a model sees now and what a system remembers later.
+- [Planning and decomposition, for beginners](https://lab.turtleand.com/beginners/topics/planning-decomposition-control-structures/): How to make AI work better by splitting a goal into smaller steps with checks between them.
+- [The agent loop, for beginners](https://lab.turtleand.com/beginners/topics/agent-loop-controlled-feedback-loop/): A plain-language view of how agents observe, choose an action, inspect the result, and repeat safely.
+- [Agentic AI systems, for beginners](https://lab.turtleand.com/beginners/topics/agentic-ai-systems-learning-path/): A beginner map of the ideas behind agents: loop, tools, memory, planning, approval, reliability, and coordination.
+- [Human agency is not a button, for beginners](https://lab.turtleand.com/beginners/topics/human-agency-is-not-a-button/): Why responsible agent systems need real human authority, not just a decorative approval prompt.
+- [Smart is not reliable, for beginners](https://lab.turtleand.com/beginners/topics/smart-is-not-reliable/): Why impressive AI answers are not the same as dependable systems.
+
+### Spanish beginner doorway
+- [IA para principiantes](https://lab.turtleand.com/es/beginners/): La puerta en lenguaje claro hacia AI Lab para personas que empiezan desde cero.
+- [IA simple, para principiantes](https://lab.turtleand.com/es/beginners/topics/simple-ai/): Una puerta en lenguaje claro para entender qué es la IA, qué no es y cómo usarla sin entregar el juicio.
+- [Empezar con seguridad con herramientas de IA](https://lab.turtleand.com/es/beginners/topics/start-safely-with-ai/): Una base de seguridad para usar IA sin entregar datos privados, juicio o responsabilidad.
+- [Accesos y secretos, para principiantes](https://lab.turtleand.com/es/beginners/topics/access-secrets/): Una explicación simple de API keys, contraseñas, variables de entorno y por qué no se pegan secretos en herramientas de IA.
+- [Ejecutar IA localmente, para principiantes](https://lab.turtleand.com/es/beginners/topics/running-inference-locally/): Una primera ruta en lenguaje simple para entender inferencia local antes de leer la guía técnica completa.
+- [Notificaciones de agentes, para principiantes](https://lab.turtleand.com/es/beginners/topics/agent-notifications/): Por qué los agentes deberían avisar cuando terminan, se bloquean o necesitan aprobación humana.
+- [Dominio de prompts, para principiantes](https://lab.turtleand.com/es/beginners/topics/prompt-mastery/): Una ruta simple desde pedidos vagos hacia prompts útiles con objetivo, contexto, límites, ejemplos y revisión.
+- [Workflows multi-herramienta, para principiantes](https://lab.turtleand.com/es/beginners/topics/multi-tool-workflows/): Cómo elegir la herramienta adecuada para cada paso en vez de forzar una sola caja de chat a hacer todo.
+- [Selección de modelos y economía, para principiantes](https://lab.turtleand.com/es/beginners/topics/model-selection-economics/): Una forma principiante de elegir entre modelos rápidos, baratos, capaces y cuidadosos según la tarea.
+- [Voz y workflows multimodales, para principiantes](https://lab.turtleand.com/es/beginners/topics/voice-multimodal-workflows/): Cómo voz, imágenes, capturas y audio pueden hacer más útil la IA cuando el texto no alcanza.
+- [Colaboración humano-IA, para principiantes](https://lab.turtleand.com/es/beginners/topics/human-ai-collaboration-handbook/): Una guía para trabajar con IA como colaboradora manteniendo dirección y criterio humano.
+- [Pipelines de automatización, para principiantes](https://lab.turtleand.com/es/beginners/topics/automation-pipelines/): Una forma principiante de convertir trabajo repetido en pasos revisados antes de automatizar.
+- [Estilo de vida AI-first, para principiantes](https://lab.turtleand.com/es/beginners/topics/ai-first-lifestyle/): Cómo construir hábitos diarios con IA que preparan trabajo y aclaran pensamiento sin entregar decisiones.
+- [Servidores MCP, para principiantes](https://lab.turtleand.com/es/beginners/topics/building-mcp-server/): Una explicación simple de cómo un servidor MCP permite que una herramienta de IA lea o actúe mediante una interfaz controlada.
+- [Memoria institucional viva, para principiantes](https://lab.turtleand.com/es/beginners/topics/living-institutional-memory/): Cómo notas, decisiones, lecciones y artefactos públicos pueden convertirse en un sistema de memoria que compone.
+- [Agentes persistentes, para principiantes](https://lab.turtleand.com/es/beginners/topics/persistent-agents/): Una explicación de agentes que conservan contexto, corren en el tiempo y necesitan límites claros.
+- [Contexto no es memoria, para principiantes](https://lab.turtleand.com/es/beginners/topics/context-is-not-memory/): La diferencia entre lo que un modelo ve ahora y lo que un sistema recuerda después.
+- [Planificación y descomposición, para principiantes](https://lab.turtleand.com/es/beginners/topics/planning-decomposition-control-structures/): Cómo hacer que la IA trabaje mejor dividiendo un objetivo en pasos chicos con controles entre medio.
+- [El loop de agente, para principiantes](https://lab.turtleand.com/es/beginners/topics/agent-loop-controlled-feedback-loop/): Cómo los agentes observan, eligen una acción, revisan el resultado y repiten con seguridad.
+- [Sistemas agentic de IA, para principiantes](https://lab.turtleand.com/es/beginners/topics/agentic-ai-systems-learning-path/): Un mapa principiante de agentes: loop, herramientas, memoria, planificación, aprobación, confiabilidad y coordinación.
+- [La agencia humana no es un botón, para principiantes](https://lab.turtleand.com/es/beginners/topics/human-agency-is-not-a-button/): Por qué los sistemas de agentes responsables necesitan autoridad humana real, no solo un prompt decorativo de aprobación.
+- [Inteligente no es confiable, para principiantes](https://lab.turtleand.com/es/beginners/topics/smart-is-not-reliable/): Por qué respuestas impresionantes de IA no son lo mismo que sistemas confiables.
 
 ### Module 0: Fast Track Setup
 - [Access & secrets](https://lab.turtleand.com/topics/access-secrets): Configure API keys and secrets securely for model access.

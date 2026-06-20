@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {
+  beginnerTopicsEs,
+  getTopicsByModule,
+  moduleIntros
+} from '../../../data/beginnerTopics';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return getTopicsByModule(beginnerTopicsEs).map((module) => ({
+    params: { module: module.slug },
+    props: { module }
+  }));
+}
+
+const { module } = Astro.props;
+const title = `${module.label} para principiantes: ${module.titleEs}`;
+const nextModule = moduleIntros.find((item) => item.slug > module.slug);
+---
+
+<BaseLayout title={title} description={module.summaryEs}>
+  <section class="card signal-hero" aria-labelledby="module-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">{module.label} principiante</p>
+      <h1 id="module-title">{module.titleEs}</h1>
+      <p>{module.summaryEs}</p>
+      <div class="cta" aria-label="Acciones del módulo principiante">
+        <a class="primary" href="#lessons">Abrir lecciones</a>
+        <a href="/es/beginners/">Volver a IA para principiantes</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="lessons" id="lessons">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Ruta principiante</p>
+        <h2 id="lessons">Leé estos artículos en orden</h2>
+      </div>
+    </div>
+    <p>
+      Estos artículos reflejan temas existentes de AI Lab en este módulo. Cada
+      uno empieza con significado simple, ejemplo seguro, primeros movimientos,
+      errores y límites antes de enlazar al tema técnico.
+    </p>
+    <div class="stacked">
+      {
+        module.topics.map((topic, index) => (
+          <a
+            class="clickable-card lesson-card"
+            href={`/es/beginners/topics/${topic.slug}/`}
+          >
+            <p class="pill inline">Paso {index + 1}</p>
+            <h3>{topic.shortTitle}</h3>
+            <p>{topic.summary}</p>
+            <span class="card-action" aria-hidden="true">
+              Abrir artículo principiante →
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="go-deeper">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Profundizar después</p>
+        <h2 id="go-deeper">Cuando quieras el módulo técnico</h2>
+      </div>
+    </div>
+    <p>
+      La ruta principiante da la base en lenguaje claro. El módulo completo de
+      AI Lab conserva la estructura técnica para estudiar con más profundidad.
+    </p>
+    <div class="cta" aria-label="Próximas acciones del módulo">
+      <a class="primary" href={`/es/modules/${module.slug}/`}
+        >Abrir {module.label} completo</a
+      >
+      {
+        nextModule && (
+          <a href={`/es/beginners/${nextModule.slug}/`}>
+            Siguiente módulo principiante
+          </a>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

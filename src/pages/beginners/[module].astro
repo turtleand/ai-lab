@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTopicsByModule, moduleIntros } from '../../data/beginnerTopics';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return getTopicsByModule().map((module) => ({
+    params: { module: module.slug },
+    props: { module }
+  }));
+}
+
+const { module } = Astro.props;
+const title = `${module.label} beginner path: ${module.title}`;
+const nextModule = moduleIntros.find((item) => item.slug > module.slug);
+---
+
+<BaseLayout title={title} description={module.summary}>
+  <section class="card signal-hero" aria-labelledby="module-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Beginner {module.label}</p>
+      <h1 id="module-title">{module.title}</h1>
+      <p>{module.summary}</p>
+      <div class="cta" aria-label="Beginner module actions">
+        <a class="primary" href="#lessons">Open the lessons</a>
+        <a href="/beginners/">Back to AI for Beginners</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="lessons" id="lessons">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Beginner path</p>
+        <h2 id="lessons">Read these in order</h2>
+      </div>
+    </div>
+    <p>
+      These articles mirror existing AI Lab topics in this module. Each starts
+      with plain meaning, a small safe example, first moves, mistakes, and
+      guardrails before linking to the technical topic.
+    </p>
+    <div class="stacked">
+      {
+        module.topics.map((topic, index) => (
+          <a
+            class="clickable-card lesson-card"
+            href={`/beginners/topics/${topic.slug}/`}
+          >
+            <p class="pill inline">Step {index + 1}</p>
+            <h3>{topic.shortTitle}</h3>
+            <p>{topic.summary}</p>
+            <span class="card-action" aria-hidden="true">
+              Open beginner article →
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="go-deeper">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Go deeper later</p>
+        <h2 id="go-deeper">When you want the technical module</h2>
+      </div>
+    </div>
+    <p>
+      The beginner path gives you the plain-language foundation. The full AI Lab
+      module keeps the technical topic structure for deeper study.
+    </p>
+    <div class="cta" aria-label="Module next actions">
+      <a class="primary" href={`/modules/${module.slug}/`}
+        >Open full {module.label}</a
+      >
+      {
+        nextModule && (
+          <a href={`/beginners/${nextModule.slug}/`}>Next beginner module</a>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

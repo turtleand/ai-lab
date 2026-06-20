@@ -10,17 +10,33 @@ A plain-language doorway into Turtleand AI Lab for people starting from zero. It
 
 ---
 
-# Module 0 beginner path
+# Simple AI, for beginners
 
-Route: https://lab.turtleand.com/beginners/module-0/
+Route: https://lab.turtleand.com/beginners/topics/simple-ai/
 
-Module 0 is the beginner starting point. It keeps the first path simple: learn the safety habit, understand what local AI means, then move into the full technical guide when ready.
+Based on: https://lab.turtleand.com/topics/simple-ai/
 
-Read these beginner articles in order:
-- Start safely with AI tools.
-- Running AI locally.
+AI is software that recognizes patterns and generates useful outputs from the context you give it. It can help you draft, compare, summarize, explain, code, and plan, but it does not become responsible for the decision.
 
-The full Module 0 page remains available for the deeper setup and safety structure, but the beginner route starts with beginner articles first.
+Why it matters: A beginner needs a stable mental model before learning tools. If you know AI is a helper, not an authority, every later workflow becomes safer and easier to judge.
+
+Small safe example: Ask an AI tool to explain a public article in five bullets, then compare the answer with the article and correct what it missed.
+
+First moves:
+- Start with public or invented material.
+- Ask for a simple explanation before asking for a final answer.
+- Compare the answer with reality.
+- Decide what you will use, ignore, or verify.
+
+Common mistake: Treating a confident answer as proof. Confidence is style, not verification.
+
+Guardrails:
+- Keep private details out of first experiments.
+- Use AI for drafts and options before decisions.
+- Check important claims with better sources.
+- Keep the human responsible for taste, ethics, and consequence.
+
+Go deeper: https://lab.turtleand.com/topics/simple-ai/
 
 ---
 
@@ -28,11 +44,59 @@ The full Module 0 page remains available for the deeper setup and safety structu
 
 Route: https://lab.turtleand.com/beginners/topics/start-safely-with-ai/
 
-The first AI skill is not prompting. It is knowing what should stay out of the tool, what a model can help with, and where the human still has to make the final call.
+Based on: https://lab.turtleand.com/topics/safety-baseline/
 
-Safety starts with the small habit before the prompt: decide what the system should not see. Use public, invented, or low-risk text first. Remove names, account details, secrets, addresses, internal plans, and anything that would create risk if copied elsewhere.
+AI safety starts before the prompt. Decide what the system should not see, then use the tool on material that is safe to copy, store, or be wrong about.
 
-Treat the model as a helper that gives a first pass. The human still decides what is accurate, useful, ethical, and worth using. If the answer affects money, health, legal matters, access, reputation, or another person, slow down and verify with a better source.
+Why it matters: The first durable AI habit is not prompt technique. It is separating useful help from sensitive context and risky decisions.
+
+Small safe example: Use invented customer notes or a public paragraph to practice summarizing. Do not start with real account details, passwords, legal issues, or private plans.
+
+First moves:
+- Use harmless material first.
+- Remove names, account data, secrets, addresses, and internal plans.
+- Ask for a draft, not a final answer.
+- Slow down when the output affects another person or a serious decision.
+
+Common mistake: Pasting real private context because the task feels small. Small prompts can still leak important information.
+
+Guardrails:
+- Do not paste secrets or credentials.
+- Do not let AI approve access, money movement, or irreversible actions alone.
+- Verify high-impact answers with authoritative sources.
+- Use low-risk examples while learning a new tool.
+
+Go deeper: https://lab.turtleand.com/topics/safety-baseline/
+
+---
+
+# Access and secrets, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/access-secrets/
+
+Based on: https://lab.turtleand.com/topics/access-secrets/
+
+A secret is any value that lets someone access an account, service, model, database, or private system. API keys, tokens, passwords, private keys, and recovery codes are all secrets.
+
+Why it matters: Many AI workflows need access to tools. If access is handled carelessly, a useful workflow can become a security problem.
+
+Small safe example: When asking for help with setup, replace a real key with a placeholder like YOUR_API_KEY and describe where it is stored without sharing the value.
+
+First moves:
+- Learn what counts as a secret.
+- Store secrets in the tool or environment meant for them.
+- Use placeholders when asking for help.
+- Rotate a secret if you accidentally expose it.
+
+Common mistake: Thinking a token is safe because it is only shown once or only used for a test.
+
+Guardrails:
+- Never paste real secrets into public issues, chats, docs, or prompts.
+- Do not commit .env files unless they are explicit examples without real values.
+- Use least privilege when possible.
+- Treat leaked secrets as compromised.
+
+Go deeper: https://lab.turtleand.com/topics/access-secrets/
 
 ---
 
@@ -40,21 +104,1177 @@ Treat the model as a helper that gives a first pass. The human still decides wha
 
 Route: https://lab.turtleand.com/beginners/topics/running-inference-locally/
 
-Running AI locally means using an AI model on your own computer instead of sending every prompt to a cloud service.
+Based on: https://lab.turtleand.com/topics/running-inference-locally/
 
-A beginner does not need to master the whole stack first. The useful first path is to understand the basic pieces, choose one small model, use one runtime, ask one safe test question, and notice the trade-off between privacy, control, speed, memory, and setup friction.
+Running AI locally means using an AI model on your own computer instead of sending every prompt to a hosted chat service. You are using an already trained model, not training a new one.
 
-Key ideas:
-- A model is the file that contains learned patterns.
-- Inference is the act of using that model to produce an answer.
-- A runtime is the software that loads the model and makes it answer.
-- Local inference is a learning lab first, not a production system.
+Why it matters: Local AI teaches the real pieces: model file, runtime, memory, speed, and quality. It can improve control, but it also brings setup friction and hardware limits.
 
-Safety habits:
-- Do not paste secrets, passwords, private account data, or sensitive internal context.
-- Check whether the answer is useful before trusting it.
-- If the model is too slow or fails to load, use a smaller model.
-- Read the full technical guide when ready for llama.cpp, quantization, model size choices, and concrete setup steps.
+Small safe example: Install one runtime, choose one small model, and ask a public test question about the difference between local AI and hosted chat.
+
+First moves:
+- Start with one small model.
+- Use one runtime.
+- Ask one safe test question.
+- Notice the trade-off between control, privacy, speed, and setup.
+
+Common mistake: Trying the largest model first, then mistaking hardware friction for personal failure.
+
+Guardrails:
+- Do not paste secrets or sensitive internal context.
+- Use smaller models when the first one is too slow.
+- Check answers before trusting them.
+- Treat local inference as a learning lab before production.
+
+Go deeper: https://lab.turtleand.com/topics/running-inference-locally/
+
+---
+
+# Agent notifications, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/agent-notifications/
+
+Based on: https://lab.turtleand.com/topics/agent-notifications/
+
+A notification is the agent raising its hand. It tells the human that something finished, failed, or needs a decision.
+
+Why it matters: Agents can run longer than a normal chat response. Without notifications, useful work becomes easy to miss and risky work can continue without attention.
+
+Small safe example: Have an agent send a message when a local build finishes instead of checking the terminal repeatedly.
+
+First moves:
+- Decide which events deserve a notification.
+- Keep routine progress quiet.
+- Notify on completion, blockers, and approval points.
+- Make the message short enough to act on.
+
+Common mistake: Notifying on every small event. Too many alerts train the human to ignore the system.
+
+Guardrails:
+- Use notifications for decisions, not noise.
+- Do not include secrets in notification text.
+- Make failure states visible.
+- Keep humans in control of risky next steps.
+
+Go deeper: https://lab.turtleand.com/topics/agent-notifications/
+
+---
+
+# Prompt mastery, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/prompt-mastery/
+
+Based on: https://lab.turtleand.com/topics/prompt-mastery/
+
+A prompt is the instruction and context you give the model. A good prompt tells the model what you want, what matters, what to avoid, and what format helps you review the result.
+
+Why it matters: Most weak AI output starts with an unclear task. Better prompts make the model easier to steer and easier to check.
+
+Small safe example: Ask for a summary of a public article with the goal, audience, length, format, and caveats included.
+
+First moves:
+- State the goal.
+- Add context and constraints.
+- Give an example when possible.
+- Ask for a format you can review quickly.
+
+Common mistake: Trying to fix a vague task with more words instead of a clearer goal.
+
+Guardrails:
+- Do not include private data just to improve context.
+- Ask for uncertainty when facts matter.
+- Review before using output externally.
+- Separate drafting from deciding.
+
+Go deeper: https://lab.turtleand.com/topics/prompt-mastery/
+
+---
+
+# Multi-tool AI workflows, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/multi-tool-workflows/
+
+Based on: https://lab.turtleand.com/topics/multi-tool-workflows/
+
+A multi-tool workflow splits one job across tools. One tool might search, another might summarize, another might code, and the human checks the result.
+
+Why it matters: Different tools have different strengths. Matching tool to task makes the workflow clearer and reduces blind trust in one answer.
+
+Small safe example: Use search to gather public sources, a chat model to summarize them, and your own judgment to choose what matters.
+
+First moves:
+- Name the job you are doing.
+- Split it into steps.
+- Pick one tool per step.
+- Review the combined result before acting.
+
+Common mistake: Using more tools because it feels advanced. More tools only help when the steps are clear.
+
+Guardrails:
+- Do not move sensitive data through tools that do not need it.
+- Keep a record of sources.
+- Check tool outputs against each other.
+- Keep final judgment with the human.
+
+Go deeper: https://lab.turtleand.com/topics/multi-tool-workflows/
+
+---
+
+# Model selection and economics, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/model-selection-economics/
+
+Based on: https://lab.turtleand.com/topics/model-selection-economics/
+
+Model selection means choosing the AI system that fits the job. Some models are fast and cheap. Some reason better. Some are better for code, images, long context, or voice.
+
+Why it matters: Using the strongest model for every task wastes quota and money. Using a weak model for a hard task wastes time and may create subtle errors.
+
+Small safe example: Use a fast model to rewrite a short note, then use a stronger model for a high-stakes architecture review.
+
+First moves:
+- Estimate task difficulty.
+- Use smaller models for drafts and cleanup.
+- Use stronger models for complex reasoning.
+- Track whether the output was worth the cost.
+
+Common mistake: Treating one favorite model as the answer to every task.
+
+Guardrails:
+- Escalate when the task is ambiguous or high-impact.
+- Do not optimize cost by skipping verification.
+- Watch quotas and limits.
+- Measure usefulness, not just speed.
+
+Go deeper: https://lab.turtleand.com/topics/model-selection-economics/
+
+---
+
+# Voice and multimodal workflows, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/voice-multimodal-workflows/
+
+Based on: https://lab.turtleand.com/topics/voice-multimodal-workflows/
+
+Multimodal AI can work with more than text. It may listen to audio, inspect an image, read a screenshot, describe a chart, or speak an answer back.
+
+Why it matters: Real work is not always clean text. Voice and images can reduce friction, especially when you are mobile, tired, or dealing with visual material.
+
+Small safe example: Send a screenshot of a public error message and ask for a plain-language explanation, with no account details visible.
+
+First moves:
+- Choose the input that matches the task.
+- Remove private details from images or audio.
+- Ask for a short answer first.
+- Verify anything important in text afterward.
+
+Common mistake: Forgetting that images and audio can reveal private context in the background.
+
+Guardrails:
+- Crop sensitive screenshots.
+- Avoid recording people without consent.
+- Use voice for drafting, not irreversible decisions.
+- Check visual interpretations against the original.
+
+Go deeper: https://lab.turtleand.com/topics/voice-multimodal-workflows/
+
+---
+
+# Human-AI collaboration, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/human-ai-collaboration-handbook/
+
+Based on: https://lab.turtleand.com/topics/human-ai-collaboration-handbook/
+
+Human-AI collaboration means the human sets direction, gives context, reviews output, and decides what becomes real. The model helps with options, drafts, and analysis.
+
+Why it matters: AI is most useful when it extends human attention instead of replacing human responsibility.
+
+Small safe example: Ask the model for three draft outlines, choose the strongest structure yourself, then ask it to improve only that version.
+
+First moves:
+- Set the goal yourself.
+- Ask for options before asking for final copy.
+- Give feedback on what worked.
+- Keep the final decision human.
+
+Common mistake: Letting the model define the goal because it is faster than thinking through the work.
+
+Guardrails:
+- Use AI as a mirror, not a boss.
+- Do not outsource ethics or taste.
+- Keep private boundaries clear.
+- Make the final artifact something you stand behind.
+
+Go deeper: https://lab.turtleand.com/topics/human-ai-collaboration-handbook/
+
+---
+
+# Automation pipelines, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/automation-pipelines/
+
+Based on: https://lab.turtleand.com/topics/automation-pipelines/
+
+An automation pipeline is a sequence of steps that runs with less manual effort. AI can help collect, transform, summarize, draft, or route work inside that sequence.
+
+Why it matters: Automation compounds when the process is clear. Automating a messy process usually makes the mess faster.
+
+Small safe example: Create a weekly workflow that collects public links, summarizes them, and waits for human approval before anything is published.
+
+First moves:
+- Write the manual checklist first.
+- Mark where AI helps.
+- Mark where a human approves.
+- Automate only the stable steps.
+
+Common mistake: Automating before you know what correct output looks like.
+
+Guardrails:
+- Keep approval before public or irreversible actions.
+- Log what ran and what changed.
+- Start with low-risk inputs.
+- Make failure visible.
+
+Go deeper: https://lab.turtleand.com/topics/automation-pipelines/
+
+---
+
+# AI-first lifestyle, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/ai-first-lifestyle/
+
+Based on: https://lab.turtleand.com/topics/ai-first-lifestyle/
+
+An AI-first lifestyle means looking for places where AI can reduce friction in thinking and making. It does not mean letting AI run your life.
+
+Why it matters: Small habits compound. A morning brief, a clearer plan, or a review checklist can improve the whole day without needing a giant system.
+
+Small safe example: Ask AI to turn your non-sensitive task list into three priorities and one risk to watch.
+
+First moves:
+- Pick one daily friction point.
+- Use AI to prepare, not decide.
+- Review what helped.
+- Keep the habit only if it saves real attention.
+
+Common mistake: Adding AI everywhere because it is available.
+
+Guardrails:
+- Protect private life details.
+- Keep agency with the person.
+- Avoid fake productivity metrics.
+- Use habits that make judgment sharper.
+
+Go deeper: https://lab.turtleand.com/topics/ai-first-lifestyle/
+
+---
+
+# MCP servers, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/building-mcp-server/
+
+Based on: https://lab.turtleand.com/topics/building-mcp-server/
+
+An MCP server is a small bridge between an AI client and a tool or knowledge source. It exposes specific actions the AI can request, instead of giving the AI uncontrolled access.
+
+Why it matters: Tool access is where AI becomes more useful and more risky. A controlled interface keeps the system understandable.
+
+Small safe example: Expose a read-only search tool over public articles, then let the AI answer questions using those articles.
+
+First moves:
+- Decide what the AI should be allowed to do.
+- Start with read-only tools.
+- Name inputs and outputs clearly.
+- Check every tool result before using it.
+
+Common mistake: Giving the AI broad access because a narrow tool feels slower to design.
+
+Guardrails:
+- Prefer least privilege.
+- Log tool calls.
+- Avoid exposing secrets through tool outputs.
+- Require human approval for risky actions.
+
+Go deeper: https://lab.turtleand.com/topics/building-mcp-server/
+
+---
+
+# Living institutional memory, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/living-institutional-memory/
+
+Based on: https://lab.turtleand.com/topics/living-institutional-memory/
+
+Living memory is the practice of keeping useful lessons findable and reusable, instead of relearning them every time.
+
+Why it matters: Teams and solo builders lose leverage when knowledge disappears into chat logs, stale docs, or someone’s head.
+
+Small safe example: After solving a recurring problem, save the reusable pattern as a short checklist instead of only keeping the chat transcript.
+
+First moves:
+- Capture the lesson.
+- Remove private details.
+- Write the reusable pattern.
+- Link it where future work will find it.
+
+Common mistake: Saving everything. Memory works when it is curated, not when it becomes a dump.
+
+Guardrails:
+- Do not store secrets as memory.
+- Separate temporary task state from durable lessons.
+- Keep public artifacts safe and abstracted.
+- Review old memory for stale assumptions.
+
+Go deeper: https://lab.turtleand.com/topics/living-institutional-memory/
+
+---
+
+# Persistent agents, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/persistent-agents/
+
+Based on: https://lab.turtleand.com/topics/persistent-agents/
+
+A persistent agent is an AI workflow that can continue across time instead of answering once and disappearing. It may keep memory, run scheduled tasks, or watch for changes.
+
+Why it matters: Persistence creates leverage, but it also makes mistakes last longer if boundaries are weak.
+
+Small safe example: A weekly read-only agent can prepare a private summary and wait for review before any publication step.
+
+First moves:
+- Choose a narrow job.
+- Define what it can read.
+- Define what it can write.
+- Decide when it must ask the human.
+
+Common mistake: Treating persistence as autonomy. Running longer does not mean the system should decide more.
+
+Guardrails:
+- Start read-only when possible.
+- Keep logs and review points.
+- Do not let scheduled jobs publish or deploy without approval.
+- Make stop and rollback paths clear.
+
+Go deeper: https://lab.turtleand.com/topics/persistent-agents/
+
+---
+
+# Context is not memory, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/context-is-not-memory/
+
+Based on: https://lab.turtleand.com/topics/context-is-not-memory/
+
+Context is the information available in the current task. Memory is information saved for reuse in future tasks.
+
+Why it matters: A model can only use what it can see or retrieve. Bigger context helps, but it is not the same as a reliable memory system.
+
+Small safe example: Paste a short public note into a chat for one answer. Save only the durable lesson if it will help future work.
+
+First moves:
+- Ask what the model can see right now.
+- Decide what should be remembered later.
+- Keep memory short and durable.
+- Remove temporary details after the task.
+
+Common mistake: Expecting a model to remember something because it appeared in an old conversation.
+
+Guardrails:
+- Do not save secrets as memory.
+- Do not confuse long context with truth.
+- Keep stored memory specific and stable.
+- Use sources when facts matter.
+
+Go deeper: https://lab.turtleand.com/topics/context-is-not-memory/
+
+---
+
+# Planning and decomposition, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/planning-decomposition-control-structures/
+
+Based on: https://lab.turtleand.com/topics/planning-decomposition-control-structures/
+
+Decomposition means breaking a big task into smaller tasks. Control structures decide what happens next after each step.
+
+Why it matters: AI often fails when it tries to solve a large fuzzy job in one jump. Smaller steps make errors easier to catch.
+
+Small safe example: Instead of asking for a complete project plan, ask for goals, risks, milestones, first task, and validation separately.
+
+First moves:
+- Name the final outcome.
+- Split the work into steps.
+- Add a check after each step.
+- Only continue when the check passes.
+
+Common mistake: Asking for a perfect final answer when what you need is a controlled process.
+
+Guardrails:
+- Keep risky actions gated.
+- Verify intermediate outputs.
+- Do not hide uncertainty.
+- Revise the plan when evidence changes.
+
+Go deeper: https://lab.turtleand.com/topics/planning-decomposition-control-structures/
+
+---
+
+# The agent loop, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/agent-loop-controlled-feedback-loop/
+
+Based on: https://lab.turtleand.com/topics/agent-loop-controlled-feedback-loop/
+
+An agent loop is a cycle: look at the state, choose an action, use a tool or produce output, inspect what happened, then decide the next step.
+
+Why it matters: The loop is what makes agents useful and risky. Each turn can compound progress or compound errors.
+
+Small safe example: A coding agent reads a failing test, edits one file, reruns the test, and stops if the result is unclear.
+
+First moves:
+- Define the goal.
+- Limit available tools.
+- Check each result.
+- Stop for human approval at risky points.
+
+Common mistake: Letting the loop continue without a clear success condition.
+
+Guardrails:
+- Use bounded actions.
+- Log tool use.
+- Require checks before continuing.
+- Keep humans responsible for external effects.
+
+Go deeper: https://lab.turtleand.com/topics/agent-loop-controlled-feedback-loop/
+
+---
+
+# Agentic AI systems, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/agentic-ai-systems-learning-path/
+
+Based on: https://lab.turtleand.com/topics/agentic-ai-systems-learning-path/
+
+An agentic system is an AI workflow that can take steps toward a goal by using context, tools, checks, and sometimes memory.
+
+Why it matters: Agents are not magic workers. They are systems that need structure, boundaries, observability, and human responsibility.
+
+Small safe example: Map a research agent as: question, sources, search tool, summary, citation check, human decision.
+
+First moves:
+- Learn the loop.
+- Add tools carefully.
+- Add memory only when needed.
+- Place approvals before risky actions.
+
+Common mistake: Calling any chatbot an agent because it sounds proactive.
+
+Guardrails:
+- Define authority boundaries.
+- Keep tool permissions narrow.
+- Test reliability with real cases.
+- Escalate uncertainty to humans.
+
+Go deeper: https://lab.turtleand.com/topics/agentic-ai-systems-learning-path/
+
+---
+
+# Human agency is not a button, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/human-agency-is-not-a-button/
+
+Based on: https://lab.turtleand.com/topics/human-agency-is-not-a-button/
+
+Human agency means the person keeps meaningful control over direction, boundaries, and consequences. A button only helps if the person has real information and real choice.
+
+Why it matters: A system can look safe while quietly pushing humans to approve things they do not understand.
+
+Small safe example: Before an agent sends an external message, show the draft, source context, risk, and exact action for human approval.
+
+First moves:
+- Decide what humans must control.
+- Give the human enough context.
+- Make approval specific.
+- Make refusal and revision easy.
+
+Common mistake: Adding an approval step after the system already made the important decision.
+
+Guardrails:
+- Use approvals before external effects.
+- Avoid vague yes or no prompts.
+- Keep authority boundaries visible.
+- Respect human override.
+
+Go deeper: https://lab.turtleand.com/topics/human-agency-is-not-a-button/
+
+---
+
+# Smart is not reliable, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/smart-is-not-reliable/
+
+Based on: https://lab.turtleand.com/topics/smart-is-not-reliable/
+
+A smart output can still be inconsistent. Reliability comes from checks, constraints, tests, recovery paths, and clear human escalation.
+
+Why it matters: People overtrust systems that sound fluent. Useful agents need more than intelligence. They need dependable behavior under messy conditions.
+
+Small safe example: A summarizer should cite sources, handle missing data, and say when it cannot answer, not just produce a polished paragraph.
+
+First moves:
+- Define what good looks like.
+- Test on normal and edge cases.
+- Add checks and fallbacks.
+- Track failures and improve the system.
+
+Common mistake: Judging reliability from one impressive demo.
+
+Guardrails:
+- Require verification for important claims.
+- Plan for tool failures.
+- Make uncertainty visible.
+- Escalate repeated failures to humans.
+
+Go deeper: https://lab.turtleand.com/topics/smart-is-not-reliable/
+
+---
+
+# IA para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/
+
+La puerta en lenguaje claro hacia AI Lab para personas que empiezan desde cero.
+
+---
+
+# IA simple, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/simple-ai/
+
+Based on: https://lab.turtleand.com/es/topics/simple-ai/
+
+La IA es software que reconoce patrones y genera salidas útiles a partir del contexto que le das. Puede ayudarte a redactar, comparar, resumir, explicar, programar y planear, pero no se vuelve responsable de la decisión.
+
+Why it matters: Una persona principiante necesita un modelo mental estable antes de aprender herramientas. Si entendés que la IA ayuda pero no manda, todo workflow posterior es más seguro.
+
+Small safe example: Pedile a una herramienta de IA que explique un artículo público en cinco bullets, después compará la respuesta con el artículo y corregí lo que omitió.
+
+First moves:
+- Empezá con material público o inventado.
+- Pedí una explicación simple antes de pedir una respuesta final.
+- Compará la respuesta con la realidad.
+- Decidí qué vas a usar, ignorar o verificar.
+
+Common mistake: Tomar una respuesta segura como prueba. La confianza es estilo, no verificación.
+
+Guardrails:
+- Mantené detalles privados fuera de los primeros experimentos.
+- Usá IA para borradores y opciones antes de decidir.
+- Chequeá afirmaciones importantes con fuentes mejores.
+- Mantené a la persona responsable por gusto, ética y consecuencia.
+
+Go deeper: https://lab.turtleand.com/es/topics/simple-ai/
+
+---
+
+# Empezar con seguridad con herramientas de IA
+
+Route: https://lab.turtleand.com/es/beginners/topics/start-safely-with-ai/
+
+Based on: https://lab.turtleand.com/es/topics/safety-baseline/
+
+La seguridad con IA empieza antes del prompt. Decidí qué no debería ver el sistema y usá material que sea seguro de copiar, guardar o malinterpretar.
+
+Why it matters: El primer hábito durable no es técnica de prompting. Es separar ayuda útil de contexto sensible y decisiones riesgosas.
+
+Small safe example: Usá notas inventadas o un párrafo público para practicar resúmenes. No empieces con datos de cuentas, claves, temas legales o planes privados.
+
+First moves:
+- Usá primero material inocuo.
+- Sacá nombres, datos de cuenta, secretos, direcciones y planes internos.
+- Pedí un borrador, no una respuesta final.
+- Frená cuando la salida afecte a otra persona o una decisión seria.
+
+Common mistake: Pegar contexto privado real porque la tarea parece chica. Los prompts chicos también pueden filtrar información importante.
+
+Guardrails:
+- No pegues secretos ni credenciales.
+- No dejes que la IA apruebe accesos, dinero o acciones irreversibles sola.
+- Verificá respuestas de alto impacto con fuentes autorizadas.
+- Usá ejemplos de bajo riesgo mientras aprendés una herramienta nueva.
+
+Go deeper: https://lab.turtleand.com/es/topics/safety-baseline/
+
+---
+
+# Accesos y secretos, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/access-secrets/
+
+Based on: https://lab.turtleand.com/es/topics/access-secrets/
+
+Un secreto es cualquier valor que permite acceder a una cuenta, servicio, modelo, base de datos o sistema privado. API keys, tokens, contraseñas, claves privadas y códigos de recuperación son secretos.
+
+Why it matters: Muchos workflows con IA necesitan acceso a herramientas. Si el acceso se maneja mal, un workflow útil puede convertirse en un problema de seguridad.
+
+Small safe example: Cuando pidas ayuda con setup, reemplazá una clave real por YOUR_API_KEY y describí dónde está guardada sin compartir el valor.
+
+First moves:
+- Aprendé qué cuenta como secreto.
+- Guardá secretos en el lugar diseñado para eso.
+- Usá placeholders al pedir ayuda.
+- Rotá un secreto si lo expusiste por accidente.
+
+Common mistake: Pensar que un token es seguro porque aparece una sola vez o porque era solo una prueba.
+
+Guardrails:
+- Nunca pegues secretos reales en issues públicos, chats, docs o prompts.
+- No commitees archivos .env salvo ejemplos explícitos sin valores reales.
+- Usá el menor permiso posible.
+- Tratálos secretos filtrados como comprometidos.
+
+Go deeper: https://lab.turtleand.com/es/topics/access-secrets/
+
+---
+
+# Ejecutar IA localmente, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/running-inference-locally/
+
+Based on: https://lab.turtleand.com/es/topics/running-inference-locally/
+
+Ejecutar IA localmente significa usar un modelo en tu propia computadora en vez de enviar cada prompt a un chat alojado. Estás usando un modelo ya entrenado, no entrenando uno nuevo.
+
+Why it matters: La IA local muestra las piezas reales: archivo de modelo, runtime, memoria, velocidad y calidad. Puede dar más control, pero también trae fricción de setup y límites de hardware.
+
+Small safe example: Instalá un runtime, elegí un modelo chico y hacé una pregunta pública sobre la diferencia entre IA local y chat alojado.
+
+First moves:
+- Empezá con un modelo chico.
+- Usá un solo runtime.
+- Hacé una pregunta de prueba segura.
+- Observá el trade-off entre control, privacidad, velocidad y setup.
+
+Common mistake: Probar primero el modelo más grande y confundir fricción de hardware con fracaso personal.
+
+Guardrails:
+- No pegues secretos ni contexto interno sensible.
+- Usá modelos más chicos si el primero es muy lento.
+- Chequeá respuestas antes de confiar.
+- Tratála inferencia local como laboratorio antes de producción.
+
+Go deeper: https://lab.turtleand.com/es/topics/running-inference-locally/
+
+---
+
+# Notificaciones de agentes, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/agent-notifications/
+
+Based on: https://lab.turtleand.com/es/topics/agent-notifications/
+
+Una notificación es el agente levantando la mano. Le dice a la persona que algo terminó, falló o necesita una decisión.
+
+Why it matters: Los agentes pueden correr más tiempo que una respuesta normal de chat. Sin notificaciones, el trabajo útil se pierde y el trabajo riesgoso puede seguir sin atención.
+
+Small safe example: Hacé que un agente avise cuando termina un build local en vez de mirar la terminal todo el tiempo.
+
+First moves:
+- Decidí qué eventos merecen notificación.
+- Mantené silencioso el progreso rutinario.
+- Avisá al completar, bloquearse o pedir aprobación.
+- Hacé que el mensaje sea corto y accionable.
+
+Common mistake: Notificar cada evento chico. Demasiadas alertas entrenan a la persona a ignorar el sistema.
+
+Guardrails:
+- Usá notificaciones para decisiones, no ruido.
+- No incluyas secretos en el texto.
+- Hacé visibles los fallos.
+- Mantené a las personas en control de los pasos riesgosos.
+
+Go deeper: https://lab.turtleand.com/es/topics/agent-notifications/
+
+---
+
+# Dominio de prompts, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/prompt-mastery/
+
+Based on: https://lab.turtleand.com/es/topics/prompt-mastery/
+
+Un prompt es la instrucción y el contexto que le das al modelo. Un buen prompt dice qué querés, qué importa, qué evitar y qué formato ayuda a revisar.
+
+Why it matters: Mucha salida débil de IA empieza con una tarea poco clara. Mejores prompts hacen que el modelo sea más fácil de guiar y revisar.
+
+Small safe example: Pedí el resumen de un artículo público indicando objetivo, audiencia, largo, formato y advertencias.
+
+First moves:
+- Decí el objetivo.
+- Agregá contexto y límites.
+- Dá un ejemplo si podés.
+- Pedí un formato fácil de revisar.
+
+Common mistake: Intentar arreglar una tarea vaga con más palabras en vez de un objetivo más claro.
+
+Guardrails:
+- No agregues datos privados solo para mejorar el contexto.
+- Pedí incertidumbre cuando importan los hechos.
+- Revisá antes de usar la salida afuera.
+- Separá redactar de decidir.
+
+Go deeper: https://lab.turtleand.com/es/topics/prompt-mastery/
+
+---
+
+# Workflows multi-herramienta, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/multi-tool-workflows/
+
+Based on: https://lab.turtleand.com/es/topics/multi-tool-workflows/
+
+Un workflow multi-herramienta divide un trabajo entre herramientas. Una busca, otra resume, otra programa y la persona revisa el resultado.
+
+Why it matters: Distintas herramientas tienen distintas fortalezas. Elegir herramienta por paso hace el workflow más claro y reduce la confianza ciega en una respuesta.
+
+Small safe example: Usá búsqueda para juntar fuentes públicas, un modelo de chat para resumirlas y tu juicio para decidir qué importa.
+
+First moves:
+- Nombrá el trabajo.
+- Dividilo en pasos.
+- Elegí una herramienta por paso.
+- Revisá el resultado combinado antes de actuar.
+
+Common mistake: Usar más herramientas porque parece avanzado. Más herramientas solo ayudan si los pasos están claros.
+
+Guardrails:
+- No muevas datos sensibles por herramientas que no los necesitan.
+- Guardá registro de fuentes.
+- Compará salidas entre herramientas.
+- Mantené el juicio final en la persona.
+
+Go deeper: https://lab.turtleand.com/es/topics/multi-tool-workflows/
+
+---
+
+# Selección de modelos y economía, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/model-selection-economics/
+
+Based on: https://lab.turtleand.com/es/topics/model-selection-economics/
+
+Seleccionar modelo significa elegir el sistema de IA que encaja con el trabajo. Algunos modelos son rápidos y baratos. Otros razonan mejor o sirven más para código, imágenes, contexto largo o voz.
+
+Why it matters: Usar el modelo más fuerte para todo desperdicia cuota y dinero. Usar uno débil para una tarea difícil desperdicia tiempo y puede crear errores sutiles.
+
+Small safe example: Usá un modelo rápido para reescribir una nota corta y uno más fuerte para revisar una arquitectura importante.
+
+First moves:
+- Estimá la dificultad.
+- Usá modelos chicos para borradores y limpieza.
+- Usá modelos fuertes para razonamiento complejo.
+- Registrá si la salida valió el costo.
+
+Common mistake: Tratar un modelo favorito como respuesta para toda tarea.
+
+Guardrails:
+- Escalá cuando la tarea es ambigua o de alto impacto.
+- No optimices costo saltando verificación.
+- Cuidá cuotas y límites.
+- Medí utilidad, no solo velocidad.
+
+Go deeper: https://lab.turtleand.com/es/topics/model-selection-economics/
+
+---
+
+# Voz y workflows multimodales, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/voice-multimodal-workflows/
+
+Based on: https://lab.turtleand.com/es/topics/voice-multimodal-workflows/
+
+La IA multimodal puede trabajar con más que texto. Puede escuchar audio, mirar una imagen, leer una captura, describir un gráfico o responder con voz.
+
+Why it matters: El trabajo real no siempre viene como texto limpio. Voz e imágenes bajan fricción, sobre todo en mobile, cansancio o material visual.
+
+Small safe example: Mandá una captura de un error público y pedí una explicación simple, sin datos de cuenta visibles.
+
+First moves:
+- Elegí el input que encaja con la tarea.
+- Sacá detalles privados de imágenes o audio.
+- Pedí primero una respuesta corta.
+- Verificá después lo importante en texto.
+
+Common mistake: Olvidar que imágenes y audio pueden revelar contexto privado de fondo.
+
+Guardrails:
+- Recortá capturas sensibles.
+- No grabes personas sin consentimiento.
+- Usá voz para borradores, no decisiones irreversibles.
+- Chequeá interpretaciones visuales contra el original.
+
+Go deeper: https://lab.turtleand.com/es/topics/voice-multimodal-workflows/
+
+---
+
+# Colaboración humano-IA, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/human-ai-collaboration-handbook/
+
+Based on: https://lab.turtleand.com/es/topics/human-ai-collaboration-handbook/
+
+Colaborar con IA significa que la persona define dirección, da contexto, revisa salida y decide qué se vuelve real. El modelo ayuda con opciones, borradores y análisis.
+
+Why it matters: La IA es más útil cuando extiende la atención humana en vez de reemplazar la responsabilidad humana.
+
+Small safe example: Pedí tres esquemas posibles, elegí vos la estructura más fuerte y después pedí mejorar solo esa versión.
+
+First moves:
+- Definí vos el objetivo.
+- Pedí opciones antes de pedir copia final.
+- Dá feedback sobre lo que funcionó.
+- Mantené humana la decisión final.
+
+Common mistake: Dejar que el modelo defina el objetivo porque es más rápido que pensar el trabajo.
+
+Guardrails:
+- Usá IA como espejo, no como jefe.
+- No externalices ética ni gusto.
+- Mantené claros los límites privados.
+- Hacé que el artefacto final sea algo que puedas sostener.
+
+Go deeper: https://lab.turtleand.com/es/topics/human-ai-collaboration-handbook/
+
+---
+
+# Pipelines de automatización, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/automation-pipelines/
+
+Based on: https://lab.turtleand.com/es/topics/automation-pipelines/
+
+Un pipeline de automatización es una secuencia de pasos que corre con menos esfuerzo manual. La IA puede ayudar a recolectar, transformar, resumir, redactar o enrutar trabajo.
+
+Why it matters: La automatización compone cuando el proceso está claro. Automatizar un proceso desordenado suele hacer más rápido el desorden.
+
+Small safe example: Creá un workflow semanal que recopile links públicos, los resuma y espere aprobación humana antes de publicar algo.
+
+First moves:
+- Escribí primero el checklist manual.
+- Marcá dónde ayuda la IA.
+- Marcá dónde aprueba una persona.
+- Automatizá solo los pasos estables.
+
+Common mistake: Automatizar antes de saber cómo se ve una salida correcta.
+
+Guardrails:
+- Mantené aprobación antes de acciones públicas o irreversibles.
+- Registrá qué corrió y qué cambió.
+- Empezá con inputs de bajo riesgo.
+- Hacé visibles los fallos.
+
+Go deeper: https://lab.turtleand.com/es/topics/automation-pipelines/
+
+---
+
+# Estilo de vida AI-first, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/ai-first-lifestyle/
+
+Based on: https://lab.turtleand.com/es/topics/ai-first-lifestyle/
+
+Un estilo AI-first significa buscar dónde la IA puede bajar fricción al pensar y crear. No significa dejar que la IA maneje tu vida.
+
+Why it matters: Los hábitos chicos componen. Un briefing matinal, un plan más claro o un checklist de revisión pueden mejorar el día entero sin un sistema gigante.
+
+Small safe example: Pedile a la IA convertir una lista no sensible de tareas en tres prioridades y un riesgo a observar.
+
+First moves:
+- Elegí una fricción diaria.
+- Usá IA para preparar, no decidir.
+- Revisá qué ayudó.
+- Conservá el hábito solo si ahorra atención real.
+
+Common mistake: Agregar IA en todos lados porque está disponible.
+
+Guardrails:
+- Protegé detalles de vida privada.
+- Mantené la agencia en la persona.
+- Evitá métricas falsas de productividad.
+- Usá hábitos que afinen el juicio.
+
+Go deeper: https://lab.turtleand.com/es/topics/ai-first-lifestyle/
+
+---
+
+# Servidores MCP, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/building-mcp-server/
+
+Based on: https://lab.turtleand.com/es/topics/building-mcp-server/
+
+Un servidor MCP es un puente chico entre un cliente de IA y una herramienta o fuente de conocimiento. Expone acciones específicas que la IA puede pedir, no acceso sin control.
+
+Why it matters: El acceso a herramientas es donde la IA se vuelve más útil y más riesgosa. Una interfaz controlada mantiene el sistema entendible.
+
+Small safe example: Exponé una herramienta read-only de búsqueda sobre artículos públicos y dejá que la IA responda usando esos artículos.
+
+First moves:
+- Decidí qué debería poder hacer la IA.
+- Empezá con herramientas read-only.
+- Nombrá inputs y outputs con claridad.
+- Chequeá cada resultado de herramienta antes de usarlo.
+
+Common mistake: Dar acceso amplio porque una herramienta estrecha parece más lenta de diseñar.
+
+Guardrails:
+- Preferí menor privilegio.
+- Registrá llamadas a herramientas.
+- Evitá exponer secretos por salidas de herramientas.
+- Pedí aprobación humana para acciones riesgosas.
+
+Go deeper: https://lab.turtleand.com/es/topics/building-mcp-server/
+
+---
+
+# Memoria institucional viva, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/living-institutional-memory/
+
+Based on: https://lab.turtleand.com/es/topics/living-institutional-memory/
+
+La memoria viva es la práctica de mantener lecciones útiles encontrables y reutilizables, en vez de reaprenderlas cada vez.
+
+Why it matters: Equipos y builders solitarios pierden apalancamiento cuando el conocimiento desaparece en chats, docs viejos o la cabeza de alguien.
+
+Small safe example: Después de resolver un problema recurrente, guardá el patrón reutilizable como checklist corto, no solo como transcripción de chat.
+
+First moves:
+- Capturá la lección.
+- Sacá detalles privados.
+- Escribí el patrón reutilizable.
+- Enlazalo donde el trabajo futuro lo encuentre.
+
+Common mistake: Guardar todo. La memoria funciona cuando está curada, no cuando se vuelve un basurero.
+
+Guardrails:
+- No guardes secretos como memoria.
+- Separá estado temporal de lecciones durables.
+- Mantené artefactos públicos seguros y abstraídos.
+- Revisá memorias viejas por supuestos vencidos.
+
+Go deeper: https://lab.turtleand.com/es/topics/living-institutional-memory/
+
+---
+
+# Agentes persistentes, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/persistent-agents/
+
+Based on: https://lab.turtleand.com/es/topics/persistent-agents/
+
+Un agente persistente es un workflow de IA que puede continuar en el tiempo en vez de responder una vez y desaparecer. Puede tener memoria, tareas programadas o vigilancia de cambios.
+
+Why it matters: La persistencia crea apalancamiento, pero también hace que los errores duren más si los límites son débiles.
+
+Small safe example: Un agente semanal read-only puede preparar un resumen privado y esperar revisión antes de publicar algo.
+
+First moves:
+- Elegí un trabajo estrecho.
+- Definí qué puede leer.
+- Definí qué puede escribir.
+- Decidí cuándo debe preguntar a la persona.
+
+Common mistake: Tratar persistencia como autonomía. Correr más tiempo no significa que el sistema deba decidir más.
+
+Guardrails:
+- Empezá read-only cuando sea posible.
+- Mantené logs y puntos de revisión.
+- No dejes que jobs programados publiquen o desplieguen sin aprobación.
+- Aclarà caminos de detener y revertir.
+
+Go deeper: https://lab.turtleand.com/es/topics/persistent-agents/
+
+---
+
+# Contexto no es memoria, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/context-is-not-memory/
+
+Based on: https://lab.turtleand.com/es/topics/context-is-not-memory/
+
+Contexto es la información disponible en la tarea actual. Memoria es información guardada para reutilizar en tareas futuras.
+
+Why it matters: Un modelo solo puede usar lo que ve o recupera. Más contexto ayuda, pero no es lo mismo que un sistema de memoria confiable.
+
+Small safe example: Pegá una nota pública corta para una respuesta. Guardá solo la lección durable si va a servir después.
+
+First moves:
+- Preguntá qué puede ver el modelo ahora.
+- Decidí qué debería recordarse después.
+- Mantené la memoria corta y durable.
+- Sacá detalles temporales al terminar.
+
+Common mistake: Esperar que un modelo recuerde algo porque apareció en una conversación vieja.
+
+Guardrails:
+- No guardes secretos como memoria.
+- No confundas contexto largo con verdad.
+- Mantené la memoria específica y estable.
+- Usá fuentes cuando importan los hechos.
+
+Go deeper: https://lab.turtleand.com/es/topics/context-is-not-memory/
+
+---
+
+# Planificación y descomposición, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/planning-decomposition-control-structures/
+
+Based on: https://lab.turtleand.com/es/topics/planning-decomposition-control-structures/
+
+Descomponer significa dividir una tarea grande en tareas más chicas. Las estructuras de control deciden qué pasa después de cada paso.
+
+Why it matters: La IA suele fallar cuando intenta resolver un trabajo grande y borroso de un salto. Los pasos chicos hacen que los errores sean más visibles.
+
+Small safe example: En vez de pedir un plan completo, pedí objetivos, riesgos, hitos, primera tarea y validación por separado.
+
+First moves:
+- Nombrá el resultado final.
+- Dividí el trabajo en pasos.
+- Agregá una revisión después de cada paso.
+- Seguí solo cuando la revisión pasa.
+
+Common mistake: Pedir una respuesta final perfecta cuando lo que necesitás es un proceso controlado.
+
+Guardrails:
+- Mantené acciones riesgosas con aprobación.
+- Verificá salidas intermedias.
+- No escondas incertidumbre.
+- Revisá el plan cuando cambie la evidencia.
+
+Go deeper: https://lab.turtleand.com/es/topics/planning-decomposition-control-structures/
+
+---
+
+# El loop de agente, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/agent-loop-controlled-feedback-loop/
+
+Based on: https://lab.turtleand.com/es/topics/agent-loop-controlled-feedback-loop/
+
+Un loop de agente es un ciclo: mirar el estado, elegir una acción, usar una herramienta o producir salida, revisar qué pasó y decidir el próximo paso.
+
+Why it matters: El loop es lo que hace útiles y riesgosos a los agentes. Cada vuelta puede componer progreso o errores.
+
+Small safe example: Un agente de código lee un test fallido, edita un archivo, vuelve a correr el test y frena si el resultado no es claro.
+
+First moves:
+- Definí el objetivo.
+- Limitá las herramientas disponibles.
+- Chequeá cada resultado.
+- Frená para aprobación humana en puntos riesgosos.
+
+Common mistake: Dejar que el loop siga sin una condición clara de éxito.
+
+Guardrails:
+- Usá acciones acotadas.
+- Registrá uso de herramientas.
+- Exigí checks antes de seguir.
+- Mantené a las personas responsables por efectos externos.
+
+Go deeper: https://lab.turtleand.com/es/topics/agent-loop-controlled-feedback-loop/
+
+---
+
+# Sistemas agentic de IA, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/agentic-ai-systems-learning-path/
+
+Based on: https://lab.turtleand.com/es/topics/agentic-ai-systems-learning-path/
+
+Un sistema agentic es un workflow de IA que puede dar pasos hacia un objetivo usando contexto, herramientas, checks y a veces memoria.
+
+Why it matters: Los agentes no son trabajadores mágicos. Son sistemas que necesitan estructura, límites, observabilidad y responsabilidad humana.
+
+Small safe example: Mapeá un agente de investigación como: pregunta, fuentes, herramienta de búsqueda, resumen, chequeo de citas, decisión humana.
+
+First moves:
+- Aprendé el loop.
+- Agregá herramientas con cuidado.
+- Agregá memoria solo cuando haga falta.
+- Poné aprobaciones antes de acciones riesgosas.
+
+Common mistake: Llamar agente a cualquier chatbot porque suena proactivo.
+
+Guardrails:
+- Definí límites de autoridad.
+- Mantené permisos de herramientas estrechos.
+- Probá confiabilidad con casos reales.
+- Escalá incertidumbre a personas.
+
+Go deeper: https://lab.turtleand.com/es/topics/agentic-ai-systems-learning-path/
+
+---
+
+# La agencia humana no es un botón, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/human-agency-is-not-a-button/
+
+Based on: https://lab.turtleand.com/es/topics/human-agency-is-not-a-button/
+
+Agencia humana significa que la persona mantiene control real sobre dirección, límites y consecuencias. Un botón solo ayuda si la persona tiene información y elección real.
+
+Why it matters: Un sistema puede parecer seguro mientras empuja a las personas a aprobar cosas que no entienden.
+
+Small safe example: Antes de que un agente mande un mensaje externo, mostrà el borrador, contexto fuente, riesgo y acción exacta para aprobación.
+
+First moves:
+- Decidí qué deben controlar las personas.
+- Dale a la persona suficiente contexto.
+- Hacé específica la aprobación.
+- Hacé fácil rechazar o revisar.
+
+Common mistake: Agregar aprobación después de que el sistema ya tomó la decisión importante.
+
+Guardrails:
+- Usá aprobaciones antes de efectos externos.
+- Evitá prompts vagos de sí o no.
+- Mantené visibles los límites de autoridad.
+- Respetá el override humano.
+
+Go deeper: https://lab.turtleand.com/es/topics/human-agency-is-not-a-button/
+
+---
+
+# Inteligente no es confiable, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/smart-is-not-reliable/
+
+Based on: https://lab.turtleand.com/es/topics/smart-is-not-reliable/
+
+Una salida inteligente puede seguir siendo inconsistente. La confiabilidad viene de checks, límites, tests, caminos de recuperación y escalamiento humano claro.
+
+Why it matters: La gente sobreconfía en sistemas que suenan fluidos. Los agentes útiles necesitan más que inteligencia. Necesitan comportamiento estable bajo condiciones desordenadas.
+
+Small safe example: Un resumidor debería citar fuentes, manejar datos faltantes y decir cuándo no puede responder, no solo producir un párrafo pulido.
+
+First moves:
+- Definí cómo se ve una buena salida.
+- Probá casos normales y borde.
+- Agregá checks y fallbacks.
+- Registrá fallos y mejorá el sistema.
+
+Common mistake: Juzgar confiabilidad por una demo impresionante.
+
+Guardrails:
+- Exigí verificación para afirmaciones importantes.
+- Planeá fallos de herramientas.
+- Hacé visible la incertidumbre.
+- Escalá fallos repetidos a personas.
+
+Go deeper: https://lab.turtleand.com/es/topics/smart-is-not-reliable/
 
 ---
 
