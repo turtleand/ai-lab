@@ -457,20 +457,6 @@ The human keeps responsibility for:
 
 The system can help you move faster, but you still decide where to go.
 
----
-
-## Teach-back checkpoint
-
-Before moving on, try answering these in your own words:
-
-1. What is AI useful for in one sentence?
-2. Why does human judgment still matter?
-3. Which route fits your current goal: understand, map tools, build systems, or explore the wider ecosystem?
-
-If you can answer those, you are ready for [Module 0](/modules/module-0/).
-
----
-
 ## Facts vs Turtleand interpretation
 
 **Facts:** AI systems can generate text, code, images, audio, summaries, classifications, and tool calls when connected to the right interfaces. Their outputs can be wrong, incomplete, biased, or overconfident.
@@ -2249,15 +2235,6 @@ Deprecating OpenClaw in favor of Hermes is an application of that rule.
 
 The goal is not more automation for its own sake. The goal is a calmer, more reliable system where human direction stays central and AI handles more of the repeatable work around that direction.
 
-## Teach-back checkpoint
-
-Answer these in your own words:
-
-1. Why is a persistent agent not automatically a useful agent?
-2. What does Hermes add that a generic agent experiment does not?
-3. Why does Turtleand treat human review as part of the system rather than a slowdown?
-4. What is one workflow you would keep only if it produces more reviewable leverage than maintenance burden?
-
 ## Facts vs Turtleand interpretation
 
 **Facts:**
@@ -2421,7 +2398,7 @@ A better version:
 1. define the learner outcome
 2. draft the core explanation
 3. add one example
-4. add a teach-back prompt
+4. add a reader-facing practice step
 5. check public safety
 6. verify the route builds
 7. ask for review before publishing
@@ -2614,15 +2591,6 @@ An agent should work the same way:
 
 The human remains responsible for direction, approval, and consequences.
 
-## Teach-back checkpoint
-
-Answer these in your own words:
-
-1. What is the difference between a one-shot chatbot answer and an agent loop?
-2. Why does the agent need to observe the result after acting?
-3. Where should human approval appear in the loop?
-4. What is one action an agent can draft safely, and one action it should not take without approval?
-
 ## Facts vs Turtleand interpretation
 
 **Facts:**
@@ -2683,15 +2651,6 @@ Every added capability adds a verification duty.
 This path is not a case for running agents by default. It is not a shortcut around review, permission, or responsibility. It is not an internal operations manual.
 
 Keep examples generic, reversible, and safe to discuss in public.
-
-## Teach-back checkpoint
-
-Answer in your own words:
-
-1. Why does the loop come before tools?
-2. What changes when an agent gains memory or state?
-3. Which actions need human approval first?
-4. When do multiple agents create more coordination cost than value?
 
 ## Turtleand take
 
@@ -2970,14 +2929,6 @@ Before an agent acts, ask:
 6. What risk level is this?
 7. Is approval required?
 8. Is this action prohibited even if approval is requested?
-
-## Teach-back checkpoint
-
-1. What is the difference between preparation and commitment?
-2. Why is "Should I continue?" a weak approval request?
-3. What is the difference between capability and authority?
-4. What is approval theater?
-5. Give one example of a Level 3 action and one Level 4 prohibited action.
 
 ## Turtleand reflection
 

@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'AI for Beginners';
 const description =
-  'A plain-language doorway into Turtleand AI Lab for people starting from zero while keeping human judgment at the center.';
+  'A practical plain-language path through Turtleand AI Lab for people starting from zero while keeping human judgment at the center.';
 
 const firstPrinciples = [
   {
@@ -15,8 +15,8 @@ const firstPrinciples = [
     body: 'A model can sound confident and still be wrong. The human still checks facts, taste, risk, and consequence.'
   },
   {
-    title: 'AI Lab is the learning path',
-    body: 'The main AI Lab has deeper lessons and technical structure. This doorway rewrites that path for someone starting from zero.'
+    title: 'AI Lab is the deeper path',
+    body: 'The main AI Lab has the full technical structure. This beginner path explains the same ideas in smaller, practical lessons.'
   }
 ];
 
@@ -28,53 +28,120 @@ const humanRoles = [
   'Turn useful learning into a repeatable habit or public artifact.'
 ];
 
-const learningSteps = [
+const starterPractices = [
   {
     label: '1',
-    title: 'Understand the basic idea',
-    body: 'Learn what AI can and cannot do without drowning in technical vocabulary.'
+    title: 'Turn one messy note into a clear summary',
+    body: 'Paste non-sensitive notes, ask for a five-bullet summary, then correct anything the model misunderstood.'
   },
   {
     label: '2',
-    title: 'Use AI for small real tasks',
-    body: 'Summarize something, explain a concept, compare options, or turn messy notes into a clear outline.'
+    title: 'Ask for an explanation at your level',
+    body: 'Use a prompt like: Explain this for a beginner. Include a definition, analogy, why it matters, and one caveat.'
   },
   {
     label: '3',
-    title: 'Build safe habits',
-    body: 'Do not paste sensitive information casually. Verify important answers. Keep humans responsible for decisions.'
+    title: 'Compare two options before deciding',
+    body: 'Ask for trade-offs, risks, and a recommendation. Then make the final call yourself.'
   },
   {
     label: '4',
-    title: 'Move into the main lab',
-    body: 'When the basics feel less mysterious, continue into Module 0 for setup, safety, models, and workflows.'
+    title: 'Create a safe habit',
+    body: 'Before pasting anything, remove private details, secrets, account data, and internal operational context.'
   }
 ];
 
-const routes = [
+const beginnerModules = [
   {
-    title: 'Start the AI Lab path',
-    body: 'Use this when you want the next lesson after the beginner doorway.',
-    href: '/modules/module-0/',
-    cta: 'Open Module 0'
+    module: 'Module 0',
+    title: 'Start safely',
+    mainHref: '/modules/module-0/',
+    body: 'The beginner version of setup, safety, model basics, and the first useful workflows.',
+    lessons: [
+      'What AI can help with today, in plain language.',
+      'How to ask a clear question without learning prompt jargon.',
+      'What not to paste into an AI tool, and why.'
+    ],
+    practice:
+      'Pick one small task, ask AI for help, then mark what was useful, wrong, or risky.'
   },
   {
-    title: 'Read the wider ecosystem map',
-    body: 'Use Portal when you want to see how AI Lab connects to Growth, Build, Handbook, AI Atlas, and Turtleand as a whole.',
-    href: 'https://turtleand.com/',
-    cta: 'Open Portal'
+    module: 'Module 1',
+    title: 'Use AI for everyday work',
+    mainHref: '/modules/module-1/',
+    body: 'Plain-language counterparts to prompting, tool choice, voice, multimodal work, and collaboration habits.',
+    lessons: [
+      'Summarize, rewrite, compare, and plan without giving away judgment.',
+      'Choose between chat, search, voice, image, and coding tools.',
+      'Work with AI as a collaborator, not an authority.'
+    ],
+    practice:
+      'Take one real workflow and split it into goal, context, draft, review, and final decision.'
   },
   {
-    title: 'Compare tools and models',
-    body: 'Use AI Atlas when the question is which tool, model, provider, or interface to explore next.',
-    href: 'https://atlas.turtleand.com/',
-    cta: 'Open AI Atlas'
+    module: 'Module 2',
+    title: 'Build a personal AI operating rhythm',
+    mainHref: '/modules/module-2/',
+    body: 'A beginner bridge into automation, memory, distribution, and repeatable knowledge workflows.',
+    lessons: [
+      'Turn repeated tasks into checklists before automating them.',
+      'Understand the difference between notes, memory, and public artifacts.',
+      'Use AI to prepare work without letting it publish for you.'
+    ],
+    practice:
+      'Choose one repeated weekly task and write the human approval step before any automation step.'
   },
   {
-    title: 'Build practical systems',
-    body: 'Use Build and Hermes when you are ready for implementation notes, agent workflows, and human-in-the-loop operations.',
-    href: 'https://build.turtleand.com/',
-    cta: 'Open Build'
+    module: 'Module 3',
+    title: 'Understand the ideas under the hood',
+    mainHref: '/modules/module-3/',
+    body: 'Beginner explanations for interfaces, inputs, outputs, context, planning, and reasoning patterns.',
+    lessons: [
+      'Why models predict useful text but do not know truth by default.',
+      'Why context is not the same thing as memory.',
+      'How breaking a task into steps improves the answer.'
+    ],
+    practice:
+      'Ask the same question twice: once vague, once with goal, context, constraints, and format. Compare the outputs.'
+  },
+  {
+    module: 'Module 4',
+    title: 'Find and use your knowledge',
+    mainHref: '/modules/module-4/',
+    body: 'A non-technical path into retrieval, document search, chunking, and checking whether answers are grounded.',
+    lessons: [
+      'Why AI needs the right source material before answering about your documents.',
+      'How search, summaries, and citations reduce guessing.',
+      'What to verify before trusting a generated answer.'
+    ],
+    practice:
+      'Give AI a short public article and ask it to answer only from that text. Check if every claim is supported.'
+  },
+  {
+    module: 'Module 5',
+    title: 'Understand agents without the hype',
+    mainHref: '/modules/module-5/',
+    body: 'Beginner versions of agent loops, tool use, control flow, human agency, and reliability.',
+    lessons: [
+      'What makes an agent different from a normal chat.',
+      'Why smart outputs are not the same as reliable systems.',
+      'Where human approval belongs in an agent workflow.'
+    ],
+    practice:
+      'Sketch a simple agent loop: goal, context, tool call, result check, human decision.'
+  },
+  {
+    module: 'Module 6',
+    title: 'Move from experiments to products',
+    mainHref: '/modules/module-6/',
+    body: 'A beginner bridge into local models, deployment, evaluation, and shipping useful AI systems.',
+    lessons: [
+      'Why a demo is not the same thing as a dependable product.',
+      'How to test outputs before trusting a workflow.',
+      'What changes when other people depend on the system.'
+    ],
+    practice:
+      'Write three checks a workflow must pass before another person should use it.'
   }
 ];
 ---
@@ -87,34 +154,34 @@ const routes = [
       <p class="hero-badge">Beginner doorway</p>
       <h1 id="beginners-title">AI for Beginners</h1>
       <p>
-        A plain-language entrance into Turtleand AI Lab for people starting from
-        zero. The goal is to make AI understandable without removing the human
-        from the center.
+        A practical entrance into Turtleand AI Lab for people starting from
+        zero. The goal is to make AI usable, understandable, and human-led from
+        the first lesson.
       </p>
       <div class="cta" aria-label="Beginner page actions">
-        <a class="primary" href="/modules/module-0/">Continue to Module 0</a>
-        <a href="#route-map">Choose your route</a>
+        <a class="primary" href="#beginner-lessons">Browse beginner lessons</a>
+        <a href="/modules/module-0/">Open the full AI Lab path</a>
       </div>
     </div>
   </section>
 
-  <section class="card featured" aria-labelledby="page-philosophy">
+  <section class="card featured" aria-labelledby="page-purpose">
     <div class="section-title">
       <div>
-        <p class="pill inline">Philosophy</p>
-        <h2 id="page-philosophy">What this page is</h2>
+        <p class="pill inline">Purpose</p>
+        <h2 id="page-purpose">What this page is for</h2>
       </div>
     </div>
     <p>
-      This page is a beginner doorway into Turtleand's AI Lab. It is based on
-      the ideas, lessons, and structure of the main AI Lab, but rewritten for
-      people starting from zero.
+      This page is not a separate philosophy page. It is the beginner version of
+      the AI Lab curriculum: the same module hierarchy where it makes sense,
+      rewritten as smaller lessons for people who do not yet have the technical
+      vocabulary.
     </p>
     <p>
-      The content may use AI as a drafting and organizing tool, but it is not
-      detached from Turtleand's participation, judgment, or worldview. AI helps
-      shape the material. Turtleand remains responsible for direction, taste,
-      validation, and meaning.
+      Each beginner article should sit beside a main AI Lab idea. The beginner
+      version explains the idea, shows a small safe use case, and gives a simple
+      practice step before sending the reader deeper into the full module.
     </p>
   </section>
 
@@ -174,16 +241,16 @@ const routes = [
     </ul>
   </section>
 
-  <section class="card" aria-labelledby="learning-path">
+  <section class="card" aria-labelledby="starter-practice">
     <div class="section-title">
       <div>
-        <p class="pill inline">Learning path</p>
-        <h2 id="learning-path">How to move from zero</h2>
+        <p class="pill inline">Start here</p>
+        <h2 id="starter-practice">Four practical first moves</h2>
       </div>
     </div>
     <div class="stacked">
       {
-        learningSteps.map((step) => (
+        starterPractices.map((step) => (
           <article class="log-entry">
             <strong>
               {step.label}. {step.title}
@@ -195,47 +262,61 @@ const routes = [
     </div>
   </section>
 
-  <section class="card" aria-labelledby="route-map" id="route-map">
+  <section
+    class="card"
+    aria-labelledby="beginner-lessons"
+    id="beginner-lessons"
+  >
     <div class="section-title">
       <div>
-        <p class="pill inline">Route map</p>
-        <h2 id="route-map">Choose your next route</h2>
+        <p class="pill inline">Beginner lesson spine</p>
+        <h2 id="beginner-lessons">The AI Lab path, explained for beginners</h2>
       </div>
     </div>
-    <ul class="subtopic-list">
+    <p>
+      These are the beginner article lanes for AI Lab. They follow the main
+      module order as closely as useful, but each lane starts with plain
+      language, a practical use case, and a safety habit before going deeper.
+    </p>
+    <div class="stacked">
       {
-        routes.map((route) => (
-          <li class="subtopic-bullet module-link-bullet">
-            <a class="subtopic-link" href={route.href}>
-              <span class="bullet-dot" aria-hidden="true" />
-              <div>
-                <div class="subtopic-title">{route.title}</div>
-                <p>{route.body}</p>
-                <p>{route.cta} →</p>
-              </div>
-            </a>
-          </li>
+        beginnerModules.map((module) => (
+          <article class="log-entry">
+            <p class="pill inline">{module.module}</p>
+            <h3>{module.title}</h3>
+            <p>{module.body}</p>
+            <ul>
+              {module.lessons.map((lesson) => (
+                <li>{lesson}</li>
+              ))}
+            </ul>
+            <p>
+              <strong>Practice:</strong> {module.practice}
+            </p>
+            <p>
+              <a href={module.mainHref}>Open the full {module.module} →</a>
+            </p>
+          </article>
         ))
       }
-    </ul>
+    </div>
   </section>
 
-  <section class="card" aria-labelledby="checkpoint">
+  <section class="card" aria-labelledby="next-step">
     <div class="section-title">
       <div>
-        <p class="pill inline">Checkpoint</p>
-        <h2 id="checkpoint">Teach it back</h2>
+        <p class="pill inline">Next step</p>
+        <h2 id="next-step">When you are ready to go deeper</h2>
       </div>
     </div>
-    <p>Before moving on, answer these in your own words:</p>
-    <ol>
-      <li>What is AI useful for in one sentence?</li>
-      <li>Why does human judgment still matter?</li>
-      <li>Which route fits your current goal?</li>
-    </ol>
     <p>
-      If those answers feel clear, continue to
-      <a href="/modules/module-0/">Module 0</a>.
+      Start with the beginner practice that matches your current task. When the
+      idea feels clear enough to use, continue into the matching AI Lab module
+      for the fuller technical version.
     </p>
+    <div class="cta" aria-label="Next beginner actions">
+      <a class="primary" href="/modules/module-0/">Open Module 0</a>
+      <a href="https://atlas.turtleand.com/">Compare tools in AI Atlas</a>
+    </div>
   </section>
 </BaseLayout>
