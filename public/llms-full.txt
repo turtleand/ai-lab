@@ -2275,116 +2275,82 @@ Answer these in your own words:
 
 Module: Module 3: Builder Foundations
 
-## The intuition
+## Core idea
 
 Context is what the model can see right now.
 
-Memory is what a system decides is worth carrying forward.
+Memory is what the system carries forward.
 
-Those sound similar, but they are not the same. A long context window can hold more text, but it does not automatically decide what is true, current, relevant, safe, or worth remembering. A memory store can preserve useful facts, but it can also preserve stale assumptions and contaminated notes.
+A bigger context window gives the model more room. It does not decide what is true, current, relevant, private, or worth keeping. Memory only helps when it is curated. Otherwise it becomes stale residue that keeps returning to future tasks.
 
-A serious agent system needs information governance, not just more tokens.
+Serious agents need information governance, not just more tokens.
 
-## A simple mental model
+## Desk vs filing cabinet
 
-Think of context like a desk.
+Think of context as a desk. Think of memory as a filing cabinet.
 
-Think of memory like a filing cabinet.
+A bigger desk lets you spread out more papers. It does not tell you which papers are outdated, duplicated, private, or wrong.
 
-A bigger desk lets you spread out more papers. That helps, but it does not tell you which papers are outdated, duplicated, private, or wrong. A filing cabinet helps across days and projects, but it only improves work if the labels, cleanup rules, and retrieval habits are good.
+A filing cabinet helps across days and projects, but only if the labels and cleanup rules are good.
 
-Agents need both:
+Agents need:
 
 - a clean desk for the current task
-- a well-maintained cabinet for durable knowledge
-- rules for what should never be placed in either one
+- a small cabinet for durable knowledge
+- rules for what should never enter either one
 
-## The main distinction
+## The distinction
 
-**Context** is short-term working input. It includes the current prompt, instructions, retrieved documents, tool results, files, and recent conversation turns.
+**Context** is short-term working input: the current prompt, instructions, retrieved files, tool results, and recent conversation.
 
-**Memory** is longer-lived state. It may include user preferences, project conventions, prior decisions, facts about an environment, or summaries from previous work.
+**Memory** is longer-lived state: user preferences, project conventions, stable facts, prior decisions, or lessons that should influence future work.
 
-**Governance** is the discipline that decides what enters, what stays, what expires, what needs verification, and what should be ignored.
-
-Without governance, bigger context can simply make the agent wrong with more confidence.
-
-## Why bigger context windows are not enough
-
-A larger context window solves one problem: the model can inspect more material in a single call.
-
-It does not solve these problems by itself:
-
-1. **Staleness:** old information can look current if it is still present.
-2. **Conflicting sources:** two notes can disagree, and the model still needs a rule for which one wins.
-3. **Noise:** irrelevant details can distract from the actual task.
-4. **Privacy:** not every stored detail belongs in every prompt.
-5. **Authority:** retrieved text may be tool output, a draft, a user correction, or an untrusted page.
-6. **Lifecycle:** some facts should expire, some should be rechecked, and some should become stable doctrine.
+**Governance** decides what enters, what expires, what needs verification, and what should stay out.
 
 More context increases capacity. It does not create judgment.
 
-## A harmless example
-
-Imagine an agent helping a student write a study plan.
-
-Useful context:
-
-- today's topic
-- the student's time limit
-- the current notes
-- the assignment instructions
-
-Useful memory:
-
-- the student prefers examples before definitions
-- the student is learning at a beginner level
-- the student struggles when a lesson skips prerequisites
-
-Bad memory:
-
-- an old note saying the exam is on Friday when the date changed
-- a vague claim that the student hates diagrams
-- a copied paragraph from a source that was never verified
-
-The agent should not just dump all of this into the next prompt. It should retrieve the parts that matter, flag uncertain items, and let corrected information replace stale information.
-
-## Information governance rules
-
-A practical agent memory system needs a few rules:
-
-1. **Source labels:** where did this information come from?
-2. **Freshness labels:** when was it last checked?
-3. **Scope labels:** is it global, project-specific, task-specific, or private?
-4. **Authority labels:** is it a user correction, tool result, public source, assumption, or draft?
-5. **Expiry rules:** when should this be revalidated or removed?
-6. **Retrieval rules:** when is this useful enough to bring into context?
-7. **Safety rules:** what should never be stored or injected?
-
-This is not bureaucracy. It is reasoning hygiene.
-
 ## What can go wrong
 
-Agent systems fail when memory becomes a junk drawer.
+Bad memory systems fail in predictable ways:
 
-Common failure modes:
+- old facts look current
+- temporary progress gets saved as durable truth
+- private details appear in the wrong task
+- conflicting notes are treated as equal
+- one bad assumption contaminates many future answers
+- too much old material drowns the actual problem
 
-- treating every previous note as equally true
-- retrieving too much old material into every task
-- saving temporary task progress as durable memory
-- letting one wrong assumption contaminate many future answers
-- storing private details that should stay out of public work
-- confusing a summary of a session with validated knowledge
+The danger is not only that an agent forgets. Sometimes the danger is that it remembers the wrong thing too well.
 
-The danger is not that the agent forgets. Sometimes the danger is that it remembers the wrong thing too well.
+## A simple example
+
+A study-planning agent may need today's topic, the student's time limit, and the assignment instructions in context.
+
+It may also remember that the student prefers examples before definitions and is still a beginner.
+
+It should not blindly inject every old note. If an old exam date changed, that note should expire. If a preference is vague, it should be treated as uncertain. If the user corrects something, the correction should replace the stale memory.
+
+## Builder checklist
+
+Before adding memory to an agent system, ask:
+
+1. Where did this information come from?
+2. When was it last checked?
+3. Is it global, project-specific, task-specific, or private?
+4. Is it fact, assumption, summary, or user correction?
+5. When should it expire?
+6. When is it useful enough to retrieve?
+7. Should it be stored at all?
+
+This is not bureaucracy. It is reasoning hygiene.
 
 ## Beginner checkpoint
 
 Answer in your own words:
 
 1. What is the difference between context and memory?
-2. Why can a bigger context window still produce bad reasoning?
-3. What kind of information should expire instead of becoming durable memory?
+2. Why is a bigger context window not enough?
+3. What kind of information should expire?
 4. Why should memory retrieval be selective?
 
 ## Turtleand take
@@ -2395,211 +2361,137 @@ The goal is not to remember everything. The goal is to preserve the few things t
 
 Humans remain responsible for deciding what deserves durable weight.
 
-## Facts vs Turtleand interpretation
-
-**Facts:**
-
-- A model call can only reason over the information provided to it at that time.
-- Agent systems often use external stores, files, databases, summaries, or retrieval layers to carry information across tasks.
-- Retrieved information can be stale, incomplete, conflicting, or irrelevant.
-
-**Turtleand interpretation:**
-
-- Memory is not valuable because it is persistent. It is valuable when it is curated.
-- Context windows expand the workspace, but governance keeps the workspace clean.
-- Human agency improves when systems make information provenance, freshness, and scope visible.
-
 ---
 
 # Planning and decomposition as control structures for agents
 
 Module: Module 3: Builder Foundations
 
-## The intuition
+## Core idea
 
 A plan is not proof that an agent knows what it is doing.
 
 A good plan is a control structure. It helps the agent decide what to do next, what to check, when to stop, and when to ask a human.
 
-Without planning, an agent can become chaotic. It jumps from action to action because each step looks locally useful.
+Too little planning creates chaos. Too much planning creates rigidity. The goal is controlled adaptation.
 
-With too much planning, an agent can become rigid. It follows a stale outline even after reality changes.
+## The loop
 
-The goal is not more planning. The goal is controlled adaptation.
-
-## A simple mental model
-
-Think of planning like a route for a hike.
-
-You want a map before you start. You want checkpoints along the way. You also want to notice weather, blocked paths, fatigue, and wrong turns.
-
-A bad agent treats the plan like a script.
-
-A better agent treats the plan like a working hypothesis.
+Treat a plan like a hiking route, not a script. You want a map, but you still need to notice weather, blocked paths, fatigue, and wrong turns.
 
 ```text
 goal
   ↓
-decompose into steps
+break into small steps
   ↓
-do the next small step
+do the next step
   ↓
 check reality
   ↓
 keep, revise, stop, or ask
 ```
 
+The plan controls the work. Feedback controls the plan.
+
 ## What decomposition does
 
-Decomposition means splitting a goal into smaller work units.
+Decomposition splits a goal into smaller work units.
 
-For agents, this is useful because smaller units are easier to:
+Small units are easier to:
 
 - inspect
 - test
 - pause
-- hand off
 - recover from
-- explain to a human
+- explain
+- hand to a human for review
 
-A vague instruction like "build the lesson" is hard to control.
+"Build the lesson" is hard to control.
 
-A decomposed version is easier:
+A better version:
 
-1. identify the learner outcome
+1. define the learner outcome
 2. draft the core explanation
-3. add a harmless example
-4. add a teach-back checkpoint
+3. add one example
+4. add a teach-back prompt
 5. check public safety
 6. verify the route builds
 7. ask for review before publishing
 
-Each step has a purpose and a possible verification point.
+Each step has a purpose and a check.
 
-## Planning as a control structure
+## The four controls
 
-A plan controls an agent by answering four questions:
+A useful agent plan answers four questions:
 
-1. **Order:** what should happen first, second, and last?
-2. **Scope:** what work is inside the task, and what is out of bounds?
-3. **Verification:** how will the agent know a step actually worked?
-4. **Escalation:** when should the agent stop and ask a human?
+1. **Order:** what happens first, next, and last?
+2. **Scope:** what is inside the task, and what is out?
+3. **Verification:** how will the agent know a step worked?
+4. **Escalation:** when should it stop and ask a human?
 
 That makes planning part of reliability, not just organization.
 
-## The failure modes
+## Failure modes
 
-Planning fails in two opposite ways.
+Too little structure:
 
-### Too little structure
-
-The agent acts from moment to moment.
-
-Symptoms:
-
-- starts writing before understanding the goal
+- starts before understanding the goal
 - calls tools without knowing what result is needed
-- fixes visible symptoms instead of root causes
-- produces many partial artifacts without a clear finish line
+- fixes symptoms instead of causes
+- produces partial artifacts with no finish line
 
-### Too much structure
+Too much structure:
 
-The agent obeys the initial plan after the facts change.
+- continues after a prerequisite fails
+- ignores test results because the plan says to move on
+- treats a checklist as judgment
+- avoids asking the human at the risky moment
 
-Symptoms:
+Good planning sits between drift and autopilot.
 
-- continues after a prerequisite failed
-- ignores test results because the next step was already written
-- treats a checklist as a substitute for judgment
-- resists asking the human because the plan says to continue
+## Human checkpoints
 
-Good planning sits between these extremes.
+Human review belongs inside the plan.
 
-## A harmless example
+Agents can draft, test, and revise low-risk work. Higher-risk actions need explicit review before they happen:
 
-Imagine an agent helping a learner prepare for a short quiz.
+- publishing
+- sending messages
+- spending money
+- deleting data
+- changing production systems
+- presenting uncertain claims as facts
 
-Bad approach:
+The point is not to slow everything down. The point is to put judgment at the boundary where consequences increase.
 
-- generate ten questions immediately
-- assume the topic is understood
-- never check which answers were missed
-
-Better approach:
-
-1. ask or infer the target concept
-2. explain the concept in one paragraph
-3. create three questions from easy to hard
-4. grade the answers
-5. identify the weak spot
-6. revise the next question based on the weak spot
-7. stop when the learner can explain the idea back
-
-The plan controls the work, but feedback controls the plan.
-
-## Human-centered planning
-
-A plan should make human agency clearer, not hide it.
-
-For low-risk work, the agent can draft, test, and revise.
-
-For high-risk work, the plan should include explicit review points before external action.
-
-Examples of review points:
-
-- before publishing
-- before sending a message
-- before spending money
-- before deleting data
-- before changing production systems
-- before presenting uncertain claims as facts
-
-Human review is not outside the plan. It is one of the plan's control points.
-
-## Planning checklist for agent builders
+## Builder checklist
 
 Before letting an agent run a plan, ask:
 
-1. Is the goal specific enough?
+1. Is the goal specific?
 2. Are the steps small enough to verify?
 3. Is there a stop condition?
-4. Are risky actions gated by human approval?
+4. Are risky actions gated by approval?
 5. Can the agent revise the plan when evidence changes?
 6. Is the final artifact observable?
 
-If the answer is no, the plan may create motion without control.
+If not, the plan may create motion without control.
 
 ## Beginner checkpoint
 
 Answer in your own words:
 
-1. Why is a plan not the same as proof?
-2. How does decomposition make agent work easier to verify?
-3. What is one sign that an agent is too chaotic?
-4. What is one sign that an agent is too rigid?
-5. Where should human approval appear in a plan?
+1. Why is a plan not proof?
+2. How does decomposition improve verification?
+3. What is one sign of a chaotic agent?
+4. What is one sign of a rigid agent?
+5. Where should human approval appear?
 
 ## Turtleand take
 
 Planning is the steering layer between intention and action.
 
-Agent systems should not worship plans. They should use plans to keep work bounded, observable, reversible, and reviewable.
-
-The best agent is not the one that follows the first plan perfectly. It is the one that can keep direction while updating from reality.
-
-## Facts vs Turtleand interpretation
-
-**Facts:**
-
-- Agent workflows often break tasks into steps before calling tools or producing artifacts.
-- Smaller steps are easier to verify than broad, ambiguous goals.
-- Tool results, errors, tests, and human feedback can change what the next step should be.
-
-**Turtleand interpretation:**
-
-- Planning is a control surface, not just a productivity habit.
-- Decomposition protects human agency because it creates natural review points.
-- A useful agent plan must be structured enough to guide action and flexible enough to respond to evidence.
+Useful agents do not worship plans. They use plans to keep work bounded, observable, reversible, and reviewable while still updating from reality.
 
 ---
 

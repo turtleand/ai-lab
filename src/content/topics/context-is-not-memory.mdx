@@ -2,120 +2,86 @@
 title: 'Context is not memory'
 module: 'Module 3: Builder Foundations'
 subtopic: 'context-is-not-memory'
-summary: 'Why large context windows and stored memories are not enough for reliable agents, and why information governance matters.'
+summary: 'Why agents need curated memory, not just bigger context windows.'
 status: 'in-progress'
 ---
 
-## The intuition
+## Core idea
 
 Context is what the model can see right now.
 
-Memory is what a system decides is worth carrying forward.
+Memory is what the system carries forward.
 
-Those sound similar, but they are not the same. A long context window can hold more text, but it does not automatically decide what is true, current, relevant, safe, or worth remembering. A memory store can preserve useful facts, but it can also preserve stale assumptions and contaminated notes.
+A bigger context window gives the model more room. It does not decide what is true, current, relevant, private, or worth keeping. Memory only helps when it is curated. Otherwise it becomes stale residue that keeps returning to future tasks.
 
-A serious agent system needs information governance, not just more tokens.
+Serious agents need information governance, not just more tokens.
 
-## A simple mental model
+## Desk vs filing cabinet
 
-Think of context like a desk.
+Think of context as a desk. Think of memory as a filing cabinet.
 
-Think of memory like a filing cabinet.
+A bigger desk lets you spread out more papers. It does not tell you which papers are outdated, duplicated, private, or wrong.
 
-A bigger desk lets you spread out more papers. That helps, but it does not tell you which papers are outdated, duplicated, private, or wrong. A filing cabinet helps across days and projects, but it only improves work if the labels, cleanup rules, and retrieval habits are good.
+A filing cabinet helps across days and projects, but only if the labels and cleanup rules are good.
 
-Agents need both:
+Agents need:
 
 - a clean desk for the current task
-- a well-maintained cabinet for durable knowledge
-- rules for what should never be placed in either one
+- a small cabinet for durable knowledge
+- rules for what should never enter either one
 
-## The main distinction
+## The distinction
 
-**Context** is short-term working input. It includes the current prompt, instructions, retrieved documents, tool results, files, and recent conversation turns.
+**Context** is short-term working input: the current prompt, instructions, retrieved files, tool results, and recent conversation.
 
-**Memory** is longer-lived state. It may include user preferences, project conventions, prior decisions, facts about an environment, or summaries from previous work.
+**Memory** is longer-lived state: user preferences, project conventions, stable facts, prior decisions, or lessons that should influence future work.
 
-**Governance** is the discipline that decides what enters, what stays, what expires, what needs verification, and what should be ignored.
-
-Without governance, bigger context can simply make the agent wrong with more confidence.
-
-## Why bigger context windows are not enough
-
-A larger context window solves one problem: the model can inspect more material in a single call.
-
-It does not solve these problems by itself:
-
-1. **Staleness:** old information can look current if it is still present.
-2. **Conflicting sources:** two notes can disagree, and the model still needs a rule for which one wins.
-3. **Noise:** irrelevant details can distract from the actual task.
-4. **Privacy:** not every stored detail belongs in every prompt.
-5. **Authority:** retrieved text may be tool output, a draft, a user correction, or an untrusted page.
-6. **Lifecycle:** some facts should expire, some should be rechecked, and some should become stable doctrine.
+**Governance** decides what enters, what expires, what needs verification, and what should stay out.
 
 More context increases capacity. It does not create judgment.
 
-## A harmless example
-
-Imagine an agent helping a student write a study plan.
-
-Useful context:
-
-- today's topic
-- the student's time limit
-- the current notes
-- the assignment instructions
-
-Useful memory:
-
-- the student prefers examples before definitions
-- the student is learning at a beginner level
-- the student struggles when a lesson skips prerequisites
-
-Bad memory:
-
-- an old note saying the exam is on Friday when the date changed
-- a vague claim that the student hates diagrams
-- a copied paragraph from a source that was never verified
-
-The agent should not just dump all of this into the next prompt. It should retrieve the parts that matter, flag uncertain items, and let corrected information replace stale information.
-
-## Information governance rules
-
-A practical agent memory system needs a few rules:
-
-1. **Source labels:** where did this information come from?
-2. **Freshness labels:** when was it last checked?
-3. **Scope labels:** is it global, project-specific, task-specific, or private?
-4. **Authority labels:** is it a user correction, tool result, public source, assumption, or draft?
-5. **Expiry rules:** when should this be revalidated or removed?
-6. **Retrieval rules:** when is this useful enough to bring into context?
-7. **Safety rules:** what should never be stored or injected?
-
-This is not bureaucracy. It is reasoning hygiene.
-
 ## What can go wrong
 
-Agent systems fail when memory becomes a junk drawer.
+Bad memory systems fail in predictable ways:
 
-Common failure modes:
+- old facts look current
+- temporary progress gets saved as durable truth
+- private details appear in the wrong task
+- conflicting notes are treated as equal
+- one bad assumption contaminates many future answers
+- too much old material drowns the actual problem
 
-- treating every previous note as equally true
-- retrieving too much old material into every task
-- saving temporary task progress as durable memory
-- letting one wrong assumption contaminate many future answers
-- storing private details that should stay out of public work
-- confusing a summary of a session with validated knowledge
+The danger is not only that an agent forgets. Sometimes the danger is that it remembers the wrong thing too well.
 
-The danger is not that the agent forgets. Sometimes the danger is that it remembers the wrong thing too well.
+## A simple example
+
+A study-planning agent may need today's topic, the student's time limit, and the assignment instructions in context.
+
+It may also remember that the student prefers examples before definitions and is still a beginner.
+
+It should not blindly inject every old note. If an old exam date changed, that note should expire. If a preference is vague, it should be treated as uncertain. If the user corrects something, the correction should replace the stale memory.
+
+## Builder checklist
+
+Before adding memory to an agent system, ask:
+
+1. Where did this information come from?
+2. When was it last checked?
+3. Is it global, project-specific, task-specific, or private?
+4. Is it fact, assumption, summary, or user correction?
+5. When should it expire?
+6. When is it useful enough to retrieve?
+7. Should it be stored at all?
+
+This is not bureaucracy. It is reasoning hygiene.
 
 ## Beginner checkpoint
 
 Answer in your own words:
 
 1. What is the difference between context and memory?
-2. Why can a bigger context window still produce bad reasoning?
-3. What kind of information should expire instead of becoming durable memory?
+2. Why is a bigger context window not enough?
+3. What kind of information should expire?
 4. Why should memory retrieval be selective?
 
 ## Turtleand take
@@ -125,17 +91,3 @@ Agent memory should compound judgment, not accumulate residue.
 The goal is not to remember everything. The goal is to preserve the few things that make future work clearer, safer, and more coherent.
 
 Humans remain responsible for deciding what deserves durable weight.
-
-## Facts vs Turtleand interpretation
-
-**Facts:**
-
-- A model call can only reason over the information provided to it at that time.
-- Agent systems often use external stores, files, databases, summaries, or retrieval layers to carry information across tasks.
-- Retrieved information can be stale, incomplete, conflicting, or irrelevant.
-
-**Turtleand interpretation:**
-
-- Memory is not valuable because it is persistent. It is valuable when it is curated.
-- Context windows expand the workspace, but governance keeps the workspace clean.
-- Human agency improves when systems make information provenance, freshness, and scope visible.

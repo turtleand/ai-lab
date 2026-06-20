@@ -2,192 +2,132 @@
 title: 'Planning and decomposition as control structures for agents'
 module: 'Module 3: Builder Foundations'
 subtopic: 'planning-decomposition-control-structures'
-summary: 'How agents use plans to control work without becoming rigid, chaotic, or detached from feedback.'
+summary: 'How plans keep agent work bounded, observable, and adaptable.'
 status: 'in-progress'
 ---
 
-## The intuition
+## Core idea
 
 A plan is not proof that an agent knows what it is doing.
 
 A good plan is a control structure. It helps the agent decide what to do next, what to check, when to stop, and when to ask a human.
 
-Without planning, an agent can become chaotic. It jumps from action to action because each step looks locally useful.
+Too little planning creates chaos. Too much planning creates rigidity. The goal is controlled adaptation.
 
-With too much planning, an agent can become rigid. It follows a stale outline even after reality changes.
+## The loop
 
-The goal is not more planning. The goal is controlled adaptation.
-
-## A simple mental model
-
-Think of planning like a route for a hike.
-
-You want a map before you start. You want checkpoints along the way. You also want to notice weather, blocked paths, fatigue, and wrong turns.
-
-A bad agent treats the plan like a script.
-
-A better agent treats the plan like a working hypothesis.
+Treat a plan like a hiking route, not a script. You want a map, but you still need to notice weather, blocked paths, fatigue, and wrong turns.
 
 ```text
 goal
   ↓
-decompose into steps
+break into small steps
   ↓
-do the next small step
+do the next step
   ↓
 check reality
   ↓
 keep, revise, stop, or ask
 ```
 
+The plan controls the work. Feedback controls the plan.
+
 ## What decomposition does
 
-Decomposition means splitting a goal into smaller work units.
+Decomposition splits a goal into smaller work units.
 
-For agents, this is useful because smaller units are easier to:
+Small units are easier to:
 
 - inspect
 - test
 - pause
-- hand off
 - recover from
-- explain to a human
+- explain
+- hand to a human for review
 
-A vague instruction like "build the lesson" is hard to control.
+"Build the lesson" is hard to control.
 
-A decomposed version is easier:
+A better version:
 
-1. identify the learner outcome
+1. define the learner outcome
 2. draft the core explanation
-3. add a harmless example
-4. add a teach-back checkpoint
+3. add one example
+4. add a teach-back prompt
 5. check public safety
 6. verify the route builds
 7. ask for review before publishing
 
-Each step has a purpose and a possible verification point.
+Each step has a purpose and a check.
 
-## Planning as a control structure
+## The four controls
 
-A plan controls an agent by answering four questions:
+A useful agent plan answers four questions:
 
-1. **Order:** what should happen first, second, and last?
-2. **Scope:** what work is inside the task, and what is out of bounds?
-3. **Verification:** how will the agent know a step actually worked?
-4. **Escalation:** when should the agent stop and ask a human?
+1. **Order:** what happens first, next, and last?
+2. **Scope:** what is inside the task, and what is out?
+3. **Verification:** how will the agent know a step worked?
+4. **Escalation:** when should it stop and ask a human?
 
 That makes planning part of reliability, not just organization.
 
-## The failure modes
+## Failure modes
 
-Planning fails in two opposite ways.
+Too little structure:
 
-### Too little structure
-
-The agent acts from moment to moment.
-
-Symptoms:
-
-- starts writing before understanding the goal
+- starts before understanding the goal
 - calls tools without knowing what result is needed
-- fixes visible symptoms instead of root causes
-- produces many partial artifacts without a clear finish line
+- fixes symptoms instead of causes
+- produces partial artifacts with no finish line
 
-### Too much structure
+Too much structure:
 
-The agent obeys the initial plan after the facts change.
+- continues after a prerequisite fails
+- ignores test results because the plan says to move on
+- treats a checklist as judgment
+- avoids asking the human at the risky moment
 
-Symptoms:
+Good planning sits between drift and autopilot.
 
-- continues after a prerequisite failed
-- ignores test results because the next step was already written
-- treats a checklist as a substitute for judgment
-- resists asking the human because the plan says to continue
+## Human checkpoints
 
-Good planning sits between these extremes.
+Human review belongs inside the plan.
 
-## A harmless example
+Agents can draft, test, and revise low-risk work. Higher-risk actions need explicit review before they happen:
 
-Imagine an agent helping a learner prepare for a short quiz.
+- publishing
+- sending messages
+- spending money
+- deleting data
+- changing production systems
+- presenting uncertain claims as facts
 
-Bad approach:
+The point is not to slow everything down. The point is to put judgment at the boundary where consequences increase.
 
-- generate ten questions immediately
-- assume the topic is understood
-- never check which answers were missed
-
-Better approach:
-
-1. ask or infer the target concept
-2. explain the concept in one paragraph
-3. create three questions from easy to hard
-4. grade the answers
-5. identify the weak spot
-6. revise the next question based on the weak spot
-7. stop when the learner can explain the idea back
-
-The plan controls the work, but feedback controls the plan.
-
-## Human-centered planning
-
-A plan should make human agency clearer, not hide it.
-
-For low-risk work, the agent can draft, test, and revise.
-
-For high-risk work, the plan should include explicit review points before external action.
-
-Examples of review points:
-
-- before publishing
-- before sending a message
-- before spending money
-- before deleting data
-- before changing production systems
-- before presenting uncertain claims as facts
-
-Human review is not outside the plan. It is one of the plan's control points.
-
-## Planning checklist for agent builders
+## Builder checklist
 
 Before letting an agent run a plan, ask:
 
-1. Is the goal specific enough?
+1. Is the goal specific?
 2. Are the steps small enough to verify?
 3. Is there a stop condition?
-4. Are risky actions gated by human approval?
+4. Are risky actions gated by approval?
 5. Can the agent revise the plan when evidence changes?
 6. Is the final artifact observable?
 
-If the answer is no, the plan may create motion without control.
+If not, the plan may create motion without control.
 
 ## Beginner checkpoint
 
 Answer in your own words:
 
-1. Why is a plan not the same as proof?
-2. How does decomposition make agent work easier to verify?
-3. What is one sign that an agent is too chaotic?
-4. What is one sign that an agent is too rigid?
-5. Where should human approval appear in a plan?
+1. Why is a plan not proof?
+2. How does decomposition improve verification?
+3. What is one sign of a chaotic agent?
+4. What is one sign of a rigid agent?
+5. Where should human approval appear?
 
 ## Turtleand take
 
 Planning is the steering layer between intention and action.
 
-Agent systems should not worship plans. They should use plans to keep work bounded, observable, reversible, and reviewable.
-
-The best agent is not the one that follows the first plan perfectly. It is the one that can keep direction while updating from reality.
-
-## Facts vs Turtleand interpretation
-
-**Facts:**
-
-- Agent workflows often break tasks into steps before calling tools or producing artifacts.
-- Smaller steps are easier to verify than broad, ambiguous goals.
-- Tool results, errors, tests, and human feedback can change what the next step should be.
-
-**Turtleand interpretation:**
-
-- Planning is a control surface, not just a productivity habit.
-- Decomposition protects human agency because it creates natural review points.
-- A useful agent plan must be structured enough to guide action and flexible enough to respond to evidence.
+Useful agents do not worship plans. They use plans to keep work bounded, observable, reversible, and reviewable while still updating from reality.

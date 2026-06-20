@@ -2,192 +2,132 @@
 title: 'Planificación y descomposición como estructuras de control para agentes'
 module: 'Module 3: Builder Foundations'
 subtopic: 'planning-decomposition-control-structures'
-summary: 'Cómo los agentes usan planes para controlar el trabajo sin volverse rígidos, caóticos o desconectados del feedback.'
+summary: 'Cómo los planes mantienen el trabajo de agentes limitado, observable y adaptable.'
 status: 'in-progress'
 ---
 
-## La intuición
+## Idea central
 
 Un plan no prueba que un agente sepa lo que está haciendo.
 
 Un buen plan es una estructura de control. Ayuda al agente a decidir qué hacer después, qué revisar, cuándo detenerse y cuándo preguntarle a un humano.
 
-Sin planificación, un agente puede volverse caótico. Salta de acción en acción porque cada paso parece útil localmente.
+Muy poca planificación crea caos. Demasiada planificación crea rigidez. El objetivo es adaptación controlada.
 
-Con demasiada planificación, un agente puede volverse rígido. Sigue un esquema viejo aunque la realidad cambie.
+## El loop
 
-El objetivo no es planificar más. El objetivo es adaptación controlada.
-
-## Un modelo mental simple
-
-Pensá la planificación como una ruta para una caminata.
-
-Querés un mapa antes de empezar. Querés checkpoints en el camino. También querés notar el clima, caminos bloqueados, cansancio y giros equivocados.
-
-Un mal agente trata el plan como un guion.
-
-Un mejor agente trata el plan como una hipótesis de trabajo.
+Tratá un plan como una ruta de caminata, no como un guion. Querés un mapa, pero también necesitás notar clima, caminos bloqueados, cansancio y giros equivocados.
 
 ```text
 objetivo
   ↓
-descomponer en pasos
+dividir en pasos chicos
   ↓
-ejecutar el próximo paso pequeño
+hacer el próximo paso
   ↓
 verificar la realidad
   ↓
 mantener, revisar, detenerse o preguntar
 ```
 
+El plan controla el trabajo. El feedback controla el plan.
+
 ## Qué hace la descomposición
 
-Descomponer significa dividir un objetivo en unidades de trabajo más pequeñas.
+Descomponer divide un objetivo en unidades de trabajo más pequeñas.
 
-Para agentes, eso sirve porque las unidades pequeñas son más fáciles de:
+Las unidades chicas son más fáciles de:
 
 - inspeccionar
 - testear
 - pausar
-- delegar
 - recuperar
-- explicar a un humano
+- explicar
+- pasar a un humano para revisión
 
-Una instrucción vaga como "construí la lección" es difícil de controlar.
+"Construí la lección" es difícil de controlar.
 
-Una versión descompuesta es más fácil:
+Una versión mejor:
 
-1. identificar el resultado de aprendizaje
+1. definir el resultado de aprendizaje
 2. redactar la explicación central
-3. agregar un ejemplo inofensivo
-4. agregar un checkpoint de teach-back
+3. agregar un ejemplo
+4. agregar un prompt de teach-back
 5. revisar seguridad pública
 6. verificar que la ruta compile
 7. pedir revisión antes de publicar
 
-Cada paso tiene un propósito y un posible punto de verificación.
+Cada paso tiene un propósito y una verificación.
 
-## La planificación como estructura de control
+## Los cuatro controles
 
-Un plan controla a un agente respondiendo cuatro preguntas:
+Un plan útil para agentes responde cuatro preguntas:
 
-1. **Orden:** ¿qué debería pasar primero, segundo y último?
-2. **Alcance:** ¿qué trabajo está dentro de la tarea y qué queda afuera?
-3. **Verificación:** ¿cómo sabrá el agente que un paso realmente funcionó?
+1. **Orden:** ¿qué pasa primero, después y al final?
+2. **Alcance:** ¿qué está dentro de la tarea y qué queda afuera?
+3. **Verificación:** ¿cómo sabrá el agente que un paso funcionó?
 4. **Escalada:** ¿cuándo debería detenerse y preguntarle a un humano?
 
-Eso convierte la planificación en parte de la fiabilidad, no solo de la organización.
+Eso hace que la planificación sea parte de la fiabilidad, no solo de la organización.
 
-## Los modos de falla
+## Modos de falla
 
-La planificación falla de dos maneras opuestas.
+Muy poca estructura:
 
-### Muy poca estructura
-
-El agente actúa momento a momento.
-
-Síntomas:
-
-- empieza a escribir antes de entender el objetivo
+- empieza antes de entender el objetivo
 - llama herramientas sin saber qué resultado necesita
-- arregla síntomas visibles en vez de causas raíz
-- produce muchos artefactos parciales sin una línea de llegada clara
+- arregla síntomas en vez de causas
+- produce artefactos parciales sin línea de llegada
 
-### Demasiada estructura
+Demasiada estructura:
 
-El agente obedece el plan inicial después de que los hechos cambiaron.
+- sigue después de que falla un prerrequisito
+- ignora tests porque el plan dice avanzar
+- trata una checklist como juicio
+- evita preguntarle al humano en el momento riesgoso
 
-Síntomas:
+La buena planificación vive entre la deriva y el piloto automático.
 
-- continúa después de que falló un prerrequisito
-- ignora resultados de tests porque el próximo paso ya estaba escrito
-- trata una checklist como sustituto del juicio
-- evita preguntarle al humano porque el plan dice continuar
+## Checkpoints humanos
 
-La buena planificación vive entre esos extremos.
+La revisión humana pertenece dentro del plan.
 
-## Un ejemplo inofensivo
+Los agentes pueden redactar, testear y revisar trabajo de bajo riesgo. Las acciones de más riesgo necesitan revisión explícita antes de ocurrir:
 
-Imaginá un agente que ayuda a una persona a prepararse para un quiz corto.
+- publicar
+- enviar mensajes
+- gastar dinero
+- borrar datos
+- cambiar sistemas de producción
+- presentar afirmaciones inciertas como hechos
 
-Mal enfoque:
+El punto no es frenar todo. Es poner juicio en el límite donde suben las consecuencias.
 
-- generar diez preguntas de inmediato
-- asumir que el tema ya se entiende
-- nunca revisar qué respuestas salieron mal
-
-Mejor enfoque:
-
-1. preguntar o inferir el concepto objetivo
-2. explicar el concepto en un párrafo
-3. crear tres preguntas de fácil a difícil
-4. corregir las respuestas
-5. identificar el punto débil
-6. revisar la próxima pregunta según ese punto débil
-7. detenerse cuando la persona pueda explicar la idea de vuelta
-
-El plan controla el trabajo, pero el feedback controla el plan.
-
-## Planificación centrada en humanos
-
-Un plan debería hacer más clara la agencia humana, no esconderla.
-
-Para trabajo de bajo riesgo, el agente puede redactar, testear y revisar.
-
-Para trabajo de alto riesgo, el plan debería incluir puntos explícitos de revisión antes de cualquier acción externa.
-
-Ejemplos de puntos de revisión:
-
-- antes de publicar
-- antes de enviar un mensaje
-- antes de gastar dinero
-- antes de borrar datos
-- antes de cambiar sistemas de producción
-- antes de presentar afirmaciones inciertas como hechos
-
-La revisión humana no está fuera del plan. Es uno de los puntos de control del plan.
-
-## Checklist de planificación para builders de agentes
+## Checklist para builders
 
 Antes de dejar que un agente ejecute un plan, preguntá:
 
-1. ¿El objetivo es suficientemente específico?
-2. ¿Los pasos son suficientemente pequeños para verificarlos?
-3. ¿Hay una condición de detención?
-4. ¿Las acciones riesgosas pasan por aprobación humana?
+1. ¿El objetivo es específico?
+2. ¿Los pasos son suficientemente chicos para verificarlos?
+3. ¿Hay condición de detención?
+4. ¿Las acciones riesgosas requieren aprobación?
 5. ¿El agente puede revisar el plan cuando cambia la evidencia?
 6. ¿El artefacto final es observable?
 
-Si la respuesta es no, el plan puede crear movimiento sin control.
+Si no, el plan puede crear movimiento sin control.
 
 ## Checkpoint para principiantes
 
 Respondé con tus propias palabras:
 
-1. ¿Por qué un plan no es lo mismo que una prueba?
-2. ¿Cómo hace la descomposición que el trabajo del agente sea más fácil de verificar?
-3. ¿Cuál es una señal de que un agente está demasiado caótico?
-4. ¿Cuál es una señal de que un agente está demasiado rígido?
-5. ¿Dónde debería aparecer la aprobación humana dentro de un plan?
+1. ¿Por qué un plan no es prueba?
+2. ¿Cómo mejora la verificación la descomposición?
+3. ¿Cuál es una señal de un agente caótico?
+4. ¿Cuál es una señal de un agente rígido?
+5. ¿Dónde debería aparecer la aprobación humana?
 
 ## La mirada de Turtleand
 
 La planificación es la capa de dirección entre intención y acción.
 
-Los sistemas de agentes no deberían adorar los planes. Deberían usarlos para mantener el trabajo limitado, observable, reversible y revisable.
-
-El mejor agente no es el que sigue perfecto el primer plan. Es el que puede sostener dirección mientras se actualiza con la realidad.
-
-## Hechos vs interpretación de Turtleand
-
-**Hechos:**
-
-- Los workflows de agentes suelen dividir tareas en pasos antes de llamar herramientas o producir artefactos.
-- Los pasos pequeños son más fáciles de verificar que objetivos amplios y ambiguos.
-- Resultados de herramientas, errores, tests y feedback humano pueden cambiar cuál debería ser el próximo paso.
-
-**Interpretación de Turtleand:**
-
-- La planificación es una superficie de control, no solo un hábito de productividad.
-- La descomposición protege la agencia humana porque crea puntos naturales de revisión.
-- Un plan útil para agentes debe ser suficientemente estructurado para guiar la acción y suficientemente flexible para responder a evidencia.
+Los agentes útiles no adoran los planes. Los usan para mantener el trabajo limitado, observable, reversible y revisable mientras se actualizan con la realidad.
