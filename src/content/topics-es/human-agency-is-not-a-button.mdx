@@ -1,0 +1,288 @@
+---
+title: 'La agencia humana no es un botón'
+module: 'Module 5: Agent Architecture'
+subtopic: 'human-approval-agency'
+summary: 'Una lección inicial sobre por qué los sistemas de agentes responsables necesitan límites de autoridad, no solo prompts de aprobación.'
+status: 'in-progress'
+articles: []
+---
+
+## La intuición
+
+La agencia humana no es lo mismo que un botón de aprobación.
+
+Un buen sistema de agentes no le pide al humano que selle acciones que no entiende. Ayuda al humano a tomar mejores decisiones preparando trabajo, explicando consecuencias y frenando antes de los compromisos.
+
+Los sistemas de agentes responsables necesitan límites de autoridad, no solo prompts de aprobación.
+
+Un sistema de agentes centrado en humanos no solo mantiene a los humanos en el loop. Mantiene a los humanos en autoridad.
+
+## Por qué importa
+
+Los agentes hoy pueden redactar, buscar, escribir, llamar herramientas, cambiar archivos, enviar mensajes, hacer deploy de sistemas y gastar dinero. Cuanto más capaz se vuelve el agente, más importantes se vuelven los límites de autoridad.
+
+El objetivo no es hacer todo más lento. El objetivo es poner el juicio humano en los puntos correctos.
+
+Los agentes son más fuertes cuando expanden la capacidad humana sin reemplazar la responsabilidad humana.
+
+## Preparación vs compromiso
+
+Preparación significa que el agente ayuda a crear opciones o materiales para revisar.
+
+Ejemplos de preparación:
+
+- redactar
+- resumir
+- comparar
+- organizar
+- recomendar
+- preparar un plan de proyecto
+- crear un borrador de post público
+
+Compromiso significa que el agente causa una consecuencia en el mundo real.
+
+Ejemplos de compromiso:
+
+- enviar
+- comprar
+- borrar
+- publicar
+- hacer deploy
+- aprobar
+- invitar
+- rechazar
+- firmar
+- compartir información privada
+- hacer una promesa en nombre de una persona u organización
+- cambiar sistemas de producción
+- gastar dinero
+- cambiar datos
+- eliminar una opción
+
+Un compromiso no tiene que ser enorme. Incluso una acción chica puede ser un compromiso si cruza hacia el mundo exterior, afecta a otra persona, gasta dinero, cambia datos o elimina una opción.
+
+Usá esta regla durable:
+
+> Dejá que los agentes preparen más, pero exigí aprobación humana para los compromisos.
+
+Ejemplos simples:
+
+1. Un agente que redacta un email está haciendo preparación.
+2. Un agente que envía ese email está haciendo un compromiso.
+3. Redactar un post público es preparación.
+4. Publicar el post es compromiso.
+5. Crear un borrador de plan para un proyecto es de bajo riesgo.
+6. Gastar dinero online es una acción consecuencial que requiere aprobación.
+7. Activar daño o un ataque contra otra persona está prohibido, no solo gateado por aprobación.
+
+Enviar, publicar, gastar, borrar, hacer deploy o compartir información privada cambia el mundo. Otra persona puede recibir un mensaje. El dinero puede moverse. Un sistema puede cambiar. Se pueden perder datos. La reputación puede verse afectada. Una relación puede cambiar.
+
+## Aprobación no es agencia
+
+La aprobación humana trata sobre permiso antes de una acción importante.
+
+La agencia humana es más profunda.
+
+La agencia humana significa que el humano todavía es dueño de:
+
+- el objetivo
+- la dirección
+- los valores
+- el juicio final
+- la responsabilidad
+
+El humano no está solamente haciendo click en sí a lo que sea que el agente sugiera.
+
+La aprobación humana no es un botón. Es un punto de control donde el juicio humano entra al sistema.
+
+## Tres capas de control significativo
+
+El control humano significativo tiene por lo menos tres capas.
+
+### 1. Límites de permiso
+
+Los límites de permiso definen:
+
+- qué puede hacer el agente solo
+- qué puede preparar el agente, pero no ejecutar
+- qué no debe hacer el agente nunca sin un humano
+- qué no debe hacer el agente nunca
+
+Ejemplos:
+
+- El agente puede resumir emails solo.
+- El agente puede redactar una respuesta, pero no enviarla.
+- El agente puede sugerir una decisión de presupuesto, pero no aprobar gasto.
+
+### 2. Puntos de decisión
+
+Los puntos de decisión son momentos donde el agente debe pausar y preguntar antes de continuar.
+
+Un checkpoint debería aparecer antes de:
+
+- enviar
+- publicar
+- borrar
+- hacer deploy
+- gastar
+- compartir información privada
+- hacer una promesa en nombre de una persona u organización
+- cambiar sistemas de producción
+
+### 3. Elección humana significativa
+
+Una solicitud de aprobación débil dice:
+
+> ¿Sigo? Sí o no.
+
+Una mejor solicitud de aprobación dice:
+
+> Esto es lo que planeo hacer.
+> Este es el motivo.
+> Estos son los recursos afectados.
+> Este es el resultado esperado.
+> Estas son las consecuencias.
+> Estos son los riesgos.
+> Esto es lo incierto.
+> Esta es la forma de deshacer o recuperar si hace falta.
+> ¿Aprobás esta acción exacta?
+
+La idea es que el humano entienda qué está aprobando. El agente debe hacer legible la decisión de aprobación.
+
+## Riesgo bajo, medio y alto
+
+Una estructura simple para empezar:
+
+- Acciones de bajo riesgo: el agente puede hacerlas.
+- Acciones de riesgo medio: el agente puede prepararlas y después aprueba el humano.
+- Acciones de alto riesgo: el agente debe detenerse, explicar y esperar.
+
+Esto es una heurística de diseño, no una ley universal.
+
+## Niveles técnicos de autoridad
+
+Los sistemas orientados a builders pueden hacer explícita la autoridad con niveles.
+
+### Nivel 0: solo observar
+
+El agente puede leer o inspeccionar, pero no puede cambiar nada.
+
+Ejemplos:
+
+- leer un documento
+- inspeccionar logs
+- resumir patrones de inbox
+
+### Nivel 1: preparar
+
+El agente puede crear borradores, resúmenes, planes y recomendaciones.
+
+Ejemplos:
+
+- redactar un email
+- preparar un plan de proyecto
+- sugerir opciones de presupuesto
+
+### Nivel 2: acción reversible
+
+El agente puede tomar acciones de bajo riesgo que se pueden deshacer fácilmente.
+
+Ejemplos:
+
+- crear un archivo temporal local
+- organizar notas privadas
+- etiquetar una tarea en un workspace privado
+
+### Nivel 3: acción consecuencial
+
+El agente debe pedir aprobación humana explícita antes de actuar.
+
+Ejemplos:
+
+- enviar
+- gastar
+- publicar
+- hacer deploy
+- borrar
+- compartir datos privados
+- cambiar sistemas de producción
+
+### Nivel 4: acción prohibida
+
+El agente no debería hacer la acción, ni siquiera con aprobación normal, porque:
+
+- el riesgo es demasiado alto
+- falta autoridad
+- la acción está fuera del propósito permitido del sistema
+- la acción dañaría a otra persona o violaría límites de seguridad
+
+## Capacidad vs autoridad
+
+Capacidad pregunta:
+
+> ¿El agente puede hacer esto técnicamente?
+
+Autoridad pregunta:
+
+> ¿El agente debería poder hacer esto en nombre del humano?
+
+Los buenos sistemas separan capacidad de autoridad.
+
+Un agente puede tener acceso técnico al email, pero su autoridad puede permitirle solo buscar, resumir y redactar. Enviar todavía requiere aprobación humana.
+
+No impliques que acceso a una herramienta equivale a permiso.
+
+## Policy gates
+
+Un policy gate es una regla que revisa una acción propuesta antes de ejecutarla.
+
+En lenguaje simple, es una guardrail que pregunta si la acción coincide con la autoridad que el sistema tiene permitido usar.
+
+Un policy gate puede preguntar:
+
+- ¿Qué acción se está tomando?
+- ¿Qué recurso se ve afectado?
+- ¿Esto es reversible?
+- ¿Cuál es el nivel de riesgo?
+- ¿El usuario entiende las consecuencias?
+- ¿Hace falta aprobación?
+- ¿La acción está fuera del alcance permitido?
+
+Los policy gates alinean las acciones propuestas con el nivel correcto de autoridad.
+
+## Teatro de aprobación
+
+El teatro de aprobación ocurre cuando el sistema pide aprobación, pero no le da al humano suficiente contexto para tomar una decisión significativa.
+
+El humano se vuelve un sello de goma.
+
+El sistema parece seguro porque pide aprobación, pero la aprobación no es significativa.
+
+El teatro de aprobación es peligroso porque conserva la apariencia de control humano mientras elimina el juicio humano real.
+
+## Checklist práctica
+
+Antes de que un agente actúe, preguntá:
+
+1. ¿Esto es preparación o compromiso?
+2. ¿Qué recurso se ve afectado?
+3. ¿La acción es reversible?
+4. ¿Quién es responsable por la consecuencia?
+5. ¿El humano entiende la acción propuesta?
+6. ¿Qué nivel de riesgo tiene?
+7. ¿Hace falta aprobación?
+8. ¿Esta acción está prohibida incluso si se pide aprobación?
+
+## Checkpoint de teach-back
+
+1. ¿Cuál es la diferencia entre preparación y compromiso?
+2. ¿Por qué "¿Sigo?" es una solicitud de aprobación débil?
+3. ¿Cuál es la diferencia entre capacidad y autoridad?
+4. ¿Qué es el teatro de aprobación?
+5. Da un ejemplo de acción Nivel 3 y uno de acción prohibida Nivel 4.
+
+## Reflexión Turtleand
+
+Un sistema de agentes centrado en humanos no solo mantiene a los humanos en el loop. Mantiene a los humanos en autoridad.
+
+La dirección práctica es simple: dejá que los agentes preparen más, expliquen más y verifiquen más, mientras los humanos siguen siendo responsables por objetivos, valores, juicio, ética, validación y consecuencias.

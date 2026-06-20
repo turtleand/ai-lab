@@ -2691,3 +2691,289 @@ Teach agents as bounded work systems, not autonomous personalities. Add autonomy
 
 Future lessons should link back here when they cover loops, tools, memory, planning, evaluation, routing, and coordination.
 
+---
+
+# Human Agency Is Not a Button
+
+Module: Module 5: Agent Architecture
+
+## The intuition
+
+Human agency is not the same as an approval button.
+
+A good agent system does not ask humans to rubber-stamp actions they do not understand. It helps humans make better decisions by preparing work, explaining consequences, and stopping before commitments.
+
+Responsible agent systems need authority boundaries, not just approval prompts.
+
+A human-centered agent system does not just keep humans in the loop. It keeps humans in authority.
+
+## Why this matters
+
+Agents can now draft, search, write, call tools, change files, send messages, deploy systems, and spend money. The more capable the agent becomes, the more important authority boundaries become.
+
+The goal is not to slow everything down. The goal is to put human judgment at the right points.
+
+Agents are strongest when they expand human capacity without replacing human responsibility.
+
+## Preparation vs commitment
+
+Preparation means the agent helps create options or materials for review.
+
+Examples of preparation:
+
+- draft
+- summarize
+- compare
+- organize
+- recommend
+- prepare a project plan
+- create a draft public post
+
+Commitment means the agent causes a real-world consequence.
+
+Examples of commitment:
+
+- send
+- buy
+- delete
+- publish
+- deploy
+- approve
+- invite
+- reject
+- sign
+- share private information
+- make a promise on behalf of a person or organization
+- change production systems
+- spend money
+- change data
+- remove an option
+
+A commitment does not have to be huge. Even a small action can be a commitment if it crosses into the outside world, affects another person, spends money, changes data, or removes an option.
+
+Use this durable rule:
+
+> Let agents prepare more, but require humans to approve commitments.
+
+Simple examples:
+
+1. An agent drafting an email is preparation.
+2. An agent sending the email is commitment.
+3. Drafting a public post is preparation.
+4. Publishing the post is commitment.
+5. Creating a draft plan for a project is low risk.
+6. Spending money online is a consequential action requiring approval.
+7. Triggering harm or an attack against another person is prohibited, not merely approval-gated.
+
+Sending, publishing, spending, deleting, deploying, or sharing private information changes the world. Another person may receive the message. Money may move. A system may change. Data may be lost. Reputation may be affected. A relationship may change.
+
+## Approval is not agency
+
+Human approval is about permission before important action.
+
+Human agency is deeper.
+
+Human agency means the human still owns:
+
+- the goal
+- the direction
+- the values
+- the final judgment
+- the responsibility
+
+The human is not just clicking yes to whatever the agent suggests.
+
+Human approval is not a button. It is a control point where human judgment enters the system.
+
+## Three layers of meaningful control
+
+Meaningful human control has at least three layers.
+
+### 1. Permission boundaries
+
+Permission boundaries define:
+
+- what the agent may do alone
+- what the agent may prepare but not execute
+- what the agent must never do without a human
+- what the agent must never do at all
+
+Examples:
+
+- The agent may summarize emails alone.
+- The agent may draft a reply, but not send it.
+- The agent may suggest a budget decision, but not approve spending.
+
+### 2. Decision checkpoints
+
+Decision checkpoints are moments where the agent must pause and ask before continuing.
+
+A checkpoint should happen before:
+
+- sending
+- publishing
+- deleting
+- deploying
+- spending
+- sharing private information
+- making a promise on behalf of a person or organization
+- changing production systems
+
+### 3. Meaningful human choice
+
+A weak approval request says:
+
+> Should I continue? Yes or no.
+
+A better approval request says:
+
+> Here is what I plan to do.
+> Here is why.
+> Here are the affected resources.
+> Here is the expected outcome.
+> Here are the consequences.
+> Here are the risks.
+> Here is what is uncertain.
+> Here is how to undo or recover if needed.
+> Do you approve this exact action?
+
+The point is that the human must understand what is being approved. The agent should make the approval decision legible.
+
+## Low, medium, and high risk
+
+A simple beginner structure:
+
+- Low-risk actions: the agent can do.
+- Medium-risk actions: the agent can prepare, then the human approves.
+- High-risk actions: the agent must stop, explain, and wait.
+
+This is a design heuristic, not a universal law.
+
+## Technical authority levels
+
+Builder-oriented systems can make authority explicit through levels.
+
+### Level 0: observe only
+
+The agent can read or inspect but cannot change anything.
+
+Examples:
+
+- read a document
+- inspect logs
+- summarize inbox patterns
+
+### Level 1: prepare
+
+The agent can create drafts, summaries, plans, and recommendations.
+
+Examples:
+
+- draft an email
+- prepare a project plan
+- suggest budget options
+
+### Level 2: reversible action
+
+The agent can take low-risk actions that can be undone easily.
+
+Examples:
+
+- create a local temporary file
+- organize private notes
+- label a task in a private workspace
+
+### Level 3: consequential action
+
+The agent must request explicit human approval before acting.
+
+Examples:
+
+- sending
+- spending
+- publishing
+- deploying
+- deleting
+- sharing private data
+- changing production systems
+
+### Level 4: prohibited action
+
+The agent should not do the action at all, even with normal approval, because:
+
+- the risk is too high
+- the authority is missing
+- the action is outside the system's allowed purpose
+- the action would harm another person or violate safety boundaries
+
+## Capability vs authority
+
+Capability asks:
+
+> Can the agent technically do this?
+
+Authority asks:
+
+> Should the agent be allowed to do this on behalf of the human?
+
+Good systems separate capability from authority.
+
+An agent may technically have access to email, but its authority may only allow it to search, summarize, and draft. Sending still requires human approval.
+
+Do not imply that tool access equals permission.
+
+## Policy gates
+
+A policy gate is a rule that checks a proposed action before execution.
+
+In beginner language, it is a guardrail that asks whether the action matches the authority the system is allowed to use.
+
+A policy gate may ask:
+
+- What action is being taken?
+- What resource is affected?
+- Is this reversible?
+- What is the risk level?
+- Does the user understand the consequences?
+- Is approval required?
+- Is the action outside the allowed scope?
+
+Policy gates align proposed actions with the proper level of authority.
+
+## Approval theater
+
+Approval theater happens when the system asks for approval, but the human is not given enough context to make a meaningful decision.
+
+The human becomes a rubber stamp.
+
+The system appears safe because it asks for approval, but the approval is not meaningful.
+
+Approval theater is dangerous because it preserves the appearance of human control while removing real human judgment.
+
+## Practical checklist
+
+Before an agent acts, ask:
+
+1. Is this preparation or commitment?
+2. What resource is affected?
+3. Is the action reversible?
+4. Who is responsible for the consequence?
+5. Does the human understand the proposed action?
+6. What risk level is this?
+7. Is approval required?
+8. Is this action prohibited even if approval is requested?
+
+## Teach-back checkpoint
+
+1. What is the difference between preparation and commitment?
+2. Why is "Should I continue?" a weak approval request?
+3. What is the difference between capability and authority?
+4. What is approval theater?
+5. Give one example of a Level 3 action and one Level 4 prohibited action.
+
+## Turtleand reflection
+
+A human-centered agent system does not just keep humans in the loop. It keeps humans in authority.
+
+The practical direction is simple: let agents prepare more, explain more, and verify more, while humans remain responsible for goals, values, judgment, ethics, validation, and consequences.
+
