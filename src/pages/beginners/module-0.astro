@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Module 0 beginner path';
+const description =
+  'The first beginner path through AI Lab: safe AI habits, local AI basics, and clear next steps before the full technical module.';
+
+const articles = [
+  {
+    title: 'Start safely with AI tools',
+    href: '/beginners/topics/start-safely-with-ai/',
+    summary:
+      'Build the first safety habit: keep private data out, use harmless tests, and review outputs before trusting them.',
+    label: 'Start here'
+  },
+  {
+    title: 'Running AI locally',
+    href: '/beginners/topics/running-inference-locally/',
+    summary:
+      'Understand local inference, small models, runtimes, and the trade-off between control and setup friction.',
+    label: 'Next step'
+  }
+];
+
+const safetyHabits = [
+  'Use public, invented, or non-sensitive examples first.',
+  'Remove secrets, account data, private details, and internal context before pasting.',
+  'Treat every answer as a draft until a human checks it.',
+  'Go deeper only after the basic idea feels usable.'
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="card signal-hero" aria-labelledby="module-zero-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Beginner Module 0</p>
+      <h1 id="module-zero-title">Start safely</h1>
+      <p>
+        Module 0 is the beginner starting point. It keeps the first path simple:
+        learn the safety habit, understand what local AI means, then move into
+        the full technical guide when you are ready.
+      </p>
+      <div class="cta" aria-label="Module 0 beginner actions">
+        <a class="primary" href="#module-zero-lessons">Open the lessons</a>
+        <a href="/beginners/">Back to AI for Beginners</a>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="card"
+    aria-labelledby="module-zero-lessons"
+    id="module-zero-lessons"
+  >
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Beginner path</p>
+        <h2 id="module-zero-lessons">Read these in order</h2>
+      </div>
+    </div>
+    <p>
+      This page lists the beginner articles for Module 0. Each article gives one
+      clear step and links onward to the deeper technical guide only after the
+      beginner explanation has done its job.
+    </p>
+    <div class="stacked">
+      {
+        articles.map((article) => (
+          <a class="clickable-card lesson-card" href={article.href}>
+            <p class="pill inline">{article.label}</p>
+            <h3>{article.title}</h3>
+            <p>{article.summary}</p>
+            <span class="card-action" aria-hidden="true">
+              Open article →
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="module-zero-habits">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Safety baseline</p>
+        <h2 id="module-zero-habits">Keep these habits steady</h2>
+      </div>
+    </div>
+    <div class="stacked">
+      {
+        safetyHabits.map((habit, index) => (
+          <article class="info-panel practice-step">
+            <strong>
+              {index + 1}. {habit}
+            </strong>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="module-zero-deeper">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Go deeper later</p>
+        <h2 id="module-zero-deeper">When you want the technical module</h2>
+      </div>
+    </div>
+    <p>
+      The beginner path gives you the plain-language foundation. The full Module
+      0 page has the deeper setup and safety structure for technical readers.
+    </p>
+    <div class="cta" aria-label="Full Module 0 action">
+      <a class="primary" href="/modules/module-0/">Open full Module 0</a>
+    </div>
+  </section>
+</BaseLayout>

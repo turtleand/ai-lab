@@ -6,6 +6,8 @@
 
 ### Beginner doorway
 - [AI for Beginners](https://lab.turtleand.com/beginners/): A zero-start doorway into Turtleand AI Lab that explains AI in plain language while keeping human judgment at the center.
+- [Module 0 beginner path](https://lab.turtleand.com/beginners/module-0/): The first beginner path through AI Lab: safe AI habits, local AI basics, and clear next steps before the full technical module.
+- [Start safely with AI tools](https://lab.turtleand.com/beginners/topics/start-safely-with-ai/): A beginner safety baseline for using AI tools without giving away private data, judgment, or responsibility.
 - [Running AI locally, for beginners](https://lab.turtleand.com/beginners/topics/running-inference-locally/): A plain-language first path for understanding local AI inference before reading the full technical guide.
 
 ### Module 0: Fast Track Setup
@@ -42,6 +44,6 @@
 - [Smart Is Not Reliable](https://lab.turtleand.com/topics/smart-is-not-reliable): Why agent reliability is a system property built from checks, constraints, recovery paths, observability, and human escalation.
 
 ## About
-Created by Turtleand — software engineer building AI education that's practical, not theoretical.
+Created by Turtleand, software engineer building AI education that's practical, not theoretical.
 - Portal: https://turtleand.com
 - GitHub: https://github.com/turtleand

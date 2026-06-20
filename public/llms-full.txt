@@ -1,4 +1,4 @@
-# Turtleand AI Lab — Full Content
+# Turtleand AI Lab: Full Content
 
 ---
 
@@ -7,6 +7,32 @@
 Route: https://lab.turtleand.com/beginners/
 
 A plain-language doorway into Turtleand AI Lab for people starting from zero. It is based on the ideas, lessons, and structure of the main AI Lab, rewritten for beginners while keeping human judgment, participation, and responsibility at the center.
+
+---
+
+# Module 0 beginner path
+
+Route: https://lab.turtleand.com/beginners/module-0/
+
+Module 0 is the beginner starting point. It keeps the first path simple: learn the safety habit, understand what local AI means, then move into the full technical guide when ready.
+
+Read these beginner articles in order:
+- Start safely with AI tools.
+- Running AI locally.
+
+The full Module 0 page remains available for the deeper setup and safety structure, but the beginner route starts with beginner articles first.
+
+---
+
+# Start safely with AI tools
+
+Route: https://lab.turtleand.com/beginners/topics/start-safely-with-ai/
+
+The first AI skill is not prompting. It is knowing what should stay out of the tool, what a model can help with, and where the human still has to make the final call.
+
+Safety starts with the small habit before the prompt: decide what the system should not see. Use public, invented, or low-risk text first. Remove names, account details, secrets, addresses, internal plans, and anything that would create risk if copied elsewhere.
+
+Treat the model as a helper that gives a first pass. The human still decides what is accurate, useful, ethical, and worth using. If the answer affects money, health, legal matters, access, reputation, or another person, slow down and verify with a better source.
 
 ---
 

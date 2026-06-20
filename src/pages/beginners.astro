@@ -55,9 +55,8 @@ const beginnerModules = [
   {
     module: 'Module 0',
     title: 'Start safely',
-    mainHref: '/modules/module-0/',
-    beginnerHref: '/beginners/topics/running-inference-locally/',
-    beginnerLabel: 'Start with local AI basics',
+    moduleHref: '/beginners/module-0/',
+    actionLabel: 'Open the Module 0 beginner path',
     body: 'The beginner version of setup, safety, model basics, and the first useful workflows.',
     lessons: [
       'What AI can help with today, in plain language.',
@@ -65,7 +64,7 @@ const beginnerModules = [
       'What not to paste into an AI tool, and why.'
     ],
     practice:
-      'Read the local AI beginner article, try one safe prompt, then mark what was useful, wrong, or risky.'
+      'Start with the Module 0 beginner path, try one safe prompt, then mark what was useful, wrong, or risky.'
   },
   {
     module: 'Module 1',
@@ -253,7 +252,7 @@ const beginnerModules = [
     <div class="stacked">
       {
         starterPractices.map((step) => (
-          <article class="log-entry">
+          <article class="info-panel practice-step">
             <strong>
               {step.label}. {step.title}
             </strong>
@@ -282,29 +281,44 @@ const beginnerModules = [
     </p>
     <div class="stacked">
       {
-        beginnerModules.map((module) => (
-          <article class="log-entry">
-            <p class="pill inline">{module.module}</p>
-            <h3>{module.title}</h3>
-            <p>{module.body}</p>
-            <ul>
-              {module.lessons.map((lesson) => (
-                <li>{lesson}</li>
-              ))}
-            </ul>
-            <p>
-              <strong>Practice:</strong> {module.practice}
-            </p>
-            {module.beginnerHref && (
+        beginnerModules.map((module) =>
+          module.moduleHref ? (
+            <a
+              class="beginner-module-card clickable-card"
+              href={module.moduleHref}
+              aria-label={`${module.actionLabel}: ${module.title}`}
+            >
+              <p class="pill inline">{module.module}</p>
+              <h3>{module.title}</h3>
+              <p>{module.body}</p>
+              <ul>
+                {module.lessons.map((lesson) => (
+                  <li>{lesson}</li>
+                ))}
+              </ul>
               <p>
-                <a href={module.beginnerHref}>{module.beginnerLabel} →</a>
+                <strong>Practice:</strong> {module.practice}
               </p>
-            )}
-            <p>
-              <a href={module.mainHref}>Open the full {module.module} →</a>
-            </p>
-          </article>
-        ))
+              <span class="card-action" aria-hidden="true">
+                {module.actionLabel} →
+              </span>
+            </a>
+          ) : (
+            <article class="beginner-module-card info-panel">
+              <p class="pill inline">{module.module}</p>
+              <h3>{module.title}</h3>
+              <p>{module.body}</p>
+              <ul>
+                {module.lessons.map((lesson) => (
+                  <li>{lesson}</li>
+                ))}
+              </ul>
+              <p>
+                <strong>Practice:</strong> {module.practice}
+              </p>
+            </article>
+          )
+        )
       }
     </div>
   </section>
@@ -322,7 +336,9 @@ const beginnerModules = [
       for the fuller technical version.
     </p>
     <div class="cta" aria-label="Next beginner actions">
-      <a class="primary" href="/modules/module-0/">Open Module 0</a>
+      <a class="primary" href="/beginners/module-0/"
+        >Open Module 0 beginner path</a
+      >
       <a href="https://atlas.turtleand.com/">Compare tools in AI Atlas</a>
     </div>
   </section>

@@ -6,6 +6,30 @@ const TOPICS_DIR = join(import.meta.dirname, '..', 'src', 'content', 'topics');
 const PUBLIC_DIR = join(import.meta.dirname, '..', 'public');
 const BEGINNER_ARTICLES = [
   {
+    title: 'Module 0 beginner path',
+    route: 'https://lab.turtleand.com/beginners/module-0/',
+    summary:
+      'The first beginner path through AI Lab: safe AI habits, local AI basics, and clear next steps before the full technical module.',
+    body: `Module 0 is the beginner starting point. It keeps the first path simple: learn the safety habit, understand what local AI means, then move into the full technical guide when ready.
+
+Read these beginner articles in order:
+- Start safely with AI tools.
+- Running AI locally.
+
+The full Module 0 page remains available for the deeper setup and safety structure, but the beginner route starts with beginner articles first.`
+  },
+  {
+    title: 'Start safely with AI tools',
+    route: 'https://lab.turtleand.com/beginners/topics/start-safely-with-ai/',
+    summary:
+      'A beginner safety baseline for using AI tools without giving away private data, judgment, or responsibility.',
+    body: `The first AI skill is not prompting. It is knowing what should stay out of the tool, what a model can help with, and where the human still has to make the final call.
+
+Safety starts with the small habit before the prompt: decide what the system should not see. Use public, invented, or low-risk text first. Remove names, account details, secrets, addresses, internal plans, and anything that would create risk if copied elsewhere.
+
+Treat the model as a helper that gives a first pass. The human still decides what is accurate, useful, ethical, and worth using. If the answer affects money, health, legal matters, access, reputation, or another person, slow down and verify with a better source.`
+  },
+  {
     title: 'Running AI locally, for beginners',
     route:
       'https://lab.turtleand.com/beginners/topics/running-inference-locally/',
@@ -104,7 +128,7 @@ ${BEGINNER_ARTICLES.map((article) => `- [${article.title}](${article.route}): ${
 
   llms += `
 ## About
-Created by Turtleand — software engineer building AI education that's practical, not theoretical.
+Created by Turtleand, software engineer building AI education that's practical, not theoretical.
 - Portal: https://turtleand.com
 - GitHub: https://github.com/turtleand
 `;
@@ -113,7 +137,7 @@ Created by Turtleand — software engineer building AI education that's practica
   console.log('Generated public/llms.txt');
 
   // Generate llms-full.txt
-  let full = `# Turtleand AI Lab — Full Content\n\n---\n\n# AI for Beginners\n\nRoute: https://lab.turtleand.com/beginners/\n\nA plain-language doorway into Turtleand AI Lab for people starting from zero. It is based on the ideas, lessons, and structure of the main AI Lab, rewritten for beginners while keeping human judgment, participation, and responsibility at the center.\n\n`;
+  let full = `# Turtleand AI Lab: Full Content\n\n---\n\n# AI for Beginners\n\nRoute: https://lab.turtleand.com/beginners/\n\nA plain-language doorway into Turtleand AI Lab for people starting from zero. It is based on the ideas, lessons, and structure of the main AI Lab, rewritten for beginners while keeping human judgment, participation, and responsibility at the center.\n\n`;
   for (const article of BEGINNER_ARTICLES) {
     full += `---\n\n# ${article.title}\n\nRoute: ${article.route}\n\n${article.body}\n\n`;
   }
