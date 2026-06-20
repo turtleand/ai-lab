@@ -1,0 +1,141 @@
+---
+title: 'El contexto no es memoria'
+module: 'Module 3: Builder Foundations'
+subtopic: 'context-is-not-memory'
+summary: 'Por qué las ventanas de contexto grandes y las memorias guardadas no alcanzan para agentes confiables, y por qué importa la gobernanza de información.'
+status: 'in-progress'
+---
+
+## La intuición
+
+El contexto es lo que el modelo puede ver ahora.
+
+La memoria es lo que un sistema decide que vale la pena llevar hacia adelante.
+
+Suenan parecidos, pero no son lo mismo. Una ventana de contexto larga puede contener más texto, pero no decide automáticamente qué es verdadero, actual, relevante, seguro o digno de recordar. Una memoria puede preservar hechos útiles, pero también puede preservar supuestos viejos y notas contaminadas.
+
+Un sistema serio de agentes necesita gobernanza de información, no solo más tokens.
+
+## Un modelo mental simple
+
+Pensá el contexto como un escritorio.
+
+Pensá la memoria como un archivo.
+
+Un escritorio más grande te deja desplegar más papeles. Eso ayuda, pero no te dice cuáles papeles están viejos, duplicados, privados o equivocados. Un archivo ayuda entre días y proyectos, pero solo mejora el trabajo si las etiquetas, las reglas de limpieza y los hábitos de recuperación son buenos.
+
+Los agentes necesitan ambas cosas:
+
+- un escritorio limpio para la tarea actual
+- un archivo bien mantenido para conocimiento durable
+- reglas sobre qué nunca debería entrar en ninguno de los dos
+
+## La distinción principal
+
+**Contexto** es input de trabajo de corto plazo. Incluye el prompt actual, instrucciones, documentos recuperados, resultados de herramientas, archivos y turnos recientes de conversación.
+
+**Memoria** es estado de más largo plazo. Puede incluir preferencias del usuario, convenciones de proyecto, decisiones previas, hechos sobre un entorno o resúmenes de trabajos anteriores.
+
+**Gobernanza** es la disciplina que decide qué entra, qué queda, qué expira, qué requiere verificación y qué debería ignorarse.
+
+Sin gobernanza, más contexto puede hacer que el agente se equivoque con más confianza.
+
+## Por qué una ventana de contexto más grande no alcanza
+
+Una ventana de contexto más grande resuelve un problema: el modelo puede inspeccionar más material en una sola llamada.
+
+No resuelve por sí sola estos problemas:
+
+1. **Desactualización:** la información vieja puede parecer actual si sigue presente.
+2. **Fuentes en conflicto:** dos notas pueden contradecirse, y el modelo necesita una regla para decidir cuál pesa más.
+3. **Ruido:** detalles irrelevantes pueden distraer de la tarea real.
+4. **Privacidad:** no todo detalle guardado pertenece a todo prompt.
+5. **Autoridad:** el texto recuperado puede ser resultado de herramienta, borrador, corrección del usuario o página no confiable.
+6. **Ciclo de vida:** algunos hechos deberían expirar, otros deberían revisarse y otros deberían convertirse en doctrina estable.
+
+Más contexto aumenta la capacidad. No crea juicio.
+
+## Un ejemplo inofensivo
+
+Imaginá un agente que ayuda a un estudiante a escribir un plan de estudio.
+
+Contexto útil:
+
+- el tema de hoy
+- el límite de tiempo del estudiante
+- las notas actuales
+- las instrucciones de la tarea
+
+Memoria útil:
+
+- el estudiante prefiere ejemplos antes que definiciones
+- el estudiante está en nivel principiante
+- el estudiante se traba cuando una lección saltea prerrequisitos
+
+Mala memoria:
+
+- una nota vieja que dice que el examen es el viernes cuando la fecha cambió
+- una afirmación vaga de que el estudiante odia los diagramas
+- un párrafo copiado de una fuente que nunca fue verificada
+
+El agente no debería volcar todo esto en el próximo prompt. Debería recuperar las partes que importan, marcar lo incierto y dejar que la información corregida reemplace a la vieja.
+
+## Reglas de gobernanza de información
+
+Un sistema práctico de memoria para agentes necesita algunas reglas:
+
+1. **Etiquetas de fuente:** ¿de dónde salió esta información?
+2. **Etiquetas de frescura:** ¿cuándo fue revisada por última vez?
+3. **Etiquetas de alcance:** ¿es global, específica de proyecto, específica de tarea o privada?
+4. **Etiquetas de autoridad:** ¿es corrección del usuario, resultado de herramienta, fuente pública, supuesto o borrador?
+5. **Reglas de expiración:** ¿cuándo debería revalidarse o eliminarse?
+6. **Reglas de recuperación:** ¿cuándo es suficientemente útil para traerla al contexto?
+7. **Reglas de seguridad:** ¿qué nunca debería guardarse o inyectarse?
+
+Esto no es burocracia. Es higiene de razonamiento.
+
+## Qué puede salir mal
+
+Los sistemas de agentes fallan cuando la memoria se vuelve un cajón de cosas sueltas.
+
+Fallos comunes:
+
+- tratar toda nota previa como igualmente verdadera
+- recuperar demasiado material viejo para cada tarea
+- guardar progreso temporal como memoria durable
+- dejar que un supuesto equivocado contamine muchas respuestas futuras
+- guardar detalles privados que deberían quedar fuera del trabajo público
+- confundir el resumen de una sesión con conocimiento validado
+
+El peligro no es solo que el agente olvide. A veces el peligro es que recuerde demasiado bien algo incorrecto.
+
+## Checkpoint para principiantes
+
+Respondé con tus propias palabras:
+
+1. ¿Cuál es la diferencia entre contexto y memoria?
+2. ¿Por qué una ventana de contexto más grande igual puede producir mal razonamiento?
+3. ¿Qué tipo de información debería expirar en vez de volverse memoria durable?
+4. ¿Por qué la recuperación de memoria debería ser selectiva?
+
+## La mirada de Turtleand
+
+La memoria de agentes debería componer juicio, no acumular residuo.
+
+El objetivo no es recordar todo. El objetivo es preservar las pocas cosas que hacen que el trabajo futuro sea más claro, seguro y coherente.
+
+Los humanos siguen siendo responsables de decidir qué merece peso durable.
+
+## Hechos vs interpretación de Turtleand
+
+**Hechos:**
+
+- Una llamada a un modelo solo puede razonar sobre la información que se le entrega en ese momento.
+- Los sistemas de agentes suelen usar almacenes externos, archivos, bases de datos, resúmenes o capas de recuperación para llevar información entre tareas.
+- La información recuperada puede estar vieja, incompleta, en conflicto o fuera de tema.
+
+**Interpretación de Turtleand:**
+
+- La memoria no es valiosa por persistir. Es valiosa cuando está curada.
+- Las ventanas de contexto expanden el espacio de trabajo, pero la gobernanza mantiene limpio ese espacio.
+- La agencia humana mejora cuando los sistemas hacen visibles la procedencia, frescura y alcance de la información.

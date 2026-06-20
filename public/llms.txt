@@ -27,6 +27,10 @@
 - [Living institutional memory](https://lab.turtleand.com/topics/living-institutional-memory): How organizations can use AI to ensure no knowledge ever degrades and no lesson is ever relearned.
 - [From OpenClaw to Hermes](https://lab.turtleand.com/topics/persistent-agents): Why persistent-agent experiments graduated into a leaner, human-centered Hermes operating layer.
 
+### Module 3: Builder Foundations
+- [Context is not memory](https://lab.turtleand.com/topics/context-is-not-memory): Why large context windows and stored memories are not enough for reliable agents, and why information governance matters.
+- [Planning and decomposition as control structures for agents](https://lab.turtleand.com/topics/planning-decomposition-control-structures): How agents use plans to control work without becoming rigid, chaotic, or detached from feedback.
+
 ### Module 5: Agent Architecture
 - [The agent loop as a controlled feedback loop](https://lab.turtleand.com/topics/agent-loop-controlled-feedback-loop): A beginner lesson on how useful AI agents observe state, choose bounded actions, inspect results, and keep humans responsible for risky steps.
 - [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A concise learning map for agents: loop, tools, memory, planning, approval, reliability, routing, and coordination.
