@@ -1,0 +1,251 @@
+---
+title: 'La agencia humana no es un botón'
+module: 'Module 5: Agent Architecture'
+subtopic: 'human-approval-agency'
+summary: 'Una lección inicial sobre por qué los sistemas de agentes responsables necesitan límites de autoridad, no solo prompts de aprobación.'
+status: 'in-progress'
+articles:
+  - title: 'Documentación de LangChain: Human-in-the-loop'
+    description: 'Documentación que muestra patrones de aprobación humana para revisar tool calls y acciones de agentes antes de que se ejecuten.'
+    type: 'article'
+    status: 'done'
+    link: 'https://docs.langchain.com/oss/python/langchain/human-in-the-loop'
+  - title: 'NIST AI Risk Management Framework'
+    description: 'Framework público para gestionar riesgos de IA a través de gobernanza, mapeo, medición y gestión de riesgo.'
+    type: 'article'
+    status: 'done'
+    link: 'https://www.nist.gov/itl/ai-risk-management-framework'
+---
+
+## Intuición inicial
+
+Un botón que dice "Aprobar" puede parecer responsable.
+
+Pero un botón no crea agencia humana automáticamente. Una persona puede hacer clic en aprobar sin entender qué está por hacer el agente, por qué eligió esa acción, qué podría salir mal o si existe una alternativa más segura.
+
+En un sistema de agentic AI, el control humano significativo no es una pausa decorativa antes de que el modelo actúe. Es parte de la arquitectura.
+
+Esta lección vive dentro de la ruta de aprendizaje de sistemas agentic AI. Después de entender el loop del agente, las herramientas, el contexto y la memoria, y la planificación, aparece una pregunta simple: ¿quién puede comprometer al sistema con consecuencias reales?
+
+## Por qué importa el título
+
+"La agencia humana no es un botón" significa que aprobación no es lo mismo que control.
+
+Un sistema de agentes responsable debería ayudar al humano a entender el límite de decisión:
+
+- qué preparó el agente
+- qué quiere hacer ahora
+- qué autoridad requiere esa acción
+- qué evidencia sostiene la acción
+- qué riesgo o consecuencia acepta el humano
+- qué alternativas siguen disponibles
+
+Si el humano solo ve un prompt de confirmación vago, el sistema movió la responsabilidad sin transferir comprensión.
+
+Eso es teatro de aprobación.
+
+## Preparación vs compromiso
+
+Una distinción útil para builders de agentes:
+
+- **Preparación:** el agente reúne información, redacta opciones, revisa archivos, propone un plan o produce un artefacto revisable.
+- **Compromiso:** el sistema cambia algo que afecta a otras personas, dinero, cuentas, reputación pública, sistemas de producción, datos privados o reversibilidad futura.
+
+La mayor parte de la preparación puede automatizarse si es observable y reversible. La mayor parte del compromiso debería estar protegida por una política, revisión humana o ambas.
+
+Ejemplo:
+
+1. Un agente puede redactar el cuerpo de un pull request.
+2. Un agente puede correr tests y resumir fallas.
+3. Un agente puede sugerir que la branch está lista.
+4. El humano o una policy gate autorizada decide si se mergea.
+
+El mismo patrón aplica a enviar mensajes, publicar contenido, gastar dinero, cambiar permisos, borrar datos y desplegar sistemas.
+
+## Aprobación humana vs agencia humana
+
+La aprobación humana pregunta: "¿Alguien hizo clic en sí?"
+
+La agencia humana hace preguntas más fuertes:
+
+1. **Comprensión:** ¿el humano sabía qué estaba autorizando?
+2. **Elección:** ¿el humano tenía opciones reales, incluyendo detener, revisar o delegar solo un paso más chico?
+3. **Momento:** ¿se le preguntó al humano antes de la acción irreversible o reputacionalmente importante?
+4. **Autoridad:** ¿era el humano, la política o el rol correcto para este nivel de consecuencia?
+5. **Trazabilidad:** ¿la decisión puede inspeccionarse después?
+
+La aprobación es un evento. La agencia es una relación de control.
+
+Los buenos sistemas diseñan la relación, no solo el evento.
+
+## Tres capas de control humano significativo
+
+Pensá el control humano en tres capas.
+
+### 1. Control de dirección
+
+El humano define el objetivo, las restricciones, los valores y los criterios de éxito.
+
+El agente no debería inventar la misión real cuando la tarea tiene peso social, financiero, público o ético. Puede aclarar ambigüedad, proponer opciones y hacer preguntas, pero la dirección viene de un humano o de una política previamente aprobada.
+
+### 2. Control de límites
+
+El sistema define qué puede hacer el agente sin preguntar.
+
+Esto incluye herramientas permitidas, acciones prohibidas, alcances de datos, límites de presupuesto, límites de tiempo, protecciones de branch, reglas de aprobación y condiciones de detención.
+
+El control de límites convierte confianza vaga en límites operativos visibles.
+
+### 3. Control de compromiso
+
+El sistema bloquea acciones que crean consecuencias reales hasta que aparece la autoridad correcta.
+
+El control de compromiso responde: ¿cuándo esto deja de ser un borrador y se vuelve una acción? La respuesta debería ser explícita. Si el agente puede publicar, enviar, gastar, mergear, borrar, desplegar o cambiar permisos, el sistema necesita una ruta clara de aprobación.
+
+## Niveles de autoridad
+
+Un sistema práctico de agentes puede usar niveles de autoridad en vez de un único prompt genérico de permiso.
+
+### Nivel 0: Observar
+
+El agente puede leer información pública o aprobada y resumirla.
+
+Ejemplos típicos: buscar documentación pública, inspeccionar archivos locales, leer logs que el usuario ya autorizó.
+
+### Nivel 1: Preparar
+
+El agente puede crear borradores, planes, patches, reportes, corridas de tests y paquetes de revisión.
+
+La regla clave: el output es revisable antes de afectar al mundo exterior.
+
+### Nivel 2: Modificar workspace reversible
+
+El agente puede editar archivos locales o de una branch cuando los cambios son visibles, diffable y recuperables.
+
+Ejemplos: crear una feature branch, actualizar una lección en borrador, correr formatting, regenerar archivos de descubrimiento trackeados.
+
+### Nivel 3: Pedir compromiso
+
+El agente puede pedir una decisión humana con evidencia y opciones.
+
+Ejemplos: pedir aprobación para pushear una branch, abrir un draft PR, enviar un mensaje preparado o publicar un artefacto revisado.
+
+### Nivel 4: Comprometer dentro de una política aprobada
+
+El sistema puede ejecutar una acción real solo dentro de una política estrecha que ya fue aprobada.
+
+Ejemplos: enviar un reporte interno programado a un canal fijo, reiniciar un servicio que no es producción después de una falla de health check, o postear una nota de estado generada a una cola privada de revisión.
+
+### Nivel 5: Restringido o solo humano
+
+Algunas acciones deberían quedarse como solo humanas por defecto.
+
+Ejemplos: deploys de producción, cambios de permisos de cuentas, pagos, publicación pública, borrado destructivo, compromisos legales y mensajes enviados con la voz personal de un humano.
+
+Los niveles exactos pueden variar por proyecto. El movimiento importante es separar capacidad de autoridad.
+
+## Capacidad vs autoridad
+
+Un modelo puede ser capaz de escribir un email convincente. Eso no significa que tenga autoridad para enviarlo.
+
+Una herramienta puede ser capaz de borrar una fila de una base de datos. Eso no significa que el agente debería poder llamarla.
+
+Un workflow puede ser capaz de publicar un artículo pulido. Eso no significa que la publicación debería ser automática.
+
+Capacidad es lo que el sistema técnicamente puede hacer. Autoridad es lo que el sistema tiene permitido hacer bajo límites humanos, organizacionales, legales y éticos.
+
+El diseño de agentes se vuelve más seguro cuando cada herramienta tiene dos etiquetas:
+
+1. **Capacidad:** qué puede hacer la herramienta.
+2. **Requisito de autoridad:** qué nivel de permiso se necesita antes de que la acción ocurra.
+
+Sin la segunda etiqueta, los agentes tienden a tratar todas las herramientas disponibles como igualmente disponibles.
+
+## Policy gates
+
+Una policy gate es una regla que se ubica entre preparación y compromiso.
+
+Una policy gate útil incluye:
+
+- **Disparador:** ¿qué tipo de acción se está pidiendo?
+- **Autoridad requerida:** ¿quién o qué puede aprobarla?
+- **Evidencia:** ¿qué debe mostrarse antes de aprobar?
+- **Alternativas:** ¿el agente puede proponer un paso más chico y seguro?
+- **Rastro de auditoría:** ¿qué debería registrarse?
+- **Plan de rollback:** ¿qué pasa si la acción estuvo mal?
+
+Una gate débil dice: "¿Estás seguro?"
+
+Una gate fuerte dice: "Esta acción va a publicar este texto en esta superficie pública, bajo esta identidad, con estos riesgos conocidos. Elegí publicar, revisar, programar o cancelar."
+
+El punto no es frenar todo. El punto es pedir juicio humano donde el juicio realmente importa.
+
+## Teatro de aprobación como modo de falla
+
+El teatro de aprobación ocurre cuando un sistema parece centrado en humanos pero no le da control real al humano.
+
+Señales comunes:
+
+1. El prompt de aprobación es vago.
+2. El humano no puede inspeccionar la acción antes de aprobar.
+3. La acción viene empaquetada con cambios no relacionados.
+4. Se le pregunta al humano después de que el compromiso importante ya ocurrió.
+5. La opción por defecto está diseñada para apurar la aceptación.
+6. El sistema oculta incertidumbre, checks fallidos o evidencia faltante.
+7. El mismo botón de aprobación cubre borradores de bajo riesgo y acciones irreversibles de alto riesgo.
+
+El teatro de aprobación es peligroso porque conserva la apariencia de responsabilidad mientras debilita la práctica de responsabilidad.
+
+## Checklist práctico de diseño
+
+Usá este checklist cuando diseñes un workflow de agentes.
+
+1. **Nombrá la acción.** ¿Qué puede hacer exactamente el agente?
+2. **Clasificá la acción.** ¿Es observar, preparar, modificar, pedir compromiso, comprometer dentro de una política o solo humano?
+3. **Separá preparación de compromiso.** ¿El agente puede preparar un borrador sin tomar la acción real?
+4. **Mostrá evidencia.** ¿Qué archivos, resultados de tests, fuentes, diffs, logs o supuestos debería ver el humano?
+5. **Mantené opciones reales.** ¿El humano puede aprobar, rechazar, revisar, reducir alcance o pedir más evidencia?
+6. **Hacé honesto el momento.** ¿La aprobación ocurre antes de la consecuencia importante?
+7. **Limitá herramientas.** ¿Las herramientas peligrosas están fuera de alcance hasta llegar al nivel correcto de autoridad?
+8. **Registrá la decisión.** ¿Alguien puede saber después qué se aprobó y por qué?
+9. **Diseñá para el no.** ¿El workflow se comporta bien cuando el humano dice que no?
+10. **Testeá la gate.** Probá una solicitud riesgosa y confirmá que el sistema se detiene, pregunta o baja a preparación.
+
+Un buen sistema de aprobación debería hacer fácil el camino seguro y explícito el camino peligroso.
+
+## Checkpoint de teach-back
+
+Respondé con tus propias palabras:
+
+1. ¿Cuál es la diferencia entre preparación y compromiso?
+2. ¿Por qué un botón de aprobación no alcanza para crear agencia humana?
+3. Dá un ejemplo de una capacidad que un agente puede tener sin autoridad para usar.
+4. ¿Qué información debería mostrar una policy gate antes de que un humano apruebe una acción?
+5. ¿Cuál es una señal de teatro de aprobación?
+
+## Reflexión de Turtleand
+
+El objetivo no es hacer que los humanos hagan clic en más botones. El objetivo es mantener a los humanos responsables de la dirección, el gusto, la ética, el riesgo y la consecuencia, mientras los agentes preparan mejor trabajo.
+
+Los sistemas de agentes centrados en humanos no deberían tratar al humano como un sello de goma. Deberían tratarlo como la fuente de autoridad legítima.
+
+Ese es el patrón de diseño más profundo: automatizar preparación, exponer evidencia, preservar elección y gatear compromiso.
+
+## Hechos vs interpretación de Turtleand
+
+**Hechos:**
+
+- Los frameworks públicos de agentes documentan controles human-in-the-loop para revisar o aprobar acciones antes de la ejecución.
+- Las guías de gestión de riesgo de IA suelen enfatizar gobernanza, responsabilidad, medición y gestión de riesgo para sistemas de IA.
+- Los agentes que usan herramientas pueden técnicamente realizar acciones fuera de la interfaz de chat cuando están conectados a APIs, archivos, navegadores o sistemas de automatización.
+
+**Interpretación de Turtleand:**
+
+- La aprobación humana es un objetivo de diseño demasiado débil. La agencia humana es el mejor objetivo.
+- El límite más importante en la arquitectura de agentes muchas veces no es lo que el modelo puede hacer, sino lo que tiene autoridad para comprometer.
+- Los sistemas de agentes fuertes deberían hacer barata la preparación, visible la evidencia y deliberado el compromiso.
+
+## Fuentes
+
+- [Documentación de LangChain: Human-in-the-loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop)
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
