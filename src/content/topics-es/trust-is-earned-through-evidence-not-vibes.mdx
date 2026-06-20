@@ -1,0 +1,118 @@
+---
+title: 'La confianza se gana con evidencia, no con vibes'
+module: 'Module 5: Agent Architecture'
+subtopic: 'evaluations-trust-infrastructure'
+summary: 'Cómo los sistemas de agentes ganan confianza con tareas acotadas, límites de permiso, observabilidad, evaluaciones, fallbacks y verificación independiente.'
+status: 'in-progress'
+articles: []
+---
+
+## Idea central
+
+La confianza no es una sensación sobre un agente. La confianza es una conclusión ganada con evidencia.
+
+Un sistema de agentes responsable debería mostrar qué se le pidió hacer, qué tenía permitido tocar, qué pasó, qué se chequeó, qué falló y cuándo frenó o preguntó a una persona.
+
+No amplíes la autoridad de un agente porque suena seguro. Ampliála solo cuando el sistema demostró comportamiento seguro bajo el nivel de consecuencia que estás por darle.
+
+## El problema de confianza
+
+Los agentes pueden sonar cuidadosos mientras actúan sobre evidencia débil.
+
+Pueden decir que terminaron sin producir el artefacto. Pueden reportar éxito porque una herramienta devolvió un estado feliz. Pueden pasar una demo y fallar en casos cercanos. Pueden seguir una policy escrita en el prompt mientras todavía tienen acceso a herramientas que esa policy debería bloquear.
+
+Por eso la confianza tiene que diseñarse como infraestructura, no concederse como estado de ánimo.
+
+## Cinco capas de infraestructura de confianza
+
+Un sistema de agentes serio necesita al menos cinco capas alrededor del modelo:
+
+1. **Definición de tarea:** nombrar el trabajo, la condición de éxito, los inputs permitidos y la condición de parada.
+2. **Límites de permiso:** darle al agente solo las herramientas y datos que necesita para la tarea actual.
+3. **Observabilidad:** guardar traces, artefactos, status codes, IDs, diffs o logs que permitan inspeccionar qué pasó.
+4. **Evaluación y revisión:** testear comportamiento antes de usarlo, después revisar salidas importantes y fallos durante el trabajo real.
+5. **Fallback o escalamiento:** saber cuándo reintentar, revertir, cambiar de camino o preguntar a una persona.
+
+Estas capas convierten la confianza de una apuesta en un proceso.
+
+## Calidad de evidencia
+
+No toda evidencia tiene la misma fuerza.
+
+| Nivel de evidencia | Ejemplo | Valor de confianza |
+| --- | --- | --- |
+| Débil | El agente dice que tuvo éxito. | Sirve como afirmación, no como prueba. |
+| Mejor | Una herramienta devuelve status, ID, trace, diff o artefacto. | Muestra qué observó el sistema. |
+| Más fuerte | Un chequeo separado verifica el resultado de forma independiente. | Confirma el resultado fuera de la propia afirmación del agente. |
+
+Para borradores de bajo riesgo, la evidencia débil puede alcanzar para seguir. Para consecuencias públicas, financieras, de cuentas, datos, reputación o irreversibles, pedí evidencia más fuerte.
+
+## Evaluación offline y online
+
+La evaluación offline pregunta: "¿Cómo se comporta este sistema en casos de test antes del uso real?"
+
+La evaluación online pregunta: "¿Cómo se comporta este sistema mientras ocurre trabajo real?"
+
+Las dos importan.
+
+Los tests offline ayudan a detectar fallos predecibles antes de que el agente toque tareas reales. Los checks online detectan comportamiento desordenado, herramientas que cambiaron, contexto faltante y casos borde inesperados.
+
+Un sistema confiable no depende de un benchmark perfecto. Sigue juntando evidencia.
+
+## La policy no alcanza
+
+Una policy dice qué debería pasar.
+
+La infraestructura decide qué puede pasar.
+
+Un prompt puede decir: "No publiques sin aprobación." Eso es más débil que un workflow donde el agente puede redactar, pero la acción de publicar no está disponible hasta que una persona aprueba explícitamente.
+
+Un prompt puede decir: "Usá acceso read-only primero." Eso es más débil que un límite de permiso que realmente da acceso read-only hasta que la tarea gana un scope más fuerte.
+
+La confianza crece cuando la policy está aplicada por el sistema alrededor del modelo.
+
+## Confianza ajustada al riesgo
+
+Cuanto mayor es la consecuencia, más fuerte debería ser la evidencia.
+
+Usá una escalera simple:
+
+1. **Privado y reversible:** redactar, resumir, organizar, comparar.
+2. **Privado pero con cambio de estado:** editar archivos locales, actualizar notas, preparar registros.
+3. **Externo o público:** enviar, publicar, invitar, desplegar, compartir.
+4. **Alta consecuencia:** dinero, cuentas, sistemas de producción, datos privados, impacto legal o de seguridad.
+
+Cada escalón necesita permisos más estrechos, evaluación más fuerte, observabilidad más clara y más autoridad humana.
+
+## Checklist de builder
+
+Antes de confiarle más autoridad a un agente, preguntá:
+
+1. ¿Qué tarea exacta tiene permiso para hacer?
+2. ¿Qué puede leer, escribir, llamar o cambiar?
+3. ¿Qué evidencia prueba que la tarea salió bien?
+4. ¿Qué evidencia probaría que falló?
+5. ¿Quién revisa la salida antes de que aumenten las consecuencias?
+6. ¿Qué pasa si una herramienta devuelve resultados parciales, viejos o ambiguos?
+7. ¿Qué acciones son imposibles hasta que una persona aprueba?
+8. ¿Qué trace permitiría auditar la decisión después?
+
+Si esas respuestas son vagas, el sistema todavía no ganó confianza ampliada.
+
+## Práctica rápida
+
+Elegí un workflow de agente y escribí tres líneas:
+
+```text
+Permitido: qué puede hacer el agente solo
+Evidencia: qué prueba que la acción funcionó
+Escalar: cuándo debe decidir la persona
+```
+
+Por ejemplo, un asistente de investigación puede juntar fuentes públicas solo, debe mostrar links y resúmenes, y debe preguntar antes de publicar algo.
+
+## La mirada Turtleand
+
+La confianza es una propiedad del sistema.
+
+Un agente serio no pide que las personas crean en su confianza. Gana permisos más estrechos mediante evidencia, usa observabilidad para hacer el trabajo inspeccionable y mantiene responsables a las personas donde las consecuencias aumentan.

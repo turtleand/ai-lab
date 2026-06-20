@@ -24,9 +24,10 @@
 - [Context is not memory, for beginners](https://lab.turtleand.com/beginners/topics/context-is-not-memory/): A beginner explanation of the difference between what a model sees now and what a system remembers later.
 - [Planning and decomposition, for beginners](https://lab.turtleand.com/beginners/topics/planning-decomposition-control-structures/): How to make AI work better by splitting a goal into smaller steps with checks between them.
 - [The agent loop, for beginners](https://lab.turtleand.com/beginners/topics/agent-loop-controlled-feedback-loop/): A plain-language view of how agents observe, choose an action, inspect the result, and repeat safely.
-- [Agentic AI systems, for beginners](https://lab.turtleand.com/beginners/topics/agentic-ai-systems-learning-path/): A beginner map of the ideas behind agents: loop, tools, memory, planning, approval, reliability, and coordination.
+- [Agentic AI systems, for beginners](https://lab.turtleand.com/beginners/topics/agentic-ai-systems-learning-path/): A beginner map of the ideas behind agents: loop, tools, memory, planning, approval, reliability, trust infrastructure, and coordination.
 - [Human agency is not a button, for beginners](https://lab.turtleand.com/beginners/topics/human-agency-is-not-a-button/): Why responsible agent systems need real human authority, not just a decorative approval prompt.
 - [Smart is not reliable, for beginners](https://lab.turtleand.com/beginners/topics/smart-is-not-reliable/): Why impressive AI answers are not the same as dependable systems.
+- [Trust through evidence, for beginners](https://lab.turtleand.com/beginners/topics/trust-is-earned-through-evidence-not-vibes/): A plain-language guide to trusting agents only when they can show what happened, what was checked, and when humans must decide.
 
 ### Spanish beginner doorway
 - [IA para principiantes](https://lab.turtleand.com/es/beginners/): La puerta en lenguaje claro hacia AI Lab para personas que empiezan desde cero.
@@ -48,9 +49,10 @@
 - [Contexto no es memoria, para principiantes](https://lab.turtleand.com/es/beginners/topics/context-is-not-memory/): La diferencia entre lo que un modelo ve ahora y lo que un sistema recuerda después.
 - [Planificación y descomposición, para principiantes](https://lab.turtleand.com/es/beginners/topics/planning-decomposition-control-structures/): Cómo hacer que la IA trabaje mejor dividiendo un objetivo en pasos chicos con controles entre medio.
 - [El loop de agente, para principiantes](https://lab.turtleand.com/es/beginners/topics/agent-loop-controlled-feedback-loop/): Cómo los agentes observan, eligen una acción, revisan el resultado y repiten con seguridad.
-- [Sistemas agentic de IA, para principiantes](https://lab.turtleand.com/es/beginners/topics/agentic-ai-systems-learning-path/): Un mapa principiante de agentes: loop, herramientas, memoria, planificación, aprobación, confiabilidad y coordinación.
+- [Sistemas agentic de IA, para principiantes](https://lab.turtleand.com/es/beginners/topics/agentic-ai-systems-learning-path/): Un mapa principiante de agentes: loop, herramientas, memoria, planificación, aprobación, confiabilidad, infraestructura de confianza y coordinación.
 - [La agencia humana no es un botón, para principiantes](https://lab.turtleand.com/es/beginners/topics/human-agency-is-not-a-button/): Por qué los sistemas de agentes responsables necesitan autoridad humana real, no solo un prompt decorativo de aprobación.
 - [Inteligente no es confiable, para principiantes](https://lab.turtleand.com/es/beginners/topics/smart-is-not-reliable/): Por qué respuestas impresionantes de IA no son lo mismo que sistemas confiables.
+- [Confianza con evidencia, para principiantes](https://lab.turtleand.com/es/beginners/topics/trust-is-earned-through-evidence-not-vibes/): Una guía simple para confiar en agentes solo cuando pueden mostrar qué pasó, qué se chequeó y cuándo decide una persona.
 
 ### Module 0: Fast Track Setup
 - [Access & secrets](https://lab.turtleand.com/topics/access-secrets): Configure API keys and secrets securely for model access.
@@ -81,9 +83,10 @@
 
 ### Module 5: Agent Architecture
 - [The agent loop as a controlled feedback loop](https://lab.turtleand.com/topics/agent-loop-controlled-feedback-loop): A beginner lesson on how useful AI agents observe state, choose bounded actions, inspect results, and keep humans responsible for risky steps.
-- [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A concise learning map for agents: loop, tools, memory, planning, approval, reliability, routing, and coordination.
+- [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A concise learning map for agents: loop, tools, memory, planning, approval, reliability, trust infrastructure, routing, and coordination.
 - [Human Agency Is Not a Button](https://lab.turtleand.com/topics/human-agency-is-not-a-button): A beginner lesson on why responsible agent systems need authority boundaries, not just approval prompts.
 - [Smart Is Not Reliable](https://lab.turtleand.com/topics/smart-is-not-reliable): Why agent reliability is a system property built from checks, constraints, recovery paths, observability, and human escalation.
+- [Trust Is Earned Through Evidence, Not Vibes](https://lab.turtleand.com/topics/trust-is-earned-through-evidence-not-vibes): How agent systems earn trust through scoped tasks, permission boundaries, observability, evaluations, fallback paths, and independent verification.
 
 ## About
 Created by Turtleand, software engineer building AI education that's practical, not theoretical.

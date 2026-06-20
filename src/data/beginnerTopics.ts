@@ -599,7 +599,7 @@ export const beginnerTopics: BeginnerTopic[] = [
     moduleSlug: 'module-5',
     moduleTitle: 'Understand agents without the hype',
     summary:
-      'A beginner map of the ideas behind agents: loop, tools, memory, planning, approval, reliability, and coordination.',
+      'A beginner map of the ideas behind agents: loop, tools, memory, planning, approval, reliability, trust infrastructure, and coordination.',
     plainMeaning:
       'An agentic system is an AI workflow that can take steps toward a goal by using context, tools, checks, and sometimes memory.',
     whyItMatters:
@@ -683,6 +683,38 @@ export const beginnerTopics: BeginnerTopic[] = [
       'Escalate repeated failures to humans.'
     ],
     order: 53
+  },
+  {
+    slug: 'trust-is-earned-through-evidence-not-vibes',
+    technicalSlug: 'trust-is-earned-through-evidence-not-vibes',
+    title: 'Trust through evidence, for beginners',
+    shortTitle: 'Trust through evidence',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Understand agents without the hype',
+    summary:
+      'A plain-language guide to trusting agents only when they can show what happened, what was checked, and when humans must decide.',
+    plainMeaning:
+      'Do not trust an agent because it sounds confident. Trust grows when the system can show its work, prove results, respect permissions, and stop at the right boundary.',
+    whyItMatters:
+      'As agents get more tools, mistakes can move from text into real actions. Evidence helps people decide when an agent may continue alone and when it needs review.',
+    safeExample:
+      'A file helper should show the created file path and a verification check before saying the upload or save worked.',
+    firstMoves: [
+      'Start with a small task.',
+      'Name what evidence proves success.',
+      'Keep permissions narrow.',
+      'Require human approval before consequences increase.'
+    ],
+    commonMistake:
+      "Treating the agent's success message as proof that the real-world result happened.",
+    guardrails: [
+      'Ask what the agent is allowed to touch.',
+      'Look for an artifact, status, trace, or independent check.',
+      'Use read-only access before write access when possible.',
+      'Escalate public, financial, account, data, or irreversible actions.'
+    ],
+    order: 54
   }
 ];
 
@@ -1268,7 +1300,7 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
     moduleSlug: 'module-5',
     moduleTitle: 'Entender agentes sin hype',
     summary:
-      'Un mapa principiante de agentes: loop, herramientas, memoria, planificación, aprobación, confiabilidad y coordinación.',
+      'Un mapa principiante de agentes: loop, herramientas, memoria, planificación, aprobación, confiabilidad, infraestructura de confianza y coordinación.',
     plainMeaning:
       'Un sistema agentic es un workflow de IA que puede dar pasos hacia un objetivo usando contexto, herramientas, checks y a veces memoria.',
     whyItMatters:
@@ -1352,6 +1384,38 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
       'Escalá fallos repetidos a personas.'
     ],
     order: 53
+  },
+  {
+    slug: 'trust-is-earned-through-evidence-not-vibes',
+    technicalSlug: 'trust-is-earned-through-evidence-not-vibes',
+    title: 'Confianza con evidencia, para principiantes',
+    shortTitle: 'Confianza con evidencia',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Entender agentes sin hype',
+    summary:
+      'Una guía simple para confiar en agentes solo cuando pueden mostrar qué pasó, qué se chequeó y cuándo decide una persona.',
+    plainMeaning:
+      'No confíes en un agente porque suena seguro. La confianza crece cuando el sistema puede mostrar su trabajo, probar resultados, respetar permisos y frenar en el límite correcto.',
+    whyItMatters:
+      'A medida que los agentes ganan herramientas, los errores pueden pasar del texto a acciones reales. La evidencia ayuda a decidir cuándo un agente puede seguir solo y cuándo necesita revisión.',
+    safeExample:
+      'Un ayudante de archivos debería mostrar la ruta del archivo creado y un chequeo de verificación antes de decir que el upload o guardado funcionó.',
+    firstMoves: [
+      'Empezá con una tarea chica.',
+      'Nombrá qué evidencia prueba el éxito.',
+      'Mantené permisos estrechos.',
+      'Pedí aprobación humana antes de que suban las consecuencias.'
+    ],
+    commonMistake:
+      'Tratar el mensaje de éxito del agente como prueba de que el resultado real ocurrió.',
+    guardrails: [
+      'Preguntá qué puede tocar el agente.',
+      'Buscá un artefacto, status, trace o chequeo independiente.',
+      'Usá acceso read-only antes de acceso de escritura cuando se pueda.',
+      'Escalá acciones públicas, financieras, de cuentas, datos o irreversibles.'
+    ],
+    order: 54
   }
 ];
 
@@ -1402,9 +1466,9 @@ export const moduleIntros = [
     title: 'Understand agents without the hype',
     titleEs: 'Entender agentes sin hype',
     summary:
-      'Beginner versions of agent loops, agentic systems, human agency, and reliability.',
+      'Beginner versions of agent loops, agentic systems, human agency, reliability, and trust infrastructure.',
     summaryEs:
-      'Versiones principiantes de loops de agentes, sistemas agentic, agencia humana y confiabilidad.'
+      'Versiones principiantes de loops de agentes, sistemas agentic, agencia humana, confiabilidad e infraestructura de confianza.'
   }
 ];
 
