@@ -36,7 +36,7 @@ const resolveLink = (link?: string) => {
 };
 ---
 
-<BaseLayout title={topic.data.title} description={topic.data.summary}>
+<BaseLayout title={topic.data.title} description={topic.data.summary} ogType="article">
   <section class="card" aria-labelledby="topic-title-es">
     <div class="pill inline">{topic.data.module}</div>
     <h1 id="topic-title-es">{topic.data.title}</h1>
