@@ -640,6 +640,36 @@ Go deeper: https://lab.turtleand.com/topics/smart-is-not-reliable/
 
 ---
 
+# Trust through evidence, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/trust-is-earned-through-evidence-not-vibes/
+
+Based on: https://lab.turtleand.com/topics/trust-is-earned-through-evidence-not-vibes/
+
+Do not trust an agent because it sounds confident. Trust grows when the system can show its work, prove results, respect permissions, and stop at the right boundary.
+
+Why it matters: As agents get more tools, mistakes can move from text into real actions. Evidence helps people decide when an agent may continue alone and when it needs review.
+
+Small safe example: A file helper should show the created file path and a verification check before saying the upload or save worked.
+
+First moves:
+- Start with a small task.
+- Name what evidence proves success.
+- Keep permissions narrow.
+- Require human approval before consequences increase.
+
+Common mistake: Treating the agent's success message as proof that the real-world result happened.
+
+Guardrails:
+- Ask what the agent is allowed to touch.
+- Look for an artifact, status, trace, or independent check.
+- Use read-only access before write access when possible.
+- Escalate public, financial, account, data, or irreversible actions.
+
+Go deeper: https://lab.turtleand.com/topics/trust-is-earned-through-evidence-not-vibes/
+
+---
+
 # IA para principiantes
 
 Route: https://lab.turtleand.com/es/beginners/
@@ -1275,6 +1305,36 @@ Guardrails:
 - Escalá fallos repetidos a personas.
 
 Go deeper: https://lab.turtleand.com/es/topics/smart-is-not-reliable/
+
+---
+
+# Confianza con evidencia, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/trust-is-earned-through-evidence-not-vibes/
+
+Based on: https://lab.turtleand.com/es/topics/trust-is-earned-through-evidence-not-vibes/
+
+No confíes en un agente porque suena seguro. La confianza crece cuando el sistema puede mostrar su trabajo, probar resultados, respetar permisos y frenar en el límite correcto.
+
+Why it matters: A medida que los agentes ganan herramientas, los errores pueden pasar del texto a acciones reales. La evidencia ayuda a decidir cuándo un agente puede seguir solo y cuándo necesita revisión.
+
+Small safe example: Un ayudante de archivos debería mostrar la ruta del archivo creado y un chequeo de verificación antes de decir que el upload o guardado funcionó.
+
+First moves:
+- Empezá con una tarea chica.
+- Nombrá qué evidencia prueba el éxito.
+- Mantené permisos estrechos.
+- Pedí aprobación humana antes de que suban las consecuencias.
+
+Common mistake: Tratar el mensaje de éxito del agente como prueba de que el resultado real ocurrió.
+
+Guardrails:
+- Preguntá qué puede tocar el agente.
+- Buscá un artefacto, status, trace o chequeo independiente.
+- Usá acceso read-only antes de acceso de escritura cuando se pueda.
+- Escalá acciones públicas, financieras, de cuentas, datos o irreversibles.
+
+Go deeper: https://lab.turtleand.com/es/topics/trust-is-earned-through-evidence-not-vibes/
 
 ---
 
@@ -3902,9 +3962,10 @@ Learn the layers in order so autonomy stays visible, testable, and accountable.
 4. **Planning:** split work into steps without treating the plan as proof.
 5. **Approval:** require review for public, financial, account, data, reputation, or irreversible actions.
 6. **Reliability:** test behavior, inspect failures, and catch fluent wrongness.
-7. **Routing:** choose models by difficulty, risk, latency, and cost.
-8. **Handoffs:** use multiple agents only when coordination pays for itself.
-9. **Artifacts:** turn private learning into notes, diagrams, repos, or failure reports.
+7. **Trust infrastructure:** grow permissions only from evidence, observability, and enforced boundaries.
+8. **Routing:** choose models by difficulty, risk, latency, and cost.
+9. **Handoffs:** use multiple agents only when coordination pays for itself.
+10. **Artifacts:** turn private learning into notes, diagrams, repos, or failure reports.
 
 ## Simple example
 
@@ -3924,7 +3985,7 @@ Keep examples generic, reversible, and safe to discuss in public.
 
 Teach agents as bounded work systems, not autonomous personalities. Add autonomy only when the control surface is clear.
 
-Future lessons should link back here when they cover loops, tools, memory, planning, evaluation, routing, and coordination.
+Future lessons should link back here when they cover loops, tools, memory, planning, evaluation, trust infrastructure, routing, and coordination.
 
 ---
 
@@ -4305,4 +4366,120 @@ Answer in your own words:
 Reliability is a system property.
 
 A serious agent does not just sound smart. It checks the world, updates from evidence, contains failure, and asks humans at the boundary where consequences increase.
+
+---
+
+# Trust Is Earned Through Evidence, Not Vibes
+
+Module: Module 5: Agent Architecture
+
+## Core idea
+
+Trust is not a feeling about an agent. Trust is a conclusion earned from evidence.
+
+A responsible agent system should show what it was asked to do, what it was allowed to touch, what happened, what was checked, what failed, and when it stopped or asked a human.
+
+Do not expand an agent's authority because it sounds confident. Expand authority only when the system has demonstrated safe behavior under the level of consequence you are about to give it.
+
+## The trust problem
+
+Agents can sound careful while acting on weak evidence.
+
+They can say they finished without producing the artifact. They can report success because one tool returned a happy status. They can pass one demo while failing nearby cases. They can follow a policy in the prompt while still having access to tools the policy should have blocked.
+
+That is why trust has to be designed as infrastructure, not granted as a mood.
+
+## Five layers of trust infrastructure
+
+A serious agent system needs at least five layers around the model:
+
+1. **Task definition:** name the job, success condition, allowed inputs, and stop condition.
+2. **Permission boundaries:** give the agent only the tools and data it needs for the current task.
+3. **Observability:** keep traces, artifacts, status codes, IDs, diffs, or logs that let a human inspect what happened.
+4. **Evaluation and review:** test behavior before use, then review important outputs and failures during real work.
+5. **Fallback or escalation:** know when to retry, roll back, switch paths, or ask a human.
+
+These layers turn trust from a guess into a process.
+
+## Evidence quality
+
+Not all evidence has the same strength.
+
+| Evidence level | Example | Trust value |
+| --- | --- | --- |
+| Weak | The agent says it succeeded. | Useful as a claim, not proof. |
+| Better | A tool returns a status, ID, trace, diff, or artifact. | Shows what the system observed. |
+| Strongest | A separate check verifies the result independently. | Confirms the outcome outside the agent's own claim. |
+
+For low-risk drafts, weak evidence may be enough to continue. For public, financial, account, data, reputation, or irreversible consequences, require stronger evidence.
+
+## Offline and online evaluation
+
+Offline evaluation asks: "How does this system behave in test cases before real use?"
+
+Online evaluation asks: "How does this system behave while real work is happening?"
+
+Both matter.
+
+Offline tests help catch predictable failure modes before the agent touches real tasks. Online checks catch messy behavior, changed tools, missing context, and unexpected edge cases.
+
+A trustworthy system does not rely on one perfect benchmark. It keeps collecting evidence.
+
+## Policy is not enough
+
+A policy says what should happen.
+
+Infrastructure decides what can happen.
+
+A prompt can say, "Do not publish without approval." That is weaker than a workflow where the agent can draft, but the publish action is unavailable until a human explicitly approves it.
+
+A prompt can say, "Use read-only access first." That is weaker than a permission boundary that actually gives read-only access until the task earns a stronger scope.
+
+Trust grows when policy is enforced by the system around the model.
+
+## Risk-adjusted trust
+
+The higher the consequence, the stronger the evidence should be.
+
+Use a simple ladder:
+
+1. **Private and reversible:** draft, summarize, organize, compare.
+2. **Private but state-changing:** edit local files, update notes, prepare records.
+3. **External or public:** send, publish, invite, deploy, share.
+4. **High consequence:** money, accounts, production systems, private data, legal or safety impact.
+
+Each step up the ladder needs tighter permissions, stronger evaluation, clearer observability, and more human authority.
+
+## Builder checklist
+
+Before trusting an agent with more authority, ask:
+
+1. What exact task is it trusted to do?
+2. What can it read, write, call, or change?
+3. What evidence proves the task succeeded?
+4. What evidence would prove it failed?
+5. Who reviews the output before consequences increase?
+6. What happens if a tool returns partial, stale, or ambiguous results?
+7. What actions are impossible until a human approves them?
+8. What trace would let someone audit the decision later?
+
+If those answers are vague, the system has not earned expanded trust yet.
+
+## Quick practice
+
+Pick one agent workflow and write three lines:
+
+```text
+Allowed: what the agent may do alone
+Evidence: what proves the action worked
+Escalate: when the human must decide
+```
+
+For example, a research assistant may gather public sources alone, must show source links and summaries, and must ask before anything is published.
+
+## Turtleand take
+
+Trust is a system property.
+
+A serious agent does not ask humans to believe in its confidence. It earns narrower permissions through evidence, uses observability to make work inspectable, and keeps humans responsible where consequences rise.
 
