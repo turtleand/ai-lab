@@ -35,6 +35,7 @@
 - [The agent loop as a controlled feedback loop](https://lab.turtleand.com/topics/agent-loop-controlled-feedback-loop): A beginner lesson on how useful AI agents observe state, choose bounded actions, inspect results, and keep humans responsible for risky steps.
 - [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A concise learning map for agents: loop, tools, memory, planning, approval, reliability, routing, and coordination.
 - [Human Agency Is Not a Button](https://lab.turtleand.com/topics/human-agency-is-not-a-button): A beginner lesson on why responsible agent systems need authority boundaries, not just approval prompts.
+- [Smart Is Not Reliable](https://lab.turtleand.com/topics/smart-is-not-reliable): Why agent reliability is a system property built from checks, constraints, recovery paths, observability, and human escalation.
 
 ## About
 Created by Turtleand — software engineer building AI education that's practical, not theoretical.

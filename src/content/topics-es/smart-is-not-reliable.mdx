@@ -1,0 +1,103 @@
+---
+title: 'Ser inteligente no es ser fiable'
+module: 'Module 5: Agent Architecture'
+subtopic: 'resilience-reliability'
+summary: 'Por qué la fiabilidad de un agente es una propiedad del sistema, construida con chequeos, límites, recuperación, observabilidad y escalamiento humano.'
+status: 'in-progress'
+---
+
+## Idea central
+
+Un agente inteligente igual puede ser poco fiable.
+
+Hablar con fluidez no es lo mismo que decir la verdad. Sonar seguro no es lo mismo que haber terminado bien. Un agente útil necesita un sistema alrededor del modelo que chequee la realidad, maneje fallos y sepa cuándo parar.
+
+La fiabilidad viene del loop, no de la personalidad del asistente.
+
+## El loop de chequeo de realidad
+
+Un agente fiable vuelve siempre a la evidencia:
+
+```text
+claim
+  ↓
+evidencia
+  ↓
+acción
+  ↓
+observación
+  ↓
+actualizar, reintentar, parar o escalar
+```
+
+El loop importa porque el mundo puede contradecir al agente. Un archivo puede no existir. Una herramienta puede devolver datos parciales. Una web puede cambiar. Un comando puede ejecutarse sin producir el resultado que hacía falta.
+
+Los sistemas fiables notan esa brecha.
+
+## Fallos comunes
+
+Los agentes suelen fallar de maneras bastante normales:
+
+- actúan sobre supuestos viejos
+- confían en el resultado de una herramienta sin interpretar qué significa
+- confunden un mensaje de éxito con un resultado verificado
+- repiten demasiadas veces la misma acción fallida
+- hacen dos veces una acción que no era segura de repetir
+- siguen avanzando cuando la tarea ya se volvió riesgosa o incierta
+
+El peligro no es solo una respuesta incorrecta. El peligro es un loop de acción que sigue moviéndose cuando la evidencia dice que debería frenar.
+
+## Controles de fiabilidad
+
+Un buen diseño de agente agrega controles alrededor de la acción:
+
+1. **Chequeos de estado:** verificá el estado inicial antes de actuar.
+2. **Chequeos de resultado:** verificá qué cambió después de actuar.
+3. **Clasificación de errores:** separá errores temporales, falta de contexto, problemas de permiso y estados inseguros.
+4. **Reintentos limitados:** volvé a intentar solo cuando el error sugiere que un retry puede servir.
+5. **Conciencia de idempotencia:** evitá repetir acciones que podrían crear duplicados o efectos irreversibles.
+6. **Caminos de recuperación:** sabé si conviene revertir, compensar, pausar o pedir ayuda.
+7. **Observabilidad:** dejá suficiente evidencia para que una persona entienda qué pasó.
+8. **Escalamiento humano:** frená antes de consecuencias públicas, financieras, de cuenta, reputación, datos o acciones irreversibles.
+
+Estos controles hacen que el agente sea menos mágico y más útil.
+
+## Un ejemplo simple
+
+Imaginá un ayudante de investigación que prepara una lista de lectura.
+
+Un ayudante poco fiable dice: "Encontré cinco fuentes", aunque solo haya inferido títulos.
+
+Un ayudante más fiable chequea si cada fuente se abrió, si la fuente sostiene el resumen, si alguna afirmación necesita una segunda fuente y si la lista final requiere revisión humana antes de publicarse.
+
+El modelo puede ser inteligente, pero el sistema solo es fiable cuando la evidencia moldea el próximo paso.
+
+## Checklist de builder
+
+Antes de confiarle una tarea a un agente, preguntá:
+
+1. ¿Qué necesita observar antes de actuar?
+2. ¿Qué resultado debería verificar después de actuar?
+3. ¿Qué acciones son seguras de reintentar?
+4. ¿Qué acciones deberían pasar una sola vez?
+5. ¿Qué cuenta como fallo?
+6. ¿Cuándo debería parar el agente?
+7. ¿Cuándo debería decidir una persona?
+
+Si faltan esas respuestas, el agente puede parecer capaz y seguir siendo frágil.
+
+## Checkpoint para principiantes
+
+Respondé con tus palabras:
+
+1. ¿Por qué un modelo fluido igual puede ser poco fiable?
+2. ¿Cuál es la diferencia entre un mensaje de éxito de una herramienta y un resultado verificado?
+3. ¿Por qué los reintentos necesitan límites?
+4. ¿Qué tipos de acciones necesitan escalamiento humano?
+5. ¿Cómo protege la observabilidad al humano en el loop?
+
+## La mirada Turtleand
+
+La fiabilidad es una propiedad del sistema.
+
+Un agente serio no solo suena inteligente. Chequea el mundo, actualiza desde la evidencia, contiene fallos y pregunta a humanos en el límite donde las consecuencias aumentan.
