@@ -4,6 +4,54 @@ import { join } from 'path';
 
 const TOPICS_DIR = join(import.meta.dirname, '..', 'src', 'content', 'topics');
 const PUBLIC_DIR = join(import.meta.dirname, '..', 'public');
+const BEGINNER_ARTICLES = [
+  {
+    title: 'Module 0 beginner path',
+    route: 'https://lab.turtleand.com/beginners/module-0/',
+    summary:
+      'The first beginner path through AI Lab: safe AI habits, local AI basics, and clear next steps before the full technical module.',
+    body: `Module 0 is the beginner starting point. It keeps the first path simple: learn the safety habit, understand what local AI means, then move into the full technical guide when ready.
+
+Read these beginner articles in order:
+- Start safely with AI tools.
+- Running AI locally.
+
+The full Module 0 page remains available for the deeper setup and safety structure, but the beginner route starts with beginner articles first.`
+  },
+  {
+    title: 'Start safely with AI tools',
+    route: 'https://lab.turtleand.com/beginners/topics/start-safely-with-ai/',
+    summary:
+      'A beginner safety baseline for using AI tools without giving away private data, judgment, or responsibility.',
+    body: `The first AI skill is not prompting. It is knowing what should stay out of the tool, what a model can help with, and where the human still has to make the final call.
+
+Safety starts with the small habit before the prompt: decide what the system should not see. Use public, invented, or low-risk text first. Remove names, account details, secrets, addresses, internal plans, and anything that would create risk if copied elsewhere.
+
+Treat the model as a helper that gives a first pass. The human still decides what is accurate, useful, ethical, and worth using. If the answer affects money, health, legal matters, access, reputation, or another person, slow down and verify with a better source.`
+  },
+  {
+    title: 'Running AI locally, for beginners',
+    route:
+      'https://lab.turtleand.com/beginners/topics/running-inference-locally/',
+    summary:
+      'A plain-language first path for understanding local AI inference before reading the full technical guide.',
+    body: `Running AI locally means using an AI model on your own computer instead of sending every prompt to a cloud service.
+
+A beginner does not need to master the whole stack first. The useful first path is to understand the basic pieces, choose one small model, use one runtime, ask one safe test question, and notice the trade-off between privacy, control, speed, memory, and setup friction.
+
+Key ideas:
+- A model is the file that contains learned patterns.
+- Inference is the act of using that model to produce an answer.
+- A runtime is the software that loads the model and makes it answer.
+- Local inference is a learning lab first, not a production system.
+
+Safety habits:
+- Do not paste secrets, passwords, private account data, or sensitive internal context.
+- Check whether the answer is useful before trusting it.
+- If the model is too slow or fails to load, use a smaller model.
+- Read the full technical guide when ready for llama.cpp, quantization, model size choices, and concrete setup steps.`
+  }
+];
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);
@@ -64,6 +112,10 @@ async function main() {
 > A hands-on, 6-module curriculum for building practical LLM tools and agents. Self-paced, free, and open.
 
 ## Curriculum
+
+### Beginner doorway
+- [AI for Beginners](https://lab.turtleand.com/beginners/): A zero-start doorway into Turtleand AI Lab that explains AI in plain language while keeping human judgment at the center.
+${BEGINNER_ARTICLES.map((article) => `- [${article.title}](${article.route}): ${article.summary}`).join('\n')}
 `;
 
   for (const [mod, items] of grouped) {
@@ -76,7 +128,7 @@ async function main() {
 
   llms += `
 ## About
-Created by Turtleand — software engineer building AI education that's practical, not theoretical.
+Created by Turtleand, software engineer building AI education that's practical, not theoretical.
 - Portal: https://turtleand.com
 - GitHub: https://github.com/turtleand
 `;
@@ -85,7 +137,11 @@ Created by Turtleand — software engineer building AI education that's practica
   console.log('Generated public/llms.txt');
 
   // Generate llms-full.txt
-  let full = `# Turtleand AI Lab — Full Content\n\n`;
+  let full = `# Turtleand AI Lab: Full Content\n\n---\n\n# AI for Beginners\n\nRoute: https://lab.turtleand.com/beginners/\n\nA plain-language doorway into Turtleand AI Lab for people starting from zero. It is based on the ideas, lessons, and structure of the main AI Lab, rewritten for beginners while keeping human judgment, participation, and responsibility at the center.\n\n`;
+  for (const article of BEGINNER_ARTICLES) {
+    full += `---\n\n# ${article.title}\n\nRoute: ${article.route}\n\n${article.body}\n\n`;
+  }
+
   for (const [mod, items] of grouped) {
     if (items.length === 0) continue;
     for (const t of items) {

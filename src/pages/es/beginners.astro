@@ -1,0 +1,355 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'IA para principiantes';
+const description =
+  'Una ruta práctica en lenguaje claro por Turtleand AI Lab para personas que empiezan desde cero, con el juicio humano en el centro.';
+
+const firstPrinciples = [
+  {
+    title: 'La IA es una herramienta para pensar y crear',
+    body: 'Puede explicar, redactar, comparar, resumir, clasificar, programar y usar herramientas cuando una persona le da dirección.'
+  },
+  {
+    title: 'La IA no es juicio',
+    body: 'Un modelo puede sonar seguro y aun así equivocarse. La persona revisa hechos, gusto, riesgo y consecuencias.'
+  },
+  {
+    title: 'AI Lab es la ruta más profunda',
+    body: 'El AI Lab principal tiene la estructura técnica completa. Esta ruta para principiantes explica las mismas ideas en lecciones más pequeñas y prácticas.'
+  }
+];
+
+const humanRoles = [
+  'Definir el objetivo antes de pedir ayuda al sistema.',
+  'Dar contexto, límites, ejemplos y estándares.',
+  'Contrastar la salida con la realidad antes de confiar en ella.',
+  'Decidir qué es ético, útil, valioso y digno de hacerse.',
+  'Convertir el aprendizaje útil en un hábito repetible o un artefacto público.'
+];
+
+const starterPractices = [
+  {
+    label: '1',
+    title: 'Convierte una nota desordenada en un resumen claro',
+    body: 'Pega notas no sensibles, pide un resumen de cinco bullets y corrige cualquier cosa que el modelo haya entendido mal.'
+  },
+  {
+    label: '2',
+    title: 'Pide una explicación a tu nivel',
+    body: 'Usa un prompt como: Explícalo para una persona principiante. Incluye definición, analogía, por qué importa y una advertencia.'
+  },
+  {
+    label: '3',
+    title: 'Compara dos opciones antes de decidir',
+    body: 'Pide trade-offs, riesgos y una recomendación. Después toma la decisión final tú.'
+  },
+  {
+    label: '4',
+    title: 'Crea un hábito seguro',
+    body: 'Antes de pegar algo, elimina detalles privados, secretos, datos de cuentas y contexto operativo interno.'
+  }
+];
+
+const beginnerModules = [
+  {
+    module: 'Módulo 0',
+    title: 'Empezar con seguridad',
+    moduleHref: '/es/beginners/module-0/',
+    actionLabel: 'Abrir la ruta principiante del Módulo 0',
+    body: 'La versión principiante de setup, seguridad, modelos básicos y primeros workflows útiles.',
+    lessons: [
+      'Para qué puede ayudar la IA hoy, en lenguaje simple.',
+      'Cómo ejecutar un modelo localmente difiere de usar una app de chat alojada.',
+      'Qué no conviene pegar en una herramienta de IA, y por qué.'
+    ],
+    practice:
+      'Empieza con la ruta principiante del Módulo 0, prueba un prompt seguro y marca qué fue útil, incorrecto o riesgoso.'
+  },
+  {
+    module: 'Módulo 1',
+    title: 'Usar IA para trabajo cotidiano',
+    mainHref: '/modules/module-1/',
+    body: 'Contrapartes en lenguaje claro para prompting, elección de herramientas, voz, multimodalidad y colaboración.',
+    lessons: [
+      'Resumir, reescribir, comparar y planear sin entregar el juicio.',
+      'Elegir entre chat, búsqueda, voz, imagen y herramientas de código.',
+      'Trabajar con IA como colaboradora, no como autoridad.'
+    ],
+    practice:
+      'Toma un workflow real y sepáralo en objetivo, contexto, borrador, revisión y decisión final.'
+  },
+  {
+    module: 'Módulo 2',
+    title: 'Construir un ritmo personal con IA',
+    mainHref: '/modules/module-2/',
+    body: 'Un puente principiante hacia automatización, memoria, distribución y workflows repetibles de conocimiento.',
+    lessons: [
+      'Convertir tareas repetidas en checklists antes de automatizarlas.',
+      'Entender la diferencia entre notas, memoria y artefactos públicos.',
+      'Usar IA para preparar trabajo sin dejar que publique por ti.'
+    ],
+    practice:
+      'Elige una tarea semanal repetida y escribe el paso de aprobación humana antes de cualquier paso de automatización.'
+  },
+  {
+    module: 'Módulo 3',
+    title: 'Entender las ideas bajo la superficie',
+    mainHref: '/modules/module-3/',
+    body: 'Explicaciones para principiantes sobre interfaces, entradas, salidas, contexto, planificación y patrones de razonamiento.',
+    lessons: [
+      'Por qué los modelos predicen texto útil pero no conocen la verdad por defecto.',
+      'Por qué contexto no es lo mismo que memoria.',
+      'Cómo dividir una tarea en pasos mejora la respuesta.'
+    ],
+    practice:
+      'Haz la misma pregunta dos veces: una vaga y otra con objetivo, contexto, límites y formato. Compara las salidas.'
+  },
+  {
+    module: 'Módulo 4',
+    title: 'Encontrar y usar tu conocimiento',
+    mainHref: '/modules/module-4/',
+    body: 'Una ruta no técnica hacia retrieval, búsqueda en documentos, fragmentación y verificación de respuestas fundamentadas.',
+    lessons: [
+      'Por qué la IA necesita el material correcto antes de responder sobre tus documentos.',
+      'Cómo búsqueda, resúmenes y citas reducen la adivinación.',
+      'Qué verificar antes de confiar en una respuesta generada.'
+    ],
+    practice:
+      'Dale a la IA un artículo público corto y pídele responder solo desde ese texto. Revisa si cada afirmación está apoyada.'
+  },
+  {
+    module: 'Módulo 5',
+    title: 'Entender agentes sin hype',
+    mainHref: '/modules/module-5/',
+    body: 'Versiones principiantes de ciclos de agente, uso de herramientas, flujo de control, agencia humana y confiabilidad.',
+    lessons: [
+      'Qué hace que un agente sea distinto de un chat normal.',
+      'Por qué respuestas inteligentes no son lo mismo que sistemas confiables.',
+      'Dónde pertenece la aprobación humana en un workflow de agentes.'
+    ],
+    practice:
+      'Dibuja un ciclo simple de agente: objetivo, contexto, llamada a herramienta, revisión del resultado, decisión humana.'
+  },
+  {
+    module: 'Módulo 6',
+    title: 'Pasar de experimentos a productos',
+    mainHref: '/modules/module-6/',
+    body: 'Un puente principiante hacia modelos locales, despliegue, evaluación y sistemas de IA útiles.',
+    lessons: [
+      'Por qué una demo no es lo mismo que un producto confiable.',
+      'Cómo probar salidas antes de confiar en un workflow.',
+      'Qué cambia cuando otras personas dependen del sistema.'
+    ],
+    practice:
+      'Escribe tres comprobaciones que un workflow debe pasar antes de que otra persona lo use.'
+  }
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="card signal-hero" aria-labelledby="beginners-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Puerta para principiantes</p>
+      <h1 id="beginners-title">IA para principiantes</h1>
+      <p>
+        Una entrada práctica a Turtleand AI Lab para personas que empiezan desde
+        cero. El objetivo es hacer que la IA sea usable, entendible y dirigida
+        por humanos desde la primera lección.
+      </p>
+      <div class="cta" aria-label="Acciones de la página para principiantes">
+        <a class="primary" href="#beginner-lessons"
+          >Ver lecciones para principiantes</a
+        >
+        <a href="/es/modules/module-0/">Abrir la ruta completa de AI Lab</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card featured" aria-labelledby="page-purpose">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Propósito</p>
+        <h2 id="page-purpose">Para qué sirve esta página</h2>
+      </div>
+    </div>
+    <p>
+      Esta página no es una página separada de filosofía. Es la versión para
+      principiantes del currículo de AI Lab: la misma jerarquía de módulos donde
+      tiene sentido, reescrita como lecciones más pequeñas para personas que aún
+      no tienen vocabulario técnico.
+    </p>
+    <p>
+      Cada artículo para principiantes debe acompañar una idea del AI Lab
+      principal. La versión principiante explica la idea, muestra un caso de uso
+      pequeño y seguro, y da un paso práctico simple antes de enviar a la
+      persona al módulo completo.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="plain-definition">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Definición simple</p>
+        <h2 id="plain-definition">Qué significa IA acá</h2>
+      </div>
+    </div>
+    <p>
+      IA es software que puede reconocer patrones, generar salidas útiles y
+      ayudar con pensamiento o acción cuando una persona le da dirección.
+    </p>
+    <p>
+      Eso puede significar chat, ayuda de búsqueda, apoyo para escribir,
+      generación de imágenes, asistencia de programación, herramientas de audio,
+      workflows de investigación o agentes que usan herramientas. Los nombres
+      cambian. La responsabilidad humana no.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="first-principles">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Primeros principios</p>
+        <h2 id="first-principles">Tres ideas para mantener firmes</h2>
+      </div>
+    </div>
+    <ul class="subtopic-list">
+      {
+        firstPrinciples.map((item) => (
+          <li class="subtopic-bullet">
+            <span class="bullet-dot" aria-hidden="true" />
+            <div>
+              <div class="subtopic-title">{item.title}</div>
+              <p>{item.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="human-center">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Centro humano</p>
+        <h2 id="human-center">Qué sigue haciendo la persona</h2>
+      </div>
+    </div>
+    <p>
+      Turtleand trata la IA como multiplicador de fuerza, no como reemplazo de
+      la agencia. Un sistema útil hace que la persona sea más capaz, no menos
+      responsable.
+    </p>
+    <ul>
+      {humanRoles.map((role) => <li>{role}</li>)}
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="starter-practice">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Empieza aquí</p>
+        <h2 id="starter-practice">Cuatro primeros movimientos prácticos</h2>
+      </div>
+    </div>
+    <div class="stacked">
+      {
+        starterPractices.map((step) => (
+          <article class="info-panel practice-step">
+            <strong>
+              {step.label}. {step.title}
+            </strong>
+            <p>{step.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section
+    class="card"
+    aria-labelledby="beginner-lessons"
+    id="beginner-lessons"
+  >
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Columna de lecciones</p>
+        <h2 id="beginner-lessons">
+          La ruta de AI Lab, explicada para principiantes
+        </h2>
+      </div>
+    </div>
+    <p>
+      Estas son las líneas de artículos para principiantes dentro de AI Lab.
+      Siguen el orden principal de módulos lo más cerca posible, pero cada línea
+      empieza con lenguaje simple, un caso práctico y un hábito de seguridad
+      antes de profundizar.
+    </p>
+    <div class="stacked">
+      {
+        beginnerModules.map((module) =>
+          module.moduleHref ? (
+            <a
+              class="beginner-module-card clickable-card"
+              href={module.moduleHref}
+              aria-label={`${module.actionLabel}: ${module.title}`}
+            >
+              <p class="pill inline">{module.module}</p>
+              <h3>{module.title}</h3>
+              <p>{module.body}</p>
+              <ul>
+                {module.lessons.map((lesson) => (
+                  <li>{lesson}</li>
+                ))}
+              </ul>
+              <p>
+                <strong>Práctica:</strong> {module.practice}
+              </p>
+              <span class="card-action" aria-hidden="true">
+                {module.actionLabel} →
+              </span>
+            </a>
+          ) : (
+            <article class="beginner-module-card info-panel">
+              <p class="pill inline">{module.module}</p>
+              <h3>{module.title}</h3>
+              <p>{module.body}</p>
+              <ul>
+                {module.lessons.map((lesson) => (
+                  <li>{lesson}</li>
+                ))}
+              </ul>
+              <p>
+                <strong>Práctica:</strong> {module.practice}
+              </p>
+            </article>
+          )
+        )
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="next-step">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Siguiente paso</p>
+        <h2 id="next-step">Cuando quieras profundizar</h2>
+      </div>
+    </div>
+    <p>
+      Empieza con la práctica principiante que encaje con tu tarea actual.
+      Cuando la idea esté lo suficientemente clara para usarla, continúa hacia
+      el módulo correspondiente de AI Lab para la versión técnica completa.
+    </p>
+    <div class="cta" aria-label="Próximas acciones para principiantes">
+      <a class="primary" href="/es/beginners/module-0/"
+        >Abrir ruta principiante del Módulo 0</a
+      >
+      <a href="https://atlas.turtleand.com/"
+        >Comparar herramientas en AI Atlas</a
+      >
+    </div>
+  </section>
+</BaseLayout>

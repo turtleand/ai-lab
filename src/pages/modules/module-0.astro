@@ -9,9 +9,10 @@ const moduleSummary =
 
 const subtopics = [
   {
-    id: 'simple-ai',
-    title: 'Simple AI',
-    summary: 'Understand AI in simple terms, then choose the right next route.'
+    id: 'beginners',
+    title: 'AI for Beginners',
+    summary: 'Start from zero with a human-centered doorway into AI Lab.',
+    href: '/beginners/'
   },
   {
     id: 'running-inference-locally',
@@ -47,13 +48,13 @@ const topicBySubtopic = new Map(
 
 const subtopicEntries = subtopics.map((definition) => {
   const topic = topicBySubtopic.get(definition.id);
-  const href = topic ? `/topics/${topic.id}/` : undefined;
+  const href = definition.href ?? (topic ? `/topics/${topic.id}/` : undefined);
 
   return {
     ...definition,
-    status: topic?.data.status ?? 'planned',
+    status: topic?.data.status ?? (definition.href ? 'done' : 'planned'),
     href,
-    hasContent: Boolean(topic)
+    hasContent: Boolean(definition.href || topic)
   };
 });
 ---

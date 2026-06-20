@@ -14,10 +14,11 @@ const normalizeModuleKey = (value: string) => {
 
 const subtopics = [
   {
-    id: 'simple-ai',
-    title: 'IA simple',
+    id: 'beginners',
+    title: 'IA para principiantes',
     summary:
-      'Entendé la IA en términos simples y elegí la próxima ruta correcta.'
+      'Empieza desde cero con una puerta de entrada a AI Lab centrada en el juicio humano.',
+    href: '/es/beginners/'
   },
   {
     id: 'running-inference-locally',
@@ -64,14 +65,15 @@ const spanishTopicBySubtopic = new Map(
 const subtopicEntries = subtopics.map((definition) => {
   const spanishTopic = spanishTopicBySubtopic.get(definition.id);
   const topic = spanishTopic ?? topicBySubtopic.get(definition.id);
-  const href = topic ? `/es/topics/${topic.id}/` : undefined;
+  const href =
+    definition.href ?? (topic ? `/es/topics/${topic.id}/` : undefined);
 
   return {
     ...definition,
-    status: topic?.data.status ?? 'planned',
+    status: topic?.data.status ?? (definition.href ? 'done' : 'planned'),
     summary: spanishTopic?.data.summary ?? definition.summary,
     href,
-    hasContent: Boolean(topic)
+    hasContent: Boolean(definition.href || topic)
   };
 });
 ---

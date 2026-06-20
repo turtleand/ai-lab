@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const title = 'Empezar con seguridad usando IA';
+const description =
+  'Una base de seguridad para principiantes que usan herramientas de IA sin entregar datos privados, juicio ni responsabilidad.';
+
+const firstMoves = [
+  {
+    title: 'Usá primero material inofensivo',
+    body: 'Empezá con texto público, inventado o de bajo riesgo. No pruebes una herramienta nueva con algo privado o importante.'
+  },
+  {
+    title: 'Quitá contexto privado antes de pegar',
+    body: 'Sacá nombres, datos de cuentas, secretos, direcciones, planes internos y cualquier cosa que genere riesgo si queda copiada en otro lugar.'
+  },
+  {
+    title: 'Pedí un borrador, no una respuesta final',
+    body: 'Tratá al modelo como una ayuda que da una primera versión. Vos seguís decidiendo qué es correcto, útil, ético y digno de usarse.'
+  },
+  {
+    title: 'Revisá antes de actuar',
+    body: 'Si la respuesta afecta dinero, salud, temas legales, accesos, reputación u otra persona, bajá la velocidad y verificá con una fuente mejor.'
+  }
+];
+
+const safePrompt = `Explicá en qué puede ayudar la IA en el trabajo cotidiano.
+Usá lenguaje para principiantes.
+Incluí una analogía, tres usos seguros y tres cosas que no debería pegar en una herramienta de IA.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="card signal-hero" aria-labelledby="safe-ai-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Artículo principiante</p>
+      <h1 id="safe-ai-title">Empezar con seguridad usando IA</h1>
+      <p>
+        La primera habilidad con IA no es el prompting. Es saber qué debe quedar
+        afuera de la herramienta, en qué puede ayudar un modelo y dónde la
+        persona todavía tiene que tomar la decisión final.
+      </p>
+      <div class="cta" aria-label="Acciones seguras de IA para principiantes">
+        <a class="primary" href="/es/beginners/module-0/">Volver al Módulo 0</a>
+        <a href="/es/topics/safety-baseline/">Profundizar en la guía técnica</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card featured" aria-labelledby="plain-meaning">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Significado simple</p>
+        <h2 id="plain-meaning">Qué significa seguridad acá</h2>
+      </div>
+    </div>
+    <p>
+      La seguridad con IA empieza con el hábito pequeño antes del prompt:
+      decidir qué no debería ver el sistema. Un modelo puede ayudarte a pensar,
+      pero no debería convertirse en el lugar donde se acumulan detalles
+      privados, secretos o decisiones sin revisar.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="first-moves">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Primeros pasos</p>
+        <h2 id="first-moves">El hábito seguro más pequeño</h2>
+      </div>
+    </div>
+    <div class="stacked">
+      {
+        firstMoves.map((move, index) => (
+          <article class="info-panel path-step">
+            <strong>
+              {index + 1}. {move.title}
+            </strong>
+            <p>{move.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="safe-prompt">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Probar con seguridad</p>
+        <h2 id="safe-prompt">Un primer prompt seguro</h2>
+      </div>
+    </div>
+    <p>Usá un prompt que no incluya material personal ni privado:</p>
+    <pre><code>{safePrompt}</code></pre>
+  </section>
+
+  <section class="card" aria-labelledby="go-deeper">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Profundizar</p>
+        <h2 id="go-deeper">Cuando quieras el modelo completo de seguridad</h2>
+      </div>
+    </div>
+    <p>
+      La versión principiante te da el hábito. La guía técnica completa de
+      seguridad explica la base más amplia para riesgo, permisos, verificación y
+      uso de herramientas.
+    </p>
+    <div class="cta" aria-label="Enlaces para profundizar en seguridad">
+      <a class="primary" href="/es/topics/safety-baseline/">
+        Leer la guía completa de seguridad
+      </a>
+      <a href="/es/beginners/topics/running-inference-locally/"
+        >Siguiente artículo principiante</a
+      >
+    </div>
+  </section>
+</BaseLayout>

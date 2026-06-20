@@ -25,14 +25,15 @@ const formatModuleKey = (value: string) => value.replace('Module', 'Módulo');
 
 const moduleSubtopics: Record<
   string,
-  { id: string; title: string; summary: string }[]
+  { id: string; title: string; summary: string; href?: string }[]
 > = {
   'Module 0': [
     {
-      id: 'simple-ai',
-      title: 'IA simple',
+      id: 'beginners',
+      title: 'IA para principiantes',
       summary:
-        'Una puerta inicial para entender la IA y elegir la próxima ruta correcta.'
+        'Una entrada desde cero a AI Lab con el juicio humano en el centro.',
+      href: '/es/beginners/'
     },
     {
       id: 'running-inference-locally',
@@ -347,8 +348,9 @@ const subtopicsForModule = (module) => {
     const key = `${module.key}:${definition.id}`;
     const spanishTopic = spanishTopicLookup.get(key);
     const topic = spanishTopic ?? englishTopicLookup.get(key);
-    const href = topic ? buildTopicHref(topic.id) : undefined;
-    const hasContent = Boolean(topic);
+    const href =
+      definition.href ?? (topic ? buildTopicHref(topic.id) : undefined);
+    const hasContent = Boolean(definition.href || topic);
 
     return {
       title: definition.title,
@@ -377,21 +379,24 @@ const subtopicsForModule = (module) => {
     </div>
   </section>
 
-  <section class="card featured" aria-labelledby="simple-ai-doorway">
+  <section class="card featured" aria-labelledby="beginners-doorway">
     <div class="section-title">
       <div>
         <p class="pill inline">Empezá acá</p>
-        <h2 id="simple-ai-doorway">
-          ¿Sos nuevo en IA? Usá la puerta IA simple.
+        <h2 id="beginners-doorway">
+          ¿Sos nuevo en IA? Usá IA para principiantes.
         </h2>
       </div>
     </div>
     <p>
-      IA simple es la ruta inicial hacia AI Lab. Explica el modelo mental
-      básico, mantiene el juicio humano en el centro y te ayuda a elegir si
-      seguís en el curriculum o si vas hacia Portal, AI Atlas, Build o Hermes.
+      IA para principiantes es la entrada desde cero a AI Lab. Explica el modelo
+      mental básico, mantiene el juicio humano en el centro y te ayuda a elegir
+      si seguís en el curriculum o si vas hacia Portal, AI Atlas, Build o
+      Hermes.
     </p>
-    <a class="pill inline" href="/es/topics/simple-ai/">Abrir IA simple →</a>
+    <a class="pill inline" href="/es/beginners/">
+      Abrir IA para principiantes →
+    </a>
   </section>
 
   <section class="card featured" aria-labelledby="hermes-title">

@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const title = 'Ejecutar IA localmente, para principiantes';
+const description =
+  'Un primer paso en lenguaje simple para entender la inferencia local antes de leer la guía técnica completa.';
+
+const firstRunSteps = [
+  {
+    title: 'Empieza con un modelo pequeño',
+    body: 'Elige un modelo de texto pequeño antes de probar algo grande. Un primer objetivo útil es un modelo de 3B a 7B con cuantización de 4 bits.'
+  },
+  {
+    title: 'Usa un solo runtime',
+    body: 'Un runtime es el programa que carga el modelo y hace que responda. El artículo completo de AI Lab usa llama.cpp como primera ruta concreta.'
+  },
+  {
+    title: 'Haz una pregunta segura de prueba',
+    body: 'Usa texto público o no sensible primero. Confirma que el modelo responde antes de darle algo personal o importante.'
+  },
+  {
+    title: 'Mira el trade-off',
+    body: 'La IA local puede mejorar privacidad y aprendizaje, pero está limitada por tu computadora. Los modelos más grandes necesitan más memoria, almacenamiento y paciencia.'
+  }
+];
+
+const safetyChecks = [
+  'No pegues secretos, contraseñas, datos privados de cuentas ni contexto interno sensible.',
+  'Revisa si la respuesta es útil antes de confiar en ella.',
+  'Si el modelo es demasiado lento o no carga, usa un modelo más pequeño.',
+  'Trata la inferencia local primero como un laboratorio de aprendizaje, no como un sistema de producción.'
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="card signal-hero" aria-labelledby="beginner-topic-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Artículo principiante</p>
+      <h1 id="beginner-topic-title">Ejecutar IA localmente</h1>
+      <p>
+        Ejecutar IA localmente significa usar un modelo de IA en tu propia
+        computadora en vez de enviar cada prompt a un servicio en la nube. Para
+        principiantes, el primer objetivo no es dominar toda la pila. Es
+        entender qué está pasando y completar una primera ejecución segura.
+      </p>
+      <div
+        class="cta"
+        aria-label="Acciones de inferencia local para principiantes"
+      >
+        <a class="primary" href="/es/topics/running-inference-locally/">
+          Profundizar en la guía técnica
+        </a>
+        <a href="/es/beginners/module-0/">Volver al Módulo 0</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card featured" aria-labelledby="plain-meaning">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Significado simple</p>
+        <h2 id="plain-meaning">Qué significa esto</h2>
+      </div>
+    </div>
+    <p>
+      Un modelo es el archivo que contiene patrones aprendidos. Inferencia es el
+      acto de usar ese modelo para producir una respuesta. Inferencia local
+      significa que el modelo corre en tu dispositivo, mediante un runtime, y
+      produce texto sin necesitar una app de chat alojada para esa ejecución
+      específica.
+    </p>
+    <p>
+      No estás entrenando un modelo. Estás usando un modelo ya entrenado en un
+      entorno más controlado.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="why-local">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Por qué importa</p>
+        <h2 id="why-local">
+          Por qué debería importarle a una persona principiante
+        </h2>
+      </div>
+    </div>
+    <ul class="subtopic-list">
+      <li class="subtopic-bullet">
+        <span class="bullet-dot" aria-hidden="true"></span>
+        <div>
+          <div class="subtopic-title">Control</div>
+          <p>
+            Podés aprender cómo corren los modelos sin depender de un solo
+            producto alojado.
+          </p>
+        </div>
+      </li>
+      <li class="subtopic-bullet">
+        <span class="bullet-dot" aria-hidden="true"></span>
+        <div>
+          <div class="subtopic-title">Hábito de privacidad</div>
+          <p>
+            Local no vuelve seguro cualquier uso, pero te enseña a pensar adónde
+            van los datos.
+          </p>
+        </div>
+      </li>
+      <li class="subtopic-bullet">
+        <span class="bullet-dot" aria-hidden="true"></span>
+        <div>
+          <div class="subtopic-title">Mejor juicio</div>
+          <p>
+            Ves los límites directamente: velocidad, memoria, tamaño del modelo,
+            calidad y fricción de setup.
+          </p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="first-path">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Primera ruta</p>
+        <h2 id="first-path">La ruta útil más pequeña</h2>
+      </div>
+    </div>
+    <div class="stacked">
+      {
+        firstRunSteps.map((step, index) => (
+          <article class="info-panel path-step">
+            <strong>
+              {index + 1}. {step.title}
+            </strong>
+            <p>{step.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="safe-first-prompt">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Probar con seguridad</p>
+        <h2 id="safe-first-prompt">Un primer prompt seguro</h2>
+      </div>
+    </div>
+    <p>Usa algo público o inventado primero:</p>
+    <pre><code>Estoy aprendiendo cómo funciona la IA local.
+Explica la diferencia entre ejecutar un modelo localmente y usar una app de chat alojada.
+Usa lenguaje simple, una analogía y tres consejos de seguridad para principiantes.</code></pre>
+  </section>
+
+  <section class="card" aria-labelledby="safety-checks">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Límites</p>
+        <h2 id="safety-checks">Qué revisar antes de avanzar</h2>
+      </div>
+    </div>
+    <ul>
+      {safetyChecks.map((check) => <li>{check}</li>)}
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="go-deeper">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Profundizar</p>
+        <h2 id="go-deeper">Cuando quieras el setup real</h2>
+      </div>
+    </div>
+    <p>
+      La versión principiante te da el mapa. El artículo técnico completo
+      recorre la ruta del runtime local, tamaños de modelo, cuantización y un
+      ejemplo concreto con llama.cpp.
+    </p>
+    <div class="cta" aria-label="Enlaces para profundizar">
+      <a class="primary" href="/es/topics/running-inference-locally/">
+        Leer el artículo técnico completo
+      </a>
+      <a href="/es/beginners/module-0/">Volver al Módulo 0</a>
+    </div>
+  </section>
+</BaseLayout>

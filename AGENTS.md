@@ -10,7 +10,7 @@ Applies only to `ai-lab/`.
 
 - AI Lab is the curriculum spine and capability-building engine of Turtleand.
 - Its job is to turn ecosystem ideas into staged learning paths from AI power user to builder.
-- Preserve sequence, clarity, teach-back value, and production-oriented learning.
+- Preserve sequence, clarity, reader usefulness, and production-oriented learning.
 - Do not let AI Lab drift into generic essays, scattered notes, product hype, or unsupported speculation.
 - Route engineering implementation articles to `build/`, persistent-agent operations to `openclaw-lab/` or `hermes-lab/`, compact doctrine to `handbook/`, tool maps to `ai-atlas/`, and ecosystem routing to `portal/`.
 
@@ -26,6 +26,7 @@ Applies only to `ai-lab/`.
 2. Prefer source edits under `src/`, `public/`, and `scripts/`.
 3. Keep changes minimal and do not hand-edit build output in `dist/`.
 4. Preserve the existing module/topic structure unless the task explicitly changes the curriculum.
+5. When adding or materially revising technical AI Lab content, add or update the proper beginner counterpart in the `/beginners` sub-space so zero-start learners have a plain-language path into the same idea.
 
 ## Public-safety review
 
@@ -36,7 +37,8 @@ Keep private things private. Share learnings, not exposure.
 ## Content quality review
 
 - Favor clarity over cleverness and beginner usefulness over jargon.
-- Review lesson clarity, progression order, exercises, teach-back prompts, and quiz value.
+- Review lesson clarity, progression order, practical exercises, and quiz value.
+- Do not add "Teach it back" sections to public repository content. Teach-back belongs only in Turtleand's internal progressive-learning sessions; public pages should use reader-facing lessons, examples, checks, summaries, or practice steps instead.
 - Avoid overclaiming, product hype, unsupported speculation, and lessons that read like generic essays.
 - Preserve Turtleand voice: calm, precise, direct, reflective when useful, practical when needed.
 - Do not introduce em dashes in public writing.
