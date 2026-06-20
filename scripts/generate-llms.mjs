@@ -4,54 +4,26 @@ import { join } from 'path';
 
 const TOPICS_DIR = join(import.meta.dirname, '..', 'src', 'content', 'topics');
 const PUBLIC_DIR = join(import.meta.dirname, '..', 'public');
-const BEGINNER_ARTICLES = [
-  {
-    title: 'Module 0 beginner path',
-    route: 'https://lab.turtleand.com/beginners/module-0/',
-    summary:
-      'The first beginner path through AI Lab: safe AI habits, local AI basics, and clear next steps before the full technical module.',
-    body: `Module 0 is the beginner starting point. It keeps the first path simple: learn the safety habit, understand what local AI means, then move into the full technical guide when ready.
+const BEGINNER_DATA_FILE = join(
+  import.meta.dirname,
+  '..',
+  'src',
+  'data',
+  'beginnerTopics.ts'
+);
 
-Read these beginner articles in order:
-- Start safely with AI tools.
-- Running AI locally.
+function extractBeginnerArray(source, exportName, nextExportName) {
+  const pattern = new RegExp(
+    `export const ${exportName}: BeginnerTopic\\[] = ([\\s\\S]*?);\\n\\nexport const ${nextExportName}`
+  );
+  const match = source.match(pattern);
+  if (!match) throw new Error(`Could not parse ${exportName}`);
+  return Function(`return ${match[1]}`)();
+}
 
-The full Module 0 page remains available for the deeper setup and safety structure, but the beginner route starts with beginner articles first.`
-  },
-  {
-    title: 'Start safely with AI tools',
-    route: 'https://lab.turtleand.com/beginners/topics/start-safely-with-ai/',
-    summary:
-      'A beginner safety baseline for using AI tools without giving away private data, judgment, or responsibility.',
-    body: `The first AI skill is not prompting. It is knowing what should stay out of the tool, what a model can help with, and where the human still has to make the final call.
-
-Safety starts with the small habit before the prompt: decide what the system should not see. Use public, invented, or low-risk text first. Remove names, account details, secrets, addresses, internal plans, and anything that would create risk if copied elsewhere.
-
-Treat the model as a helper that gives a first pass. The human still decides what is accurate, useful, ethical, and worth using. If the answer affects money, health, legal matters, access, reputation, or another person, slow down and verify with a better source.`
-  },
-  {
-    title: 'Running AI locally, for beginners',
-    route:
-      'https://lab.turtleand.com/beginners/topics/running-inference-locally/',
-    summary:
-      'A plain-language first path for understanding local AI inference before reading the full technical guide.',
-    body: `Running AI locally means using an AI model on your own computer instead of sending every prompt to a cloud service.
-
-A beginner does not need to master the whole stack first. The useful first path is to understand the basic pieces, choose one small model, use one runtime, ask one safe test question, and notice the trade-off between privacy, control, speed, memory, and setup friction.
-
-Key ideas:
-- A model is the file that contains learned patterns.
-- Inference is the act of using that model to produce an answer.
-- A runtime is the software that loads the model and makes it answer.
-- Local inference is a learning lab first, not a production system.
-
-Safety habits:
-- Do not paste secrets, passwords, private account data, or sensitive internal context.
-- Check whether the answer is useful before trusting it.
-- If the model is too slow or fails to load, use a smaller model.
-- Read the full technical guide when ready for llama.cpp, quantization, model size choices, and concrete setup steps.`
-  }
-];
+function beginnerArticleBody(article) {
+  return `${article.plainMeaning}\n\nWhy it matters: ${article.whyItMatters}\n\nSmall safe example: ${article.safeExample}\n\nFirst moves:\n${article.firstMoves.map((move) => `- ${move}`).join('\n')}\n\nCommon mistake: ${article.commonMistake}\n\nGuardrails:\n${article.guardrails.map((guardrail) => `- ${guardrail}`).join('\n')}\n\nGo deeper: https://lab.turtleand.com/topics/${article.technicalSlug}/`;
+}
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);
@@ -87,6 +59,17 @@ const MODULE_ORDER = [
 ];
 
 async function main() {
+  const beginnerSource = await readFile(BEGINNER_DATA_FILE, 'utf-8');
+  const beginnerArticles = extractBeginnerArray(
+    beginnerSource,
+    'beginnerTopics',
+    'beginnerTopicsEs'
+  );
+  const beginnerArticlesEs = extractBeginnerArray(
+    beginnerSource,
+    'beginnerTopicsEs',
+    'moduleIntros'
+  );
   const files = (await readdir(TOPICS_DIR)).filter((f) => f.endsWith('.mdx'));
   const topics = [];
 
@@ -115,7 +98,11 @@ async function main() {
 
 ### Beginner doorway
 - [AI for Beginners](https://lab.turtleand.com/beginners/): A zero-start doorway into Turtleand AI Lab that explains AI in plain language while keeping human judgment at the center.
-${BEGINNER_ARTICLES.map((article) => `- [${article.title}](${article.route}): ${article.summary}`).join('\n')}
+${beginnerArticles.map((article) => `- [${article.title}](https://lab.turtleand.com/beginners/topics/${article.slug}/): ${article.summary}`).join('\n')}
+
+### Spanish beginner doorway
+- [IA para principiantes](https://lab.turtleand.com/es/beginners/): La puerta en lenguaje claro hacia AI Lab para personas que empiezan desde cero.
+${beginnerArticlesEs.map((article) => `- [${article.title}](https://lab.turtleand.com/es/beginners/topics/${article.slug}/): ${article.summary}`).join('\n')}
 `;
 
   for (const [mod, items] of grouped) {
@@ -138,8 +125,13 @@ Created by Turtleand, software engineer building AI education that's practical, 
 
   // Generate llms-full.txt
   let full = `# Turtleand AI Lab: Full Content\n\n---\n\n# AI for Beginners\n\nRoute: https://lab.turtleand.com/beginners/\n\nA plain-language doorway into Turtleand AI Lab for people starting from zero. It is based on the ideas, lessons, and structure of the main AI Lab, rewritten for beginners while keeping human judgment, participation, and responsibility at the center.\n\n`;
-  for (const article of BEGINNER_ARTICLES) {
-    full += `---\n\n# ${article.title}\n\nRoute: ${article.route}\n\n${article.body}\n\n`;
+  for (const article of beginnerArticles) {
+    full += `---\n\n# ${article.title}\n\nRoute: https://lab.turtleand.com/beginners/topics/${article.slug}/\n\nBased on: https://lab.turtleand.com/topics/${article.technicalSlug}/\n\n${beginnerArticleBody(article)}\n\n`;
+  }
+
+  full += `---\n\n# IA para principiantes\n\nRoute: https://lab.turtleand.com/es/beginners/\n\nLa puerta en lenguaje claro hacia AI Lab para personas que empiezan desde cero.\n\n`;
+  for (const article of beginnerArticlesEs) {
+    full += `---\n\n# ${article.title}\n\nRoute: https://lab.turtleand.com/es/beginners/topics/${article.slug}/\n\nBased on: https://lab.turtleand.com/es/topics/${article.technicalSlug}/\n\n${beginnerArticleBody(article).replace('https://lab.turtleand.com/topics/', 'https://lab.turtleand.com/es/topics/')}\n\n`;
   }
 
   for (const [mod, items] of grouped) {

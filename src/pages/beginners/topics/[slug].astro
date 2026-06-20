@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { beginnerTopics } from '../../../data/beginnerTopics';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return beginnerTopics.map((topic) => ({
+    params: { slug: topic.slug },
+    props: { topic }
+  }));
+}
+
+const { topic } = Astro.props;
+const technicalHref = `/topics/${topic.technicalSlug}/`;
+const moduleHref = `/beginners/${topic.moduleSlug}/`;
+---
+
+<BaseLayout title={topic.title} description={topic.summary}>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'LearningResource',
+      name: topic.title,
+      description: topic.summary,
+      educationalLevel: 'Beginner',
+      author: {
+        '@type': 'Person',
+        name: 'Turtleand',
+        url: 'https://turtleand.com'
+      },
+      isAccessibleForFree: true,
+      url: `https://lab.turtleand.com/beginners/topics/${topic.slug}/`,
+      isBasedOn: `https://lab.turtleand.com/topics/${topic.technicalSlug}/`
+    })}
+  />
+
+  <section class="card signal-hero" aria-labelledby="beginner-topic-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Beginner article</p>
+      <h1 id="beginner-topic-title">{topic.title}</h1>
+      <p>{topic.summary}</p>
+      <div class="cta" aria-label="Beginner topic actions">
+        <a class="primary" href={technicalHref}
+          >Go deeper into the technical guide</a
+        >
+        <a href={moduleHref}>Back to {topic.moduleTitle}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card featured" aria-labelledby="plain-meaning">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Plain meaning</p>
+        <h2 id="plain-meaning">What this means</h2>
+      </div>
+    </div>
+    <p>{topic.plainMeaning}</p>
+  </section>
+
+  <section class="card" aria-labelledby="why-it-matters">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Why it matters</p>
+        <h2 id="why-it-matters">Why a beginner should care</h2>
+      </div>
+    </div>
+    <p>{topic.whyItMatters}</p>
+  </section>
+
+  <section class="card" aria-labelledby="safe-example">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Small safe example</p>
+        <h2 id="safe-example">Try it safely</h2>
+      </div>
+    </div>
+    <p>{topic.safeExample}</p>
+  </section>
+
+  <section class="card" aria-labelledby="first-moves">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">First moves</p>
+        <h2 id="first-moves">The smallest useful path</h2>
+      </div>
+    </div>
+    <div class="stacked">
+      {
+        topic.firstMoves.map((move, index) => (
+          <article class="info-panel path-step">
+            <strong>
+              {index + 1}. {move}
+            </strong>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="common-mistake">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Common mistake</p>
+        <h2 id="common-mistake">What to avoid</h2>
+      </div>
+    </div>
+    <p>{topic.commonMistake}</p>
+  </section>
+
+  <section class="card" aria-labelledby="guardrails">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Guardrails</p>
+        <h2 id="guardrails">Keep these checks steady</h2>
+      </div>
+    </div>
+    <ul>
+      {topic.guardrails.map((guardrail) => <li>{guardrail}</li>)}
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="go-deeper">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Go deeper</p>
+        <h2 id="go-deeper">When you want the full version</h2>
+      </div>
+    </div>
+    <p>
+      This beginner article gives you the practical starting point. The full AI
+      Lab topic has the technical details, implementation notes, and deeper
+      structure.
+    </p>
+    <div class="cta" aria-label="Go deeper links">
+      <a class="primary" href={technicalHref}>Read the full technical article</a
+      >
+      <a href={moduleHref}>Back to beginner module</a>
+    </div>
+  </section>
+</BaseLayout>

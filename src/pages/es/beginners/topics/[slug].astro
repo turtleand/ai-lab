@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { beginnerTopicsEs } from '../../../../data/beginnerTopics';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return beginnerTopicsEs.map((topic) => ({
+    params: { slug: topic.slug },
+    props: { topic }
+  }));
+}
+
+const { topic } = Astro.props;
+const technicalHref = `/es/topics/${topic.technicalSlug}/`;
+const moduleHref = `/es/beginners/${topic.moduleSlug}/`;
+---
+
+<BaseLayout title={topic.title} description={topic.summary}>
+  <section class="card signal-hero" aria-labelledby="beginner-topic-title">
+    <div class="signal-overlay" aria-hidden="true"></div>
+    <div class="signal-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-badge">Artículo principiante</p>
+      <h1 id="beginner-topic-title">{topic.title}</h1>
+      <p>{topic.summary}</p>
+      <div class="cta" aria-label="Acciones del tema principiante">
+        <a class="primary" href={technicalHref}
+          >Profundizar en la guía técnica</a
+        >
+        <a href={moduleHref}>Volver a {topic.moduleTitle}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card featured" aria-labelledby="plain-meaning">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Significado simple</p>
+        <h2 id="plain-meaning">Qué significa</h2>
+      </div>
+    </div>
+    <p>{topic.plainMeaning}</p>
+  </section>
+
+  <section class="card" aria-labelledby="why-it-matters">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Por qué importa</p>
+        <h2 id="why-it-matters">
+          Por qué debería importarle a una persona principiante
+        </h2>
+      </div>
+    </div>
+    <p>{topic.whyItMatters}</p>
+  </section>
+
+  <section class="card" aria-labelledby="safe-example">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Ejemplo seguro</p>
+        <h2 id="safe-example">Probalo de forma segura</h2>
+      </div>
+    </div>
+    <p>{topic.safeExample}</p>
+  </section>
+
+  <section class="card" aria-labelledby="first-moves">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Primeros movimientos</p>
+        <h2 id="first-moves">La ruta útil más chica</h2>
+      </div>
+    </div>
+    <div class="stacked">
+      {
+        topic.firstMoves.map((move, index) => (
+          <article class="info-panel path-step">
+            <strong>
+              {index + 1}. {move}
+            </strong>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="common-mistake">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Error común</p>
+        <h2 id="common-mistake">Qué evitar</h2>
+      </div>
+    </div>
+    <p>{topic.commonMistake}</p>
+  </section>
+
+  <section class="card" aria-labelledby="guardrails">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Límites</p>
+        <h2 id="guardrails">Mantené firmes estos checks</h2>
+      </div>
+    </div>
+    <ul>
+      {topic.guardrails.map((guardrail) => <li>{guardrail}</li>)}
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="go-deeper">
+    <div class="section-title">
+      <div>
+        <p class="pill inline">Profundizar</p>
+        <h2 id="go-deeper">Cuando quieras la versión completa</h2>
+      </div>
+    </div>
+    <p>
+      Este artículo principiante te da el punto de partida práctico. El tema
+      completo de AI Lab tiene los detalles técnicos, notas de implementación y
+      estructura más profunda.
+    </p>
+    <div class="cta" aria-label="Links para profundizar">
+      <a class="primary" href={technicalHref}
+        >Leer el artículo técnico completo</a
+      >
+      <a href={moduleHref}>Volver al módulo principiante</a>
+    </div>
+  </section>
+</BaseLayout>
