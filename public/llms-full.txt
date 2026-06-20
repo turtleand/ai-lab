@@ -2271,6 +2271,230 @@ Answer these in your own words:
 
 ---
 
+# Context is not memory
+
+Module: Module 3: Builder Foundations
+
+## Core idea
+
+Context is what the model can see right now.
+
+Memory is what the system carries forward.
+
+A bigger context window gives the model more room. It does not decide what is true, current, relevant, private, or worth keeping. Memory only helps when it is curated. Otherwise it becomes stale residue that keeps returning to future tasks.
+
+Serious agents need information governance, not just more tokens.
+
+## Desk vs filing cabinet
+
+Think of context as a desk. Think of memory as a filing cabinet.
+
+A bigger desk lets you spread out more papers. It does not tell you which papers are outdated, duplicated, private, or wrong.
+
+A filing cabinet helps across days and projects, but only if the labels and cleanup rules are good.
+
+Agents need:
+
+- a clean desk for the current task
+- a small cabinet for durable knowledge
+- rules for what should never enter either one
+
+## The distinction
+
+**Context** is short-term working input: the current prompt, instructions, retrieved files, tool results, and recent conversation.
+
+**Memory** is longer-lived state: user preferences, project conventions, stable facts, prior decisions, or lessons that should influence future work.
+
+**Governance** decides what enters, what expires, what needs verification, and what should stay out.
+
+More context increases capacity. It does not create judgment.
+
+## What can go wrong
+
+Bad memory systems fail in predictable ways:
+
+- old facts look current
+- temporary progress gets saved as durable truth
+- private details appear in the wrong task
+- conflicting notes are treated as equal
+- one bad assumption contaminates many future answers
+- too much old material drowns the actual problem
+
+The danger is not only that an agent forgets. Sometimes the danger is that it remembers the wrong thing too well.
+
+## A simple example
+
+A study-planning agent may need today's topic, the student's time limit, and the assignment instructions in context.
+
+It may also remember that the student prefers examples before definitions and is still a beginner.
+
+It should not blindly inject every old note. If an old exam date changed, that note should expire. If a preference is vague, it should be treated as uncertain. If the user corrects something, the correction should replace the stale memory.
+
+## Builder checklist
+
+Before adding memory to an agent system, ask:
+
+1. Where did this information come from?
+2. When was it last checked?
+3. Is it global, project-specific, task-specific, or private?
+4. Is it fact, assumption, summary, or user correction?
+5. When should it expire?
+6. When is it useful enough to retrieve?
+7. Should it be stored at all?
+
+This is not bureaucracy. It is reasoning hygiene.
+
+## Beginner checkpoint
+
+Answer in your own words:
+
+1. What is the difference between context and memory?
+2. Why is a bigger context window not enough?
+3. What kind of information should expire?
+4. Why should memory retrieval be selective?
+
+## Turtleand take
+
+Agent memory should compound judgment, not accumulate residue.
+
+The goal is not to remember everything. The goal is to preserve the few things that make future work clearer, safer, and more coherent.
+
+Humans remain responsible for deciding what deserves durable weight.
+
+---
+
+# Planning and decomposition as control structures for agents
+
+Module: Module 3: Builder Foundations
+
+## Core idea
+
+A plan is not proof that an agent knows what it is doing.
+
+A good plan is a control structure. It helps the agent decide what to do next, what to check, when to stop, and when to ask a human.
+
+Too little planning creates chaos. Too much planning creates rigidity. The goal is controlled adaptation.
+
+## The loop
+
+Treat a plan like a hiking route, not a script. You want a map, but you still need to notice weather, blocked paths, fatigue, and wrong turns.
+
+```text
+goal
+  ↓
+break into small steps
+  ↓
+do the next step
+  ↓
+check reality
+  ↓
+keep, revise, stop, or ask
+```
+
+The plan controls the work. Feedback controls the plan.
+
+## What decomposition does
+
+Decomposition splits a goal into smaller work units.
+
+Small units are easier to:
+
+- inspect
+- test
+- pause
+- recover from
+- explain
+- hand to a human for review
+
+"Build the lesson" is hard to control.
+
+A better version:
+
+1. define the learner outcome
+2. draft the core explanation
+3. add one example
+4. add a teach-back prompt
+5. check public safety
+6. verify the route builds
+7. ask for review before publishing
+
+Each step has a purpose and a check.
+
+## The four controls
+
+A useful agent plan answers four questions:
+
+1. **Order:** what happens first, next, and last?
+2. **Scope:** what is inside the task, and what is out?
+3. **Verification:** how will the agent know a step worked?
+4. **Escalation:** when should it stop and ask a human?
+
+That makes planning part of reliability, not just organization.
+
+## Failure modes
+
+Too little structure:
+
+- starts before understanding the goal
+- calls tools without knowing what result is needed
+- fixes symptoms instead of causes
+- produces partial artifacts with no finish line
+
+Too much structure:
+
+- continues after a prerequisite fails
+- ignores test results because the plan says to move on
+- treats a checklist as judgment
+- avoids asking the human at the risky moment
+
+Good planning sits between drift and autopilot.
+
+## Human checkpoints
+
+Human review belongs inside the plan.
+
+Agents can draft, test, and revise low-risk work. Higher-risk actions need explicit review before they happen:
+
+- publishing
+- sending messages
+- spending money
+- deleting data
+- changing production systems
+- presenting uncertain claims as facts
+
+The point is not to slow everything down. The point is to put judgment at the boundary where consequences increase.
+
+## Builder checklist
+
+Before letting an agent run a plan, ask:
+
+1. Is the goal specific?
+2. Are the steps small enough to verify?
+3. Is there a stop condition?
+4. Are risky actions gated by approval?
+5. Can the agent revise the plan when evidence changes?
+6. Is the final artifact observable?
+
+If not, the plan may create motion without control.
+
+## Beginner checkpoint
+
+Answer in your own words:
+
+1. Why is a plan not proof?
+2. How does decomposition improve verification?
+3. What is one sign of a chaotic agent?
+4. What is one sign of a rigid agent?
+5. Where should human approval appear?
+
+## Turtleand take
+
+Planning is the steering layer between intention and action.
+
+Useful agents do not worship plans. They use plans to keep work bounded, observable, reversible, and reviewable while still updating from reality.
+
+---
+
 # The agent loop as a controlled feedback loop
 
 Module: Module 5: Agent Architecture

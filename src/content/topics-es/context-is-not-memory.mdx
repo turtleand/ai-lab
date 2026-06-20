@@ -1,0 +1,93 @@
+---
+title: 'El contexto no es memoria'
+module: 'Module 3: Builder Foundations'
+subtopic: 'context-is-not-memory'
+summary: 'Por qué los agentes necesitan memoria curada, no solo ventanas de contexto más grandes.'
+status: 'in-progress'
+---
+
+## Idea central
+
+El contexto es lo que el modelo puede ver ahora.
+
+La memoria es lo que el sistema lleva hacia adelante.
+
+Una ventana de contexto más grande da más espacio. No decide qué es verdadero, actual, relevante, privado o digno de guardar. La memoria solo ayuda cuando está curada. Si no, se vuelve residuo viejo que vuelve a tareas futuras.
+
+Los agentes serios necesitan gobernanza de información, no solo más tokens.
+
+## Escritorio vs archivo
+
+Pensá el contexto como un escritorio. Pensá la memoria como un archivo.
+
+Un escritorio más grande te deja desplegar más papeles. No te dice cuáles están viejos, duplicados, privados o equivocados.
+
+Un archivo ayuda entre días y proyectos, pero solo si las etiquetas y reglas de limpieza son buenas.
+
+Los agentes necesitan:
+
+- un escritorio limpio para la tarea actual
+- un archivo chico para conocimiento durable
+- reglas sobre qué nunca debería entrar en ninguno
+
+## La distinción
+
+**Contexto** es input de trabajo de corto plazo: prompt actual, instrucciones, archivos recuperados, resultados de herramientas y conversación reciente.
+
+**Memoria** es estado de más largo plazo: preferencias del usuario, convenciones de proyecto, hechos estables, decisiones previas o lecciones que deberían influir en trabajo futuro.
+
+**Gobernanza** decide qué entra, qué expira, qué necesita verificación y qué queda afuera.
+
+Más contexto aumenta capacidad. No crea juicio.
+
+## Qué puede salir mal
+
+Los malos sistemas de memoria fallan de formas previsibles:
+
+- hechos viejos parecen actuales
+- progreso temporal se guarda como verdad durable
+- detalles privados aparecen en la tarea equivocada
+- notas contradictorias se tratan como iguales
+- un supuesto malo contamina muchas respuestas futuras
+- demasiado material viejo tapa el problema real
+
+El peligro no es solo que un agente olvide. A veces el peligro es que recuerde demasiado bien algo incorrecto.
+
+## Un ejemplo simple
+
+Un agente que arma un plan de estudio puede necesitar en contexto el tema de hoy, el límite de tiempo y las instrucciones de la tarea.
+
+También puede recordar que la persona prefiere ejemplos antes que definiciones y que todavía está en nivel principiante.
+
+No debería inyectar cada nota vieja a ciegas. Si cambió la fecha de un examen, esa nota debería expirar. Si una preferencia es vaga, debería tratarla como incierta. Si el usuario corrige algo, la corrección debería reemplazar la memoria vieja.
+
+## Checklist para builders
+
+Antes de agregar memoria a un sistema de agentes, preguntá:
+
+1. ¿De dónde salió esta información?
+2. ¿Cuándo fue revisada por última vez?
+3. ¿Es global, de proyecto, de tarea o privada?
+4. ¿Es hecho, supuesto, resumen o corrección del usuario?
+5. ¿Cuándo debería expirar?
+6. ¿Cuándo vale la pena recuperarla?
+7. ¿Debería guardarse?
+
+Esto no es burocracia. Es higiene de razonamiento.
+
+## Checkpoint para principiantes
+
+Respondé con tus propias palabras:
+
+1. ¿Cuál es la diferencia entre contexto y memoria?
+2. ¿Por qué una ventana de contexto más grande no alcanza?
+3. ¿Qué tipo de información debería expirar?
+4. ¿Por qué la recuperación de memoria debería ser selectiva?
+
+## La mirada de Turtleand
+
+La memoria de agentes debería componer juicio, no acumular residuo.
+
+El objetivo no es recordar todo. Es preservar las pocas cosas que hacen que el trabajo futuro sea más claro, seguro y coherente.
+
+Los humanos siguen siendo responsables de decidir qué merece peso durable.

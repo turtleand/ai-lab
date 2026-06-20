@@ -1,0 +1,133 @@
+---
+title: 'Planificación y descomposición como estructuras de control para agentes'
+module: 'Module 3: Builder Foundations'
+subtopic: 'planning-decomposition-control-structures'
+summary: 'Cómo los planes mantienen el trabajo de agentes limitado, observable y adaptable.'
+status: 'in-progress'
+---
+
+## Idea central
+
+Un plan no prueba que un agente sepa lo que está haciendo.
+
+Un buen plan es una estructura de control. Ayuda al agente a decidir qué hacer después, qué revisar, cuándo detenerse y cuándo preguntarle a un humano.
+
+Muy poca planificación crea caos. Demasiada planificación crea rigidez. El objetivo es adaptación controlada.
+
+## El loop
+
+Tratá un plan como una ruta de caminata, no como un guion. Querés un mapa, pero también necesitás notar clima, caminos bloqueados, cansancio y giros equivocados.
+
+```text
+objetivo
+  ↓
+dividir en pasos chicos
+  ↓
+hacer el próximo paso
+  ↓
+verificar la realidad
+  ↓
+mantener, revisar, detenerse o preguntar
+```
+
+El plan controla el trabajo. El feedback controla el plan.
+
+## Qué hace la descomposición
+
+Descomponer divide un objetivo en unidades de trabajo más pequeñas.
+
+Las unidades chicas son más fáciles de:
+
+- inspeccionar
+- testear
+- pausar
+- recuperar
+- explicar
+- pasar a un humano para revisión
+
+"Construí la lección" es difícil de controlar.
+
+Una versión mejor:
+
+1. definir el resultado de aprendizaje
+2. redactar la explicación central
+3. agregar un ejemplo
+4. agregar un prompt de teach-back
+5. revisar seguridad pública
+6. verificar que la ruta compile
+7. pedir revisión antes de publicar
+
+Cada paso tiene un propósito y una verificación.
+
+## Los cuatro controles
+
+Un plan útil para agentes responde cuatro preguntas:
+
+1. **Orden:** ¿qué pasa primero, después y al final?
+2. **Alcance:** ¿qué está dentro de la tarea y qué queda afuera?
+3. **Verificación:** ¿cómo sabrá el agente que un paso funcionó?
+4. **Escalada:** ¿cuándo debería detenerse y preguntarle a un humano?
+
+Eso hace que la planificación sea parte de la fiabilidad, no solo de la organización.
+
+## Modos de falla
+
+Muy poca estructura:
+
+- empieza antes de entender el objetivo
+- llama herramientas sin saber qué resultado necesita
+- arregla síntomas en vez de causas
+- produce artefactos parciales sin línea de llegada
+
+Demasiada estructura:
+
+- sigue después de que falla un prerrequisito
+- ignora tests porque el plan dice avanzar
+- trata una checklist como juicio
+- evita preguntarle al humano en el momento riesgoso
+
+La buena planificación vive entre la deriva y el piloto automático.
+
+## Checkpoints humanos
+
+La revisión humana pertenece dentro del plan.
+
+Los agentes pueden redactar, testear y revisar trabajo de bajo riesgo. Las acciones de más riesgo necesitan revisión explícita antes de ocurrir:
+
+- publicar
+- enviar mensajes
+- gastar dinero
+- borrar datos
+- cambiar sistemas de producción
+- presentar afirmaciones inciertas como hechos
+
+El punto no es frenar todo. Es poner juicio en el límite donde suben las consecuencias.
+
+## Checklist para builders
+
+Antes de dejar que un agente ejecute un plan, preguntá:
+
+1. ¿El objetivo es específico?
+2. ¿Los pasos son suficientemente chicos para verificarlos?
+3. ¿Hay condición de detención?
+4. ¿Las acciones riesgosas requieren aprobación?
+5. ¿El agente puede revisar el plan cuando cambia la evidencia?
+6. ¿El artefacto final es observable?
+
+Si no, el plan puede crear movimiento sin control.
+
+## Checkpoint para principiantes
+
+Respondé con tus propias palabras:
+
+1. ¿Por qué un plan no es prueba?
+2. ¿Cómo mejora la verificación la descomposición?
+3. ¿Cuál es una señal de un agente caótico?
+4. ¿Cuál es una señal de un agente rígido?
+5. ¿Dónde debería aparecer la aprobación humana?
+
+## La mirada de Turtleand
+
+La planificación es la capa de dirección entre intención y acción.
+
+Los agentes útiles no adoran los planes. Los usan para mantener el trabajo limitado, observable, reversible y revisable mientras se actualizan con la realidad.

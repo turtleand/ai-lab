@@ -1,0 +1,93 @@
+---
+title: 'Context is not memory'
+module: 'Module 3: Builder Foundations'
+subtopic: 'context-is-not-memory'
+summary: 'Why agents need curated memory, not just bigger context windows.'
+status: 'in-progress'
+---
+
+## Core idea
+
+Context is what the model can see right now.
+
+Memory is what the system carries forward.
+
+A bigger context window gives the model more room. It does not decide what is true, current, relevant, private, or worth keeping. Memory only helps when it is curated. Otherwise it becomes stale residue that keeps returning to future tasks.
+
+Serious agents need information governance, not just more tokens.
+
+## Desk vs filing cabinet
+
+Think of context as a desk. Think of memory as a filing cabinet.
+
+A bigger desk lets you spread out more papers. It does not tell you which papers are outdated, duplicated, private, or wrong.
+
+A filing cabinet helps across days and projects, but only if the labels and cleanup rules are good.
+
+Agents need:
+
+- a clean desk for the current task
+- a small cabinet for durable knowledge
+- rules for what should never enter either one
+
+## The distinction
+
+**Context** is short-term working input: the current prompt, instructions, retrieved files, tool results, and recent conversation.
+
+**Memory** is longer-lived state: user preferences, project conventions, stable facts, prior decisions, or lessons that should influence future work.
+
+**Governance** decides what enters, what expires, what needs verification, and what should stay out.
+
+More context increases capacity. It does not create judgment.
+
+## What can go wrong
+
+Bad memory systems fail in predictable ways:
+
+- old facts look current
+- temporary progress gets saved as durable truth
+- private details appear in the wrong task
+- conflicting notes are treated as equal
+- one bad assumption contaminates many future answers
+- too much old material drowns the actual problem
+
+The danger is not only that an agent forgets. Sometimes the danger is that it remembers the wrong thing too well.
+
+## A simple example
+
+A study-planning agent may need today's topic, the student's time limit, and the assignment instructions in context.
+
+It may also remember that the student prefers examples before definitions and is still a beginner.
+
+It should not blindly inject every old note. If an old exam date changed, that note should expire. If a preference is vague, it should be treated as uncertain. If the user corrects something, the correction should replace the stale memory.
+
+## Builder checklist
+
+Before adding memory to an agent system, ask:
+
+1. Where did this information come from?
+2. When was it last checked?
+3. Is it global, project-specific, task-specific, or private?
+4. Is it fact, assumption, summary, or user correction?
+5. When should it expire?
+6. When is it useful enough to retrieve?
+7. Should it be stored at all?
+
+This is not bureaucracy. It is reasoning hygiene.
+
+## Beginner checkpoint
+
+Answer in your own words:
+
+1. What is the difference between context and memory?
+2. Why is a bigger context window not enough?
+3. What kind of information should expire?
+4. Why should memory retrieval be selective?
+
+## Turtleand take
+
+Agent memory should compound judgment, not accumulate residue.
+
+The goal is not to remember everything. The goal is to preserve the few things that make future work clearer, safer, and more coherent.
+
+Humans remain responsible for deciding what deserves durable weight.
