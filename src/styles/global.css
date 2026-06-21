@@ -1,6 +1,12 @@
 :root {
   color-scheme: light;
-  font-family: 'Inter var', 'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family:
+    'Inter var',
+    'IBM Plex Sans',
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 :root,
@@ -81,14 +87,18 @@
 
 .site-shell {
   margin: 0;
-  background: radial-gradient(circle at 20% 20%, var(--bg-spot-1), transparent 35%),
-    radial-gradient(circle at 80% 0%, var(--bg-spot-2), transparent 30%), var(--bg);
+  background:
+    radial-gradient(circle at 20% 20%, var(--bg-spot-1), transparent 35%),
+    radial-gradient(circle at 80% 0%, var(--bg-spot-2), transparent 30%),
+    var(--bg);
   color: var(--ink);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   line-height: 1.6;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 a {
@@ -138,7 +148,10 @@ a:hover {
   border: 1px solid transparent;
   background: color-mix(in srgb, var(--panel) 90%, transparent);
   box-shadow: var(--glow);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .brand:hover .brand-lockup,
@@ -211,7 +224,10 @@ a:hover {
   padding: 0;
   justify-content: center;
   box-shadow: var(--glow);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .theme-toggle:hover,
@@ -233,7 +249,9 @@ a:hover {
   inset: 0;
   display: grid;
   place-items: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 [data-theme='dark'] .sun-glyph {
@@ -323,7 +341,8 @@ p {
   overflow: hidden;
   padding: clamp(2rem, 4vw, 3.5rem);
   border: 1px solid var(--border-strong);
-  background: linear-gradient(
+  background:
+    linear-gradient(
       135deg,
       color-mix(in srgb, var(--hero-grad-1) 60%, transparent),
       color-mix(in srgb, var(--hero-grad-2) 40%, transparent),
@@ -335,7 +354,8 @@ p {
 .signal-overlay {
   position: absolute;
   inset: -35% 35% -40% -20%;
-  background: radial-gradient(circle at 20% 40%, var(--hero-grad-2), transparent 55%),
+  background:
+    radial-gradient(circle at 20% 40%, var(--hero-grad-2), transparent 55%),
     radial-gradient(circle at 80% 30%, var(--hero-grad-3), transparent 52%),
     linear-gradient(120deg, var(--accent), var(--accent-2));
   filter: blur(40px);
@@ -346,10 +366,12 @@ p {
   position: absolute;
   inset: 10px;
   border-radius: 14px;
-  background-image: linear-gradient(to right, var(--hero-grid) 1px, transparent 1px),
+  background-image:
+    linear-gradient(to right, var(--hero-grid) 1px, transparent 1px),
     linear-gradient(to bottom, var(--hero-grid) 1px, transparent 1px);
   background-size: 34px 34px;
-  mask-image: radial-gradient(circle at 18% 20%, rgba(0, 0, 0, 0.1), transparent 46%),
+  mask-image:
+    radial-gradient(circle at 18% 20%, rgba(0, 0, 0, 0.1), transparent 46%),
     radial-gradient(circle at 72% 30%, rgba(0, 0, 0, 0.14), transparent 52%),
     linear-gradient(#000, #000);
   opacity: 0.45;
@@ -382,48 +404,19 @@ p {
   text-transform: uppercase;
 }
 
-.hero-path {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.6rem;
-  max-width: 680px;
-  margin-top: 0.45rem;
-}
-
-.hero-path::before {
-  content: '';
-  position: absolute;
-  left: 11%;
-  right: 11%;
-  top: 50%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  opacity: 0.32;
-}
-
-.hero-path span {
-  position: relative;
-  display: inline-flex;
-  justify-content: center;
-  padding: 0.65rem 0.8rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border) 72%);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--panel) 82%, transparent);
-  color: var(--ink);
-  font-weight: 800;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-}
-
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.65rem;
   margin-top: 0.35rem;
 }
 
 .hero-actions .pill {
+  justify-content: center;
+  min-height: 2.55rem;
   padding: 0.58rem 0.9rem;
+  line-height: 1.2;
 }
 
 .hero-primary {
@@ -539,7 +532,8 @@ p {
 
 .module-row.in-progress {
   border-color: color-mix(in srgb, var(--accent) 38%, var(--border) 62%);
-  background: linear-gradient(
+  background:
+    linear-gradient(
       90deg,
       color-mix(in srgb, var(--accent) 6%, transparent),
       transparent 48%
@@ -617,7 +611,8 @@ p {
 
 .info-panel {
   border: 1px solid var(--border);
-  border-left: 4px solid color-mix(in srgb, var(--accent-2) 40%, var(--border) 60%);
+  border-left: 4px solid
+    color-mix(in srgb, var(--accent-2) 40%, var(--border) 60%);
   background: color-mix(in srgb, var(--panel-soft) 82%, var(--bg) 18%);
   cursor: default;
 }
@@ -634,7 +629,8 @@ p {
 
 .clickable-card {
   border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border) 72%);
-  background: linear-gradient(
+  background:
+    linear-gradient(
       135deg,
       color-mix(in srgb, var(--accent) 8%, transparent),
       color-mix(in srgb, var(--accent-2) 6%, transparent)
@@ -874,7 +870,11 @@ p {
 .footer-social-link:focus-visible {
   background: var(--footer-pill-bg-hover);
   color: var(--ink);
-  border-color: color-mix(in srgb, var(--footer-pill-border) 50%, var(--ink) 50%);
+  border-color: color-mix(
+    in srgb,
+    var(--footer-pill-border) 50%,
+    var(--ink) 50%
+  );
   transform: translateY(-2px);
   text-decoration: none;
 }
@@ -989,19 +989,6 @@ p {
     justify-self: start;
   }
 
-  .hero-path {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-path::before {
-    left: 1.1rem;
-    right: auto;
-    top: 1rem;
-    bottom: 1rem;
-    width: 2px;
-    height: auto;
-  }
-
   .section-title {
     flex-direction: column;
     align-items: flex-start;
@@ -1010,7 +997,9 @@ p {
 
 @media (prefers-reduced-motion: no-preference) {
   .card {
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
   }
 
   .card:hover {
