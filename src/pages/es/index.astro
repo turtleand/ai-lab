@@ -335,6 +335,12 @@ const moduleLadder = [
 const currentModule =
   moduleLadder.find((item) => item.status === 'in-progress') ?? moduleLadder[0];
 
+const statusLabels: Record<string, string> = {
+  done: 'Listo',
+  'in-progress': 'Activo',
+  planned: 'Planificado'
+};
+
 const logEntries = await Promise.all(
   logs.map(async (entry) => {
     const { Content } = await render(entry);
@@ -376,12 +382,22 @@ const subtopicsForModule = (module) => {
     <div class="signal-overlay" aria-hidden="true"></div>
     <div class="signal-grid" aria-hidden="true"></div>
     <div class="hero-content">
-      <h1 id="hero-title">AI Power User → Builder</h1>
+      <p class="hero-kicker">AI Power User → Builder</p>
+      <h1 id="hero-title">Aprendé IA pasando del uso al control.</h1>
       <p>
-        Ruta acelerada desde el dominio de la integración con IA hasta la
-        construcción de sistemas de IA en producción. Empieza donde la mayoría
-        de desarrolladores no están — y llega donde casi nadie llega.
+        AI Lab es la columna curricular de Turtleand: una ruta por etapas desde
+        flujos prácticos con IA hasta arquitectura de agentes, sistemas de
+        recuperación y criterio de producción.
       </p>
+      <div class="hero-path" aria-label="Ruta de aprendizaje de AI Lab">
+        <span>Usar</span>
+        <span>Orquestar</span>
+        <span>Construir</span>
+      </div>
+      <div class="hero-actions" aria-label="Acciones principales de AI Lab">
+        <a class="pill hero-primary" href="#modules">Ver la hoja de ruta</a>
+        <a class="pill hero-secondary" href="/es/beginners/">Empezar de cero</a>
+      </div>
     </div>
   </section>
 
@@ -429,11 +445,14 @@ const subtopicsForModule = (module) => {
   <section class="card" aria-labelledby="modules-title" id="modules">
     <div class="section-title">
       <div>
+        <p class="pill inline">Columna curricular</p>
         <h2 id="modules-title">Hoja de ruta del programa</h2>
+        <p class="section-intro">
+          Abrí un módulo para ver los próximos artefactos de aprendizaje. El
+          módulo activo es {formatModuleKey(currentModule.key)}:
+          {currentModule.title}.
+        </p>
       </div>
-      <small
-        >Toca un módulo para ver sus temas y saltar a las páginas dedicadas.</small
-      >
     </div>
     <div class="stacked">
       {
@@ -447,7 +466,7 @@ const subtopicsForModule = (module) => {
 
           return (
             <details
-              class={`module-row ${moduleDisabled ? 'disabled' : ''}`}
+              class={`module-row ${module.status} ${moduleDisabled ? 'disabled' : ''}`}
               open={
                 !moduleDisabled &&
                 hasSubtopics &&
@@ -459,6 +478,9 @@ const subtopicsForModule = (module) => {
                   <strong>{formatModuleKey(module.key)}</strong>
                   <div>{module.title}</div>
                 </div>
+                <span class={`module-status ${module.status}`}>
+                  {statusLabels[module.status]}
+                </span>
               </summary>
               <div class="subtopics">
                 {hasSubtopics ? (

@@ -3,7 +3,7 @@
 ---
 
 <section class="portal-trio" aria-label="Featured Resources">
-  <!-- Hermes Card - Cyber/Terminal Theme -->
+  <!-- Hermes Card -->
   <a
     href="https://hermes.turtleand.com/"
     class="portal-card portal-hermes"
@@ -44,7 +44,7 @@
     <div class="portal-glow"></div>
   </a>
 
-  <!-- AI Atlas Card - Nautical/Map Theme -->
+  <!-- AI Atlas Card -->
   <a
     href="https://atlas.turtleand.com/"
     class="portal-card portal-atlas"
@@ -79,7 +79,7 @@
     <div class="portal-glow"></div>
   </a>
 
-  <!-- Handbook Card - Book/Wisdom Theme -->
+  <!-- Handbook Card -->
   <a
     href="https://handbook.turtleand.com/"
     class="portal-card portal-handbook"
@@ -515,5 +515,86 @@
 
   .portal-card:hover .cta-arrow {
     transform: translateX(4px);
+  }
+
+  /* AI Lab uses these as supporting routes, so keep them calmer than the curriculum spine. */
+  .portal-trio {
+    gap: 1rem;
+    margin: 1rem 0 1.5rem;
+  }
+
+  .portal-card {
+    min-height: 210px;
+    padding: 1.35rem;
+    border-radius: 1rem;
+  }
+
+  .portal-hermes,
+  .portal-atlas,
+  .portal-handbook {
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent) 8%, transparent),
+        color-mix(in srgb, var(--accent-2) 6%, transparent)
+      ),
+      var(--panel);
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border) 78%);
+    color: var(--ink);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.07);
+  }
+
+  .portal-hermes .portal-bg,
+  .portal-atlas .portal-bg,
+  .portal-handbook .portal-bg,
+  .portal-glow {
+    display: none;
+  }
+
+  .portal-hermes .portal-pattern,
+  .portal-atlas .portal-pattern,
+  .portal-handbook .portal-pattern {
+    opacity: 0.06;
+    animation: none;
+  }
+
+  .portal-hermes .portal-icon,
+  .portal-atlas .portal-icon,
+  .portal-handbook .portal-icon,
+  .portal-hermes .portal-title,
+  .portal-atlas .portal-title,
+  .portal-handbook .portal-title {
+    color: var(--accent);
+    filter: none;
+    text-shadow: none;
+  }
+
+  .portal-title {
+    font-size: 1.45rem;
+  }
+
+  .portal-desc {
+    max-width: none;
+  }
+
+  .portal-hermes .portal-cta,
+  .portal-atlas .portal-cta,
+  .portal-handbook .portal-cta {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border) 72%);
+    color: var(--accent);
+  }
+
+  .portal-hermes:hover,
+  .portal-atlas:hover,
+  .portal-handbook:hover {
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--border) 58%);
+    box-shadow: 0 18px 42px rgba(31, 162, 255, 0.14);
+  }
+
+  .portal-hermes:hover .portal-title,
+  .portal-atlas:hover .portal-icon svg,
+  .portal-handbook:hover .portal-icon svg {
+    animation: none;
   }
 </style>
