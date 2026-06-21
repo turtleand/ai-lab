@@ -30,6 +30,7 @@
   --hero-grid: rgba(31, 33, 49, 0.1);
   --hero-badge-bg: rgba(31, 33, 49, 0.8);
   --hero-badge-text: #ffffff;
+  --hero-primary-text: #ffffff;
   --footer-bg-1: #f6f7fb;
   --footer-bg-2: #eef2fb;
   --footer-bg-3: #e3e8f3;
@@ -65,6 +66,7 @@
   --hero-grid: rgba(232, 237, 246, 0.08);
   --hero-badge-bg: rgba(232, 237, 246, 0.9);
   --hero-badge-text: #0f1b2a;
+  --hero-primary-text: #0f1b2a;
   --footer-bg-1: #081526;
   --footer-bg-2: #040c16;
   --footer-bg-3: #010409;
@@ -421,13 +423,13 @@ p {
 
 .hero-primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #fff;
+  color: var(--hero-primary-text);
   box-shadow: 0 14px 32px rgba(31, 162, 255, 0.2);
 }
 
 .hero-primary:hover,
 .hero-primary:focus-visible {
-  color: #fff;
+  color: var(--hero-primary-text);
 }
 
 .hero-secondary {
