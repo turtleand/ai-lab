@@ -1,0 +1,111 @@
+---
+title: 'Elegir modelo es diseñar el sistema'
+module: 'Module 5: Agent Architecture'
+subtopic: 'model-choice-is-system-design'
+summary: 'Cómo los sistemas de agentes eligen modelos según dificultad, riesgo, costo, latencia, privacidad, verificación y límites de autoridad humana.'
+status: 'in-progress'
+---
+
+## Idea central
+
+Elegir modelo no es seguir un ranking.
+
+En un sistema de agentes, elegir un modelo es una decisión de diseño. La ruta tiene que encajar con la tarea, el riesgo, el contexto disponible, las herramientas involucradas, el costo de equivocarse y el punto donde una persona tiene que decidir.
+
+El mejor modelo para un sistema no siempre es el más grande. Es la ruta que produce un resultado confiable con el nivel correcto de verificación y juicio humano.
+
+## El ayudante correcto para el trabajo
+
+Usá el ayudante correcto para el trabajo.
+
+No usás un helicóptero para ir al negocio de la esquina. No usás una bicicleta para cruzar el océano. El mismo patrón aplica a sistemas de IA.
+
+Una corrección rápida, una limpieza de formato o una clasificación de bajo riesgo quizás no necesita el modelo más capaz. Una revisión de arquitectura compleja, una síntesis de fuentes públicas o una decisión ambigua puede necesitar razonamiento más fuerte y checks más cuidadosos.
+
+Routing es gastar razonamiento donde cambia el resultado.
+
+## La pregunta de routing
+
+Antes de que un agente elija modelo, el sistema debería preguntar:
+
+1. ¿Cuál es la tarea?
+2. ¿Qué tan difícil es?
+3. ¿Qué pasa si la respuesta está mal?
+4. ¿Qué contexto, herramientas o archivos necesita el modelo?
+5. ¿Qué hay que verificar después?
+6. ¿Qué puede decidir el modelo por sí mismo?
+7. ¿Cuándo debería escalar a un modelo más fuerte o a una persona?
+
+Estas preguntas importan más que un ranking genérico. Un modelo bueno para una ruta puede ser incorrecto para otra.
+
+## Patrones comunes de routing
+
+Los sistemas de agentes suelen usar algunos patrones simples.
+
+**Ruta por defecto:** el trabajo rutinario empieza con un modelo rápido y confiable. Sirve para borradores, resúmenes, formato, extracción y clasificación de bajo riesgo.
+
+**Ruta de escalamiento:** las tareas difíciles, ambiguas, de alto impacto o fallidas pasan a una ruta más fuerte. El escalamiento puede ocurrir cuando la confianza es baja, la evidencia se contradice, las herramientas fallan o la tarea cruza un límite de riesgo.
+
+**Ruta en cascada:** un modelo más chico hace la primera pasada. Un modelo más fuerte revisa, corrige o maneja los casos que fallan.
+
+**Ruta de segunda opinión:** dos modelos o dos prompts se chequean cuando el desacuerdo es útil. Esto ayuda cuando el costo de una respuesta incorrecta justifica revisión extra.
+
+**Ruta humana:** el sistema frena y le pregunta a una persona antes de consecuencias externas, financieras, de cuenta, legales, de seguridad, reputación, datos o acciones irreversibles.
+
+Buen routing no se trata de sacar a las personas. Se trata de hacer más claro el traspaso.
+
+## Costo por resultado confiable
+
+El precio por token es solo un costo.
+
+El costo completo de elegir un modelo incluye:
+
+- errores
+- reintentos
+- tiempo de verificación
+- tiempo de revisión humana
+- latencia
+- exposición de privacidad
+- errores de herramientas
+- salidas malas que parecen plausibles
+- puntos de escalamiento perdidos
+
+Un modelo barato puede volverse caro si genera retrabajo. Un modelo más fuerte puede ser desperdicio si la tarea solo necesitaba una pasada simple. La métrica útil es costo por resultado confiable.
+
+## Un ejemplo seguro
+
+Imaginá un ayudante de investigación pública.
+
+Una ruta rutinaria puede juntar links públicos y producir una lista corta de fuentes. Una ruta más fuerte puede comparar las fuentes, separar hechos de interpretaciones e identificar afirmaciones que necesitan una segunda fuente. Una ruta humana debería revisar el resultado final antes de publicar.
+
+El sistema no necesita un solo modelo para todo. Necesita una política que diga qué ruta maneja cada parte del trabajo.
+
+## Checklist de builder
+
+Al diseñar model routing, definí:
+
+1. **Etiquetas de ruta:** para qué sirve cada ruta.
+2. **Disparadores de escalamiento:** cuándo una tarea pasa a un modelo más fuerte o a una persona.
+3. **Expectativas de verificación:** qué evidencia prueba que la ruta funcionó.
+4. **Límites de herramientas:** qué herramientas puede usar cada ruta.
+5. **Límites de privacidad:** qué contexto nunca debería entrar en una ruta más débil o menos confiable.
+6. **Límites de autoridad:** qué puede sugerir el modelo y qué debe aprobar una persona.
+7. **Registro:** qué ruta se usó y por qué.
+
+Si la política de routing es invisible, el sistema se vuelve difícil de confiar.
+
+## Checkpoint de práctica
+
+Elegí una tarea y escribí tres rutas:
+
+1. una ruta por defecto para trabajo de bajo riesgo
+2. una ruta de escalamiento para casos difíciles o inciertos
+3. una ruta humana para decisiones con consecuencias
+
+Después preguntá: ¿qué evidencia probaría que cada ruta funcionó?
+
+## La mirada Turtleand
+
+Elegir modelo es diseñar el sistema.
+
+El modelo más barato no siempre es más barato en el sistema completo. El modelo más fuerte no siempre es el mejor default. Un diseño serio de agentes gasta razonamiento donde aumenta la confiabilidad y mantiene el juicio humano en el límite donde suben las consecuencias.
