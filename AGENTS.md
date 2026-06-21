@@ -45,6 +45,18 @@ Keep private things private. Share learnings, not exposure.
 - Keep humans responsible for direction, judgment, taste, ethics, and consequences.
 - Maintain Spanish and i18n parity where the repo requires it.
 
+## UI and style review
+
+- Preserve the AI Lab homepage direction from PR #35: lean, curriculum-first, calm, and practical.
+- The homepage hero should explain the learning path as movement from AI use to AI control, not as hype, spectacle, or a generic course landing page.
+- Keep the primary visual hierarchy on the curriculum spine: hero thesis, roadmap, active module, beginner doorway, and next learning artifacts.
+- Remove or reject low-utility space-takers, decorative ornaments, noisy animations, and UI panels that compete with the roadmap or reader's next action.
+- Keep ecosystem route cards secondary and quiet. They may carry subtle identity accents, but should not use heavy themed backgrounds, fake dashboards, or product-marketing treatments.
+- Use neutral, readable components with restrained accent color, consistent spacing, accessible focus states, and clear button labels named by what happens.
+- Preserve dark-mode contrast, especially for primary CTAs and status labels. Do not rely on light-mode-only color choices.
+- When changing shared styles, verify representative English and Spanish pages so i18n parity includes layout, labels, and visual rhythm, not only translated text.
+- For UI work, check desktop, narrow mobile, and dark mode before opening a PR. A build alone is not enough when layout or styling changes.
+
 ## Repository integrity review
 
 - Keep changes focused to the branch purpose.
@@ -61,6 +73,8 @@ Codex and other agents should check:
 - Are public claims grounded, current, and non-hype?
 - Is anything private, unsafe, or operationally sensitive exposed?
 - Are lessons clear for beginners while still useful for builders?
+- Does UI work preserve the lean curriculum-first style from PR #35?
+- Were desktop, mobile, dark mode, and English/Spanish visual parity checked when styles changed?
 - Are routes, builds, generated files, translations, and indexes still correct?
 - Is the diff small, coherent, and free from unrelated cleanup?
 
