@@ -16,7 +16,7 @@ const technicalHref = `/topics/${topic.technicalSlug}/`;
 const moduleHref = `/beginners/${topic.moduleSlug}/`;
 ---
 
-<BaseLayout title={topic.title} description={topic.summary}>
+<BaseLayout title={topic.title} description={topic.summary} ogType="article">
   <script
     type="application/ld+json"
     set:html={JSON.stringify({
