@@ -1,0 +1,111 @@
+---
+title: 'Model Choice Is System Design'
+module: 'Module 5: Agent Architecture'
+subtopic: 'model-choice-is-system-design'
+summary: 'How agent systems choose models by task difficulty, risk, cost, latency, privacy, verification needs, and human authority boundaries.'
+status: 'in-progress'
+---
+
+## Core idea
+
+Model choice is not a leaderboard habit.
+
+In an agent system, choosing a model is a design decision. The route should match the task, the risk, the available context, the tools involved, the cost of mistakes, and the point where a human must decide.
+
+The best model for a system is not always the biggest one. It is the model path that produces a reliable outcome with the right level of verification and human judgment.
+
+## The right helper for the job
+
+Use the right helper for the job.
+
+You do not use a helicopter to visit the corner store. You do not use a bicycle to cross the ocean. The same pattern applies to AI systems.
+
+A quick rewrite, format cleanup, or low-risk classification may not need the most capable model. A complex architecture review, public-source synthesis, or ambiguous decision may need stronger reasoning and more careful checks.
+
+Routing is the practice of spending reasoning where it changes the outcome.
+
+## The routing question
+
+Before an agent chooses a model, the system should ask:
+
+1. What is the task?
+2. How hard is it?
+3. What happens if the answer is wrong?
+4. What context, tools, or files does the model need?
+5. What must be verified afterward?
+6. What can the model decide by itself?
+7. When should the system escalate to a stronger model or a human?
+
+These questions matter more than a generic ranking. A model that is good for one route can be wrong for another.
+
+## Common routing patterns
+
+Agent systems often use a few simple patterns.
+
+**Default route:** routine work starts on a fast, reliable default model. This is useful for drafts, summaries, formatting, extraction, and low-risk classification.
+
+**Escalation route:** hard, ambiguous, high-impact, or failed tasks move to a stronger route. Escalation can happen when confidence is low, evidence conflicts, tools fail, or the task crosses a risk boundary.
+
+**Cascade route:** a smaller model tries the first pass. A stronger model reviews, corrects, or handles the cases that fail the first pass.
+
+**Second-opinion route:** two models or two prompts check each other when disagreement is useful. This helps when the cost of a wrong answer is high enough to justify extra review.
+
+**Human route:** the system stops and asks a person before external, financial, account, legal, security, reputation, data, or irreversible consequences.
+
+Good routing is not about removing humans. It is about making the handoff clearer.
+
+## Cost per reliable outcome
+
+Token price is only one cost.
+
+The full cost of a model choice includes:
+
+- mistakes
+- retries
+- verification time
+- human review time
+- latency
+- privacy exposure
+- tool-use errors
+- bad outputs that look plausible
+- missed escalation points
+
+A cheap model can become expensive if it creates rework. A stronger model can be wasteful if the task only needed a simple pass. The useful metric is cost per reliable outcome.
+
+## A safe example
+
+Imagine a public research helper.
+
+A routine route can collect public links and produce a short source list. A stronger route can compare the sources, separate facts from interpretations, and identify claims that need a second source. A human route should review the final result before publication.
+
+The system does not need one model for everything. It needs a policy for which route handles which part of the work.
+
+## Builder checklist
+
+When designing model routing, define:
+
+1. **Route labels:** what each route is for.
+2. **Escalation triggers:** when a task moves to a stronger model or a human.
+3. **Verification expectations:** what evidence proves the route worked.
+4. **Tool boundaries:** which tools each route may use.
+5. **Privacy boundaries:** what context should never enter a weaker or less trusted path.
+6. **Authority boundaries:** what the model may suggest versus what a human must approve.
+7. **Logging:** what route was used and why.
+
+If the routing policy is invisible, the system becomes hard to trust.
+
+## Practice checkpoint
+
+Pick a task and write three routes for it:
+
+1. a default route for low-risk work
+2. an escalation route for hard or uncertain cases
+3. a human route for consequential decisions
+
+Then ask: what evidence would prove that each route worked?
+
+## Turtleand take
+
+Model choice is system design.
+
+The cheapest model is not always cheapest in the full system. The strongest model is not always the best default. Serious agent design spends reasoning where it increases reliability and keeps human judgment at the boundary where consequences rise.

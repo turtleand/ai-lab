@@ -715,6 +715,38 @@ export const beginnerTopics: BeginnerTopic[] = [
       'Escalate public, financial, account, data, or irreversible actions.'
     ],
     order: 54
+  },
+  {
+    slug: 'model-choice-is-system-design',
+    technicalSlug: 'model-choice-is-system-design',
+    title: 'Model choice is system design, for beginners',
+    shortTitle: 'Model choice as design',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Understand agents without the hype',
+    summary:
+      'A beginner guide to choosing the right model route for the task, risk, cost, and human decision boundary.',
+    plainMeaning:
+      'Model routing means deciding which model path should handle a task. Simple work can use a routine route. Hard, risky, private, or ambiguous work may need stronger reasoning, more checks, or a human decision.',
+    whyItMatters:
+      'The best agent systems do not blindly use the biggest or cheapest model. They match capability to consequence so the system stays useful, affordable, and reviewable.',
+    safeExample:
+      'Use a fast route to clean up a public paragraph. Use a stronger route to compare public sources. Ask a human before anything is published or acted on externally.',
+    firstMoves: [
+      'Name the task.',
+      'Estimate difficulty and consequence.',
+      'Choose a default, escalation, or human route.',
+      'Define what evidence proves the route worked.'
+    ],
+    commonMistake:
+      'Treating model choice as personal preference instead of system design.',
+    guardrails: [
+      'Do not optimize cost by skipping verification.',
+      'Escalate ambiguous or high-impact work.',
+      'Keep private context out of routes that do not need it.',
+      'Require humans for external or irreversible consequences.'
+    ],
+    order: 55
   }
 ];
 
@@ -1416,6 +1448,38 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
       'Escalá acciones públicas, financieras, de cuentas, datos o irreversibles.'
     ],
     order: 54
+  },
+  {
+    slug: 'model-choice-is-system-design',
+    technicalSlug: 'model-choice-is-system-design',
+    title: 'Elegir modelo es diseñar el sistema, para principiantes',
+    shortTitle: 'Elegir modelo como diseño',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Entender agentes sin hype',
+    summary:
+      'Una guía principiante para elegir la ruta de modelo correcta según tarea, riesgo, costo y límite de decisión humana.',
+    plainMeaning:
+      'Model routing significa decidir qué ruta de modelo debería manejar una tarea. El trabajo simple puede usar una ruta rutinaria. El trabajo difícil, riesgoso, privado o ambiguo puede necesitar razonamiento más fuerte, más checks o una decisión humana.',
+    whyItMatters:
+      'Los mejores sistemas de agentes no usan ciegamente el modelo más grande o más barato. Hacen coincidir capacidad con consecuencia para que el sistema siga siendo útil, sostenible y revisable.',
+    safeExample:
+      'Usá una ruta rápida para limpiar un párrafo público. Usá una ruta más fuerte para comparar fuentes públicas. Pedí decisión humana antes de publicar o actuar externamente.',
+    firstMoves: [
+      'Nombrá la tarea.',
+      'Estimá dificultad y consecuencia.',
+      'Elegí una ruta por defecto, de escalamiento o humana.',
+      'Definí qué evidencia prueba que la ruta funcionó.'
+    ],
+    commonMistake:
+      'Tratar la elección de modelo como preferencia personal en vez de diseño de sistema.',
+    guardrails: [
+      'No optimices costo salteando verificación.',
+      'Escalá trabajo ambiguo o de alto impacto.',
+      'Mantené contexto privado fuera de rutas que no lo necesitan.',
+      'Exigí humanos para consecuencias externas o irreversibles.'
+    ],
+    order: 55
   }
 ];
 
@@ -1466,9 +1530,9 @@ export const moduleIntros = [
     title: 'Understand agents without the hype',
     titleEs: 'Entender agentes sin hype',
     summary:
-      'Beginner versions of agent loops, agentic systems, human agency, reliability, and trust infrastructure.',
+      'Beginner versions of agent loops, agentic systems, human agency, reliability, trust infrastructure, and model routing.',
     summaryEs:
-      'Versiones principiantes de loops de agentes, sistemas agentic, agencia humana, confiabilidad e infraestructura de confianza.'
+      'Versiones principiantes de loops de agentes, sistemas agentic, agencia humana, confiabilidad, infraestructura de confianza y model routing.'
   }
 ];
 
