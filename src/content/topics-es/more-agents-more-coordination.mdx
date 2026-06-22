@@ -1,0 +1,108 @@
+---
+title: 'Más agentes, más coordinación'
+module: 'Module 5: Agent Architecture'
+subtopic: 'more-agents-more-coordination'
+summary: 'Por qué los sistemas multi-agente cambian carga individual por delegación, evidencia, resolución de conflictos y síntesis.'
+status: 'in-progress'
+---
+
+## Idea central
+
+Más agentes no significan automáticamente más inteligencia.
+
+Un sistema multi-agente puede aumentar throughput, perspectiva, especialización y revisión. También aumenta el costo de coordinación. Alguien o algo tiene que asignar tareas, definir límites, comparar evidencia, resolver conflictos y sintetizar el resultado.
+
+La pregunta útil no es "¿cuántos agentes podemos agregar?" Es "¿qué estructura de coordinación hace que el trabajo sea más confiable que con un solo agente?"
+
+## El modelo del equipo de taller
+
+Pensá en un sistema multi-agente como un equipo de taller.
+
+Una persona puede investigar materiales. Otra puede redactar. Otra puede revisar calidad. Una persona líder decide cómo encajan las partes. El equipo ayuda solo cuando el trabajo está dividido con claridad y la persona líder puede ver qué hizo cada integrante.
+
+Si el trabajo es vago, más trabajadores crean más movimiento, no más progreso.
+
+## Qué pueden mejorar varios agentes
+
+Varios agentes pueden ayudar cuando la tarea tiene partes separables.
+
+Las ventajas comunes incluyen:
+
+- **Throughput:** varias subtareas independientes pueden correr al mismo tiempo.
+- **Especialización:** un agente puede enfocarse en investigación, otro en código y otro en revisión.
+- **Perspectiva:** pasadas independientes pueden detectar puntos ciegos.
+- **Crítica:** un revisor puede desafiar razonamiento débil antes de que una persona vea la salida.
+- **Flujo de pipeline:** un agente puede preparar input para la próxima etapa.
+
+Estos beneficios dependen del diseño de la tarea. Sin contratos claros, el sistema solo reparte confusión entre más pasos.
+
+## Qué agrega la coordinación
+
+Cada agente agregado crea nuevo trabajo de coordinación.
+
+Un sistema multi-agente serio necesita:
+
+1. **Contratos de tarea:** cada agente conoce objetivo, alcance, inputs permitidos, formato de salida y condición de parada.
+2. **Límites de autoridad:** cada agente sabe qué puede decidir, sugerir o escalar.
+3. **Requisitos de evidencia:** las salidas incluyen fuentes, artefactos, diffs, resultados de tests o trazas de razonamiento según la tarea.
+4. **Manejo de conflictos:** el sistema tiene una forma de comparar desacuerdos en vez de promediarlos a ciegas.
+5. **Propiedad de la síntesis:** un lugar o una persona es responsable de la respuesta final.
+6. **Reglas de escalamiento:** incertidumbre, fallos repetidos o acciones con consecuencias van a una persona.
+
+La coordinación es el precio de escalar.
+
+## Patrones multi-agente comunes
+
+**Orquestador y workers:** un controlador divide trabajo, asigna subtareas, reúne salidas y decide qué hacer después.
+
+**Agentes especialistas:** distintos agentes manejan investigación, implementación, testing, crítica o documentación.
+
+**Loop de crítica:** un agente produce un borrador y otro lo revisa contra criterios antes de iterar.
+
+**Exploración paralela:** varios agentes prueban enfoques distintos, después un paso de síntesis compara evidencia y trade-offs.
+
+**Agentes en pipeline:** cada agente transforma la salida del paso anterior, como recolectar fuentes, resumir, chequear afirmaciones y después redactar.
+
+Cada patrón debería facilitar la verificación, no solo hacer que la arquitectura parezca sofisticada.
+
+## Un ejemplo seguro
+
+Imaginá un brief de investigación pública.
+
+Un worker junta fuentes públicas. Un segundo worker las resume. Un tercero chequea si las afirmaciones principales tienen evidencia. Un orquestador compara las salidas, marca conflictos y prepara un borrador.
+
+Una persona todavía revisa el brief final antes de publicarlo. El sistema ayuda preparando evidencia y opciones. No se vuelve la autoridad de publicación.
+
+## Checklist de builder
+
+Antes de agregar otro agente, preguntá:
+
+1. ¿Qué trabajo se vuelve separable porque este agente existe?
+2. ¿Qué salida exacta tiene que devolver?
+3. ¿Qué evidencia tiene que viajar con la salida?
+4. ¿Quién compara salidas en conflicto?
+5. ¿Quién es dueño de la síntesis final?
+6. ¿Qué acción queda bloqueada hasta que una persona la apruebe?
+7. ¿Cómo detecta el sistema trabajo duplicado, viejo o sin respaldo?
+
+Si esas respuestas son vagas, un agente bien acotado probablemente sea más seguro que varios agentes coordinados flojamente.
+
+## Checkpoint de práctica
+
+Elegí una tarea que parece demasiado grande para una sola pasada.
+
+Escribí un diseño de tres agentes:
+
+```text
+Worker 1: trabajo, inputs permitidos, evidencia de salida
+Worker 2: trabajo, inputs permitidos, evidencia de salida
+Revisor u orquestador: cómo se resuelven conflictos y qué va a la persona
+```
+
+Después sacá un agente. Si el diseño queda más claro y pierde poco valor, ese agente extra probablemente era teatro de coordinación.
+
+## La mirada Turtleand
+
+Los sistemas multi-agente cambian un tipo de dificultad por otro.
+
+Pueden reducir carga cognitiva individual, pero aumentan la necesidad de contratos de tarea, evidencia, síntesis y juicio humano. Más agentes ayudan solo cuando la coordinación está diseñada como parte del sistema.
