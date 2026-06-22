@@ -29,6 +29,7 @@
 - [Smart is not reliable, for beginners](https://lab.turtleand.com/beginners/topics/smart-is-not-reliable/): Why impressive AI answers are not the same as dependable systems.
 - [Trust through evidence, for beginners](https://lab.turtleand.com/beginners/topics/trust-is-earned-through-evidence-not-vibes/): A plain-language guide to trusting agents only when they can show what happened, what was checked, and when humans must decide.
 - [Model choice is system design, for beginners](https://lab.turtleand.com/beginners/topics/model-choice-is-system-design/): A beginner guide to choosing the right model route for the task, risk, cost, and human decision boundary.
+- [More agents, more coordination, for beginners](https://lab.turtleand.com/beginners/topics/more-agents-more-coordination/): A beginner guide to why adding more agents creates coordination work, not automatic intelligence.
 
 ### Spanish beginner doorway
 - [IA para principiantes](https://lab.turtleand.com/es/beginners/): La puerta en lenguaje claro hacia AI Lab para personas que empiezan desde cero.
@@ -55,6 +56,7 @@
 - [Inteligente no es confiable, para principiantes](https://lab.turtleand.com/es/beginners/topics/smart-is-not-reliable/): Por qué respuestas impresionantes de IA no son lo mismo que sistemas confiables.
 - [Confianza con evidencia, para principiantes](https://lab.turtleand.com/es/beginners/topics/trust-is-earned-through-evidence-not-vibes/): Una guía simple para confiar en agentes solo cuando pueden mostrar qué pasó, qué se chequeó y cuándo decide una persona.
 - [Elegir modelo es diseñar el sistema, para principiantes](https://lab.turtleand.com/es/beginners/topics/model-choice-is-system-design/): Una guía principiante para elegir la ruta de modelo correcta según tarea, riesgo, costo y límite de decisión humana.
+- [Más agentes, más coordinación, para principiantes](https://lab.turtleand.com/es/beginners/topics/more-agents-more-coordination/): Una guía principiante sobre por qué agregar agentes crea trabajo de coordinación, no inteligencia automática.
 
 ### Module 0: Fast Track Setup
 - [Access & secrets](https://lab.turtleand.com/topics/access-secrets): Configure API keys and secrets securely for model access.
@@ -88,6 +90,7 @@
 - [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A concise learning map for agents: loop, tools, memory, planning, approval, reliability, trust infrastructure, routing, and coordination.
 - [Human Agency Is Not a Button](https://lab.turtleand.com/topics/human-agency-is-not-a-button): A beginner lesson on why responsible agent systems need authority boundaries, not just approval prompts.
 - [Model Choice Is System Design](https://lab.turtleand.com/topics/model-choice-is-system-design): How agent systems choose models by task difficulty, risk, cost, latency, privacy, verification needs, and human authority boundaries.
+- [More Agents, More Coordination](https://lab.turtleand.com/topics/more-agents-more-coordination): Why multi-agent systems trade individual workload for delegation, evidence, conflict resolution, and synthesis work.
 - [Smart Is Not Reliable](https://lab.turtleand.com/topics/smart-is-not-reliable): Why agent reliability is a system property built from checks, constraints, recovery paths, observability, and human escalation.
 - [Trust Is Earned Through Evidence, Not Vibes](https://lab.turtleand.com/topics/trust-is-earned-through-evidence-not-vibes): How agent systems earn trust through scoped tasks, permission boundaries, observability, evaluations, fallback paths, and independent verification.
 

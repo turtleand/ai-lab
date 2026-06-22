@@ -1,0 +1,108 @@
+---
+title: 'More Agents, More Coordination'
+module: 'Module 5: Agent Architecture'
+subtopic: 'more-agents-more-coordination'
+summary: 'Why multi-agent systems trade individual workload for delegation, evidence, conflict resolution, and synthesis work.'
+status: 'in-progress'
+---
+
+## Core idea
+
+More agents do not automatically mean more intelligence.
+
+A multi-agent system can increase throughput, perspective, specialization, and review. It also increases coordination cost. Someone or something must assign tasks, define boundaries, compare evidence, resolve conflicts, and synthesize the result.
+
+The useful question is not "how many agents can we add?" It is "what coordination structure makes the work more reliable than one agent alone?"
+
+## The workshop team model
+
+Think of a multi-agent system like a workshop team.
+
+One person may research materials. Another may draft. Another may inspect quality. A lead builder decides how the parts fit together. The team helps only when the work is divided clearly and the lead can see what each person actually did.
+
+If the work is vague, more workers create more motion, not more progress.
+
+## What multiple agents can improve
+
+Multiple agents can help when the task has separable pieces.
+
+Common advantages include:
+
+- **Throughput:** several independent subtasks can run at the same time.
+- **Specialization:** one agent can focus on research, another on code, another on review.
+- **Perspective:** independent passes can catch blind spots.
+- **Critique:** a reviewer can challenge weak reasoning before a human sees the output.
+- **Pipeline flow:** one agent can prepare input for the next stage.
+
+These benefits depend on task design. Without clear task contracts, the system only spreads confusion across more steps.
+
+## What coordination adds
+
+Every added agent creates new coordination work.
+
+A serious multi-agent system needs:
+
+1. **Task contracts:** each agent knows the goal, scope, allowed inputs, output format, and stop condition.
+2. **Authority boundaries:** each agent knows what it may decide, suggest, or escalate.
+3. **Evidence requirements:** outputs include sources, artifacts, diffs, test results, or reasoning traces appropriate to the task.
+4. **Conflict handling:** the system has a way to compare disagreement instead of averaging it blindly.
+5. **Synthesis ownership:** one place or person is responsible for the final answer.
+6. **Escalation rules:** uncertainty, repeated failure, or consequential action goes to a human.
+
+Coordination is the price of scale.
+
+## Common multi-agent patterns
+
+**Orchestrator and workers:** one controller splits work, assigns subtasks, gathers outputs, and decides what to do next.
+
+**Specialist agents:** different agents handle research, implementation, testing, critique, or documentation.
+
+**Critique loop:** one agent produces a draft and another reviews it against criteria before revision.
+
+**Parallel exploration:** several agents try different approaches, then a synthesis step compares evidence and trade-offs.
+
+**Pipeline agents:** each agent transforms the output of the previous step, such as collect sources, summarize, check claims, then draft.
+
+Each pattern should make verification easier, not just make the architecture look sophisticated.
+
+## A safe example
+
+Imagine a public research brief.
+
+One worker gathers public sources. A second worker summarizes them. A third worker checks whether major claims have evidence. An orchestrator compares the outputs, notes conflicts, and prepares a draft.
+
+A human still reviews the final brief before publication. The system helps by preparing evidence and options. It does not become the publishing authority.
+
+## Builder checklist
+
+Before adding another agent, ask:
+
+1. What work becomes separable because this agent exists?
+2. What exact output must the agent return?
+3. What evidence must travel with the output?
+4. Who compares conflicting outputs?
+5. Who owns final synthesis?
+6. What action is blocked until a human approves it?
+7. How will the system detect duplicate, stale, or unsupported work?
+
+If those answers are vague, one well-bounded agent is probably safer than several loosely coordinated ones.
+
+## Practice checkpoint
+
+Pick a task that feels too large for one pass.
+
+Write a three-agent design:
+
+```text
+Worker 1: job, allowed inputs, output evidence
+Worker 2: job, allowed inputs, output evidence
+Reviewer or orchestrator: how conflicts are resolved and what goes to the human
+```
+
+Then remove one agent. If the design gets clearer and loses little value, the extra agent was probably coordination theater.
+
+## Turtleand take
+
+Multi-agent systems trade one kind of difficulty for another.
+
+They can reduce individual cognitive load, but they increase the need for task contracts, evidence, synthesis, and human judgment. More agents help only when coordination is designed as part of the system.

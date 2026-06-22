@@ -747,6 +747,38 @@ export const beginnerTopics: BeginnerTopic[] = [
       'Require humans for external or irreversible consequences.'
     ],
     order: 55
+  },
+  {
+    slug: 'more-agents-more-coordination',
+    technicalSlug: 'more-agents-more-coordination',
+    title: 'More agents, more coordination, for beginners',
+    shortTitle: 'Multi-agent coordination',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Understand agents without the hype',
+    summary:
+      'A beginner guide to why adding more agents creates coordination work, not automatic intelligence.',
+    plainMeaning:
+      'A multi-agent system uses more than one agent or role to work on a task. That can help when the parts are clear, but someone still needs to assign work, check evidence, compare disagreement, and decide what becomes final.',
+    whyItMatters:
+      'More agents can make weak work look busy. Useful multi-agent systems need clear jobs, evidence, synthesis, and human review where consequences rise.',
+    safeExample:
+      'Use one agent to gather public sources, another to summarize them, and a reviewer to check evidence before a human approves the final brief.',
+    firstMoves: [
+      'Split the task only when the parts are truly separate.',
+      'Give each agent a clear output format.',
+      'Require evidence with each output.',
+      'Name who synthesizes the final answer.'
+    ],
+    commonMistake:
+      'Adding agents because it sounds advanced, while leaving the task vague.',
+    guardrails: [
+      'Keep authority boundaries clear.',
+      'Do not average conflicting outputs blindly.',
+      'Escalate unsupported or consequential decisions to humans.',
+      'Prefer one bounded agent over several confused ones.'
+    ],
+    order: 56
   }
 ];
 
@@ -1480,6 +1512,38 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
       'Exigí humanos para consecuencias externas o irreversibles.'
     ],
     order: 55
+  },
+  {
+    slug: 'more-agents-more-coordination',
+    technicalSlug: 'more-agents-more-coordination',
+    title: 'Más agentes, más coordinación, para principiantes',
+    shortTitle: 'Coordinación multi-agente',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Entender agentes sin hype',
+    summary:
+      'Una guía principiante sobre por qué agregar agentes crea trabajo de coordinación, no inteligencia automática.',
+    plainMeaning:
+      'Un sistema multi-agente usa más de un agente o rol para trabajar sobre una tarea. Eso puede ayudar cuando las partes son claras, pero alguien todavía tiene que asignar trabajo, chequear evidencia, comparar desacuerdos y decidir qué queda final.',
+    whyItMatters:
+      'Más agentes pueden hacer que trabajo débil parezca ocupado. Los sistemas multi-agente útiles necesitan trabajos claros, evidencia, síntesis y revisión humana donde suben las consecuencias.',
+    safeExample:
+      'Usá un agente para juntar fuentes públicas, otro para resumirlas y un revisor para chequear evidencia antes de que una persona apruebe el brief final.',
+    firstMoves: [
+      'Dividí la tarea solo cuando las partes son realmente separables.',
+      'Dale a cada agente un formato de salida claro.',
+      'Exigí evidencia con cada salida.',
+      'Nombrá quién sintetiza la respuesta final.'
+    ],
+    commonMistake:
+      'Agregar agentes porque suena avanzado, pero dejar la tarea vaga.',
+    guardrails: [
+      'Mantené claros los límites de autoridad.',
+      'No promedies salidas conflictivas a ciegas.',
+      'Escalá decisiones sin respaldo o con consecuencias a personas.',
+      'Preferí un agente acotado antes que varios confundidos.'
+    ],
+    order: 56
   }
 ];
 
@@ -1530,9 +1594,9 @@ export const moduleIntros = [
     title: 'Understand agents without the hype',
     titleEs: 'Entender agentes sin hype',
     summary:
-      'Beginner versions of agent loops, agentic systems, human agency, reliability, trust infrastructure, and model routing.',
+      'Beginner versions of agent loops, agentic systems, human agency, reliability, trust infrastructure, model routing, and coordination.',
     summaryEs:
-      'Versiones principiantes de loops de agentes, sistemas agentic, agencia humana, confiabilidad, infraestructura de confianza y model routing.'
+      'Versiones principiantes de loops de agentes, sistemas agentic, agencia humana, confiabilidad, infraestructura de confianza, model routing y coordinación.'
   }
 ];
 
