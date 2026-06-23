@@ -24,6 +24,7 @@
 - [Context is not memory, for beginners](https://lab.turtleand.com/beginners/topics/context-is-not-memory/): A beginner explanation of the difference between what a model sees now and what a system remembers later.
 - [Planning and decomposition, for beginners](https://lab.turtleand.com/beginners/topics/planning-decomposition-control-structures/): How to make AI work better by splitting a goal into smaller steps with checks between them.
 - [The agent loop, for beginners](https://lab.turtleand.com/beginners/topics/agent-loop-controlled-feedback-loop/): A plain-language view of how agents observe, choose an action, inspect the result, and repeat safely.
+- [Agent tool use, for beginners](https://lab.turtleand.com/beginners/topics/agent-tool-use-controlled-action-cycle/): How tools give agents hands and senses while still needing scope, checks, and human approval at risky boundaries.
 - [Agentic AI systems, for beginners](https://lab.turtleand.com/beginners/topics/agentic-ai-systems-learning-path/): A beginner map of the ideas behind agents: loop, tools, memory, planning, approval, reliability, trust infrastructure, and coordination.
 - [Human agency is not a button, for beginners](https://lab.turtleand.com/beginners/topics/human-agency-is-not-a-button/): Why responsible agent systems need real human authority, not just a decorative approval prompt.
 - [Smart is not reliable, for beginners](https://lab.turtleand.com/beginners/topics/smart-is-not-reliable/): Why impressive AI answers are not the same as dependable systems.
@@ -51,6 +52,7 @@
 - [Contexto no es memoria, para principiantes](https://lab.turtleand.com/es/beginners/topics/context-is-not-memory/): La diferencia entre lo que un modelo ve ahora y lo que un sistema recuerda después.
 - [Planificación y descomposición, para principiantes](https://lab.turtleand.com/es/beginners/topics/planning-decomposition-control-structures/): Cómo hacer que la IA trabaje mejor dividiendo un objetivo en pasos chicos con controles entre medio.
 - [El loop de agente, para principiantes](https://lab.turtleand.com/es/beginners/topics/agent-loop-controlled-feedback-loop/): Cómo los agentes observan, eligen una acción, revisan el resultado y repiten con seguridad.
+- [Uso de herramientas por agentes, para principiantes](https://lab.turtleand.com/es/beginners/topics/agent-tool-use-controlled-action-cycle/): Cómo las herramientas les dan manos y sentidos a los agentes sin quitar la necesidad de alcance, chequeos y aprobación humana en límites riesgosos.
 - [Sistemas agentic de IA, para principiantes](https://lab.turtleand.com/es/beginners/topics/agentic-ai-systems-learning-path/): Un mapa principiante de agentes: loop, herramientas, memoria, planificación, aprobación, confiabilidad, infraestructura de confianza y coordinación.
 - [La agencia humana no es un botón, para principiantes](https://lab.turtleand.com/es/beginners/topics/human-agency-is-not-a-button/): Por qué los sistemas de agentes responsables necesitan autoridad humana real, no solo un prompt decorativo de aprobación.
 - [Inteligente no es confiable, para principiantes](https://lab.turtleand.com/es/beginners/topics/smart-is-not-reliable/): Por qué respuestas impresionantes de IA no son lo mismo que sistemas confiables.
@@ -87,6 +89,7 @@
 
 ### Module 5: Agent Architecture
 - [The agent loop as a controlled feedback loop](https://lab.turtleand.com/topics/agent-loop-controlled-feedback-loop): A beginner lesson on how useful AI agents observe state, choose bounded actions, inspect results, and keep humans responsible for risky steps.
+- [Agent tool use as a controlled action cycle](https://lab.turtleand.com/topics/agent-tool-use-controlled-action-cycle): A beginner lesson on how tools give agents hands and senses, why tool calls need permission boundaries, and how results should be checked before the next action.
 - [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A concise learning map for agents: loop, tools, memory, planning, approval, reliability, trust infrastructure, routing, and coordination.
 - [Human Agency Is Not a Button](https://lab.turtleand.com/topics/human-agency-is-not-a-button): A beginner lesson on why responsible agent systems need authority boundaries, not just approval prompts.
 - [Model Choice Is System Design](https://lab.turtleand.com/topics/model-choice-is-system-design): How agent systems choose models by task difficulty, risk, cost, latency, privacy, verification needs, and human authority boundaries.

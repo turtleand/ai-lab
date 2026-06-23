@@ -550,6 +550,36 @@ Go deeper: https://lab.turtleand.com/topics/agent-loop-controlled-feedback-loop/
 
 ---
 
+# Agent tool use, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/agent-tool-use-controlled-action-cycle/
+
+Based on: https://lab.turtleand.com/topics/agent-tool-use-controlled-action-cycle/
+
+Tool use means an agent can ask a defined tool to do something outside the model, such as search, read notes, run a calculation, or prepare a local draft.
+
+Why it matters: Tools let agents stop guessing and check reality. They also create side effects, so each call needs a clear purpose, a scoped input, result checking, and permission boundaries.
+
+Small safe example: A study agent reads only notes tagged with the current topic, builds a short plan, and asks before adding new sources or publishing anything.
+
+First moves:
+- Name the tool and why it is needed.
+- Keep the input narrow.
+- Read the result before continuing.
+- Ask the human before external or sensitive actions.
+
+Common mistake: Thinking tool access alone makes the agent reliable. The reliability comes from checking the result and respecting boundaries.
+
+Guardrails:
+- Start with read-only tools when learning.
+- Keep tool permissions narrow.
+- Treat tool output as evidence to inspect, not automatic success.
+- Require human approval for publishing, sending, spending, deleting, or sensitive access.
+
+Go deeper: https://lab.turtleand.com/topics/agent-tool-use-controlled-action-cycle/
+
+---
+
 # Agentic AI systems, for beginners
 
 Route: https://lab.turtleand.com/beginners/topics/agentic-ai-systems-learning-path/
@@ -1275,6 +1305,36 @@ Guardrails:
 - Mantené a las personas responsables por efectos externos.
 
 Go deeper: https://lab.turtleand.com/es/topics/agent-loop-controlled-feedback-loop/
+
+---
+
+# Uso de herramientas por agentes, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/agent-tool-use-controlled-action-cycle/
+
+Based on: https://lab.turtleand.com/es/topics/agent-tool-use-controlled-action-cycle/
+
+Usar herramientas significa que un agente puede pedirle a una herramienta definida que haga algo fuera del modelo, como buscar, leer notas, ejecutar un cálculo o preparar un borrador local.
+
+Why it matters: Las herramientas permiten que los agentes dejen de adivinar y chequeen la realidad. También pueden crear efectos, así que cada llamada necesita propósito claro, input acotado, revisión del resultado y límites de permiso.
+
+Small safe example: Un agente de estudio lee solo notas etiquetadas con el tema actual, arma un plan corto y pregunta antes de agregar fuentes nuevas o publicar algo.
+
+First moves:
+- Nombrá la herramienta y por qué hace falta.
+- Mantené el input acotado.
+- Leé el resultado antes de seguir.
+- Preguntá a la persona antes de acciones externas o sensibles.
+
+Common mistake: Pensar que el acceso a herramientas vuelve fiable al agente. La fiabilidad viene de revisar el resultado y respetar límites.
+
+Guardrails:
+- Empezá con herramientas de solo lectura al aprender.
+- Mantené permisos estrechos.
+- Tratà la salida de herramientas como evidencia a inspeccionar, no como éxito automático.
+- Exigí aprobación humana para publicar, enviar, gastar, borrar o acceder a datos sensibles.
+
+Go deeper: https://lab.turtleand.com/es/topics/agent-tool-use-controlled-action-cycle/
 
 ---
 
@@ -4062,6 +4122,126 @@ The human remains responsible for direction, approval, and consequences.
 
 ---
 
+# Agent tool use as a controlled action cycle
+
+Module: Module 5: Agent Architecture
+
+## The intuition
+
+A model without tools can mostly talk from what it already knows.
+
+A model with tools can check something outside itself. It can search, read a file, call an API, run a calculation, draft a local change, or ask for a human decision.
+
+Tools are the agent's hands and senses. They do not replace judgment.
+
+This is the second step in the agentic AI systems learning path: after the agent loop, learn how tools let the loop touch reality.
+
+## The controlled action cycle
+
+Useful tool use is not "give the model everything and hope."
+
+It is a controlled cycle:
+
+```text
+choose a tool
+  ↓
+prepare the input
+  ↓
+call the tool
+  ↓
+read the result
+  ↓
+interpret what changed
+  ↓
+decide the next step, stop, or ask a human
+```
+
+The tool call creates an observation. The agent still has to understand that observation.
+
+If the result is empty, confusing, risky, or surprising, the right next step may be to pause.
+
+## A harmless example
+
+Imagine an agent helping plan a study session.
+
+The goal is: "Prepare a focused one-hour plan for learning vector search."
+
+A no-tool assistant might guess from memory.
+
+A tool-using assistant can follow a safer loop:
+
+1. **Choose tool:** read the learner's saved notes.
+2. **Prepare input:** look only for notes tagged `vector search`.
+3. **Call tool:** retrieve the relevant notes.
+4. **Read result:** notice there are three short notes and one outdated link.
+5. **Interpret:** the plan should use the notes but avoid trusting the old link.
+6. **Decide:** draft a one-hour plan and ask before adding new sources.
+
+The tool did not make the agent reliable by itself. The check after the tool call made the next action more grounded.
+
+## Tool types and risk
+
+Different tools need different boundaries.
+
+| Tool type | Example | Default posture |
+| --- | --- | --- |
+| Read-only | Search public docs, read local notes | Usually safe when scoped |
+| Local draft | Create a reversible draft file | Usually safe when reviewable |
+| External action | Send a message, publish, buy, deploy | Ask the human first |
+| Sensitive access | Secrets, accounts, private data | Strong boundary, often no automation |
+
+Capability is not the same as permission.
+
+A serious system distinguishes what the agent can technically do from what it is allowed to do without review.
+
+## What good agents do after tool calls
+
+The dangerous mistake is treating a tool response as automatic success.
+
+Good agents inspect the result:
+
+- Did the tool actually run?
+- Was the input correct?
+- Is the output complete enough?
+- Did something change?
+- Is the next action still low risk?
+- Does a human need to approve the next step?
+
+Tool use replaces guessing with checking. It does not remove the need to think.
+
+## Mini practice
+
+Classify each action:
+
+1. Reading a public documentation page.
+2. Creating a local draft note.
+3. Posting the draft publicly.
+4. Looking up a private credential.
+
+Which are read-only, which are local and reversible, and which need human approval?
+
+## Facts vs Turtleand interpretation
+
+**Facts:**
+
+- Public agent systems commonly expose tools through descriptions or schemas so the model can request tool calls.
+- Agent workflows often combine reasoning, action, observation, and another decision step.
+- Human-in-the-loop controls are a documented pattern for reviewing or approving sensitive agent actions.
+
+**Turtleand interpretation:**
+
+- Tools should be taught as part of a control surface, not as magic autonomy.
+- The important skill is not only calling tools. It is choosing, scoping, checking, and knowing when to stop.
+- Good tool use increases human agency because reality becomes checkable and risky steps become explicit.
+
+## Sources
+
+- [Hugging Face Agents Course: What are Tools?](https://huggingface.co/learn/agents-course/unit1/tools)
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
+- [LangGraph documentation: Human-in-the-loop](https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/)
+
+---
+
 # Agentic AI systems learning path
 
 Module: Module 5: Agent Architecture
@@ -4077,7 +4257,7 @@ Learn the layers in order so autonomy stays visible, testable, and accountable.
 ## Learning ladder
 
 1. **Loop:** goal, state, action, result.
-2. **Tools:** search, read, write, and call APIs with clear permissions.
+2. **Tools:** search, read, write, and call APIs through a controlled action cycle.
 3. **Memory and state:** separate current context, durable memory, task state, and noise.
 4. **Planning:** split work into steps without treating the plan as proof.
 5. **Approval:** require review for public, financial, account, data, reputation, or irreversible actions.
@@ -4106,6 +4286,11 @@ Keep examples generic, reversible, and safe to discuss in public.
 Teach agents as bounded work systems, not autonomous personalities. Add autonomy only when the control surface is clear.
 
 Future lessons should link back here when they cover loops, tools, memory, planning, evaluation, trust infrastructure, routing, and coordination.
+
+Start with the first two companion lessons:
+
+- [The agent loop as a controlled feedback loop](/topics/agent-loop-controlled-feedback-loop/)
+- [Agent tool use as a controlled action cycle](/topics/agent-tool-use-controlled-action-cycle/)
 
 ---
 

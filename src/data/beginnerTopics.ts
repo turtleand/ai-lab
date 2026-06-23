@@ -591,6 +591,38 @@ export const beginnerTopics: BeginnerTopic[] = [
     order: 50
   },
   {
+    slug: 'agent-tool-use-controlled-action-cycle',
+    technicalSlug: 'agent-tool-use-controlled-action-cycle',
+    title: 'Agent tool use, for beginners',
+    shortTitle: 'Agent tool use',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Understand agents without the hype',
+    summary:
+      'How tools give agents hands and senses while still needing scope, checks, and human approval at risky boundaries.',
+    plainMeaning:
+      'Tool use means an agent can ask a defined tool to do something outside the model, such as search, read notes, run a calculation, or prepare a local draft.',
+    whyItMatters:
+      'Tools let agents stop guessing and check reality. They also create side effects, so each call needs a clear purpose, a scoped input, result checking, and permission boundaries.',
+    safeExample:
+      'A study agent reads only notes tagged with the current topic, builds a short plan, and asks before adding new sources or publishing anything.',
+    firstMoves: [
+      'Name the tool and why it is needed.',
+      'Keep the input narrow.',
+      'Read the result before continuing.',
+      'Ask the human before external or sensitive actions.'
+    ],
+    commonMistake:
+      'Thinking tool access alone makes the agent reliable. The reliability comes from checking the result and respecting boundaries.',
+    guardrails: [
+      'Start with read-only tools when learning.',
+      'Keep tool permissions narrow.',
+      'Treat tool output as evidence to inspect, not automatic success.',
+      'Require human approval for publishing, sending, spending, deleting, or sensitive access.'
+    ],
+    order: 50.5
+  },
+  {
     slug: 'agentic-ai-systems-learning-path',
     technicalSlug: 'agentic-ai-systems-learning-path',
     title: 'Agentic AI systems, for beginners',
@@ -1356,6 +1388,38 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
     order: 50
   },
   {
+    slug: 'agent-tool-use-controlled-action-cycle',
+    technicalSlug: 'agent-tool-use-controlled-action-cycle',
+    title: 'Uso de herramientas por agentes, para principiantes',
+    shortTitle: 'Uso de herramientas',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Entender agentes sin hype',
+    summary:
+      'Cómo las herramientas les dan manos y sentidos a los agentes sin quitar la necesidad de alcance, chequeos y aprobación humana en límites riesgosos.',
+    plainMeaning:
+      'Usar herramientas significa que un agente puede pedirle a una herramienta definida que haga algo fuera del modelo, como buscar, leer notas, ejecutar un cálculo o preparar un borrador local.',
+    whyItMatters:
+      'Las herramientas permiten que los agentes dejen de adivinar y chequeen la realidad. También pueden crear efectos, así que cada llamada necesita propósito claro, input acotado, revisión del resultado y límites de permiso.',
+    safeExample:
+      'Un agente de estudio lee solo notas etiquetadas con el tema actual, arma un plan corto y pregunta antes de agregar fuentes nuevas o publicar algo.',
+    firstMoves: [
+      'Nombrá la herramienta y por qué hace falta.',
+      'Mantené el input acotado.',
+      'Leé el resultado antes de seguir.',
+      'Preguntá a la persona antes de acciones externas o sensibles.'
+    ],
+    commonMistake:
+      'Pensar que el acceso a herramientas vuelve fiable al agente. La fiabilidad viene de revisar el resultado y respetar límites.',
+    guardrails: [
+      'Empezá con herramientas de solo lectura al aprender.',
+      'Mantené permisos estrechos.',
+      'Tratà la salida de herramientas como evidencia a inspeccionar, no como éxito automático.',
+      'Exigí aprobación humana para publicar, enviar, gastar, borrar o acceder a datos sensibles.'
+    ],
+    order: 50.5
+  },
+  {
     slug: 'agentic-ai-systems-learning-path',
     technicalSlug: 'agentic-ai-systems-learning-path',
     title: 'Sistemas agentic de IA, para principiantes',
@@ -1594,9 +1658,9 @@ export const moduleIntros = [
     title: 'Understand agents without the hype',
     titleEs: 'Entender agentes sin hype',
     summary:
-      'Beginner versions of agent loops, agentic systems, human agency, reliability, trust infrastructure, model routing, and coordination.',
+      'Beginner versions of agent loops, tool use, agentic systems, human agency, reliability, trust infrastructure, model routing, and coordination.',
     summaryEs:
-      'Versiones principiantes de loops de agentes, sistemas agentic, agencia humana, confiabilidad, infraestructura de confianza, model routing y coordinación.'
+      'Versiones principiantes de loops de agentes, uso de herramientas, sistemas agentic, agencia humana, confiabilidad, infraestructura de confianza, model routing y coordinación.'
   }
 ];
 
