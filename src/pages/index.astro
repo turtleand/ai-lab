@@ -332,11 +332,7 @@ const moduleLadder = [
 const currentModule =
   moduleLadder.find((item) => item.status === 'in-progress') ?? moduleLadder[0];
 
-const statusLabels: Record<string, string> = {
-  done: 'Ready',
-  'in-progress': 'Active',
-  planned: 'Planned'
-};
+const plannedStatusLabel = 'Planned';
 
 const logEntries = await Promise.all(
   logs.map(async (entry) => {
@@ -445,9 +441,9 @@ const subtopicsForModule = (module) => {
                   <strong>{module.key}</strong>
                   <div>{module.title}</div>
                 </div>
-                <span class={`module-status ${module.status}`}>
-                  {statusLabels[module.status]}
-                </span>
+                {moduleDisabled && (
+                  <span class="module-status">{plannedStatusLabel}</span>
+                )}
               </summary>
               <div class="subtopics">
                 {hasSubtopics ? (

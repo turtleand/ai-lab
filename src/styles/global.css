@@ -573,17 +573,6 @@ p {
   text-transform: uppercase;
 }
 
-.module-status.in-progress {
-  border-color: color-mix(in srgb, var(--accent) 42%, var(--border) 58%);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--accent);
-}
-
-.module-status.done {
-  background: color-mix(in srgb, var(--accent-2) 10%, transparent);
-  color: color-mix(in srgb, var(--accent-2) 72%, var(--ink) 28%);
-}
-
 .module-row summary::-webkit-details-marker {
   display: none;
 }
