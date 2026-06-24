@@ -1,0 +1,137 @@
+---
+title: 'El uso de herramientas del agente como ciclo de acción controlado'
+module: 'Module 5: Agent Architecture'
+subtopic: 'agent-tool-use-controlled-action-cycle'
+summary: 'Una lección inicial sobre cómo las herramientas les dan manos y sentidos a los agentes, por qué las llamadas a herramientas necesitan límites de permiso y cómo revisar resultados antes de la próxima acción.'
+status: 'in-progress'
+articles:
+  - title: 'Hugging Face Agents Course: What are Tools?'
+    description: 'Material público de aprendizaje que explica cómo los agentes usan descripciones e invocaciones de herramientas para llamar funciones externas cuando hace falta.'
+    type: 'article'
+    status: 'done'
+    link: 'https://huggingface.co/learn/agents-course/unit1/tools'
+  - title: 'ReAct: Synergizing Reasoning and Acting in Language Models'
+    description: 'Paper de investigación que introduce un patrón que intercala razonamiento y acción en agentes basados en modelos de lenguaje.'
+    type: 'article'
+    status: 'done'
+    link: 'https://arxiv.org/abs/2210.03629'
+  - title: 'Documentación de LangGraph: Human-in-the-loop'
+    description: 'Documentación que muestra cómo la revisión humana puede interrumpir y aprobar acciones sensibles de agentes.'
+    type: 'article'
+    status: 'done'
+    link: 'https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/'
+---
+
+## La intuición
+
+Un modelo sin herramientas principalmente puede hablar desde lo que ya sabe.
+
+Un modelo con herramientas puede revisar algo fuera de sí mismo. Puede buscar, leer un archivo, llamar una API, ejecutar un cálculo, redactar un cambio local o pedir una decisión humana.
+
+Las herramientas son las manos y los sentidos del agente. No reemplazan el juicio.
+
+Este es el segundo paso en la ruta de aprendizaje de sistemas agentic AI: después del loop del agente, aprendé cómo las herramientas permiten que el loop toque la realidad.
+
+## El ciclo de acción controlado
+
+El uso útil de herramientas no es "darle todo al modelo y esperar."
+
+Es un ciclo controlado:
+
+```text
+elegir una herramienta
+  ↓
+preparar el input
+  ↓
+llamar la herramienta
+  ↓
+leer el resultado
+  ↓
+interpretar qué cambió
+  ↓
+decidir el próximo paso, detenerse o preguntar a una persona
+```
+
+La llamada a la herramienta crea una observación. El agente todavía tiene que entender esa observación.
+
+Si el resultado está vacío, confuso, riesgoso o sorprendente, el próximo paso correcto puede ser pausar.
+
+## Un ejemplo inofensivo
+
+Imaginá un agente que ayuda a planificar una sesión de estudio.
+
+El objetivo es: "Prepará un plan enfocado de una hora para aprender búsqueda vectorial."
+
+Un asistente sin herramientas podría adivinar desde memoria.
+
+Un asistente con herramientas puede seguir un loop más seguro:
+
+1. **Elegir herramienta:** leer las notas guardadas del estudiante.
+2. **Preparar input:** buscar solo notas etiquetadas `vector search`.
+3. **Llamar la herramienta:** recuperar las notas relevantes.
+4. **Leer resultado:** notar que hay tres notas cortas y un link viejo.
+5. **Interpretar:** el plan debería usar las notas pero no confiar ciegamente en el link viejo.
+6. **Decidir:** redactar un plan de una hora y preguntar antes de agregar fuentes nuevas.
+
+La herramienta no hizo fiable al agente por sí sola. La revisión después de la llamada hizo que la próxima acción estuviera más anclada en evidencia.
+
+## Tipos de herramientas y riesgo
+
+Diferentes herramientas necesitan diferentes límites.
+
+| Tipo de herramienta | Ejemplo | Postura por defecto |
+| --- | --- | --- |
+| Solo lectura | Buscar docs públicas, leer notas locales | Normalmente seguro si está acotado |
+| Borrador local | Crear un archivo borrador reversible | Normalmente seguro si es revisable |
+| Acción externa | Enviar un mensaje, publicar, comprar, desplegar | Preguntar primero a la persona |
+| Acceso sensible | Secretos, cuentas, datos privados | Límite fuerte, muchas veces sin automatización |
+
+Capacidad no es lo mismo que permiso.
+
+Un sistema serio distingue qué puede hacer técnicamente el agente de qué tiene permitido hacer sin revisión.
+
+## Qué hacen los buenos agentes después de llamar herramientas
+
+El error peligroso es tratar una respuesta de herramienta como éxito automático.
+
+Los buenos agentes inspeccionan el resultado:
+
+- ¿La herramienta realmente corrió?
+- ¿El input era correcto?
+- ¿El output alcanza?
+- ¿Cambió algo?
+- ¿La próxima acción sigue siendo de bajo riesgo?
+- ¿Una persona necesita aprobar el próximo paso?
+
+El uso de herramientas reemplaza adivinanza por chequeo. No elimina la necesidad de pensar.
+
+## Práctica breve
+
+Clasificá cada acción:
+
+1. Leer una página pública de documentación.
+2. Crear una nota borrador local.
+3. Publicar el borrador.
+4. Buscar una credencial privada.
+
+¿Cuáles son solo lectura, cuáles son locales y reversibles, y cuáles necesitan aprobación humana?
+
+## Hechos vs interpretación de Turtleand
+
+**Hechos:**
+
+- Los sistemas públicos de agentes suelen exponer herramientas mediante descripciones o esquemas para que el modelo pueda pedir llamadas a herramientas.
+- Los workflows de agentes suelen combinar razonamiento, acción, observación y otro paso de decisión.
+- Los controles human-in-the-loop son un patrón documentado para revisar o aprobar acciones sensibles de agentes.
+
+**Interpretación de Turtleand:**
+
+- Las herramientas deberían enseñarse como parte de una superficie de control, no como autonomía mágica.
+- La habilidad importante no es solo llamar herramientas. Es elegir, acotar, revisar y saber cuándo detenerse.
+- El buen uso de herramientas aumenta la agencia humana porque la realidad se vuelve verificable y los pasos riesgosos se vuelven explícitos.
+
+## Fuentes
+
+- [Hugging Face Agents Course: What are Tools?](https://huggingface.co/learn/agents-course/unit1/tools)
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
+- [Documentación de LangGraph: Human-in-the-loop](https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/)

@@ -1,0 +1,137 @@
+---
+title: 'Agent tool use as a controlled action cycle'
+module: 'Module 5: Agent Architecture'
+subtopic: 'agent-tool-use-controlled-action-cycle'
+summary: 'A beginner lesson on how tools give agents hands and senses, why tool calls need permission boundaries, and how results should be checked before the next action.'
+status: 'in-progress'
+articles:
+  - title: 'Hugging Face Agents Course: What are Tools?'
+    description: 'Public learning material explaining how agents use tool descriptions and invocations to call external functions when needed.'
+    type: 'article'
+    status: 'done'
+    link: 'https://huggingface.co/learn/agents-course/unit1/tools'
+  - title: 'ReAct: Synergizing Reasoning and Acting in Language Models'
+    description: 'Research paper introducing an interleaved reasoning and acting pattern for language-model agents.'
+    type: 'article'
+    status: 'done'
+    link: 'https://arxiv.org/abs/2210.03629'
+  - title: 'LangGraph documentation: Human-in-the-loop'
+    description: 'Documentation showing how human review can interrupt and approve sensitive agent actions.'
+    type: 'article'
+    status: 'done'
+    link: 'https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/'
+---
+
+## The intuition
+
+A model without tools can mostly talk from what it already knows.
+
+A model with tools can check something outside itself. It can search, read a file, call an API, run a calculation, draft a local change, or ask for a human decision.
+
+Tools are the agent's hands and senses. They do not replace judgment.
+
+This is the second step in the agentic AI systems learning path: after the agent loop, learn how tools let the loop touch reality.
+
+## The controlled action cycle
+
+Useful tool use is not "give the model everything and hope."
+
+It is a controlled cycle:
+
+```text
+choose a tool
+  ↓
+prepare the input
+  ↓
+call the tool
+  ↓
+read the result
+  ↓
+interpret what changed
+  ↓
+decide the next step, stop, or ask a human
+```
+
+The tool call creates an observation. The agent still has to understand that observation.
+
+If the result is empty, confusing, risky, or surprising, the right next step may be to pause.
+
+## A harmless example
+
+Imagine an agent helping plan a study session.
+
+The goal is: "Prepare a focused one-hour plan for learning vector search."
+
+A no-tool assistant might guess from memory.
+
+A tool-using assistant can follow a safer loop:
+
+1. **Choose tool:** read the learner's saved notes.
+2. **Prepare input:** look only for notes tagged `vector search`.
+3. **Call tool:** retrieve the relevant notes.
+4. **Read result:** notice there are three short notes and one outdated link.
+5. **Interpret:** the plan should use the notes but avoid trusting the old link.
+6. **Decide:** draft a one-hour plan and ask before adding new sources.
+
+The tool did not make the agent reliable by itself. The check after the tool call made the next action more grounded.
+
+## Tool types and risk
+
+Different tools need different boundaries.
+
+| Tool type | Example | Default posture |
+| --- | --- | --- |
+| Read-only | Search public docs, read local notes | Usually safe when scoped |
+| Local draft | Create a reversible draft file | Usually safe when reviewable |
+| External action | Send a message, publish, buy, deploy | Ask the human first |
+| Sensitive access | Secrets, accounts, private data | Strong boundary, often no automation |
+
+Capability is not the same as permission.
+
+A serious system distinguishes what the agent can technically do from what it is allowed to do without review.
+
+## What good agents do after tool calls
+
+The dangerous mistake is treating a tool response as automatic success.
+
+Good agents inspect the result:
+
+- Did the tool actually run?
+- Was the input correct?
+- Is the output complete enough?
+- Did something change?
+- Is the next action still low risk?
+- Does a human need to approve the next step?
+
+Tool use replaces guessing with checking. It does not remove the need to think.
+
+## Mini practice
+
+Classify each action:
+
+1. Reading a public documentation page.
+2. Creating a local draft note.
+3. Posting the draft publicly.
+4. Looking up a private credential.
+
+Which are read-only, which are local and reversible, and which need human approval?
+
+## Facts vs Turtleand interpretation
+
+**Facts:**
+
+- Public agent systems commonly expose tools through descriptions or schemas so the model can request tool calls.
+- Agent workflows often combine reasoning, action, observation, and another decision step.
+- Human-in-the-loop controls are a documented pattern for reviewing or approving sensitive agent actions.
+
+**Turtleand interpretation:**
+
+- Tools should be taught as part of a control surface, not as magic autonomy.
+- The important skill is not only calling tools. It is choosing, scoping, checking, and knowing when to stop.
+- Good tool use increases human agency because reality becomes checkable and risky steps become explicit.
+
+## Sources
+
+- [Hugging Face Agents Course: What are Tools?](https://huggingface.co/learn/agents-course/unit1/tools)
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
+- [LangGraph documentation: Human-in-the-loop](https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/)
