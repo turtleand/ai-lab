@@ -760,6 +760,36 @@ Go deeper: https://lab.turtleand.com/topics/more-agents-more-coordination/
 
 ---
 
+# AI runtime lab, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/ai-runtime-lab/
+
+Based on: https://lab.turtleand.com/topics/ai-runtime-lab/
+
+An AI runtime lab is a practice environment where you can see what an AI system remembers, what it can do, how its work gets checked, which model route it uses, and how it practices before stakes rise.
+
+Why it matters: Prompts teach interaction. Runtime practice teaches the system around the interaction. That is where reliability, boundaries, and human judgment become visible.
+
+Small safe example: Build a harmless public research helper that stores source criteria, reads public pages, checks evidence, and asks a human before anything is used externally.
+
+First moves:
+- Pick one harmless learning task.
+- Name what the system may remember.
+- Name one tool it may use.
+- Name the check that proves the answer is good enough.
+
+Common mistake: Treating a runtime lab as automation for real work before the practice loop is observable and bounded.
+
+Guardrails:
+- Use public or invented material while learning.
+- Keep tools narrow and reversible.
+- Require evidence before trust.
+- Escalate consequential decisions to humans.
+
+Go deeper: https://lab.turtleand.com/topics/ai-runtime-lab/
+
+---
+
 # IA para principiantes
 
 Route: https://lab.turtleand.com/es/beginners/
@@ -1515,6 +1545,36 @@ Guardrails:
 - Preferí un agente acotado antes que varios confundidos.
 
 Go deeper: https://lab.turtleand.com/es/topics/more-agents-more-coordination/
+
+---
+
+# Laboratorio de runtime de IA, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/ai-runtime-lab/
+
+Based on: https://lab.turtleand.com/es/topics/ai-runtime-lab/
+
+Un laboratorio de runtime de IA es un entorno de práctica donde podés ver qué recuerda un sistema, qué puede hacer, cómo se chequea su trabajo, qué ruta de modelo usa y cómo practica antes de que suban las consecuencias.
+
+Why it matters: Los prompts enseñan interacción. La práctica de runtime enseña el sistema alrededor de la interacción. Ahí se vuelven visibles la confiabilidad, los límites y el juicio humano.
+
+Small safe example: Construí un ayudante de investigación pública inocuo que guarde criterios de fuentes, lea páginas públicas, revise evidencia y pregunte a una persona antes de usar algo externamente.
+
+First moves:
+- Elegí una tarea de aprendizaje inocua.
+- Nombrá qué puede recordar el sistema.
+- Nombrá una herramienta que puede usar.
+- Nombrá el check que prueba que la respuesta alcanza.
+
+Common mistake: Tratar el runtime lab como automatización para trabajo real antes de que el loop de práctica sea observable y acotado.
+
+Guardrails:
+- Usá material público o inventado mientras aprendés.
+- Mantené herramientas estrechas y reversibles.
+- Exigí evidencia antes de confiar.
+- Escalá decisiones con consecuencias a personas.
+
+Go deeper: https://lab.turtleand.com/es/topics/ai-runtime-lab/
 
 ---
 
@@ -5004,4 +5064,68 @@ For example, a research assistant may gather public sources alone, must show sou
 Trust is a system property.
 
 A serious agent does not ask humans to believe in its confidence. It earns narrower permissions through evidence, uses observability to make work inspectable, and keeps humans responsible where consequences rise.
+
+---
+
+# AI Runtime Lab
+
+Module: Module 6: Production AI Systems
+
+## Core idea
+
+AI learning becomes more serious when it moves from one-off prompts into controlled practice systems.
+
+An AI runtime lab is a safe learning environment for seeing how an AI system remembers useful context, acts through tools, checks its work, chooses the right model path, and practices before stakes rise.
+
+The point is not to make the system autonomous. The point is to make the learning loop observable, bounded, and reviewable.
+
+## The five layers
+
+Think of the lab as an operating gym for AI systems.
+
+1. **Memory:** what the system may store, retrieve, and place into the current task.
+2. **Action:** what tools, files, browsers, APIs, or interfaces the system may use.
+3. **Judgment:** what checks, rubrics, evals, or evidence decide whether the output is good enough.
+4. **Model choice:** which model route fits the task, risk, latency, cost, privacy, and verification burden.
+5. **Practice:** what safe drills let the learner improve before the workflow touches real consequences.
+
+Each layer answers a different control question. What can the system know? What can it do? How do we judge it? What capability should handle it? How do we practice safely?
+
+## Why this matters
+
+A chat transcript can teach a concept. A runtime lab teaches the system around the concept.
+
+Without memory design, the system may carry stale or irrelevant context. Without action boundaries, tools become risky. Without judgment, fluent output can look better than it is. Without model choice, the system wastes reasoning or underthinks important work. Without practice, every serious task becomes a first attempt.
+
+The lab makes these pieces visible.
+
+## A safe example
+
+Imagine a public research assistant for harmless learning topics.
+
+- Memory stores the topic, source criteria, and prior reading notes.
+- Action searches public pages, opens sources, and saves a short note.
+- Judgment checks whether claims have evidence and whether weak sources should be rejected.
+- Model choice uses a routine route for extraction and a stronger route for synthesis.
+- Practice runs the flow on low-risk public topics before anyone relies on it.
+
+A human still chooses the goal, reviews the final output, and decides what is worth using.
+
+## Design exercise
+
+Pick one harmless learning task. Then write one sentence for each layer:
+
+1. What may the system remember?
+2. What tool may it use?
+3. What check proves the result is good enough?
+4. When should the task escalate to a stronger model or a human?
+5. What safe practice task comes before real use?
+
+If you cannot answer those five questions, the system is probably still too vague.
+
+## Turtleand take
+
+AI capability compounds when learning has a place to practice.
+
+The useful lab is not a hidden machine that does everything. It is a controlled environment where memory, tools, evals, routing, and practice become visible enough for humans to improve the system and keep authority where consequences rise.
 

@@ -31,6 +31,7 @@
 - [Trust through evidence, for beginners](https://lab.turtleand.com/beginners/topics/trust-is-earned-through-evidence-not-vibes/): A plain-language guide to trusting agents only when they can show what happened, what was checked, and when humans must decide.
 - [Model choice is system design, for beginners](https://lab.turtleand.com/beginners/topics/model-choice-is-system-design/): A beginner guide to choosing the right model route for the task, risk, cost, and human decision boundary.
 - [More agents, more coordination, for beginners](https://lab.turtleand.com/beginners/topics/more-agents-more-coordination/): A beginner guide to why adding more agents creates coordination work, not automatic intelligence.
+- [AI runtime lab, for beginners](https://lab.turtleand.com/beginners/topics/ai-runtime-lab/): A beginner guide to learning AI systems through memory, tools, checks, model choice, and safe practice.
 
 ### Spanish beginner doorway
 - [IA para principiantes](https://lab.turtleand.com/es/beginners/): La puerta en lenguaje claro hacia AI Lab para personas que empiezan desde cero.
@@ -59,6 +60,7 @@
 - [Confianza con evidencia, para principiantes](https://lab.turtleand.com/es/beginners/topics/trust-is-earned-through-evidence-not-vibes/): Una guía simple para confiar en agentes solo cuando pueden mostrar qué pasó, qué se chequeó y cuándo decide una persona.
 - [Elegir modelo es diseñar el sistema, para principiantes](https://lab.turtleand.com/es/beginners/topics/model-choice-is-system-design/): Una guía principiante para elegir la ruta de modelo correcta según tarea, riesgo, costo y límite de decisión humana.
 - [Más agentes, más coordinación, para principiantes](https://lab.turtleand.com/es/beginners/topics/more-agents-more-coordination/): Una guía principiante sobre por qué agregar agentes crea trabajo de coordinación, no inteligencia automática.
+- [Laboratorio de runtime de IA, para principiantes](https://lab.turtleand.com/es/beginners/topics/ai-runtime-lab/): Una guía principiante para aprender sistemas de IA con memoria, herramientas, checks, elección de modelo y práctica segura.
 
 ### Module 0: Fast Track Setup
 - [Access & secrets](https://lab.turtleand.com/topics/access-secrets): Configure API keys and secrets securely for model access.
@@ -96,6 +98,9 @@
 - [More Agents, More Coordination](https://lab.turtleand.com/topics/more-agents-more-coordination): Why multi-agent systems trade individual workload for delegation, evidence, conflict resolution, and synthesis work.
 - [Smart Is Not Reliable](https://lab.turtleand.com/topics/smart-is-not-reliable): Why agent reliability is a system property built from checks, constraints, recovery paths, observability, and human escalation.
 - [Trust Is Earned Through Evidence, Not Vibes](https://lab.turtleand.com/topics/trust-is-earned-through-evidence-not-vibes): How agent systems earn trust through scoped tasks, permission boundaries, observability, evaluations, fallback paths, and independent verification.
+
+### Module 6: Production AI Systems
+- [AI Runtime Lab](https://lab.turtleand.com/topics/ai-runtime-lab): A five-layer learning path for controlled AI runtime systems: memory, action, judgment, model choice, and practice.
 
 ## About
 Created by Turtleand, software engineer building AI education that's practical, not theoretical.
