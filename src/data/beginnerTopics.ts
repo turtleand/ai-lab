@@ -811,6 +811,38 @@ export const beginnerTopics: BeginnerTopic[] = [
       'Prefer one bounded agent over several confused ones.'
     ],
     order: 56
+  },
+  {
+    slug: 'ai-runtime-lab',
+    technicalSlug: 'ai-runtime-lab',
+    title: 'AI runtime lab, for beginners',
+    shortTitle: 'AI runtime lab',
+    module: 'Module 6: Production AI Systems',
+    moduleSlug: 'module-6',
+    moduleTitle: 'Practice controlled AI systems',
+    summary:
+      'A beginner guide to learning AI systems through memory, tools, checks, model choice, and safe practice.',
+    plainMeaning:
+      'An AI runtime lab is a practice environment where you can see what an AI system remembers, what it can do, how its work gets checked, which model route it uses, and how it practices before stakes rise.',
+    whyItMatters:
+      'Prompts teach interaction. Runtime practice teaches the system around the interaction. That is where reliability, boundaries, and human judgment become visible.',
+    safeExample:
+      'Build a harmless public research helper that stores source criteria, reads public pages, checks evidence, and asks a human before anything is used externally.',
+    firstMoves: [
+      'Pick one harmless learning task.',
+      'Name what the system may remember.',
+      'Name one tool it may use.',
+      'Name the check that proves the answer is good enough.'
+    ],
+    commonMistake:
+      'Treating a runtime lab as automation for real work before the practice loop is observable and bounded.',
+    guardrails: [
+      'Use public or invented material while learning.',
+      'Keep tools narrow and reversible.',
+      'Require evidence before trust.',
+      'Escalate consequential decisions to humans.'
+    ],
+    order: 60
   }
 ];
 
@@ -1608,6 +1640,38 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
       'Preferí un agente acotado antes que varios confundidos.'
     ],
     order: 56
+  },
+  {
+    slug: 'ai-runtime-lab',
+    technicalSlug: 'ai-runtime-lab',
+    title: 'Laboratorio de runtime de IA, para principiantes',
+    shortTitle: 'Runtime lab de IA',
+    module: 'Module 6: Production AI Systems',
+    moduleSlug: 'module-6',
+    moduleTitle: 'Practicar sistemas de IA controlados',
+    summary:
+      'Una guía principiante para aprender sistemas de IA con memoria, herramientas, checks, elección de modelo y práctica segura.',
+    plainMeaning:
+      'Un laboratorio de runtime de IA es un entorno de práctica donde podés ver qué recuerda un sistema, qué puede hacer, cómo se chequea su trabajo, qué ruta de modelo usa y cómo practica antes de que suban las consecuencias.',
+    whyItMatters:
+      'Los prompts enseñan interacción. La práctica de runtime enseña el sistema alrededor de la interacción. Ahí se vuelven visibles la confiabilidad, los límites y el juicio humano.',
+    safeExample:
+      'Construí un ayudante de investigación pública inocuo que guarde criterios de fuentes, lea páginas públicas, revise evidencia y pregunte a una persona antes de usar algo externamente.',
+    firstMoves: [
+      'Elegí una tarea de aprendizaje inocua.',
+      'Nombrá qué puede recordar el sistema.',
+      'Nombrá una herramienta que puede usar.',
+      'Nombrá el check que prueba que la respuesta alcanza.'
+    ],
+    commonMistake:
+      'Tratar el runtime lab como automatización para trabajo real antes de que el loop de práctica sea observable y acotado.',
+    guardrails: [
+      'Usá material público o inventado mientras aprendés.',
+      'Mantené herramientas estrechas y reversibles.',
+      'Exigí evidencia antes de confiar.',
+      'Escalá decisiones con consecuencias a personas.'
+    ],
+    order: 60
   }
 ];
 
@@ -1661,6 +1725,16 @@ export const moduleIntros = [
       'Beginner versions of agent loops, tool use, agentic systems, human agency, reliability, trust infrastructure, model routing, and coordination.',
     summaryEs:
       'Versiones principiantes de loops de agentes, uso de herramientas, sistemas agentic, agencia humana, confiabilidad, infraestructura de confianza, model routing y coordinación.'
+  },
+  {
+    slug: 'module-6',
+    label: 'Module 6',
+    title: 'Practice controlled AI systems',
+    titleEs: 'Practicar sistemas de IA controlados',
+    summary:
+      'Beginner bridges into runtime labs, production practice, evaluation, model routing, and safe system drills.',
+    summaryEs:
+      'Puentes principiantes hacia runtime labs, práctica de producción, evaluación, model routing y ejercicios seguros de sistemas.'
   }
 ];
 
