@@ -4395,10 +4395,6 @@ None of these alone proves a finished future. Together, they suggest the same pa
         <dt>AI-native</dt>
         <dd>Give an agent goals, tools, files, memory, boundaries, and review loops.</dd>
       </div>
-      <div>
-        <dt>Move</dt>
-        <dd>Test and build.</dd>
-      </div>
     </dl>
   </article>
 
@@ -4413,10 +4409,6 @@ None of these alone proves a finished future. Together, they suggest the same pa
       <div>
         <dt>AI-native</dt>
         <dd>Software exposes context and actions directly to agents through protocols like MCP.</dd>
-      </div>
-      <div>
-        <dt>Move</dt>
-        <dd>Map and build.</dd>
       </div>
     </dl>
   </article>
@@ -4433,10 +4425,6 @@ None of these alone proves a finished future. Together, they suggest the same pa
         <dt>AI-native</dt>
         <dd>Humans define intent, tests, taste, constraints, and review while agents produce implementation paths.</dd>
       </div>
-      <div>
-        <dt>Move</dt>
-        <dd>Test.</dd>
-      </div>
     </dl>
   </article>
 
@@ -4451,10 +4439,6 @@ None of these alone proves a finished future. Together, they suggest the same pa
       <div>
         <dt>AI-native</dt>
         <dd>Capability comes from model plus tools, procedures, files, permissions, and organizational context.</dd>
-      </div>
-      <div>
-        <dt>Move</dt>
-        <dd>Learn and systematize.</dd>
       </div>
     </dl>
   </article>
@@ -4471,10 +4455,6 @@ None of these alone proves a finished future. Together, they suggest the same pa
         <dt>AI-native</dt>
         <dd>Agents call services, prove permissions, pay programmatically, and complete work through machine-native rails.</dd>
       </div>
-      <div>
-        <dt>Move</dt>
-        <dd>Watch and test.</dd>
-      </div>
     </dl>
   </article>
 
@@ -4490,10 +4470,6 @@ None of these alone proves a finished future. Together, they suggest the same pa
         <dt>AI-native</dt>
         <dd>Personalized paths, generated practice, memory of confusion, simulations, feedback, and projects.</dd>
       </div>
-      <div>
-        <dt>Move</dt>
-        <dd>Build.</dd>
-      </div>
     </dl>
   </article>
 
@@ -4508,10 +4484,6 @@ None of these alone proves a finished future. Together, they suggest the same pa
       <div>
         <dt>AI-native</dt>
         <dd>Agents monitor, prepare, draft, check, summarize, and surface decisions while humans keep direction and responsibility.</dd>
-      </div>
-      <div>
-        <dt>Move</dt>
-        <dd>Publish and refine.</dd>
       </div>
     </dl>
   </article>
