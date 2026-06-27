@@ -524,6 +524,87 @@ p {
   font-size: 0.9rem;
 }
 
+.shift-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 0.9rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.shift-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-height: 100%;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border) 76%);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--accent) 7%, transparent),
+      color-mix(in srgb, var(--accent-2) 5%, transparent)
+    ),
+    var(--panel-soft);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+
+.shift-card h3 {
+  margin: 0;
+  font-size: clamp(1.05rem, 1vw + 0.8rem, 1.25rem);
+  line-height: 1.25;
+}
+
+.shift-eyebrow {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.shift-card dl {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.shift-card dl > div {
+  display: grid;
+  grid-template-columns: minmax(5.2rem, 0.34fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.72rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+}
+
+.shift-card dt {
+  margin: 0;
+  color: var(--accent-2);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.shift-card dd {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 520px) {
+  .shift-card dl > div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+
 .module-row {
   border: 1px solid var(--border);
   border-radius: 14px;

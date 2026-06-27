@@ -2335,13 +2335,7 @@ Then start the runtime + UI by targeting a 4-bit quantized model from Hugging Fa
 llama-server -hf ggml-org/Qwen3-4B-GGUF:Q4_K_M
 ```
 
-<figure class="article-media">
-  <img
-    src="/images/topics/running-inference-locally.png"
-    alt="Example local inference UI"
-  />
-  <figcaption>Example llama.cpp UI.</figcaption>
-</figure>
+  Example llama.cpp UI.
 
 ## Prompt Example
 ```md
@@ -4382,15 +4376,117 @@ None of these alone proves a finished future. Together, they suggest the same pa
 
 ## Seven AI-native shifts
 
-| Shift                                            | Old paradigm                                                                 | AI-native paradigm                                                                                                      | Action                 |
-| ------------------------------------------------ | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| Chatbot to operator                              | Ask software for answers.                                                    | Give an agent goals, tools, files, memory, boundaries, and review loops.                                                | Test and build.        |
-| Apps to agent-accessible environments            | Software is built for humans clicking buttons.                               | Software exposes context and actions directly to agents through protocols like MCP.                                     | Map and build.         |
-| Coding to steering code production               | Developers write every line.                                                 | Humans define intent, tests, taste, constraints, and review while agents produce implementation paths.                  | Test.                  |
-| Smartest model to skill-loaded workers           | Intelligence lives only inside the model.                                    | Capability comes from model plus tools, procedures, files, permissions, and organizational context.                     | Learn and systematize. |
-| Human websites to agent services                 | Accounts, pages, forms, and checkout flows.                                  | Agents call services, prove permissions, pay programmatically, and complete work through machine-native rails.          | Watch and test.        |
-| Static lessons to adaptive learning environments | Course, lecture, quiz, homework.                                             | Personalized paths, generated practice, memory of confusion, simulations, feedback, and projects.                       | Build.                 |
-| Manual productivity to compound systems          | Humans push tasks through calendars, docs, tickets, dashboards, and inboxes. | Agents monitor, prepare, draft, check, summarize, and surface decisions while humans keep direction and responsibility. | Publish and refine.    |
+    Shift 01
+
+    Chatbot to operator
+
+        Old
+
+        Ask software for answers.
+
+        AI-native
+
+        Give an agent goals, tools, files, memory, boundaries, and review loops.
+
+        Move
+
+        Test and build.
+
+    Shift 02
+
+    Apps to agent-accessible environments
+
+        Old
+
+        Software is built for humans clicking buttons.
+
+        AI-native
+
+        Software exposes context and actions directly to agents through protocols like MCP.
+
+        Move
+
+        Map and build.
+
+    Shift 03
+
+    Coding to steering code production
+
+        Old
+
+        Developers write every line.
+
+        AI-native
+
+        Humans define intent, tests, taste, constraints, and review while agents produce implementation paths.
+
+        Move
+
+        Test.
+
+    Shift 04
+
+    Smartest model to skill-loaded workers
+
+        Old
+
+        Intelligence lives only inside the model.
+
+        AI-native
+
+        Capability comes from model plus tools, procedures, files, permissions, and organizational context.
+
+        Move
+
+        Learn and systematize.
+
+    Shift 05
+
+    Human websites to agent services
+
+        Old
+
+        Accounts, pages, forms, and checkout flows.
+
+        AI-native
+
+        Agents call services, prove permissions, pay programmatically, and complete work through machine-native rails.
+
+        Move
+
+        Watch and test.
+
+    Shift 06
+
+    Static lessons to adaptive learning environments
+
+        Old
+
+        Course, lecture, quiz, homework.
+
+        AI-native
+
+        Personalized paths, generated practice, memory of confusion, simulations, feedback, and projects.
+
+        Move
+
+        Build.
+
+    Shift 07
+
+    Manual productivity to compound systems
+
+        Old
+
+        Humans push tasks through calendars, docs, tickets, dashboards, and inboxes.
+
+        AI-native
+
+        Agents monitor, prepare, draft, check, summarize, and surface decisions while humans keep direction and responsibility.
+
+        Move
+
+        Publish and refine.
 
 ## The deeper pattern
 
