@@ -610,6 +610,36 @@ Go deeper: https://lab.turtleand.com/topics/agentic-ai-systems-learning-path/
 
 ---
 
+# AI-native work, for beginners
+
+Route: https://lab.turtleand.com/beginners/topics/frontier-ai-native-disruption/
+
+Based on: https://lab.turtleand.com/topics/frontier-ai-native-disruption/
+
+AI-native work means designing the workflow around goals, context, tools, checks, and human decisions instead of only asking a chat box for answers.
+
+Why it matters: Many weak AI workflows treat AI like a better old tool. The bigger shift is learning how systems can prepare, check, and carry work forward while humans keep authority.
+
+Small safe example: Turn a research request into a loop: gather public sources, summarize, check citations, draft a note, and ask a human before publishing.
+
+First moves:
+- Pick one repeated workflow.
+- Write the goal, inputs, tools, checks, and approval boundary.
+- Start with low-risk public material.
+- Review what the system prepared before acting.
+
+Common mistake: Thinking AI-native means removing the human. It should move the human toward direction, judgment, and responsibility.
+
+Guardrails:
+- Keep private context out of early experiments.
+- Add tools only with clear permissions.
+- Require evidence before trusting outputs.
+- Keep humans in charge of external or irreversible consequences.
+
+Go deeper: https://lab.turtleand.com/topics/frontier-ai-native-disruption/
+
+---
+
 # Human agency is not a button, for beginners
 
 Route: https://lab.turtleand.com/beginners/topics/human-agency-is-not-a-button/
@@ -1365,6 +1395,36 @@ Guardrails:
 - Escalá incertidumbre a personas.
 
 Go deeper: https://lab.turtleand.com/es/topics/agentic-ai-systems-learning-path/
+
+---
+
+# Trabajo AI-native, para principiantes
+
+Route: https://lab.turtleand.com/es/beginners/topics/frontier-ai-native-disruption/
+
+Based on: https://lab.turtleand.com/es/topics/frontier-ai-native-disruption/
+
+Trabajo AI-native significa diseñar el workflow alrededor de objetivos, contexto, herramientas, checks y decisiones humanas en vez de solo pedir respuestas a una caja de chat.
+
+Why it matters: Muchos workflows débiles tratan a la IA como una herramienta vieja mejorada. El cambio más grande es aprender cómo los sistemas pueden preparar, chequear y empujar trabajo mientras las personas conservan autoridad.
+
+Small safe example: Convertí un pedido de investigación en un loop: juntar fuentes públicas, resumir, chequear citas, redactar una nota y preguntar a una persona antes de publicar.
+
+First moves:
+- Elegí un workflow repetido.
+- Escribí objetivo, inputs, herramientas, checks y límite de aprobación.
+- Empezá con material público de bajo riesgo.
+- Revisá lo que preparó el sistema antes de actuar.
+
+Common mistake: Pensar que AI-native significa sacar a la persona. Debería moverla hacia dirección, juicio y responsabilidad.
+
+Guardrails:
+- Mantené contexto privado fuera de los primeros experimentos.
+- Agregá herramientas solo con permisos claros.
+- Exigí evidencia antes de confiar en las salidas.
+- Mantené a las personas a cargo de consecuencias externas o irreversibles.
+
+Go deeper: https://lab.turtleand.com/es/topics/frontier-ai-native-disruption/
 
 ---
 
@@ -4291,6 +4351,220 @@ Start with the first two companion lessons:
 
 - [The agent loop as a controlled feedback loop](/topics/agent-loop-controlled-feedback-loop/)
 - [Agent tool use as a controlled action cycle](/topics/agent-tool-use-controlled-action-cycle/)
+
+---
+
+# AI Disruption Beyond Horseless Carriage Thinking
+
+Module: Module 5: Agent Architecture
+
+## Core idea
+
+The first instinct with a new technology is to fit it into the old shape.
+
+A car becomes a faster horse carriage. A website becomes a digital brochure. AI becomes a better chatbot.
+
+That frame is too small.
+
+The real AI-native break is not better chat. It is the move from software as tools humans operate to systems where humans set direction and machines carry structured work forward under boundaries.
+
+## What changed recently
+
+Several frontier signals now point in the same direction:
+
+- OpenAI's Agents SDK frames agents as systems with instructions, tools, handoffs, guardrails, tracing, and human-in-the-loop controls.
+- Model Context Protocol gives AI applications a standard way to connect with external tools and data sources.
+- GitHub Agent HQ points toward developers steering and reviewing multiple coding agents inside existing developer workflows.
+- Anthropic Agent Skills treats capability as procedural knowledge and organizational context that agents can load when needed.
+- x402 and Cloudflare's agent payment docs point toward machine-native service access, permissions, and payment flows.
+
+None of these alone proves a finished future. Together, they suggest the same pattern: AI is becoming an operating layer for work, not only an answer box.
+
+## Seven AI-native shifts
+
+<div class="shift-grid" aria-label="Seven AI-native shifts">
+  <article class="shift-card">
+    <p class="shift-eyebrow">Shift 01</p>
+    <h3>Chatbot to operator</h3>
+    <dl>
+      <div>
+        <dt>Old</dt>
+        <dd>Ask software for answers.</dd>
+      </div>
+      <div>
+        <dt>AI-native</dt>
+        <dd>Give an agent goals, tools, files, memory, boundaries, and review loops.</dd>
+      </div>
+    </dl>
+  </article>
+
+  <article class="shift-card">
+    <p class="shift-eyebrow">Shift 02</p>
+    <h3>Apps to agent-accessible environments</h3>
+    <dl>
+      <div>
+        <dt>Old</dt>
+        <dd>Software is built for humans clicking buttons.</dd>
+      </div>
+      <div>
+        <dt>AI-native</dt>
+        <dd>Software exposes context and actions directly to agents through protocols like MCP.</dd>
+      </div>
+    </dl>
+  </article>
+
+  <article class="shift-card">
+    <p class="shift-eyebrow">Shift 03</p>
+    <h3>Coding to steering code production</h3>
+    <dl>
+      <div>
+        <dt>Old</dt>
+        <dd>Developers write every line.</dd>
+      </div>
+      <div>
+        <dt>AI-native</dt>
+        <dd>Humans define intent, tests, taste, constraints, and review while agents produce implementation paths.</dd>
+      </div>
+    </dl>
+  </article>
+
+  <article class="shift-card">
+    <p class="shift-eyebrow">Shift 04</p>
+    <h3>Smartest model to skill-loaded workers</h3>
+    <dl>
+      <div>
+        <dt>Old</dt>
+        <dd>Intelligence lives only inside the model.</dd>
+      </div>
+      <div>
+        <dt>AI-native</dt>
+        <dd>Capability comes from model plus tools, procedures, files, permissions, and organizational context.</dd>
+      </div>
+    </dl>
+  </article>
+
+  <article class="shift-card">
+    <p class="shift-eyebrow">Shift 05</p>
+    <h3>Human websites to agent services</h3>
+    <dl>
+      <div>
+        <dt>Old</dt>
+        <dd>Accounts, pages, forms, and checkout flows.</dd>
+      </div>
+      <div>
+        <dt>AI-native</dt>
+        <dd>Agents call services, prove permissions, pay programmatically, and complete work through machine-native rails.</dd>
+      </div>
+    </dl>
+  </article>
+
+  <article class="shift-card">
+    <p class="shift-eyebrow">Shift 06</p>
+    <h3>Static lessons to adaptive learning environments</h3>
+    <dl>
+      <div>
+        <dt>Old</dt>
+        <dd>Course, lecture, quiz, homework.</dd>
+      </div>
+      <div>
+        <dt>AI-native</dt>
+        <dd>Personalized paths, generated practice, memory of confusion, simulations, feedback, and projects.</dd>
+      </div>
+    </dl>
+  </article>
+
+  <article class="shift-card">
+    <p class="shift-eyebrow">Shift 07</p>
+    <h3>Manual productivity to compound systems</h3>
+    <dl>
+      <div>
+        <dt>Old</dt>
+        <dd>Humans push tasks through calendars, docs, tickets, dashboards, and inboxes.</dd>
+      </div>
+      <div>
+        <dt>AI-native</dt>
+        <dd>Agents monitor, prepare, draft, check, summarize, and surface decisions while humans keep direction and responsibility.</dd>
+      </div>
+    </dl>
+  </article>
+</div>
+
+## The deeper pattern
+
+The old framing asks: how can AI make the existing tool faster?
+
+The AI-native framing asks:
+
+1. What goal is the human trying to move toward?
+2. What context does the system need?
+3. What tools can act on the world?
+4. What evidence proves progress?
+5. What boundaries protect privacy, money, reputation, safety, and human agency?
+6. What should the machine prepare?
+7. What must the human decide?
+
+That question set changes the design space.
+
+A chatbot answers. An operator acts through a loop. An agent-accessible environment exposes a safe action surface. A skill-loaded worker brings procedures and context. A compound system keeps preparing the next useful decision.
+
+## What is signal and what is noise
+
+**Signal:** the primitives are becoming clearer. Tools, MCP servers, agent SDKs, skills, payment rails, review loops, traces, and approvals are infrastructure pieces. They make agentic work more inspectable and reusable.
+
+**Noise:** demos that present autonomy as magic. More agents, more tools, or a more capable model do not automatically create a better system. Without boundaries and evidence, they create faster confusion.
+
+**Signal:** the human role is moving upward. The valuable human work becomes direction, taste, constraints, validation, ethics, and final responsibility.
+
+**Noise:** claims that humans disappear from the loop. In serious systems, humans should not click every button, but they still own authority where consequences rise.
+
+## Turtleand implications
+
+For AI Lab, this becomes a learning spine:
+
+1. Teach the agent loop.
+2. Teach controlled tool use.
+3. Teach memory, context, and retrieval.
+4. Teach MCP and agent-accessible environments.
+5. Teach evaluation, tracing, and trust infrastructure.
+6. Teach model routing and skills.
+7. Teach human agency as the control layer.
+8. Turn learning into public artifacts and working systems.
+
+For Turtleand, the practical thesis is simple:
+
+Build human-directed compound systems.
+
+Let agents prepare more. Let systems carry structured work further. Keep humans responsible for direction, judgment, approval, and consequences.
+
+## Practice map
+
+Use the seven shifts as a small operating checklist:
+
+1. Pick one workflow you still treat as a chat request.
+2. Rewrite it as a loop: goal, inputs, tools, checks, outputs, approval boundary.
+3. Identify one environment that should become agent-accessible through a controlled interface.
+4. Write one reusable skill or procedure for work you repeat.
+5. Define what evidence would prove the agent helped.
+6. Decide what remains human authority.
+7. Publish the reusable lesson once the pattern is safe and general.
+
+## References
+
+- [OpenAI Agents SDK](https://developers.openai.com/api/docs/guides/agents)
+- [Model Context Protocol introduction](https://modelcontextprotocol.io/docs/getting-started/intro)
+- [Anthropic: Introducing the Model Context Protocol](https://www.anthropic.com/news/model-context-protocol)
+- [GitHub: Introducing Agent HQ](https://github.blog/news-insights/company-news/welcome-home-agents/)
+- [Anthropic: Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
+- [Cloudflare Agents: x402](https://developers.cloudflare.com/agents/x402/)
+- [Cloudflare: Launching the x402 Foundation](https://blog.cloudflare.com/x402/)
+
+## Turtleand take
+
+The important shift is not from human work to machine work.
+
+It is from isolated tools to directed systems.
+
+The human sets direction. The system prepares, acts within limits, checks evidence, and surfaces decisions. That is where AI becomes native to work without replacing human agency.
 
 ---
 
