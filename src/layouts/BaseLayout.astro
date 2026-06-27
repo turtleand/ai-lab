@@ -13,6 +13,8 @@ const resolvedOgImage = new URL(ogImage, resolvedCanonicalURL).href;
 const siteName = 'Turtleand AI Lab';
 const { pathname, search, hash } = Astro.url;
 const isSpanish = pathname.startsWith('/es');
+const rssHref = isSpanish ? '/es/rss.xml' : '/rss.xml';
+const rssTitle = isSpanish ? 'Turtleand AI Lab en español RSS' : 'Turtleand AI Lab RSS';
 const stripSpanishPrefix = (value: string) =>
   value === '/es' ? '/' : value.replace(/^\/es(\/|$)/, '/');
 const addSpanishPrefix = (value: string) =>
@@ -100,6 +102,7 @@ const themeScript = `
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <link rel="canonical" href={resolvedCanonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title={rssTitle} href={rssHref} />
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
