@@ -654,6 +654,38 @@ export const beginnerTopics: BeginnerTopic[] = [
     order: 51
   },
   {
+    slug: 'frontier-ai-native-disruption',
+    technicalSlug: 'frontier-ai-native-disruption',
+    title: 'AI-native work, for beginners',
+    shortTitle: 'AI-native work',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Understand agents without the hype',
+    summary:
+      'A beginner guide to seeing AI as a new way to structure work, not just a faster chatbot.',
+    plainMeaning:
+      'AI-native work means designing the workflow around goals, context, tools, checks, and human decisions instead of only asking a chat box for answers.',
+    whyItMatters:
+      'Many weak AI workflows treat AI like a better old tool. The bigger shift is learning how systems can prepare, check, and carry work forward while humans keep authority.',
+    safeExample:
+      'Turn a research request into a loop: gather public sources, summarize, check citations, draft a note, and ask a human before publishing.',
+    firstMoves: [
+      'Pick one repeated workflow.',
+      'Write the goal, inputs, tools, checks, and approval boundary.',
+      'Start with low-risk public material.',
+      'Review what the system prepared before acting.'
+    ],
+    commonMistake:
+      'Thinking AI-native means removing the human. It should move the human toward direction, judgment, and responsibility.',
+    guardrails: [
+      'Keep private context out of early experiments.',
+      'Add tools only with clear permissions.',
+      'Require evidence before trusting outputs.',
+      'Keep humans in charge of external or irreversible consequences.'
+    ],
+    order: 51.5
+  },
+  {
     slug: 'human-agency-is-not-a-button',
     technicalSlug: 'human-agency-is-not-a-button',
     title: 'Human agency is not a button, for beginners',
@@ -1451,6 +1483,38 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
     order: 51
   },
   {
+    slug: 'frontier-ai-native-disruption',
+    technicalSlug: 'frontier-ai-native-disruption',
+    title: 'Trabajo AI-native, para principiantes',
+    shortTitle: 'Trabajo AI-native',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Entender agentes sin hype',
+    summary:
+      'Una guía principiante para ver la IA como una nueva forma de estructurar trabajo, no solo como un chatbot más rápido.',
+    plainMeaning:
+      'Trabajo AI-native significa diseñar el workflow alrededor de objetivos, contexto, herramientas, checks y decisiones humanas en vez de solo pedir respuestas a una caja de chat.',
+    whyItMatters:
+      'Muchos workflows débiles tratan a la IA como una herramienta vieja mejorada. El cambio más grande es aprender cómo los sistemas pueden preparar, chequear y empujar trabajo mientras las personas conservan autoridad.',
+    safeExample:
+      'Convertí un pedido de investigación en un loop: juntar fuentes públicas, resumir, chequear citas, redactar una nota y preguntar a una persona antes de publicar.',
+    firstMoves: [
+      'Elegí un workflow repetido.',
+      'Escribí objetivo, inputs, herramientas, checks y límite de aprobación.',
+      'Empezá con material público de bajo riesgo.',
+      'Revisá lo que preparó el sistema antes de actuar.'
+    ],
+    commonMistake:
+      'Pensar que AI-native significa sacar a la persona. Debería moverla hacia dirección, juicio y responsabilidad.',
+    guardrails: [
+      'Mantené contexto privado fuera de los primeros experimentos.',
+      'Agregá herramientas solo con permisos claros.',
+      'Exigí evidencia antes de confiar en las salidas.',
+      'Mantené a las personas a cargo de consecuencias externas o irreversibles.'
+    ],
+    order: 51.5
+  },
+  {
     slug: 'human-agency-is-not-a-button',
     technicalSlug: 'human-agency-is-not-a-button',
     title: 'La agencia humana no es un botón, para principiantes',
@@ -1658,9 +1722,9 @@ export const moduleIntros = [
     title: 'Understand agents without the hype',
     titleEs: 'Entender agentes sin hype',
     summary:
-      'Beginner versions of agent loops, tool use, agentic systems, human agency, reliability, trust infrastructure, model routing, and coordination.',
+      'Beginner versions of agent loops, tool use, AI-native work, agentic systems, human agency, reliability, trust infrastructure, model routing, and coordination.',
     summaryEs:
-      'Versiones principiantes de loops de agentes, uso de herramientas, sistemas agentic, agencia humana, confiabilidad, infraestructura de confianza, model routing y coordinación.'
+      'Versiones principiantes de loops de agentes, uso de herramientas, trabajo AI-native, sistemas agentic, agencia humana, confiabilidad, infraestructura de confianza, model routing y coordinación.'
   }
 ];
 
