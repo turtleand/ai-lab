@@ -42,9 +42,6 @@ function stripMdx(body) {
     .replace(/^import\s+.*$/gm, '')
     .replace(/<[A-Z]\w+[^>]*\/>/g, '')
     .replace(/<[A-Z]\w+[^>]*>[\s\S]*?<\/[A-Z]\w+>/g, '')
-    .replace(/<br\s*\/?\s*>/gi, '\n')
-    .replace(/<\/(h[1-6]|p|div|article|dl|dt|dd|li)>/gi, '\n')
-    .replace(/<[^>]+>/g, '')
     .replace(/[ \t]+$/gm, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
