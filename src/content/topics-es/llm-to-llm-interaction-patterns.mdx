@@ -1,0 +1,230 @@
+---
+title: 'Patrones de interacción LLM-a-LLM'
+module: 'Module 5: Agent Architecture'
+subtopic: 'llm-to-llm-interaction-patterns'
+summary: 'Cómo funcionan los sistemas LLM-a-LLM de un proveedor, cross-provider y de dos modelos cuando tienen roles, turnos, evidencia y un orquestador responsable.'
+status: 'in-progress'
+---
+
+## Idea central
+
+La interacción LLM-a-LLM existe, pero el patrón maduro no es poner IAs al azar a charlar.
+
+El patrón maduro es un workflow controlado. Distintos modelos o agentes reciben trabajos específicos, turnos acotados, reglas de parada claras, requisitos de evidencia y un orquestador final responsable.
+
+La pregunta no es si los modelos pueden hablar entre sí. Pueden. La pregunta útil es si esa interacción vuelve el resultado final más confiable que una llamada bien acotada a un solo modelo.
+
+## La respuesta simple para recordar
+
+Sí, existen sistemas LLM-a-LLM cross-provider.
+
+Pero la versión madura no es "IAs al azar charlando." La versión madura es:
+
+```text
+Modelos distintos con roles específicos
+dentro de un workflow controlado
+con turnos acotados
+y un orquestador final responsable.
+```
+
+Si no hay diseño de roles, regla de parada, camino de verificación o dueño de síntesis, no es arquitectura seria. Es teatro conversacional.
+
+## Tres patrones
+
+### 1. Interacción LLM-a-LLM
+
+Este es el patrón amplio. La salida de un modelo se vuelve input para otro modelo, o dos o más agentes basados en modelos intercambian trabajo dentro de un proceso.
+
+Formas útiles incluyen:
+
+- planner a worker
+- researcher a summarizer
+- proposer a critic
+- coder a reviewer
+- router a specialist
+- varios workers a synthesizer
+
+El valor viene de la asimetría. Cada participante debería hacer un trabajo distinto.
+
+### 2. Sistema multi-agente de un mismo proveedor
+
+Un sistema de un mismo proveedor usa varios agentes o llamadas de modelo dentro de un mismo stack.
+
+Suele ser la ruta de producción más simple porque normalmente hay un SDK, una ruta de autenticación, un modelo de billing, una superficie de seguridad, una forma de logging y menos diferencias de integración.
+
+Puede seguir siendo multi-agente. Los agentes pueden tener prompts, herramientas, memorias, permisos o roles distintos aunque el proveedor base sea el mismo.
+
+### 3. Sistema multi-agente cross-provider
+
+Un sistema cross-provider routea distintos roles a distintos proveedores de modelos.
+
+Un proveedor puede ser mejor para código. Otro puede ser mejor para síntesis con contexto largo. Otro puede ser más barato para clasificación rutinaria. Un modelo local puede manejar trabajo privado o de bajo riesgo.
+
+Esto puede mejorar resiliencia, especialización, control de costos y opcionalidad de proveedor. También agrega más trabajo operativo: adapters, logging, tracking de costos, evals, límites de política, manejo de fallos y normalización de salidas.
+
+## Qué es común en producción
+
+Tomá esto como una regla práctica de diseño, no como una encuesta medida de la industria. Las etiquetas describen qué suele ser más fácil de operar con seguridad cuando los sistemas maduran.
+
+| Patrón                                     | Postura de producción           | Por qué                                                                                                                 |
+| ------------------------------------------ | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Sistema multi-agente de un mismo proveedor | Lo más común en producción      | Es más fácil de integrar, monitorear, facturar, asegurar, depurar y sostener.                                           |
+| Sistema multi-agente cross-provider        | Común en equipos avanzados      | Ayuda cuando distintos modelos tienen fortalezas, costos, límites de privacidad o necesidades de disponibilidad claras. |
+| Conversación abierta entre modelos         | Menos común en producción seria | Puede volverse circular, verbosa, cara y difícil de verificar si no está muy acotada.                                   |
+
+Como default de diseño, preferí diseños de orquestador y workers, cascadas, routers, pasadas de crítica o pipelines antes que discusión libre entre modelos.
+
+## El loop de dos modelos es real
+
+Un ida y vuelta entre solo dos modelos también es un patrón real. Suele ser menos el default de producción porque puede volverse ineficiente o circular si el loop no tiene restricciones fuertes.
+
+El loop de dos modelos funciona mejor cuando los modelos tienen trabajos asimétricos.
+
+Buen loop de dos modelos:
+
+```text
+A: propone una solución concreta
+B: encuentra huecos, riesgos y restricciones faltantes
+A: revisa solo donde B encontró un hueco válido
+B: chequeo final
+Synthesizer: comprime la respuesta
+```
+
+Mal loop de dos modelos:
+
+```text
+A: mejorar
+B: mejorar
+A: mejorar
+B: mejorar
+```
+
+La mala versión suele estancarse. Agrega palabras sin agregar evidencia.
+
+## Implementación actual del framework: un loop controlado de agentes
+
+`feature/controlled-agent-loop` es el nombre de una branch local de desarrollo de Hermes, no un nombre público de producto ni algo que quien lee tenga que instalar. En esta lección, tomala como un ejemplo concreto de implementación: una branch donde la idea de loop controlado se está convirtiendo en código del framework.
+
+Esa branch convierte el concepto anterior en una feature acotada del framework.
+
+No deja que dos modelos charlen libremente. Hermes controla el loop, llama a cada modelo en orden, registra lo que pasó y frena en un límite fijo.
+
+Forma simple:
+
+```text
+Objetivo humano
+-> Modelo Proposer: crea una propuesta concreta
+-> Modelo Expander: encuentra huecos, riesgos y detalles faltantes
+-> Modelo Proposer: revisa con el feedback útil del Expander
+-> Modelo Expander: chequea y expande de nuevo
+-> Síntesis final: comprime el mejor resultado en una respuesta usable
+```
+
+En simple, es una máquina chica para refinar ideas. Un modelo propone. El otro modelo tensiona y expande. El framework decide de quién es el turno, cuántos turnos se permiten, qué se guarda y cuándo termina el loop.
+
+## Qué cambió en el framework
+
+La implementación agrega un subsistema de loop controlado en vez de hacer que Telegram o la UI de chat finjan ser el orquestador.
+
+Agrega:
+
+- **Un motor de loop:** ejecuta Proposer y Expander en secuencia.
+- **Modelos de datos del loop:** registran objetivo, roles, rutas de modelo, iteraciones, prompts, respuestas, resúmenes, uso, estado y síntesis final.
+- **Storage persistente:** guarda la ejecución después de pasos importantes, para que un loop fallido o cancelado todavía se pueda inspeccionar.
+- **Una capa de comandos:** expone `/loop start`, `/loop status`, `/loop inspect`, `/loop prompts`, `/loop summary`, `/loop export` y `/loop cancel`.
+- **Un trigger de texto cómodo para gateway:** soporta formas como `loop: start ...` cuando una plataforma todavía no conoce el slash command.
+- **Helpers de renderizado:** formatean estado, detalles de iteración, trazas de prompts, resúmenes y exports para personas.
+- **Tests:** cubren parsing, límites, dry runs, inspección, export, cancelación y routing de comandos en gateway.
+
+## Cómo funciona hoy
+
+Una persona inicia un loop con un objetivo. Por ejemplo:
+
+```text
+/loop start --goal "Expand this product idea into a clear first implementation plan" --max-iterations 3
+```
+
+Hermes crea un registro del loop y ejecuta la secuencia acotada:
+
+1. El **Proposer** recibe el objetivo humano y escribe Proposal v1.
+2. El **Expander** recibe el objetivo y la propuesta, después la critica y la expande.
+3. Hermes guarda ambos prompts, ambas respuestas, resúmenes, metadata de roles y datos de uso.
+4. Si quedan iteraciones, el siguiente Proposer ve la propuesta anterior, la respuesta del Expander y el resumen previo.
+5. Después del límite configurado, Hermes pide una síntesis final.
+6. La persona puede inspeccionar o exportar el loop después.
+
+La v1 actual es intencionalmente estrecha:
+
+- Usa dos roles: **Proposer** y **Expander**.
+- Limita los loops a cinco iteraciones.
+- Actualmente permite proveedores de la familia OpenAI para las llamadas de roles.
+- Las llamadas de roles no reciben herramientas. Solo producen texto.
+- El framework maneja orden de turnos, persistencia, cancelación, errores y síntesis.
+- La revisión humana queda fuera del loop para publicación, deploy, movimiento de dinero, cambios de cuentas u otras acciones con consecuencias.
+
+Esa es la lección importante de arquitectura: el sistema simula una charla entre dos modelos, pero la feature de producto no es la charla. La feature es el envoltorio de ejecución controlada alrededor de esa charla.
+
+## La diferencia real de eficiencia
+
+La diferencia real de eficiencia normalmente no es "mismo proveedor versus cross-provider" por sí sola.
+
+Es si el sistema gasta llamadas extra donde cambian el resultado.
+
+Un workflow de un mismo proveedor suele ser más eficiente operativamente porque tiene menos capas de integración. Un workflow cross-provider puede ser más eficiente a nivel sistema cuando el routing es deliberado: modelos más baratos manejan trabajo rutinario, modelos más fuertes manejan revisión difícil y modelos especializados manejan tareas donde son claramente mejores.
+
+Un loop de dos modelos es eficiente solo cuando el segundo modelo evita errores o retrabajo que costarían más que la llamada extra. Si solo produce otra versión pulida, suele ser desperdicio.
+
+## Regla de diseño
+
+Antes de agregar otro modelo, definí:
+
+1. **Rol:** qué trabajo hace este modelo que el modelo anterior no debería hacer.
+2. **Input:** qué contexto recibe y qué contexto no debería ver.
+3. **Salida:** el formato exacto que debe devolver.
+4. **Evidencia:** qué debe citar, testear, inspeccionar o justificar.
+5. **Límite de turnos:** cuántas pasadas están permitidas.
+6. **Regla de parada:** qué cuenta como terminado.
+7. **Dueño de síntesis:** quién produce la respuesta final.
+8. **Límite humano:** qué requiere aprobación humana.
+
+Si esto es vago, agregar otro LLM probablemente agrega movimiento, no confiabilidad.
+
+## Ejemplo seguro
+
+Imaginá una nota técnica pública.
+
+Un planner crea el esquema. Un researcher junta fuentes públicas. Un critic revisa restricciones faltantes. Un writer redacta la nota. Un orquestador final comprime el resultado, chequea las afirmaciones y le da a la persona un artefacto revisable.
+
+El sistema puede usar un proveedor o varios. Lo importante no es la cantidad de proveedores. Lo importante es el workflow controlado.
+
+## Checkpoint de práctica
+
+Diseñá un workflow LLM-a-LLM chico para una tarea.
+
+Usá este template:
+
+```text
+Objetivo:
+Ruta proveedor/modelo A:
+Rol A:
+Input permitido:
+Salida requerida:
+
+Ruta proveedor/modelo B:
+Rol B:
+Input permitido:
+Salida requerida:
+
+Límite de turnos:
+Evidencia requerida:
+Synthesizer final:
+Límite de aprobación humana:
+```
+
+Después sacá un modelo. Si el workflow queda igual de bueno, ese modelo extra no estaba haciendo trabajo real.
+
+## La mirada Turtleand
+
+Los sistemas LLM-a-LLM sirven cuando convierten diferencias entre modelos en especialización controlada.
+
+Son débiles cuando convierten incertidumbre en más conversación. La arquitectura madura no es modelos hablando para siempre. Es trabajo por rol, interacción acotada, evidencia, síntesis y responsabilidad humana en el límite donde suben las consecuencias.

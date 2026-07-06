@@ -1,0 +1,230 @@
+---
+title: 'LLM-to-LLM Interaction Patterns'
+module: 'Module 5: Agent Architecture'
+subtopic: 'llm-to-llm-interaction-patterns'
+summary: 'How same-provider, cross-provider, and two-model LLM-to-LLM systems work when they are bounded by roles, turns, evidence, and a responsible orchestrator.'
+status: 'in-progress'
+---
+
+## Core idea
+
+LLM-to-LLM interaction is real, but the mature pattern is not random AIs chatting.
+
+The mature pattern is a controlled workflow. Different models or agents get specific jobs, bounded turns, clear stop rules, evidence requirements, and a final responsible orchestrator.
+
+The question is not whether models can talk to each other. They can. The useful question is whether the interaction makes the final result more reliable than one well-scoped model call.
+
+## The simple answer to remember
+
+Yes, cross-provider LLM-to-LLM systems exist.
+
+But the mature version is not "random AIs chatting." The mature version is:
+
+```text
+Different models with specific roles
+inside a controlled workflow
+with bounded turns
+and a final responsible orchestrator.
+```
+
+If there is no role design, stop rule, verification path, or synthesis owner, the system is not serious architecture. It is just conversation theater.
+
+## Three patterns
+
+### 1. LLM-to-LLM interaction
+
+This is the broad pattern. One model output becomes input to another model, or two or more model-backed agents exchange work inside a process.
+
+Useful forms include:
+
+- planner to worker
+- researcher to summarizer
+- proposer to critic
+- coder to reviewer
+- router to specialist
+- several workers to synthesizer
+
+The value comes from asymmetry. Each participant should do a different job.
+
+### 2. Same-provider multi-agent system
+
+A same-provider system uses multiple agents or model calls from one provider stack.
+
+This is often the simplest production route because the system usually has one SDK, one authentication path, one billing model, one safety surface, one logging shape, and fewer integration differences.
+
+It can still be multi-agent. The agents may have different prompts, tools, memories, permissions, or roles even when the underlying provider is the same.
+
+### 3. Cross-provider multi-agent system
+
+A cross-provider system routes different roles to different model providers.
+
+One provider might be better for coding. Another might be better for long-context synthesis. Another might be cheaper for routine classification. A local model might handle private or low-risk work.
+
+This can improve resilience, specialization, cost control, and provider optionality. It also adds more operational work: adapters, logging, cost tracking, evals, policy boundaries, failure handling, and output normalization.
+
+## What is common in production
+
+Treat this as a practical design rule of thumb, not a measured industry survey. The labels below describe what is usually easier to operate safely as systems mature.
+
+| Pattern                           | Production posture                | Why                                                                                                            |
+| --------------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Same-provider multi-agent system  | Most common in production         | It is easier to integrate, monitor, bill, secure, debug, and support.                                          |
+| Cross-provider multi-agent system | Common in advanced teams          | It helps when different models have clear strengths, cost profiles, privacy boundaries, or availability needs. |
+| Open-ended model conversation     | Less common in serious production | It can become circular, verbose, expensive, and hard to verify unless tightly constrained.                     |
+
+As a design default, prefer orchestrator and worker designs, cascades, routers, critique passes, or pipelines over free-form model discussion.
+
+## The two-model loop is real
+
+A back-and-forth between just two models is also a real pattern. It is less often the default production pattern because it can become inefficient or circular unless the loop has strong constraints.
+
+The two-model loop works best when the models have asymmetric jobs.
+
+Good two-model loop:
+
+```text
+A: propose concrete solution
+B: find gaps, risks, and missed constraints
+A: revise only where B found a valid gap
+B: final check
+Synthesizer: compress the answer
+```
+
+Bad two-model loop:
+
+```text
+A: improve
+B: improve
+A: improve
+B: improve
+```
+
+The bad version often plateaus. It adds words without adding evidence.
+
+## Current framework implementation: a controlled agent loop
+
+`feature/controlled-agent-loop` is the name of a local Hermes development branch, not a public product name or something readers need to install. In this lesson, treat it as a concrete implementation example: a branch where the controlled-loop idea is being turned into framework code.
+
+That branch turns the concept above into a bounded framework feature.
+
+It does not let two models freely chat. Hermes owns the loop, calls each model in order, records what happened, and stops at a fixed limit.
+
+Simple shape:
+
+```text
+Human goal
+-> Proposer model: create a concrete proposal
+-> Expander model: find gaps, risks, and missing details
+-> Proposer model: revise with the Expander's useful feedback
+-> Expander model: check and expand again
+-> Final synthesis: compress the best result into one usable answer
+```
+
+In simple terms, it is a small idea-refinement machine. One model proposes. The other model stress-tests and expands. The framework decides whose turn it is, how many turns are allowed, what gets saved, and when the loop is done.
+
+## What changed in the framework
+
+The implementation adds a new controlled-loop subsystem instead of making Telegram or the chat UI pretend to be the orchestrator.
+
+It adds:
+
+- **A loop engine:** runs the Proposer and Expander in sequence.
+- **Loop data models:** track the goal, roles, model routes, iterations, prompts, responses, summaries, usage, status, and final synthesis.
+- **Persistent storage:** saves the run after meaningful steps, so a failed or cancelled loop can still be inspected.
+- **A command layer:** exposes `/loop start`, `/loop status`, `/loop inspect`, `/loop prompts`, `/loop summary`, `/loop export`, and `/loop cancel`.
+- **A gateway-friendly text trigger:** supports forms like `loop: start ...` when a platform does not know the slash command yet.
+- **Rendering helpers:** format loop status, iteration details, prompt traces, summaries, and exports for humans.
+- **Tests:** cover parsing, limits, dry runs, inspection, export, cancellation, and gateway command routing.
+
+## How it currently works
+
+A user starts a loop with a goal. For example:
+
+```text
+/loop start --goal "Expand this product idea into a clear first implementation plan" --max-iterations 3
+```
+
+Hermes creates a loop record, then runs the bounded sequence:
+
+1. The **Proposer** receives the human goal and writes Proposal v1.
+2. The **Expander** receives the goal and proposal, then critiques and expands it.
+3. Hermes saves both prompts, both responses, summaries, role metadata, and usage data.
+4. If more iterations remain, the next Proposer sees the prior proposal, the Expander response, and the prior summary.
+5. After the configured limit, Hermes asks for a final synthesis.
+6. The user can inspect or export the loop afterward.
+
+The current v1 is intentionally narrow:
+
+- It uses two roles: **Proposer** and **Expander**.
+- It caps loops at five iterations.
+- It currently allows OpenAI-family providers for the role calls.
+- Role calls do not receive tools. They produce text only.
+- The framework handles turn order, persistence, cancellation, errors, and synthesis.
+- Human review remains outside the loop for publication, deployment, money movement, account changes, or other consequential actions.
+
+That is the important architecture lesson: the system simulates a chat between two models, but the product feature is not the chat. The product feature is the controlled execution wrapper around the chat.
+
+## The real efficiency difference
+
+The real efficiency difference is usually not "same provider versus cross provider" by itself.
+
+It is whether the system spends extra model calls where they change the outcome.
+
+A same-provider workflow is usually more efficient operationally because there are fewer integration layers. A cross-provider workflow can be more efficient at the system level when the routing is deliberate: cheaper models handle routine work, stronger models handle hard review, and specialized models handle tasks where they are clearly better.
+
+A two-model loop is efficient only when the second model prevents mistakes or rework that would cost more than the extra call. If it only produces another polished version, it is usually waste.
+
+## Design rule
+
+Before adding another model, define:
+
+1. **Role:** what job this model does that the previous model should not do.
+2. **Input:** what context it receives and what context it should not see.
+3. **Output:** the exact format it must return.
+4. **Evidence:** what it must cite, test, inspect, or justify.
+5. **Turn limit:** how many passes are allowed.
+6. **Stop rule:** what counts as done.
+7. **Synthesis owner:** who produces the final answer.
+8. **Human boundary:** what requires human approval.
+
+If these are vague, adding another LLM probably adds motion, not reliability.
+
+## Safe example
+
+Imagine a public technical note.
+
+A planner creates the outline. A researcher gathers public sources. A critic checks for missing constraints. A writer drafts the note. A final orchestrator compresses the result, checks the claims, and gives the human a reviewable artifact.
+
+The system may use one provider or several. The important part is not the provider count. The important part is the controlled workflow.
+
+## Practice checkpoint
+
+Design a small LLM-to-LLM workflow for one task.
+
+Use this template:
+
+```text
+Goal:
+Provider/model route A:
+Role A:
+Allowed input:
+Required output:
+
+Provider/model route B:
+Role B:
+Allowed input:
+Required output:
+
+Turn limit:
+Evidence required:
+Final synthesizer:
+Human approval boundary:
+```
+
+Then remove one model. If the workflow stays just as good, the extra model was not pulling real weight.
+
+## Turtleand take
+
+LLM-to-LLM systems are useful when they turn model differences into controlled specialization.
+
+They are weak when they turn uncertainty into more conversation. The mature architecture is not models talking forever. It is role-specific work, bounded interaction, evidence, synthesis, and human responsibility at the boundary where consequences rise.
