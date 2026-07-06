@@ -31,6 +31,7 @@
 - [Smart is not reliable, for beginners](https://lab.turtleand.com/beginners/topics/smart-is-not-reliable/): Why impressive AI answers are not the same as dependable systems.
 - [Trust through evidence, for beginners](https://lab.turtleand.com/beginners/topics/trust-is-earned-through-evidence-not-vibes/): A plain-language guide to trusting agents only when they can show what happened, what was checked, and when humans must decide.
 - [Model choice is system design, for beginners](https://lab.turtleand.com/beginners/topics/model-choice-is-system-design/): A beginner guide to choosing the right model route for the task, risk, cost, and human decision boundary.
+- [LLM-to-LLM patterns, for beginners](https://lab.turtleand.com/beginners/topics/llm-to-llm-interaction-patterns/): A beginner guide to when models should talk to other models and when that only creates extra noise.
 - [More agents, more coordination, for beginners](https://lab.turtleand.com/beginners/topics/more-agents-more-coordination/): A beginner guide to why adding more agents creates coordination work, not automatic intelligence.
 
 ### Spanish beginner doorway
@@ -60,6 +61,7 @@
 - [Inteligente no es confiable, para principiantes](https://lab.turtleand.com/es/beginners/topics/smart-is-not-reliable/): Por qué respuestas impresionantes de IA no son lo mismo que sistemas confiables.
 - [Confianza con evidencia, para principiantes](https://lab.turtleand.com/es/beginners/topics/trust-is-earned-through-evidence-not-vibes/): Una guía simple para confiar en agentes solo cuando pueden mostrar qué pasó, qué se chequeó y cuándo decide una persona.
 - [Elegir modelo es diseñar el sistema, para principiantes](https://lab.turtleand.com/es/beginners/topics/model-choice-is-system-design/): Una guía principiante para elegir la ruta de modelo correcta según tarea, riesgo, costo y límite de decisión humana.
+- [Patrones LLM-a-LLM, para principiantes](https://lab.turtleand.com/es/beginners/topics/llm-to-llm-interaction-patterns/): Una guía principiante sobre cuándo conviene que modelos hablen con otros modelos y cuándo eso solo agrega ruido.
 - [Más agentes, más coordinación, para principiantes](https://lab.turtleand.com/es/beginners/topics/more-agents-more-coordination/): Una guía principiante sobre por qué agregar agentes crea trabajo de coordinación, no inteligencia automática.
 
 ### Module 0: Fast Track Setup
@@ -95,6 +97,7 @@
 - [Agentic AI systems learning path](https://lab.turtleand.com/topics/agentic-ai-systems-learning-path): A concise learning map for agents: loop, tools, memory, planning, approval, reliability, trust infrastructure, routing, and coordination.
 - [AI Disruption Beyond Horseless Carriage Thinking](https://lab.turtleand.com/topics/frontier-ai-native-disruption): Seven AI-native shifts that move beyond treating AI as a better old tool: operators, agent-accessible environments, code steering, skills, agent services, adaptive learning, and compound systems.
 - [Human Agency Is Not a Button](https://lab.turtleand.com/topics/human-agency-is-not-a-button): A beginner lesson on why responsible agent systems need authority boundaries, not just approval prompts.
+- [LLM-to-LLM Interaction Patterns](https://lab.turtleand.com/topics/llm-to-llm-interaction-patterns): How same-provider, cross-provider, and two-model LLM-to-LLM systems work when they are bounded by roles, turns, evidence, and a responsible orchestrator.
 - [Model Choice Is System Design](https://lab.turtleand.com/topics/model-choice-is-system-design): How agent systems choose models by task difficulty, risk, cost, latency, privacy, verification needs, and human authority boundaries.
 - [More Agents, More Coordination](https://lab.turtleand.com/topics/more-agents-more-coordination): Why multi-agent systems trade individual workload for delegation, evidence, conflict resolution, and synthesis work.
 - [Smart Is Not Reliable](https://lab.turtleand.com/topics/smart-is-not-reliable): Why agent reliability is a system property built from checks, constraints, recovery paths, observability, and human escalation.

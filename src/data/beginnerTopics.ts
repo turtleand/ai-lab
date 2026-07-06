@@ -813,6 +813,38 @@ export const beginnerTopics: BeginnerTopic[] = [
     order: 55
   },
   {
+    slug: 'llm-to-llm-interaction-patterns',
+    technicalSlug: 'llm-to-llm-interaction-patterns',
+    title: 'LLM-to-LLM patterns, for beginners',
+    shortTitle: 'LLM-to-LLM patterns',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Understand agents without the hype',
+    summary:
+      'A beginner guide to when models should talk to other models and when that only creates extra noise.',
+    plainMeaning:
+      'LLM-to-LLM interaction means one model gives work to another model, checks another model, or passes output into another model inside a workflow. It is useful only when each model has a different job.',
+    whyItMatters:
+      'Two or more models can improve quality, but they can also become expensive, circular, and verbose. Roles, turn limits, evidence, and a final synthesizer keep the system useful.',
+    safeExample:
+      'Ask one model to propose a concrete study plan, a second model to find missing constraints, then revise only the valid gaps before a human chooses the final plan.',
+    firstMoves: [
+      'Give each model a different job.',
+      'Set a turn limit before the loop starts.',
+      'Require gaps, evidence, or checks instead of vague improvement.',
+      'Name who produces the final answer.'
+    ],
+    commonMistake:
+      'Letting two models keep improving each other without a stop rule or a concrete review criterion.',
+    guardrails: [
+      'Use extra models only when they change the outcome.',
+      'Keep private context out of routes that do not need it.',
+      'Do not treat disagreement as truth by itself.',
+      'Keep human approval for public or consequential outputs.'
+    ],
+    order: 55.5
+  },
+  {
     slug: 'more-agents-more-coordination',
     technicalSlug: 'more-agents-more-coordination',
     title: 'More agents, more coordination, for beginners',
@@ -1640,6 +1672,38 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
       'Exigí humanos para consecuencias externas o irreversibles.'
     ],
     order: 55
+  },
+  {
+    slug: 'llm-to-llm-interaction-patterns',
+    technicalSlug: 'llm-to-llm-interaction-patterns',
+    title: 'Patrones LLM-a-LLM, para principiantes',
+    shortTitle: 'Patrones LLM-a-LLM',
+    module: 'Module 5: Agent Architecture',
+    moduleSlug: 'module-5',
+    moduleTitle: 'Entender agentes sin hype',
+    summary:
+      'Una guía principiante sobre cuándo conviene que modelos hablen con otros modelos y cuándo eso solo agrega ruido.',
+    plainMeaning:
+      'Interacción LLM-a-LLM significa que un modelo le pasa trabajo a otro, chequea a otro modelo o usa la salida de otro modelo dentro de un workflow. Sirve solo cuando cada modelo tiene un trabajo distinto.',
+    whyItMatters:
+      'Dos o más modelos pueden mejorar calidad, pero también pueden volverse caros, circulares y verbosos. Roles, límite de turnos, evidencia y un synthesizer final mantienen útil el sistema.',
+    safeExample:
+      'Pedí a un modelo proponer un plan de estudio concreto, a un segundo modelo encontrar restricciones faltantes, y después revisá solo los huecos válidos antes de que una persona elija el plan final.',
+    firstMoves: [
+      'Dale a cada modelo un trabajo distinto.',
+      'Definí un límite de turnos antes de empezar el loop.',
+      'Pedí huecos, evidencia o checks en vez de mejora vaga.',
+      'Nombrá quién produce la respuesta final.'
+    ],
+    commonMistake:
+      'Dejar que dos modelos sigan mejorándose sin regla de parada ni criterio concreto de revisión.',
+    guardrails: [
+      'Usá modelos extra solo cuando cambian el resultado.',
+      'Mantené contexto privado fuera de rutas que no lo necesitan.',
+      'No trates el desacuerdo como verdad por sí mismo.',
+      'Mantené aprobación humana para salidas públicas o con consecuencias.'
+    ],
+    order: 55.5
   },
   {
     slug: 'more-agents-more-coordination',
