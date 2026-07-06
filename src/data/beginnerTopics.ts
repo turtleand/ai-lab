@@ -827,12 +827,12 @@ export const beginnerTopics: BeginnerTopic[] = [
     whyItMatters:
       'Two or more models can improve quality, but they can also become expensive, circular, and verbose. Roles, turn limits, evidence, and a final synthesizer keep the system useful.',
     safeExample:
-      'Ask one model to propose a concrete study plan, a second model to find missing constraints, then revise only the valid gaps before a human chooses the final plan.',
+      'Ask one model to propose a concrete study plan, a second model to find missing constraints, then revise only the valid gaps before a human chooses the final plan. A controlled loop command does the same thing with saved turns, inspection, and a fixed stop limit.',
     firstMoves: [
       'Give each model a different job.',
       'Set a turn limit before the loop starts.',
       'Require gaps, evidence, or checks instead of vague improvement.',
-      'Name who produces the final answer.'
+      'Inspect the saved turns before using the final answer.'
     ],
     commonMistake:
       'Letting two models keep improving each other without a stop rule or a concrete review criterion.',
@@ -1688,12 +1688,12 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
     whyItMatters:
       'Dos o más modelos pueden mejorar calidad, pero también pueden volverse caros, circulares y verbosos. Roles, límite de turnos, evidencia y un synthesizer final mantienen útil el sistema.',
     safeExample:
-      'Pedí a un modelo proponer un plan de estudio concreto, a un segundo modelo encontrar restricciones faltantes, y después revisá solo los huecos válidos antes de que una persona elija el plan final.',
+      'Pedí a un modelo proponer un plan de estudio concreto, a un segundo modelo encontrar restricciones faltantes, y después revisá solo los huecos válidos antes de que una persona elija el plan final. Un comando de loop controlado hace lo mismo con turnos guardados, inspección y un límite fijo de parada.',
     firstMoves: [
       'Dale a cada modelo un trabajo distinto.',
       'Definí un límite de turnos antes de empezar el loop.',
       'Pedí huecos, evidencia o checks en vez de mejora vaga.',
-      'Nombrá quién produce la respuesta final.'
+      'Inspeccioná los turnos guardados antes de usar la respuesta final.'
     ],
     commonMistake:
       'Dejar que dos modelos sigan mejorándose sin regla de parada ni criterio concreto de revisión.',

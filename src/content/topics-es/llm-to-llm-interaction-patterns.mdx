@@ -101,6 +101,67 @@ B: mejorar
 
 La mala versión suele estancarse. Agrega palabras sin agregar evidencia.
 
+## Implementación actual del framework: un loop controlado de agentes
+
+La branch `feature/controlled-agent-loop` convierte esta idea en una feature acotada del framework.
+
+No deja que dos modelos charlen libremente. Hermes controla el loop, llama a cada modelo en orden, registra lo que pasó y frena en un límite fijo.
+
+Forma simple:
+
+```text
+Objetivo humano
+-> Modelo Proposer: crea una propuesta concreta
+-> Modelo Expander: encuentra huecos, riesgos y detalles faltantes
+-> Modelo Proposer: revisa con el feedback útil del Expander
+-> Modelo Expander: chequea y expande de nuevo
+-> Síntesis final: comprime el mejor resultado en una respuesta usable
+```
+
+En simple, es una máquina chica para refinar ideas. Un modelo propone. El otro modelo tensiona y expande. El framework decide de quién es el turno, cuántos turnos se permiten, qué se guarda y cuándo termina el loop.
+
+## Qué cambió en el framework
+
+La implementación agrega un subsistema de loop controlado en vez de hacer que Telegram o la UI de chat finjan ser el orquestador.
+
+Agrega:
+
+- **Un motor de loop:** ejecuta Proposer y Expander en secuencia.
+- **Modelos de datos del loop:** registran objetivo, roles, rutas de modelo, iteraciones, prompts, respuestas, resúmenes, uso, estado y síntesis final.
+- **Storage persistente:** guarda la ejecución después de pasos importantes, para que un loop fallido o cancelado todavía se pueda inspeccionar.
+- **Una capa de comandos:** expone `/loop start`, `/loop status`, `/loop inspect`, `/loop prompts`, `/loop summary`, `/loop export` y `/loop cancel`.
+- **Un trigger de texto cómodo para gateway:** soporta formas como `loop: start ...` cuando una plataforma todavía no conoce el slash command.
+- **Helpers de renderizado:** formatean estado, detalles de iteración, trazas de prompts, resúmenes y exports para personas.
+- **Tests:** cubren parsing, límites, dry runs, inspección, export, cancelación y routing de comandos en gateway.
+
+## Cómo funciona hoy
+
+Una persona inicia un loop con un objetivo. Por ejemplo:
+
+```text
+/loop start --goal "Expand this product idea into a clear first implementation plan" --max-iterations 3
+```
+
+Hermes crea un registro del loop y ejecuta la secuencia acotada:
+
+1. El **Proposer** recibe el objetivo humano y escribe Proposal v1.
+2. El **Expander** recibe el objetivo y la propuesta, después la critica y la expande.
+3. Hermes guarda ambos prompts, ambas respuestas, resúmenes, metadata de roles y datos de uso.
+4. Si quedan iteraciones, el siguiente Proposer ve la propuesta anterior, la respuesta del Expander y el resumen previo.
+5. Después del límite configurado, Hermes pide una síntesis final.
+6. La persona puede inspeccionar o exportar el loop después.
+
+La v1 actual es intencionalmente estrecha:
+
+- Usa dos roles: **Proposer** y **Expander**.
+- Limita los loops a cinco iteraciones.
+- Actualmente permite proveedores de la familia OpenAI para las llamadas de roles.
+- Las llamadas de roles no reciben herramientas. Solo producen texto.
+- El framework maneja orden de turnos, persistencia, cancelación, errores y síntesis.
+- La revisión humana queda fuera del loop para publicación, deploy, movimiento de dinero, cambios de cuentas u otras acciones con consecuencias.
+
+Esa es la lección importante de arquitectura: el sistema simula una charla entre dos modelos, pero la feature de producto no es la charla. La feature es el envoltorio de ejecución controlada alrededor de esa charla.
+
 ## La diferencia real de eficiencia
 
 La diferencia real de eficiencia normalmente no es "mismo proveedor versus cross-provider" por sí sola.

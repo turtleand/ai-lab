@@ -101,6 +101,67 @@ B: improve
 
 The bad version often plateaus. It adds words without adding evidence.
 
+## Current framework implementation: a controlled agent loop
+
+The `feature/controlled-agent-loop` branch turns this idea into a bounded framework feature.
+
+It does not let two models freely chat. Hermes owns the loop, calls each model in order, records what happened, and stops at a fixed limit.
+
+Simple shape:
+
+```text
+Human goal
+-> Proposer model: create a concrete proposal
+-> Expander model: find gaps, risks, and missing details
+-> Proposer model: revise with the Expander's useful feedback
+-> Expander model: check and expand again
+-> Final synthesis: compress the best result into one usable answer
+```
+
+In simple terms, it is a small idea-refinement machine. One model proposes. The other model stress-tests and expands. The framework decides whose turn it is, how many turns are allowed, what gets saved, and when the loop is done.
+
+## What changed in the framework
+
+The implementation adds a new controlled-loop subsystem instead of making Telegram or the chat UI pretend to be the orchestrator.
+
+It adds:
+
+- **A loop engine:** runs the Proposer and Expander in sequence.
+- **Loop data models:** track the goal, roles, model routes, iterations, prompts, responses, summaries, usage, status, and final synthesis.
+- **Persistent storage:** saves the run after meaningful steps, so a failed or cancelled loop can still be inspected.
+- **A command layer:** exposes `/loop start`, `/loop status`, `/loop inspect`, `/loop prompts`, `/loop summary`, `/loop export`, and `/loop cancel`.
+- **A gateway-friendly text trigger:** supports forms like `loop: start ...` when a platform does not know the slash command yet.
+- **Rendering helpers:** format loop status, iteration details, prompt traces, summaries, and exports for humans.
+- **Tests:** cover parsing, limits, dry runs, inspection, export, cancellation, and gateway command routing.
+
+## How it currently works
+
+A user starts a loop with a goal. For example:
+
+```text
+/loop start --goal "Expand this product idea into a clear first implementation plan" --max-iterations 3
+```
+
+Hermes creates a loop record, then runs the bounded sequence:
+
+1. The **Proposer** receives the human goal and writes Proposal v1.
+2. The **Expander** receives the goal and proposal, then critiques and expands it.
+3. Hermes saves both prompts, both responses, summaries, role metadata, and usage data.
+4. If more iterations remain, the next Proposer sees the prior proposal, the Expander response, and the prior summary.
+5. After the configured limit, Hermes asks for a final synthesis.
+6. The user can inspect or export the loop afterward.
+
+The current v1 is intentionally narrow:
+
+- It uses two roles: **Proposer** and **Expander**.
+- It caps loops at five iterations.
+- It currently allows OpenAI-family providers for the role calls.
+- Role calls do not receive tools. They produce text only.
+- The framework handles turn order, persistence, cancellation, errors, and synthesis.
+- Human review remains outside the loop for publication, deployment, money movement, account changes, or other consequential actions.
+
+That is the important architecture lesson: the system simulates a chat between two models, but the product feature is not the chat. The product feature is the controlled execution wrapper around the chat.
+
 ## The real efficiency difference
 
 The real efficiency difference is usually not "same provider versus cross provider" by itself.
