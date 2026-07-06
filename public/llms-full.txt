@@ -5007,7 +5007,9 @@ The bad version often plateaus. It adds words without adding evidence.
 
 ## Current framework implementation: a controlled agent loop
 
-The `feature/controlled-agent-loop` branch turns this idea into a bounded framework feature.
+`feature/controlled-agent-loop` is the name of a local Hermes development branch, not a public product name or something readers need to install. In this lesson, treat it as a concrete implementation example: a branch where the controlled-loop idea is being turned into framework code.
+
+That branch turns the concept above into a bounded framework feature.
 
 It does not let two models freely chat. Hermes owns the loop, calls each model in order, records what happened, and stops at a fixed limit.
 
