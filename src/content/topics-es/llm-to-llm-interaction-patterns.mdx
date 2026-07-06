@@ -64,13 +64,15 @@ Esto puede mejorar resiliencia, especialización, control de costos y opcionalid
 
 ## Qué es común en producción
 
+Tomá esto como una regla práctica de diseño, no como una encuesta medida de la industria. Las etiquetas describen qué suele ser más fácil de operar con seguridad cuando los sistemas maduran.
+
 | Patrón                                     | Postura de producción           | Por qué                                                                                                                 |
 | ------------------------------------------ | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | Sistema multi-agente de un mismo proveedor | Lo más común en producción      | Es más fácil de integrar, monitorear, facturar, asegurar, depurar y sostener.                                           |
 | Sistema multi-agente cross-provider        | Común en equipos avanzados      | Ayuda cuando distintos modelos tienen fortalezas, costos, límites de privacidad o necesidades de disponibilidad claras. |
 | Conversación abierta entre modelos         | Menos común en producción seria | Puede volverse circular, verbosa, cara y difícil de verificar si no está muy acotada.                                   |
 
-La mayoría de los sistemas de producción prefieren diseños de orquestador y workers, cascadas, routers, pasadas de crítica o pipelines antes que discusión libre entre modelos.
+Como default de diseño, preferí diseños de orquestador y workers, cascadas, routers, pasadas de crítica o pipelines antes que discusión libre entre modelos.
 
 ## El loop de dos modelos es real
 

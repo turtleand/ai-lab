@@ -64,13 +64,15 @@ This can improve resilience, specialization, cost control, and provider optional
 
 ## What is common in production
 
+Treat this as a practical design rule of thumb, not a measured industry survey. The labels below describe what is usually easier to operate safely as systems mature.
+
 | Pattern                           | Production posture                | Why                                                                                                            |
 | --------------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Same-provider multi-agent system  | Most common in production         | It is easier to integrate, monitor, bill, secure, debug, and support.                                          |
 | Cross-provider multi-agent system | Common in advanced teams          | It helps when different models have clear strengths, cost profiles, privacy boundaries, or availability needs. |
 | Open-ended model conversation     | Less common in serious production | It can become circular, verbose, expensive, and hard to verify unless tightly constrained.                     |
 
-Most production systems prefer orchestrator and worker designs, cascades, routers, critique passes, or pipelines over free-form model discussion.
+As a design default, prefer orchestrator and worker designs, cascades, routers, critique passes, or pipelines over free-form model discussion.
 
 ## The two-model loop is real
 
