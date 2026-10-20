@@ -290,7 +290,7 @@ Human-AI collaboration means the human sets direction, gives context, reviews ou
 
 Why it matters: AI is most useful when it extends human attention instead of replacing human responsibility.
 
-Small safe example: Ask the model for three draft outlines, choose the strongest structure yourself, then ask it to improve only that version.
+Small safe example: Ask an assistant to draft a short site update, open a draft pull request (a proposed change), and return a preview link for your review before publishing.
 
 First moves:
 - Set the goal yourself.
@@ -303,7 +303,7 @@ Common mistake: Letting the model define the goal because it is faster than thin
 Guardrails:
 - Use AI as a mirror, not a boss.
 - Do not outsource ethics or taste.
-- Keep private boundaries clear.
+- Ask which connected services and permissions the assistant can use; do not assume it can access every account or device.
 - Make the final artifact something you stand behind.
 
 Go deeper: https://lab.turtleand.com/topics/human-ai-collaboration-handbook/
@@ -1108,7 +1108,7 @@ Colaborar con IA significa que la persona define dirección, da contexto, revisa
 
 Why it matters: La IA es más útil cuando extiende la atención humana en vez de reemplazar la responsabilidad humana.
 
-Small safe example: Pedí tres esquemas posibles, elegí vos la estructura más fuerte y después pedí mejorar solo esa versión.
+Small safe example: Pedile a un asistente que redacte una actualización breve del sitio, abra un pull request en borrador (una propuesta de cambio) y te pase una preview para revisar antes de publicar.
 
 First moves:
 - Definí vos el objetivo.
@@ -1121,7 +1121,7 @@ Common mistake: Dejar que el modelo defina el objetivo porque es más rápido qu
 Guardrails:
 - Usá IA como espejo, no como jefe.
 - No externalices ética ni gusto.
-- Mantené claros los límites privados.
+- Preguntá qué servicios conectados y permisos puede usar el asistente; no supongas que accede a todas tus cuentas o dispositivos.
 - Hacé que el artefacto final sea algo que puedas sostener.
 
 Go deeper: https://lab.turtleand.com/es/topics/human-ai-collaboration-handbook/
@@ -2431,6 +2431,30 @@ llama-cli -hf ggml-org/Qwen3-4B-GGUF:Q4_K_M
 
 ---
 
+# First session with Turtle Chief Dot
+
+Module: Module 1: AI Power User
+
+*October 20, 2026 · Turtleand*
+
+I named the assistant Turtle Chief Dot. We first had to clear up a name mix-up: Turtle Chief Dot is the assistant; I am Turtleand.
+
+When it referred to my plans, I asked how it knew them. It explained that connected services and prior context could inform its answers. That led to a more useful question: what other apps or computers could it access? The answer was bounded by connected services and permissions, not automatic access to all my devices or work accounts.
+
+Next I asked how to give instructions in plain language, delegate software development, and ask for ongoing follow-through. I made this article the first concrete assignment: add a short account to AI Lab, open a draft pull request, and provide a Netlify preview for my review. I also asked to end the call while the work continued and review the preview afterward. That was the requested handoff, not proof that every step had already succeeded.
+
+The useful lesson started with the confusion: establish who is who, ask where context comes from, and make access boundaries explicit. Then name the deliverable and the review point. Here, review means checking the proposed text and preview before deciding whether to publish.
+
+## What's next: Dots as an engineering teammate
+
+I plan to experiment with a work Dot that helps triage bugs, spot recurring customer feedback, investigate incidents, review pull requests, and identify project blockers. Longer term, I want to explore architecture-decision tracking, daily engineering briefings, technical learning, cross-team dependencies, and documenting my contributions.
+
+My guiding principle: **Dots coordinate, Codex implements, and I remain accountable for technical decisions.** I'll begin with research and recommendations, keeping consequential actions subject to my approval. These are plans to test, not capabilities I've validated yet.
+
+For the basics, see [Human-AI collaboration, for beginners](/beginners/topics/human-ai-collaboration-handbook/).
+
+---
+
 # Human-AI collaboration handbook
 
 Module: Module 1: AI Power User
@@ -2493,6 +2517,8 @@ Use the **Handbook** when you're:
 - Needing a quick reminder
 
 Both live at [lab.turtleand.com](https://lab.turtleand.com) and [handbook.turtleand.com](https://handbook.turtleand.com). Bookmark them both.
+
+Read [First session with Turtle Chief Dot](/topics/first-session-with-turtle-chief-dot/) for a practical account of clarifying context, access, and a reviewable handoff.
 
 ---
 
