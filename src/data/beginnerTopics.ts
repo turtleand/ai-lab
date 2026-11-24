@@ -319,7 +319,7 @@ export const beginnerTopics: BeginnerTopic[] = [
     whyItMatters:
       'AI is most useful when it extends human attention instead of replacing human responsibility.',
     safeExample:
-      'Ask the model for three draft outlines, choose the strongest structure yourself, then ask it to improve only that version.',
+      'Ask an assistant to draft a short site update, open a draft pull request (a proposed change), and return a preview link for your review before publishing.',
     firstMoves: [
       'Set the goal yourself.',
       'Ask for options before asking for final copy.',
@@ -331,7 +331,7 @@ export const beginnerTopics: BeginnerTopic[] = [
     guardrails: [
       'Use AI as a mirror, not a boss.',
       'Do not outsource ethics or taste.',
-      'Keep private boundaries clear.',
+      'Ask which connected services and permissions the assistant can use; do not assume it can access every account or device.',
       'Make the final artifact something you stand behind.'
     ],
     order: 14
@@ -1181,7 +1181,7 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
     whyItMatters:
       'La IA es más útil cuando extiende la atención humana en vez de reemplazar la responsabilidad humana.',
     safeExample:
-      'Pedí tres esquemas posibles, elegí vos la estructura más fuerte y después pedí mejorar solo esa versión.',
+      'Pedile a un asistente que redacte una actualización breve del sitio, abra un pull request en borrador (una propuesta de cambio) y te pase una preview para revisar antes de publicar.',
     firstMoves: [
       'Definí vos el objetivo.',
       'Pedí opciones antes de pedir copia final.',
@@ -1193,7 +1193,7 @@ export const beginnerTopicsEs: BeginnerTopic[] = [
     guardrails: [
       'Usá IA como espejo, no como jefe.',
       'No externalices ética ni gusto.',
-      'Mantené claros los límites privados.',
+      'Preguntá qué servicios conectados y permisos puede usar el asistente; no supongas que accede a todas tus cuentas o dispositivos.',
       'Hacé que el artefacto final sea algo que puedas sostener.'
     ],
     order: 14

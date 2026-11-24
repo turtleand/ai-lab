@@ -74,6 +74,7 @@
 - [Running inference locally](https://lab.turtleand.com/topics/running-inference-locally): Easily setup & run an LLM on your own machine.
 
 ### Module 1: AI Power User
+- [First session with Turtle Chief Dot](https://lab.turtleand.com/topics/first-session-with-turtle-chief-dot): An onboarding account of clarifying context, access boundaries, and a software handoff for human review.
 - [Human-AI collaboration handbook](https://lab.turtleand.com/topics/human-ai-collaboration-handbook): A quick-reference guide to principles for human-AI collaboration, from mindset to workflow.
 - [Model selection & economics](https://lab.turtleand.com/topics/model-selection-economics): When to use Opus vs Sonnet, quota management, and cost-per-output thinking.
 - [Multi-tool AI workflows](https://lab.turtleand.com/topics/multi-tool-workflows): Running 3+ AI tools in parallel, choosing the right tool for each task.
