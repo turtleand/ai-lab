@@ -17,7 +17,7 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.6",
     "astro": "^7.2.10",
-    "satteri": "^0.10.5"
+    "satteri": "^0.11.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
